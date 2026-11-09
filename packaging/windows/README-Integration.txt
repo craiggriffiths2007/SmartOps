@@ -20,8 +20,8 @@ OPTIONAL WEB INTERFACE (Windows x64)
 
 1. Extract SmartOps-Web-Windows-x64.zip into its OWN folder.
 2. Keep the 4D database open and its HTTP server running.
-3. Double-click Start-SmartOps-Web.cmd in the extracted web folder.
-4. Open http://127.0.0.1:5245/Account/Login in your browser.
+3. Double-click SmartOps.Web.exe in the extracted web folder.
+4. Your default browser opens http://127.0.0.1:5245/Account/Login automatically.
 5. Use the local test credentials:
    Company SMARTOPS (preselected), user admin, password Password1!
 
