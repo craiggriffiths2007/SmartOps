@@ -40,10 +40,6 @@ The web ZIP uses .NET single-file publishing to reduce separate DLLs, although s
 
 **Developers who want to change the integration** can [download the source repository](https://github.com/craiggriffiths2007/SmartOps) and build the .NET frontend themselves. The proprietary Android application source code is not distributed.
 
-### Building a release
-
-Maintainers can run [Build and release SmartOps Web (Windows)](https://github.com/craiggriffiths2007/SmartOps/actions/workflows/smartops-web-windows-release.yml) using **Actions → Run workflow**. With `publish_release=false` (the default), it builds and smoke-tests the web app, bundles the 4D project with the optional web ZIP, and uploads an Actions artifact for testing. After validating the package, run with `publish_release=true` and leave the version blank for an automatically generated tag, or enter a **new** version tag such as `v1.0.1`. The workflow attaches `SmartOps-Integration-Windows-x64.zip` to a GitHub Release.
-
 ## Local integration testing setup
 
 SmartOps includes fictional 4D integration test data so developers can exercise the API, web interface and mobile workflows without manually creating records. After cloning, open `SmartOps.4D/Project/smartops4d.4DProject` in 4D and create a **new empty** data file if prompted. The 4D `onStartup` method automatically invokes `GO_StartLAN`, which starts HTTP port **8045** and imports the integration test records only if the database is completely empty. Successful startups and seeds do **not** display confirmation dialogs. `GO_Start` is also available as a manual alias for the same startup.
