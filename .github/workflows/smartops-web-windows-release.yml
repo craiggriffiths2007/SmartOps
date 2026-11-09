@@ -86,7 +86,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SmartOps-Web-Windows-x64
-          path: SmartOps-Web-Windows-x64.zip
+          # Actions automatically ZIPs artifacts. Upload the published folder, not
+          # our release ZIP, to avoid delivering a ZIP inside another ZIP.
+          path: ${{ runner.temp }}/SmartOps-Web/
           retention-days: 14
           if-no-files-found: error
 
