@@ -94,9 +94,14 @@ Function login($body : Object) : 4D.OutgoingMessage
     // Blank SerialNumber: permit login without an installation ID match.
     // Populated SerialNumber: require this agent's matching installation ID.
     // PrivilegedAccess controls all-jobs visibility, not login registration.
-    var $serialNumber:=Lowercase(Trim(String(This.value($body; "SerialNumber"))))
-    var $registeredId:=Lowercase(Trim(String($agent.SerialNumber)))
+    // An empty/NULL 4D field is genuinely unlocked, including privileged agents.
+    // Guard against ORDA NULL conversion before inspecting the text.
+    var $registeredId:=""
+    If ($agent.SerialNumber#Null)
+        $registeredId:=Lowercase(Trim(String($agent.SerialNumber)))
+    End if
     If ($registeredId#"")
+        var $serialNumber:=Lowercase(Trim(String(This.value($body; "SerialNumber"))))
         If ($serialNumber#$registeredId)
             return This.reply(401; New object("reasonPhrase"; "Installation ID does not match the registered agent"))
         End if
