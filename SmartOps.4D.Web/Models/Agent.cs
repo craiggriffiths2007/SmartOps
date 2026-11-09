@@ -13,11 +13,11 @@ namespace SmartOps.Web.Models
         [Required]
         [Display(Name = "Name")]
         public string Name { get; set; } = string.Empty;
-        [Display(Name = "Serial Number")]
+        [Display(Name = "Installation ID (optional)")]
         [StringLength(100)]
         public string? SerialNumber { get; set; }
 
-        [Display(Name = "Privileged Access (all jobs; own device required)")]
+        [Display(Name = "Privileged Access (all jobs)")]
         public bool PrivilegedAccess { get; set; }
 
         [Display(Name = "Type")]
