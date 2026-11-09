@@ -1,0 +1,91 @@
+@model SmartOps.Web.Models.Vehicle
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Vehicle</h4>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Close
+    </a>
+</div>
+
+<hr />
+
+<div class="row">
+
+    <div class="col-md-4">
+
+         <div class="mb-3">
+            <div class="fw-bold">
+                Branch
+            </div>
+            <div>
+                @(Model.Branch?.Name ?? "Not assigned")
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">
+                @Html.DisplayNameFor(model => model.Name)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">
+                @Html.DisplayNameFor(model => model.Registration)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.Registration)
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">
+                @Html.DisplayNameFor(model => model.Description)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.Description)
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">
+                @Html.DisplayNameFor(model => model.Type)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.Type)
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+
+
+<div class="mt-4 d-flex justify-content-between align-items-center">
+
+    <a asp-action="Delete"
+       asp-route-id="@Model.Id"
+       class="btn btn-danger">
+        Delete Vehicle
+    </a>
+
+    <a asp-action="Edit"
+       asp-route-id="@Model.Id"
+       class="btn btn-primary ms-auto">
+        Edit
+    </a>
+
+
+</div>

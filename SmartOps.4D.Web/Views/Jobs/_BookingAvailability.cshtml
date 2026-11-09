@@ -1,0 +1,27 @@
+@model SmartOps.Web.ViewModels.JobDetailsViewModel
+@{
+    var reservation = ViewData["BookingReservation"] as SmartOps.Web.Models.BookingReservation;
+    if (reservation?.ExpiresUtc <= DateTime.UtcNow) reservation = null;
+    var reservationJson = System.Text.Json.JsonSerializer.Serialize(reservation == null ? null : SmartOps.Web.Services.BookingReservations.Describe(reservation));
+}
+<input type="hidden" name="reservationId" id="booking-reservation-id" form="booking-form" value="@reservation?.Id" />
+
+<section class="mt-4" id="booking-availability" aria-labelledby="availability-heading"
+         data-url="@Url.Action("Availability", "Jobs")"
+         data-reserve-url="@Url.Action("Reserve", "Jobs")" data-release-url="@Url.Action("ReleaseReservation", "Jobs")"
+         data-first-date="@DateTime.Today.ToString("yyyy-MM-dd")" data-reservation="@reservationJson" data-job-id="@(Model.Job?.Id ?? 0)">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+        <h5 id="availability-heading" class="mb-0">Available dates and times</h5>
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-availability-previous>Previous 7 days</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-availability-next>Next 7 days</button>
+        </div>
+    </div>
+    <p class="text-muted small">From the current time onwards, for the selected agent and time allocated, between 07:00 and 19:00. An hour is left between jobs for travel. Click a time to reserve it for 10 minutes and fill in the booking date and start time. Save to confirm the booking.</p>
+    <div class="alert alert-success" data-reservation-banner hidden>
+        <span data-reservation-text></span>
+        <button type="button" class="btn btn-sm btn-outline-secondary ms-2" data-release-reservation>Release reservation</button>
+    </div>
+    <p data-availability-status role="status" aria-live="polite">Select an agent and time allocated to see available slots.</p>
+    <div data-availability-days></div>
+</section>

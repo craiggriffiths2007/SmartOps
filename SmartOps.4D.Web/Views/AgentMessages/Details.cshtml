@@ -1,0 +1,51 @@
+@model SmartOps.Web.Models.AgentMessage
+@{
+    ViewData["Title"] = Model.Subject;
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+        <h4 class="mb-1">@Model.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm") by @Model.CreatedBy</h4>
+
+        
+
+<div class="d-flex gap-2">
+            <a asp-action="Index" class="btn btn-secondary">Back</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+        </div>
+
+</div>
+
+<h4 class="mb-1">@Model.Subject</h4>
+
+<div class="card mb-4"><div class="card-body quill-message">@Html.Raw(Model.BodyHtml)</div></div>
+
+<h4>Recipients</h4>
+<div class="table-responsive record-index-list">
+    <table class="table table-sm table-hover align-middle record-index-table mb-0">
+        <caption class="visually-hidden">Mail recipients</caption>
+        <thead>
+            <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Agent</th>
+                <th scope="col">Status</th>
+                <th scope="col">Read at</th>
+            </tr>
+        </thead>
+        <tbody data-paginate data-page-label="Recipient pages">
+            @if (!Model.Recipients.Any())
+            {
+                <tr><td colspan="4" class="text-muted py-3">No recipients found.</td></tr>
+            }
+            @foreach (var recipient in Model.Recipients.OrderBy(x => x.Agent.Name))
+            {
+                <tr data-record-row>
+                    <th scope="row">@recipient.Agent.Code</th>
+                    <td>@recipient.Agent.Name</td>
+                    <td>@(recipient.IsRead ? "Read" : "Unread")</td>
+                    <td>@(recipient.ReadDateTime?.ToLocalTime().ToString("dd/MM/yy HH:mm") ?? "—")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

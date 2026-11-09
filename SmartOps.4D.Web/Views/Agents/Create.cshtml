@@ -1,0 +1,46 @@
+@model SmartOps.Web.Models.Agent
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<h4>Add Agent</h4>
+<hr />
+
+<form asp-action="Create">
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger"></div>
+
+    <div class="row bold-form">
+        <div class="col-md-4">
+
+            <partial name="_AgentForm"
+                     model="@Model" />
+
+        </div>
+    </div>
+
+    
+
+<div class="mt-4 d-flex justify-content-between align-items-center">
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+            Cancel
+        </a>
+
+        <input type="submit"
+               value="Save"
+               class="btn btn-primary ms-auto" />
+
+    </div>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

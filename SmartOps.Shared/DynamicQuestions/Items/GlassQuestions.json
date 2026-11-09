@@ -1,0 +1,1125 @@
+{
+  "questions": [
+    {
+      "id": "survey_context_section",
+      "question": "Item location",
+      "type": "Information",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "$sub_item",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "item_reference",
+      "question": "Item location / opening reference",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$sub_item",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "inherited_item_context",
+      "question": "Location is inherited from the parent item. Record any glass-specific details below.",
+      "type": "Information",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "$sub_item",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "ProductInto",
+      "question": "Frame material receiving the glass",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "UPVC",
+        "Aluminium",
+        "Timber",
+        "Steel",
+        "Other / not identifiable"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$inherited_material",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "glass_existing_fault",
+      "question": "Existing fault / reason for replacing glass",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "existing_glazing",
+      "question": "Existing glazing construction",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Single glazed",
+        "Double glazed",
+        "Triple glazed",
+        "Encapsulated unit",
+        "Not identifiable"
+      ]
+    },
+    {
+      "id": "existing_glass_specification",
+      "question": "Existing glass build-up, markings, coating / spacer code, thickness and photo / document reference (or not identifiable)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "glass_location",
+      "question": "Glazing location",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Window",
+        "Door",
+        "Door side panel",
+        "Roof / overhead glazing",
+        "Internal screen / partition",
+        "Guarding / balcony / change of level",
+        "Other"
+      ]
+    },
+    {
+      "id": "glass_measure_section",
+      "question": "Proposed construction and measured sizes",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "single_or_double",
+      "question": "Glazing construction",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Single glazed",
+        "Double glazed",
+        "Triple glazed",
+        "Encapsulated unit"
+      ]
+    },
+    {
+      "id": "measurement_basis",
+      "question": "Dimension basis",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Finished manufacturing size",
+        "Rebate / tight opening size - deductions recorded below",
+        "Visible glass size - manufacturing size to be confirmed"
+      ]
+    },
+    {
+      "id": "measurement_deductions",
+      "question": "Deductions applied / required and who will confirm manufacturing sizes",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "measurement_basis",
+          "operator": "In",
+          "value": "Rebate / tight opening size - deductions recorded below|Visible glass size - manufacturing size to be confirmed"
+        }
+      ]
+    },
+    {
+      "id": "units_required",
+      "question": "Number of panes / sealed units being replaced",
+      "type": "PlusMinus",
+      "required": true,
+      "minimum": 1,
+      "maximum": 8,
+      "wholeNumber": true,
+      "defaultValue": 1
+    },
+    {
+      "id": "glass_multiple_units_warning",
+      "question": "Each entry is a complete pane or sealed unit, not an individual leaf of double/triple glazing. All entries share this specification and parent opening; use a separate Glass item for a different specification.",
+      "type": "Information",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "glass_shaped",
+      "question": "Shaped, curved, notched or drilled glass?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "glass_shape_details",
+      "question": "Template / drawing reference, shape, holes, edgework and orientation",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "glass_shaped",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "stepped_unit",
+      "question": "Stepped / unequal pane sizes?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "unit1_width",
+      "question": "Recorded overall width",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit1_height",
+      "question": "Recorded overall height",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit2_width",
+      "question": "Recorded overall width 2",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "1"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit2_height",
+      "question": "Recorded overall height 2",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "1"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit3_width",
+      "question": "Recorded overall width 3",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "2"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit3_height",
+      "question": "Recorded overall height 3",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "2"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit4_width",
+      "question": "Recorded overall width 4",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "3"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit4_height",
+      "question": "Recorded overall height 4",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "3"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit5_width",
+      "question": "Recorded overall width 5",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "4"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit5_height",
+      "question": "Recorded overall height 5",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "4"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit6_width",
+      "question": "Recorded overall width 6",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "5"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit6_height",
+      "question": "Recorded overall height 6",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "5"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit7_width",
+      "question": "Recorded overall width 7",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "6"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit7_height",
+      "question": "Recorded overall height 7",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "6"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit8_width",
+      "question": "Recorded overall width 8",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "7"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "unit8_height",
+      "question": "Recorded overall height 8",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "units_required",
+          "operator": "GreaterThan",
+          "value": "7"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "internal_width",
+      "question": "Smaller pane width - first stepped unit",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "stepped_unit",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "internal_height",
+      "question": "Smaller pane height - first stepped unit",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "stepped_unit",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "step_left",
+      "question": "Left step / inset (viewed from outside)",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "stepped_unit",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "step_right",
+      "question": "Right step / inset (viewed from outside)",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "stepped_unit",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "step_top",
+      "question": "Top step / inset (viewed from outside)",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "stepped_unit",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "step_bottom",
+      "question": "Bottom step / inset (viewed from outside)",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "stepped_unit",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "stepped_pane_schedule",
+      "question": "Pane-by-pane dimensions and step / face diagram reference for every stepped unit",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "stepped_unit",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "overall_thickness",
+      "question": "Overall pane / sealed-unit thickness",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "glass_buildup_section",
+      "question": "Glass build-up: record from outside to inside",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "glass_buildup_diagram",
+      "question": "Pane and cavity numbering (viewed from outside)",
+      "type": "Image",
+      "required": false,
+      "image": "glass_buildup.png"
+    },
+    {
+      "id": "glass_buildup_help",
+      "question": "Single: pane 1. Double: pane 1 / cavity 1 / pane 2. Triple: pane 1 / cavity 1 / pane 2 / cavity 2 / pane 3. Enter each complete laminated pane thickness including its interlayer. Supplier must confirm the complete build-up.",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "glass_encapsulated_details",
+      "question": "Encapsulated insert, complete build-up and specialist supplier reference",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "single_or_double",
+          "operator": "Equals",
+          "value": "Encapsulated unit"
+        }
+      ]
+    },
+    {
+      "id": "pane1_treatment",
+      "question": "Pane 1 - glass treatment",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Annealed",
+        "Toughened",
+        "Laminated",
+        "Toughened laminated",
+        "Heat strengthened - specialist specification",
+        "Fire-resisting - certified system",
+        "Other - supplier specification"
+      ]
+    },
+    {
+      "id": "pane1_thickness",
+      "question": "Pane 1 - complete glass thickness",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "pane1_coating",
+      "question": "Pane 1 - coating / performance",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Low-E",
+        "Solar control",
+        "Self-cleaning",
+        "Combined coatings / other"
+      ]
+    },
+    {
+      "id": "cavity1_width",
+      "question": "Cavity 1 - spacer width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "single_or_double",
+          "operator": "In",
+          "value": "Double glazed|Triple glazed|Encapsulated unit"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "cavity1_gas",
+      "question": "Cavity 1 - gas fill",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Air",
+        "Argon",
+        "Krypton",
+        "Other / supplier specification"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "single_or_double",
+          "operator": "In",
+          "value": "Double glazed|Triple glazed|Encapsulated unit"
+        }
+      ]
+    },
+    {
+      "id": "pane2_treatment",
+      "question": "Pane 2 - glass treatment",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Annealed",
+        "Toughened",
+        "Laminated",
+        "Toughened laminated",
+        "Heat strengthened - specialist specification",
+        "Fire-resisting - certified system",
+        "Other - supplier specification"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "single_or_double",
+          "operator": "In",
+          "value": "Double glazed|Triple glazed|Encapsulated unit"
+        }
+      ]
+    },
+    {
+      "id": "pane2_thickness",
+      "question": "Pane 2 - complete glass thickness",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "single_or_double",
+          "operator": "In",
+          "value": "Double glazed|Triple glazed|Encapsulated unit"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "pane2_coating",
+      "question": "Pane 2 - coating / performance",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Low-E",
+        "Solar control",
+        "Self-cleaning",
+        "Combined coatings / other"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "single_or_double",
+          "operator": "In",
+          "value": "Double glazed|Triple glazed|Encapsulated unit"
+        }
+      ]
+    },
+    {
+      "id": "cavity2_width",
+      "question": "Cavity 2 - spacer width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "single_or_double",
+          "operator": "Equals",
+          "value": "Triple glazed"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "cavity2_gas",
+      "question": "Cavity 2 - gas fill",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Air",
+        "Argon",
+        "Krypton",
+        "Other / supplier specification"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "single_or_double",
+          "operator": "Equals",
+          "value": "Triple glazed"
+        }
+      ]
+    },
+    {
+      "id": "pane3_treatment",
+      "question": "Pane 3 - glass treatment",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Annealed",
+        "Toughened",
+        "Laminated",
+        "Toughened laminated",
+        "Heat strengthened - specialist specification",
+        "Fire-resisting - certified system",
+        "Other - supplier specification"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "single_or_double",
+          "operator": "Equals",
+          "value": "Triple glazed"
+        }
+      ]
+    },
+    {
+      "id": "pane3_thickness",
+      "question": "Pane 3 - complete glass thickness",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "single_or_double",
+          "operator": "Equals",
+          "value": "Triple glazed"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "pane3_coating",
+      "question": "Pane 3 - coating / performance",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Low-E",
+        "Solar control",
+        "Self-cleaning",
+        "Combined coatings / other"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "single_or_double",
+          "operator": "Equals",
+          "value": "Triple glazed"
+        }
+      ]
+    },
+    {
+      "id": "spacer_color",
+      "question": "Spacer system / colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Warm edge - black",
+        "Warm edge - grey",
+        "Warm edge - other",
+        "Aluminium - silver",
+        "Aluminium - gold",
+        "Aluminium - brown",
+        "Other - supplier specification"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "single_or_double",
+          "operator": "In",
+          "value": "Double glazed|Triple glazed|Encapsulated unit"
+        }
+      ]
+    },
+    {
+      "id": "glass_decoration_section",
+      "question": "Pattern, privacy and decorative details",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "glass_pattern",
+      "question": "Glass pattern / privacy finish",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Clear",
+        "Arctic",
+        "Autumn Leaf",
+        "Chantilly",
+        "Charcoal Sticks",
+        "Contora",
+        "Cotswold",
+        "Digital",
+        "EverGlade",
+        "Flemish",
+        "Florielle",
+        "Mayflower",
+        "Minster",
+        "Oak",
+        "Pelerine",
+        "Satin",
+        "Stippolyte",
+        "Sycamore",
+        "Taffeta",
+        "Trad. lead light",
+        "Warwick",
+        "Other / discontinued pattern - identify from sample"
+      ]
+    },
+    {
+      "id": "special_glass",
+      "question": "Special glass",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Diamond Leaded",
+        "Georgian Leaded",
+        "Queen Anne Lead",
+        "Georgian Bar",
+        "Tinted Glass",
+        "Collect and copy",
+        "Back to Back Spacer",
+        "None"
+      ]
+    },
+    {
+      "id": "back_to_back_spacer_width",
+      "question": "Spacer depth",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "6mm",
+        "8mm",
+        "10mm",
+        "12mm",
+        "14mm",
+        "16mm",
+        "18mm",
+        "20mm"
+      ],
+      "showWhen": {
+        "questionId": "special_glass",
+        "operator": "Equals",
+        "value": "Back to Back Spacer"
+      }
+    },
+    {
+      "id": "back_to_back_spacer_height",
+      "question": "Overall spacer width",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "12mm",
+        "14mm",
+        "16mm",
+        "18mm",
+        "20mm"
+      ],
+      "showWhen": {
+        "questionId": "special_glass",
+        "operator": "Equals",
+        "value": "Back to Back Spacer"
+      }
+    },
+    {
+      "id": "lead_thickness",
+      "question": "Lead thickness",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "6mm oval",
+        "6mm flat",
+        "9mm oval",
+        "9mm flat",
+        "12mm oval",
+        "12mm flat"
+      ],
+      "showWhen": {
+        "questionId": "special_glass",
+        "operator": "In",
+        "value": "Diamond Leaded|Georgian Leaded"
+      }
+    },
+    {
+      "id": "lead_sod",
+      "question": "Lead single or double",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Single external",
+        "Single internal unit",
+        "double"
+      ],
+      "showWhen": {
+        "questionId": "special_glass",
+        "operator": "In",
+        "value": "Diamond Leaded|Georgian Leaded"
+      }
+    },
+    {
+      "id": "lead_type",
+      "question": "Type of lead",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Shiny Lead",
+        "Aged Lead",
+        "Gold Lead"
+      ],
+      "showWhen": {
+        "questionId": "special_glass",
+        "operator": "In",
+        "value": "Diamond Leaded|Georgian Leaded"
+      }
+    },
+    {
+      "id": "bar_thickness",
+      "question": "Bar thickness",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "18mm brown",
+        "18mm white",
+        "25mm brown",
+        "25mm white",
+        "45mm brown",
+        "45mm white",
+        "8mm gold"
+      ],
+      "showWhen": {
+        "questionId": "special_glass",
+        "operator": "Equals",
+        "value": "Georgian Bar"
+      }
+    },
+    {
+      "id": "lead_anti_rattle",
+      "question": "Anti rattle",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "None",
+        "Square peg",
+        "Round peg"
+      ],
+      "showWhen": {
+        "questionId": "special_glass",
+        "operator": "Equals",
+        "value": "Georgian Bar"
+      }
+    },
+    {
+      "id": "lead_spacing_width",
+      "question": "Width spacing",
+      "type": "Measurement",
+      "required": true,
+      "showWhen": {
+        "questionId": "special_glass",
+        "operator": "In",
+        "value": "Diamond Leaded|Georgian Leaded|Georgian Bar"
+      },
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "lead_spacing_height",
+      "question": "Height spacing",
+      "type": "Measurement",
+      "required": true,
+      "showWhen": {
+        "questionId": "special_glass",
+        "operator": "In",
+        "value": "Diamond Leaded|Georgian Leaded|Georgian Bar"
+      },
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "gb_trim",
+      "question": "Trim 30 mm",
+      "type": "YesNo",
+      "required": false,
+      "showWhen": {
+        "questionId": "special_glass",
+        "operator": "In",
+        "value": "Diamond Leaded|Georgian Leaded|Georgian Bar"
+      }
+    },
+    {
+      "id": "glass_design_required",
+      "question": "Special glass design",
+      "type": "Information",
+      "required": false,
+      "showWhen": {
+        "questionId": "special_glass",
+        "operator": "In",
+        "value": "Diamond Leaded|Georgian Leaded|Georgian Bar"
+      }
+    },
+    {
+      "id": "glass_install_section",
+      "question": "Glazing method, fixing and order review",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "glaze",
+      "question": "Glazing side",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Internal",
+        "External",
+        "Wraparound"
+      ]
+    },
+    {
+      "id": "glazing_type",
+      "question": "Glazing retention / fixing method",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Beaded",
+        "Putty glazed",
+        "Gasket / wraparound",
+        "Structural / bonded - specialist",
+        "Other / not identifiable"
+      ]
+    },
+    {
+      "id": "TapeorGasket",
+      "question": "Glazing seal",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Tape",
+        "Gasket",
+        "Wet seal / sealant",
+        "Other / not identifiable"
+      ]
+    },
+    {
+      "id": "glass_bead_seal_details",
+      "question": "Bead/gasket profile, condition, replacement requirement and photo reference",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "glass_supplier_reference",
+      "question": "Supplier / product and specification reference; coating faces, pattern matching, performance evidence and outstanding details",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "glass_order_status",
+      "question": "Glass specification review",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Ready for supplier confirmation",
+        "Technical review required",
+        "Survey incomplete - further visit required"
+      ]
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

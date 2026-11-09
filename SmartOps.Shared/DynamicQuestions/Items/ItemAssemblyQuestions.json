@@ -1,0 +1,2268 @@
+{
+  "questions": [
+    {
+      "id": "survey_context_section",
+      "question": "Item location",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "item_reference",
+      "question": "Item location / opening reference",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "assembly_identity_section",
+      "question": "Existing assembly and work required",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "opening_type",
+      "question": "Opening type",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Door",
+        "Window",
+        "French Doors",
+        "Porch",
+        "Conservatory",
+        "Combi Frame",
+        "Conventional Sliding Patio",
+        "Tilt & Slide Patio",
+        "Bay Window"
+      ]
+    },
+    {
+      "id": "material",
+      "question": "Material",
+      "type": "Picker",
+      "required": true,
+      "readOnly": true,
+      "options": [
+        "UPVC",
+        "Aluminium",
+        "Timber"
+      ]
+    },
+    {
+      "id": "existing_system",
+      "question": "Existing manufacturer, system/profile and identification marks (or not identifiable)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "existing_faults",
+      "question": "Existing defects, frame condition and repair required",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "existing_specification_evidence",
+      "question": "Existing condition / system identification photo reference",
+      "type": "Text",
+      "required": false
+    },
+    {
+      "id": "existing_product_age",
+      "question": "Existing product age / installation evidence",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Known - record date/reference",
+        "Approximate age only",
+        "Unknown"
+      ]
+    },
+    {
+      "id": "existing_product_age_details",
+      "question": "Existing installation date / age evidence",
+      "type": "Text",
+      "required": false
+    },
+    {
+      "id": "flex_repair",
+      "question": "Repair item",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "replace_reason",
+      "question": "Reason for replacement",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "$repair",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "replace_explain",
+      "question": "Why cannot item be repaired",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "$repair",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "cosmetic_damage",
+      "question": "Cosmetic damage",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "$repair",
+        "operator": "Equals",
+        "value": "True"
+      }
+    },
+    {
+      "id": "door_role",
+      "question": "Door role",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "External entrance to dwelling",
+        "Flat entrance onto communal escape route",
+        "Internal door",
+        "Communal / escape-route door",
+        "Other / assessment required"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "opening_type",
+          "operator": "In",
+          "value": "Door|French Doors|Porch|Conservatory|Combi Frame|Conventional Sliding Patio|Tilt & Slide Patio"
+        }
+      ]
+    },
+    {
+      "id": "assembly_ventilation_section",
+      "question": "Existing ventilation and proposed provision",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "existing_ventilation",
+      "question": "Existing background ventilation",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Window ventilators",
+        "Wall ventilators",
+        "Mechanical system / MVHR",
+        "Multiple provisions",
+        "None identified",
+        "Not identifiable"
+      ]
+    },
+    {
+      "id": "existing_ventilation_details",
+      "question": "Existing ventilator equivalent areas, room use and system evidence",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "proposed_ventilation",
+      "question": "Proposed ventilation compliance route",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Window ventilators",
+        "Suitable existing / new wall ventilators",
+        "Verified mechanical ventilation provision",
+        "Other evidenced assessment route",
+        "Technical review required"
+      ]
+    },
+    {
+      "id": "ventilation_equivalent_area",
+      "question": "Specified ventilator equivalent area per opening (where applicable)",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "proposed_ventilation",
+          "operator": "In",
+          "value": "Window ventilators|Suitable existing / new wall ventilators"
+        }
+      ],
+      "unit": "mm2",
+      "minimum": 1,
+      "wholeNumber": false
+    },
+    {
+      "id": "ventilation_product",
+      "question": "Ventilator/system product, quantity and evidence reference",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "trickle_vents",
+      "question": "Window ventilator position",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Head of frame",
+        "Top of sash",
+        "Other - manufacturer-approved position"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "proposed_ventilation",
+          "operator": "Equals",
+          "value": "Window ventilators"
+        }
+      ]
+    },
+    {
+      "id": "assembly_configuration_section",
+      "question": "Opening configuration and dimensions",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "opens",
+      "question": "Opens",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "In",
+        "Out",
+        "Fixed"
+      ],
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "$material",
+              "operator": "In",
+              "value": "UPVC"
+            }
+          ],
+          "options": [
+            "In",
+            "Out",
+            "Fixed"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$material",
+              "operator": "In",
+              "value": "Aluminium"
+            }
+          ],
+          "options": [
+            "In",
+            "Out"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$material",
+              "operator": "In",
+              "value": "Timber"
+            }
+          ],
+          "options": [
+            "In",
+            "Out"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "handing",
+      "question": "Handing / opening layout (viewed from outside)",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Hinged left",
+        "Hinged right",
+        "Pair / French doors",
+        "Sliding - drawing required",
+        "Fixed",
+        "Multiple lights - drawing required",
+        "Other - drawing required"
+      ]
+    },
+    {
+      "id": "assembly_configuration_drawing",
+      "question": "Configuration drawing / photo reference with outside view, opening lights and fixed lights",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "assembly_measurement_basis",
+      "question": "Assembly dimension basis",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Structural / brick opening",
+        "Existing frame size",
+        "Finished manufacturing size",
+        "Other - clarify"
+      ]
+    },
+    {
+      "id": "assembly_deductions",
+      "question": "Installation clearances / deductions, internal reveals and who confirms manufacturing sizes",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "brick_width",
+      "question": "Brick width",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "wholeNumber": false
+    },
+    {
+      "id": "brick_height",
+      "question": "Brick height",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "wholeNumber": false
+    },
+    {
+      "id": "internal_width",
+      "question": "Internal width",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "wholeNumber": false
+    },
+    {
+      "id": "internal_height",
+      "question": "Internal height",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "wholeNumber": false
+    },
+/*
+    {
+      "id": "opening_diagonal_1",
+      "question": "Opening diagonal 1 (top-left to bottom-right)",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "opening_diagonal_2",
+      "question": "Opening diagonal 2 (top-right to bottom-left)",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+  */
+    {
+      "id": "opening_condition",
+      "question": "Plumb, level and square; frame support, lintel / bay support concerns and preparatory work",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "assembly_frame_section",
+      "question": "Frame, profile, cill and threshold",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "outer_section_size",
+      "question": "Outer section size",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "56mm",
+        "70mm",
+        "Other - supplier/system specification"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "frame_depth",
+      "question": "Frame depth in and out",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "60mm",
+        "70mm",
+        "Other - supplier/system specification"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "section_type",
+      "question": "Section type",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Monoframe",
+        "Thermal Break",
+        "Commercial"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "frame_type",
+      "question": "Frame type",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Odd Leg",
+        "Even Leg",
+        "Commercial"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "section_type",
+          "operator": "NotEquals",
+          "value": "Commercial"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "profile_type",
+      "question": "Profile type",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Chamfered (Standard)",
+        "Rustic (Sculptured)",
+        "Other - supplier/system specification"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "cills",
+      "question": "Cills",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "150 mm",
+        "180 mm",
+        "Stub cill",
+        "Other - supplier/system specification"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC|Timber"
+        }
+      ]
+    },
+    {
+      "id": "cill",
+      "question": "Cill",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "head_drip",
+      "question": "Head drip",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC|Timber"
+        }
+      ]
+    },
+    {
+      "id": "drip",
+      "question": "Drip",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "new_timber_sub_frame",
+      "question": "New subframe required",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "section_type",
+          "operator": "NotEquals",
+          "value": "Commercial"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "sub_frame_depth",
+      "question": "Subframe depth",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "section_type",
+          "operator": "NotEquals",
+          "value": "Commercial"
+        },
+        {
+          "questionId": "new_timber_sub_frame",
+          "operator": "Equals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ],
+      "unit": "mm",
+      "wholeNumber": false
+    },
+    {
+      "id": "sub_frame_width",
+      "question": "Subframe width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "section_type",
+          "operator": "NotEquals",
+          "value": "Commercial"
+        },
+        {
+          "questionId": "new_timber_sub_frame",
+          "operator": "Equals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ],
+      "unit": "mm",
+      "wholeNumber": false
+    },
+    {
+      "id": "sub_frame_height",
+      "question": "Subframe height",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "section_type",
+          "operator": "NotEquals",
+          "value": "Commercial"
+        },
+        {
+          "questionId": "new_timber_sub_frame",
+          "operator": "Equals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ],
+      "unit": "mm",
+      "wholeNumber": false
+    },
+    {
+      "id": "new_sash_required",
+      "question": "New sash required",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "midrail",
+      "question": "Midrail",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "midrail_height",
+      "question": "Midrail Height",
+      "type": "Measurement",
+      "required": true,
+      "showWhen": {
+        "questionId": "midrail",
+        "operator": "Equals",
+        "value": "Yes"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ],
+      "unit": "mm",
+      "wholeNumber": false
+    },
+    {
+      "id": "midrail_type",
+      "question": "Midrail type",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "A Type",
+        "B Type",
+        "None"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors|Combi Frame"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "addons",
+      "question": "Addons",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "addon_width",
+      "question": "Addons Width",
+      "type": "Measurement",
+      "required": true,
+      "showWhen": {
+        "questionId": "addons",
+        "operator": "Equals",
+        "value": "Yes"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ],
+      "unit": "mm",
+      "wholeNumber": false
+    },
+    {
+      "id": "addon_height",
+      "question": "Addons Height",
+      "type": "Measurement",
+      "required": true,
+      "showWhen": {
+        "questionId": "addons",
+        "operator": "Equals",
+        "value": "Yes"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ],
+      "unit": "mm",
+      "wholeNumber": false
+    },
+    {
+      "id": "threshold_type",
+      "question": "Threshold type",
+      "type": "Picker",
+      "required": true,
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "$opening_type",
+              "operator": "In",
+              "value": "Door|Combi Frame|Porch"
+            }
+          ],
+          "options": [
+            "56mm uPVC outer",
+            "44 F/Door Ali thresher",
+            "70mm uPVC outer",
+            "15mm disabled access thresher"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$opening_type",
+              "operator": "In",
+              "value": "French Doors"
+            }
+          ],
+          "options": [
+            "56mm uPVC outer",
+            "44 F/Door Ali thresher",
+            "70mm uPVC outer"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$opening_type",
+              "operator": "In",
+              "value": "Conventional Sliding Patio"
+            }
+          ],
+          "options": [
+            "70mm",
+            "Aluminium"
+          ]
+        }
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|Combi Frame|Porch|French Doors|Conventional Sliding Patio"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "slide_position",
+      "question": "Slide position",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Inside",
+        "Outside"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Conventional Sliding Patio|Tilt & Slide Patio"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "internal_lock",
+      "question": "Tilt and Slide Lock type",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Internal",
+        "Internal + external"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "Equals",
+          "value": "Tilt & Slide Patio"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "night_vent",
+      "question": "Night vent",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "In Doors",
+        "In Alu Sub-frame",
+        "In Timber Sub-frame",
+        "None"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "upvc_bead_type",
+      "question": "Bead type",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Standard",
+        "Scocia",
+        "Ovolo"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "glazed",
+      "question": "Glazed",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Internal",
+        "External",
+        "Wrap around"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "aluminium_bead_type",
+      "question": "Bead type",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Chamfered",
+        "Sculpted",
+        "Square"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "glazed",
+          "operator": "In",
+          "value": "Internal|External"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "timber_glazed",
+      "question": "Glazed",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Internal",
+        "External",
+        "No"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "moulding",
+      "question": "Moulding",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Routed",
+        "Scribed"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "pre_glazed_door",
+      "question": "Pre-glazed door",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "weather_bar",
+      "question": "Weather bar",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "cill_on_subframe",
+      "question": "Cill on subframe",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "section_type",
+          "operator": "NotEquals",
+          "value": "Commercial"
+        },
+        {
+          "questionId": "new_timber_sub_frame",
+          "operator": "Equals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "cill_type",
+      "question": "Cill type",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "section_type",
+          "operator": "NotEquals",
+          "value": "Commercial"
+        },
+        {
+          "questionId": "new_timber_sub_frame",
+          "operator": "Equals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "cill_on_subframe",
+          "operator": "Equals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "timber_wood",
+      "question": "Timber wood",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "HW",
+        "SW"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "timber_frame_wood",
+      "question": "Timber frame wood",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "HW",
+        "SW"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "timber_new_frame_req",
+      "question": "New timber frame required",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "repair_frame",
+      "question": "Repair frame",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "door_thickness",
+      "question": "Door thickness",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "34",
+        "40",
+        "44",
+        "54"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "standard_sizes",
+      "question": "Standard sizes",
+      "type": "Picker",
+      "required": true,
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_thickness",
+              "operator": "Equals",
+              "value": "34"
+            }
+          ],
+          "options": [
+            "15x78",
+            "18x78",
+            "21x78",
+            "24x78",
+            "27x78",
+            "28x78",
+            "30x78",
+            "32x80",
+            "33x78",
+            "Non standard"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_thickness",
+              "operator": "In",
+              "value": "40|44|54"
+            }
+          ],
+          "options": [
+            "30x78",
+            "32x80",
+            "33x78",
+            "33x81",
+            "34x82",
+            "34x86",
+            "36x78",
+            "Non standard"
+          ]
+        }
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "reasonnonstandard",
+      "question": "Reason nonstandard",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "standard_sizes",
+          "operator": "Equals",
+          "value": "Non standard"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "door_width",
+      "question": "Door width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ],
+      "unit": "mm",
+      "wholeNumber": false
+    },
+    {
+      "id": "door_height",
+      "question": "Door height",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ],
+      "unit": "mm",
+      "wholeNumber": false
+    },
+    {
+      "id": "thresher",
+      "question": "Thresher",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "assembly_inclusions_section",
+      "question": "Included components - complete the separate component questionnaires",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "replace_glass",
+      "question": "Include glass",
+      "type": "ReplaceGlass",
+      "required": true
+    },
+    {
+      "id": "replace_panel",
+      "question": "Include panel",
+      "type": "ReplacePanel",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC|Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "replace_locking",
+      "question": "Include lock mechanism",
+      "type": "ReplaceLocking",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|Window|French Doors|Porch|Conservatory|Combi Frame|Bay Window"
+        }
+      ]
+    },
+    {
+      "id": "assembly_hardware_section",
+      "question": "Hardware, accessories and finishes",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "handles_required",
+      "question": "Handles required",
+      "type": "Handles",
+      "required": true
+    },
+    {
+      "id": "handles_text",
+      "question": "Handle details",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "handles_required",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "handle_colour",
+      "question": "Handle colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Shiny brass",
+        "Satin gold",
+        "Chrome",
+        "Satin silver",
+        "White",
+        "Black",
+        "Brown"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "handle_color",
+      "question": "Handle colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Shiny brass",
+        "Satin gold",
+        "Chrome",
+        "Satin silver",
+        "White",
+        "Black",
+        "Brown"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "hinge_colour",
+      "question": "Hinge colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Shiny brass",
+        "Satin gold",
+        "Chrome",
+        "Satin silver",
+        "White",
+        "Black",
+        "Brown"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "hinge_type",
+      "question": "Hinge type",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "3 inch",
+        "4 inch",
+        "6 inch"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "LPHandles",
+      "question": "Handle operation",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Lever/lever",
+        "Lever pad",
+        "Split spindle",
+        "Long bar"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|Combi Frame|Porch"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "additional_locks",
+      "question": "Additional locks",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Euro Locks",
+        "Sash Jammers",
+        "Shoot Bolts",
+        "Snap Locks",
+        "Multi Purpose Bolts",
+        "Sashe Lock",
+        "Deadlock",
+        "Chubb Bolts",
+        "None"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "locking_type",
+      "question": "Locking type",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Standard",
+        "With Shootbolts"
+      ],
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "$material",
+              "operator": "In",
+              "value": "UPVC"
+            }
+          ],
+          "options": [
+            "Standard",
+            "With Shootbolts"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$opening_type",
+              "operator": "Equals",
+              "value": "Window"
+            },
+            {
+              "questionId": "section_type",
+              "operator": "Equals",
+              "value": "Monoframe"
+            },
+            {
+              "questionId": "$material",
+              "operator": "In",
+              "value": "Aluminium"
+            }
+          ],
+          "options": [
+            "Cockspur",
+            "Espag",
+            "Shootbolts"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$opening_type",
+              "operator": "Equals",
+              "value": "Window"
+            },
+            {
+              "questionId": "section_type",
+              "operator": "IsNotBlank",
+              "value": ""
+            },
+            {
+              "questionId": "section_type",
+              "operator": "NotEquals",
+              "value": "Commercial"
+            },
+            {
+              "questionId": "$material",
+              "operator": "In",
+              "value": "Aluminium"
+            }
+          ],
+          "options": [
+            "Cockspur",
+            "Espag"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$material",
+              "operator": "In",
+              "value": "Aluminium"
+            }
+          ],
+          "options": [
+            "Standard",
+            "With Shootbolts"
+          ]
+        }
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC|Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "letter_box",
+      "question": "Letter box",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Black",
+        "Chrome",
+        "Gold",
+        "Satin Silver",
+        "White"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors|Combi Frame|Porch|Conservatory"
+        }
+      ]
+    },
+    {
+      "id": "letter_box_pos",
+      "question": "Letter box position",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "n/a",
+        "Midrail",
+        "Middle",
+        "Bottom"
+      ],
+      "showWhen": {
+        "questionId": "letter_box",
+        "operator": "NotBlankOrNone",
+        "value": ""
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors|Combi Frame|Porch|Conservatory"
+        }
+      ]
+    },
+    {
+      "id": "pet_flap",
+      "question": "Pet flap",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Small",
+        "Medium",
+        "Large"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors|Combi Frame|Porch|Conservatory"
+        }
+      ]
+    },
+    {
+      "id": "pet_type",
+      "question": "Pet Type",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "n/a",
+        "Cat",
+        "Dog"
+      ],
+      "showWhen": {
+        "questionId": "pet_flap",
+        "operator": "NotBlankOrNone",
+        "value": ""
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors|Combi Frame|Porch|Conservatory"
+        }
+      ]
+    },
+    {
+      "id": "pet_magnetic",
+      "question": "Microchip/Magnetic",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "None",
+        "Microchip",
+        "Magnetic"
+      ],
+      "showWhen": {
+        "questionId": "pet_flap",
+        "operator": "NotBlankOrNone",
+        "value": ""
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors|Combi Frame|Porch|Conservatory"
+        }
+      ]
+    },
+    {
+      "id": "gaskets",
+      "question": "Gaskets",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Code:-",
+        "Other",
+        "None"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$repair",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "gaskets_text",
+      "question": "Gaskets text",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "gaskets",
+        "operator": "NotBlankOrNone",
+        "value": ""
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$repair",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "colour",
+      "question": "Colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "White",
+        "Rosewood",
+        "Rosewood on White",
+        "Oak",
+        "Oak on White",
+        "Woodgrain 013",
+        "Woodgrain 021",
+        "Woodgrain 013 on White",
+        "Woodgrain 021 on White",
+        "White foil on white foil",
+        "White foil on white smooth",
+        "Cream foil",
+        "Cream foil on white",
+        "Anthracite grey foil 7016",
+        "Anth' grey foil on white",
+        "Anthracite grey smooth 7016",
+        "Anth' grey smooth on white",
+        "Chartwell green foil",
+        "Chartwell green foil on white",
+        "Black foil",
+        "Black foil on white",
+        "Other coloured foil",
+        "Other coloured smooth"
+      ],
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "frame_depth",
+              "operator": "Equals",
+              "value": "60mm"
+            }
+          ],
+          "options": [
+            "Oak",
+            "Oak on White",
+            "Rosewood",
+            "Rosewood on White",
+            "White",
+            "Woodgrain 021",
+            "Woodgrain 021 on White"
+          ]
+        }
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "UPVC"
+        }
+      ]
+    },
+    {
+      "id": "item_color",
+      "question": "Item colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "White",
+        "Silver",
+        "Brown",
+        "Black"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Aluminium"
+        }
+      ]
+    },
+    {
+      "id": "door_color",
+      "question": "Inside door colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Stain",
+        "Standard",
+        "Full range"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "door_color_code",
+      "question": "Inside door code/colour",
+      "type": "Picker",
+      "required": true,
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_color",
+              "operator": "Equals",
+              "value": "Stain"
+            }
+          ],
+          "options": [
+            "Sample sent to MTF",
+            "Meranti Mahogany TR1511",
+            "Meranti Meranti TR1518",
+            "Meranti Natural TR1519",
+            "Meranti Teak TR1510",
+            "Meranti Chestnut TR1517",
+            "Meranti Nuts TR1509",
+            "Meranti Rosewood TR1512",
+            "Meranti Ebb TR1515",
+            "Meranti Dark Oak TR1507",
+            "Meranti Light Oak TR1506",
+            "Pine Chestnut TR1517",
+            "Pine Mahogany TR1511",
+            "Pine Dark Oak TR1507",
+            "Pine Rosewood TR1512",
+            "Pine Essen TR1514",
+            "Pine Light Oak TR1506",
+            "Pine Nuts TR1509",
+            "Pine Teak TR1510",
+            "Pine Opal White TR1501",
+            "Pine Kiefer TR1505"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_color",
+              "operator": "Equals",
+              "value": "Standard"
+            }
+          ],
+          "options": [
+            "Orange",
+            "Yellow",
+            "Green",
+            "Blue",
+            "Red",
+            "Black",
+            "White"
+          ]
+        }
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors"
+        },
+        {
+          "questionId": "door_color",
+          "operator": "In",
+          "value": "Stain|Standard|Full range"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "door_color_out",
+      "question": "Outside door colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Stain",
+        "Standard",
+        "Full range"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "door_color_code_out",
+      "question": "Outside door code/colour",
+      "type": "Picker",
+      "required": true,
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_color_out",
+              "operator": "Equals",
+              "value": "Stain"
+            }
+          ],
+          "options": [
+            "Sample sent to MTF",
+            "Meranti Mahogany TR1511",
+            "Meranti Meranti TR1518",
+            "Meranti Natural TR1519",
+            "Meranti Teak TR1510",
+            "Meranti Chestnut TR1517",
+            "Meranti Nuts TR1509",
+            "Meranti Rosewood TR1512",
+            "Meranti Ebb TR1515",
+            "Meranti Dark Oak TR1507",
+            "Meranti Light Oak TR1506",
+            "Pine Chestnut TR1517",
+            "Pine Mahogany TR1511",
+            "Pine Dark Oak TR1507",
+            "Pine Rosewood TR1512",
+            "Pine Essen TR1514",
+            "Pine Light Oak TR1506",
+            "Pine Nuts TR1509",
+            "Pine Teak TR1510",
+            "Pine Opal White TR1501",
+            "Pine Kiefer TR1505"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_color_out",
+              "operator": "Equals",
+              "value": "Standard"
+            }
+          ],
+          "options": [
+            "Orange",
+            "Yellow",
+            "Green",
+            "Blue",
+            "Red",
+            "Black",
+            "White"
+          ]
+        }
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$opening_type",
+          "operator": "In",
+          "value": "Door|French Doors"
+        },
+        {
+          "questionId": "door_color_out",
+          "operator": "In",
+          "value": "Stain|Standard|Full range"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "frame_color",
+      "question": "Inside frame colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Stain",
+        "Standard",
+        "Full range"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "frame_color_code",
+      "question": "Inside frame code/colour",
+      "type": "Picker",
+      "required": true,
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "frame_color",
+              "operator": "Equals",
+              "value": "Stain"
+            }
+          ],
+          "options": [
+            "Sample sent to MTF",
+            "Meranti Mahogany TR1511",
+            "Meranti Meranti TR1518",
+            "Meranti Natural TR1519",
+            "Meranti Teak TR1510",
+            "Meranti Chestnut TR1517",
+            "Meranti Nuts TR1509",
+            "Meranti Rosewood TR1512",
+            "Meranti Ebb TR1515",
+            "Meranti Dark Oak TR1507",
+            "Meranti Light Oak TR1506",
+            "Pine Chestnut TR1517",
+            "Pine Mahogany TR1511",
+            "Pine Dark Oak TR1507",
+            "Pine Rosewood TR1512",
+            "Pine Essen TR1514",
+            "Pine Light Oak TR1506",
+            "Pine Nuts TR1509",
+            "Pine Teak TR1510",
+            "Pine Opal White TR1501",
+            "Pine Kiefer TR1505"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "frame_color",
+              "operator": "Equals",
+              "value": "Standard"
+            }
+          ],
+          "options": [
+            "Orange",
+            "Yellow",
+            "Green",
+            "Blue",
+            "Red",
+            "Black",
+            "White"
+          ]
+        }
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "frame_color",
+          "operator": "In",
+          "value": "Stain|Standard|Full range"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "frame_color_out",
+      "question": "Outside frame colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Stain",
+        "Standard",
+        "Full range"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "frame_color_code_out",
+      "question": "Outside frame code/colour",
+      "type": "Picker",
+      "required": true,
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "frame_color_out",
+              "operator": "Equals",
+              "value": "Stain"
+            }
+          ],
+          "options": [
+            "Sample sent to MTF",
+            "Meranti Mahogany TR1511",
+            "Meranti Meranti TR1518",
+            "Meranti Natural TR1519",
+            "Meranti Teak TR1510",
+            "Meranti Chestnut TR1517",
+            "Meranti Nuts TR1509",
+            "Meranti Rosewood TR1512",
+            "Meranti Ebb TR1515",
+            "Meranti Dark Oak TR1507",
+            "Meranti Light Oak TR1506",
+            "Pine Chestnut TR1517",
+            "Pine Mahogany TR1511",
+            "Pine Dark Oak TR1507",
+            "Pine Rosewood TR1512",
+            "Pine Essen TR1514",
+            "Pine Light Oak TR1506",
+            "Pine Nuts TR1509",
+            "Pine Teak TR1510",
+            "Pine Opal White TR1501",
+            "Pine Kiefer TR1505"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "frame_color_out",
+              "operator": "Equals",
+              "value": "Standard"
+            }
+          ],
+          "options": [
+            "Orange",
+            "Yellow",
+            "Green",
+            "Blue",
+            "Red",
+            "Black",
+            "White"
+          ]
+        }
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "frame_color_out",
+          "operator": "In",
+          "value": "Stain|Standard|Full range"
+        },
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "draught_strip",
+      "question": "Draught strip",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "locks",
+      "question": "Locks",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Casemont Stays",
+        "Cockspur",
+        "Espag",
+        "Dead Lock & Yale Lock",
+        "Sash Lock",
+        "Sash",
+        "Lock & Yale Lock",
+        "Sash Lock & Chubb Bolts"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "hardware_color",
+      "question": "Hardware colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Brass",
+        "Gold",
+        "White",
+        "Black",
+        "Brown",
+        "Georgian Brass",
+        "Satin Gold",
+        "Satin Silver",
+        "Chrome"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$material",
+          "operator": "In",
+          "value": "Timber"
+        }
+      ]
+    },
+    {
+      "id": "finish_product_reference",
+      "question": "Supplier / system-specific colour, finish and hardware product codes",
+      "type": "Text",
+      "required": false
+    },
+    {
+      "id": "assembly_install_section",
+      "question": "Installation details and final specification review",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "assembly_installation_details",
+      "question": "Frame fixing / sealing details, trims and making good",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "assembly_supplier_reference",
+      "question": "Supplier/system availability and quotation/specification reference",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "assembly_order_status",
+      "question": "Assembly specification review",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Ready for supplier confirmation",
+        "Technical review required",
+        "Survey incomplete - further visit required"
+      ]
+    },
+    {
+      "id": "assembly_order_notes",
+      "question": "Outstanding decisions, deviations and reviewer / follow-up actions",
+      "type": "Text",
+      "required": false
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

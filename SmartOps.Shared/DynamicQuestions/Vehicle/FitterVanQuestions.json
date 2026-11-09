@@ -1,0 +1,810 @@
+{
+  "questions": [
+    {
+      "id": "loading_storage",
+      "question": "Loading/Storage Area Floor Safe and Clear",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "loading_storage_s",
+      "question": "Reason for Loading/Storage Area - not in good condition",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "loading_storage",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "circuit_breaker",
+      "question": "Circuit Breaker / RCD Available and Working",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "circuit_breaker_s",
+      "question": "Circuit Breaker / RCD - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "circuit_breaker",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "hammer_drill",
+      "question": "Hammer Drill",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "hammer_drill_s",
+      "question": "Hammer Drill - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "hammer_drill",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "cordless_drill",
+      "question": "Cordless Drill",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "cordless_drill_s",
+      "question": "Cordless Drill - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "cordless_drill",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "spare_battery_and_charger",
+      "question": "Spare battery and Charger",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "spare_battery_and_charger_s",
+      "question": "Spare battery and Charger - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "spare_battery_and_charger",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "circular_saw",
+      "question": "Circular Saw / Check Blade",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "circular_saw_s",
+      "question": "Circular Saw / Check Blade - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "circular_saw",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "jig_saw",
+      "question": "Jig Saw",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "jig_saw_s",
+      "question": "Jig Saw - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "jig_saw",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "heat_gun",
+      "question": "Heat Gun",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "heat_gun_s",
+      "question": "Heat Gun - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "heat_gun",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "hoover",
+      "question": "Hoover",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "hoover_s",
+      "question": "Hoover - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "hoover",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "extension_lead",
+      "question": "Extension lead",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "extension_lead_s",
+      "question": "Extension lead - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "extension_lead",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "industrial_ladders",
+      "question": "Industrial Ladders in Good Condition",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "industrial_ladders_s",
+      "question": "Industrial Ladders in Good Condition - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "industrial_ladders",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "ladder_clamps",
+      "question": "Ladder Clamps / Padlock",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "ladder_clamps_s",
+      "question": "Ladder Clamps / Padlock - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "ladder_clamps",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "step_ladders",
+      "question": "Step Ladders",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "step_ladders_s",
+      "question": "Step Ladders - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "step_ladders",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "ladder_stopper",
+      "question": "Ladder Stopper",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "ladder_stopper_s",
+      "question": "Ladder Stopper - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "ladder_stopper",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "tresles_x2",
+      "question": "Tresles (x2)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "tresles_x2_s",
+      "question": "Tresles (x2) - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "tresles_x2",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "torch_working",
+      "question": "Torch working",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "torch_working_s",
+      "question": "Torch working - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "torch_working",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "ratchett_straps_x4",
+      "question": "Ratchet Straps (x4)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "ratchett_straps_x4_s",
+      "question": "Ratchet Straps (x4) - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "ratchett_straps_x4",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "spare_wheel",
+      "question": "Spare Wheel",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "spare_wheel_s",
+      "question": "Spare Wheel - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "spare_wheel",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "internal_dust_sheets_x3",
+      "question": "Internal Dust Sheets (x3)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "internal_dust_sheets_x3_s",
+      "question": "Internal Dust Sheets (x3) - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "internal_dust_sheets_x3",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "mastic_guns",
+      "question": "Mastic Guns (x2)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "mastic_guns_s",
+      "question": "Mastic Guns (x2) - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "mastic_guns",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "glass_suckers",
+      "question": "Glass Suckers (x2)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "glass_suckers_s",
+      "question": "Glass Suckers (x2) - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "glass_suckers",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "quality_manuals",
+      "question": "COSHH Sheets",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "quality_manuals_s",
+      "question": "COSHH Sheets - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "quality_manuals",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "plasters",
+      "question": "First Aid Kit Complete and In Date",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "plasters_s",
+      "question": "First Aid Kit - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "plasters",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "cabin_condition",
+      "question": "Cabin Condition",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "cabin_condition_s",
+      "question": "Cabin Condition - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "cabin_condition",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "breakdown_card",
+      "question": "Breakdown Card",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "breakdown_card_s",
+      "question": "Breakdown Card - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "breakdown_card",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "fire_extinguisher",
+      "question": "Fire Extinguisher",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "fire_extinguisher_s",
+      "question": "Fire Extinguisher - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "fire_extinguisher",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "van_height_sticker",
+      "question": "Van Height Sticker",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "van_height_sticker_s",
+      "question": "Van Height Sticker - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "van_height_sticker",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "racks_and_poles",
+      "question": "Glass Racks and Poles Secure and in Good Condition",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "racks_and_poles_s",
+      "question": "Racks and Poles - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "racks_and_poles",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "tyre_conditions",
+      "question": "Tyres in Good Condition (Including Tread and Pressure)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "tyre_conditions_s",
+      "question": "Tyre Conditions - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "tyre_conditions",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "van_locks",
+      "question": "Van Locks",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "van_locks_s",
+      "question": "Van Locks - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "van_locks",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "oil_and_water_checked",
+      "question": "Oil and Water Checked",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "oil_and_water_checked_s",
+      "question": "Oil and Water Checked - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "oil_and_water_checked",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "windscreen_good_contidion",
+      "question": "Windscreen Good Condition",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "windscreen_good_contidion_s",
+      "question": "Windscreen Good Condition - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "windscreen_good_contidion",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "hi_vis_vests",
+      "question": "Hi Viz Vest",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "hi_vis_vests_s",
+      "question": "Hi Viz Vest - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "hi_vis_vests",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "gloves",
+      "question": "Gloves",
+      "type": "PlusMinus",
+      "required": true,
+      "minimum": 0,
+      "maximum": 10,
+      "wholeNumber": true,
+      "defaultValue": 1
+    },
+    {
+      "id": "gloves_s",
+      "question": "Gloves - reason if none",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "gloves",
+        "operator": "Equals",
+        "value": "0"
+      }
+    },
+    {
+      "id": "wrist_guards",
+      "question": "Wrist Guards",
+      "type": "PlusMinus",
+      "required": true,
+      "minimum": 0,
+      "maximum": 10,
+      "wholeNumber": true,
+      "defaultValue": 1
+    },
+    {
+      "id": "wrist_guards_s",
+      "question": "Wrist Guards - reason if none",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "wrist_guards",
+        "operator": "Equals",
+        "value": "0"
+      }
+    },
+    {
+      "id": "goggles",
+      "question": "Goggles",
+      "type": "PlusMinus",
+      "required": true,
+      "minimum": 0,
+      "maximum": 10,
+      "wholeNumber": true,
+      "defaultValue": 1
+    },
+    {
+      "id": "goggles_s",
+      "question": "Goggles - reason if none",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "goggles",
+        "operator": "Equals",
+        "value": "0"
+      }
+    },
+    {
+      "id": "ear_defenders",
+      "question": "Ear Defenders",
+      "type": "PlusMinus",
+      "required": true,
+      "minimum": 0,
+      "maximum": 10,
+      "wholeNumber": true,
+      "defaultValue": 1
+    },
+    {
+      "id": "ear_defenders_s",
+      "question": "Ear Defenders - reason if none",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "ear_defenders",
+        "operator": "Equals",
+        "value": "0"
+      }
+    },
+    {
+      "id": "dust_masks",
+      "question": "Dust Masks",
+      "type": "PlusMinus",
+      "required": true,
+      "minimum": 0,
+      "maximum": 10,
+      "wholeNumber": true,
+      "defaultValue": 1
+    },
+    {
+      "id": "dust_masks_s",
+      "question": "Dust Masks - reason if none",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "dust_masks",
+        "operator": "Equals",
+        "value": "0"
+      }
+    },
+    {
+      "id": "safety_helmets",
+      "question": "Safety Helmets Available",
+      "type": "PlusMinus",
+      "required": true,
+      "minimum": 0,
+      "maximum": 10,
+      "wholeNumber": true,
+      "defaultValue": 1
+    },
+    {
+      "id": "ManufactureDateOnHelmet",
+      "question": "Manufacture Date on Helmet 1",
+      "type": "Date",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_helmets",
+        "operator": "GreaterThan",
+        "value": "0"
+      }
+    },
+    {
+      "id": "ManufactureDateOnHelmet2",
+      "question": "Manufacture Date on Helmet 2",
+      "type": "Date",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_helmets",
+        "operator": "GreaterThan",
+        "value": "1"
+      }
+    },
+    {
+      "id": "ManufactureDateOnHelmet3",
+      "question": "Manufacture Date on Helmet 3",
+      "type": "Date",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_helmets",
+        "operator": "GreaterThan",
+        "value": "2"
+      }
+    },
+    {
+      "id": "ManufactureDateOnHelmet4",
+      "question": "Manufacture Date on Helmet 4",
+      "type": "Date",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_helmets",
+        "operator": "GreaterThan",
+        "value": "3"
+      }
+    },
+    {
+      "id": "ManufactureDateOnHelmet5",
+      "question": "Manufacture Date on Helmet 5",
+      "type": "Date",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_helmets",
+        "operator": "GreaterThan",
+        "value": "4"
+      }
+    },
+    {
+      "id": "ManufactureDateOnHelmet6",
+      "question": "Manufacture Date on Helmet 6",
+      "type": "Date",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_helmets",
+        "operator": "GreaterThan",
+        "value": "5"
+      }
+    },
+    {
+      "id": "ManufactureDateOnHelmet7",
+      "question": "Manufacture Date on Helmet 7",
+      "type": "Date",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_helmets",
+        "operator": "GreaterThan",
+        "value": "6"
+      }
+    },
+    {
+      "id": "ManufactureDateOnHelmet8",
+      "question": "Manufacture Date on Helmet 8",
+      "type": "Date",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_helmets",
+        "operator": "GreaterThan",
+        "value": "7"
+      }
+    },
+    {
+      "id": "ManufactureDateOnHelmet9",
+      "question": "Manufacture Date on Helmet 9",
+      "type": "Date",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_helmets",
+        "operator": "GreaterThan",
+        "value": "8"
+      }
+    },
+    {
+      "id": "ManufactureDateOnHelmet10",
+      "question": "Manufacture Date on Helmet 10",
+      "type": "Date",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_helmets",
+        "operator": "GreaterThan",
+        "value": "9"
+      }
+    },
+    {
+      "id": "marks_out_of_10",
+      "question": "Marks out of 10",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+      ]
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

@@ -1,0 +1,16 @@
+@model IEnumerable<(string Label, object? Value, string? Notes)>
+<dl class="go-report-fields">
+    @foreach (var field in Model)
+    {
+        <div class="go-report-field">
+            <dt>@field.Label</dt>
+            <dd>
+                <span class="go-report-field-value @(field.Value is bool yesNo ? (yesNo ? "go-report-yes" : "go-report-no") : "")">@(field.Value is bool boolean ? (boolean ? "Yes" : "No") : string.IsNullOrWhiteSpace(field.Value?.ToString()) ? "—" : field.Value?.ToString()?.Trim())</span>
+                @if (!string.IsNullOrWhiteSpace(field.Notes))
+                {
+                    <div class="go-report-field-value mt-1">@field.Notes.Trim()</div>
+                }
+            </dd>
+        </div>
+    }
+</dl>

@@ -1,0 +1,87 @@
+@model SmartOps.Web.ViewModels.VehicleChecksIndexViewModel
+@{
+    ViewData["Title"] = "Vehicle Checks";
+    var vehicleTypes = new[]
+    {
+        (Type: enum_vehicle_type.delivery_hgv, Label: "HGV"),
+        (Type: enum_vehicle_type.delivery_van, Label: "Delivery van"),
+        (Type: enum_vehicle_type.fitter_van, Label: "Fitter van"),
+        (Type: enum_vehicle_type.sales_car, Label: "Sales car")
+    };
+}
+<h4 class="mb-3">Vehicle Checks</h4>
+<form asp-action="Index" method="get" class="d-flex flex-wrap gap-3 align-items-end mb-3 no-print">
+    <div>
+        <label asp-for="BranchCode" class="visually-hidden">Branch</label>
+        <select lock-branch-value="@Model.BranchCode" asp-for="BranchCode" asp-items="Model.Branches" class="form-select" onchange="this.form.submit()">
+            <option value="">All branches</option>
+        </select>
+    </div>
+    <div>
+        <label asp-for="CheckWeek" class="form-label">Check week</label>
+        <select asp-for="CheckWeek" asp-items="Model.CheckWeeks" class="form-select" onchange="this.form.submit()">
+            <option value="">All check weeks</option>
+        </select>
+    </div>
+    <noscript><button type="submit" class="btn btn-primary">Apply filters</button></noscript>
+</form>
+<div class="record-index-vehicle-key text-muted small mb-2" aria-label="Vehicle type key">
+    @foreach (var vehicleType in vehicleTypes)
+    {
+        <span class="record-index-vehicle">
+            <partial name="_VehicleTypeIcon" model="vehicleType.Type" />
+            <span>@vehicleType.Label</span>
+        </span>
+    }
+</div>
+<div class="table-responsive record-index-list">
+    <table class="table table-sm table-hover align-middle record-index-table mb-0">
+        <caption class="visually-hidden">Vehicle Checks</caption>
+        <thead>
+            <tr>
+                <th scope="col">Check week</th>
+                <th scope="col">Branch</th>
+                <th scope="col">Completed</th>
+                <th scope="col">Vehicles</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Cards.Any())
+            {
+                <tr><td colspan="4" class="text-muted py-3">No records found.</td></tr>
+            }
+            @foreach (var card in Model.Cards)
+            {
+                var item = card.Header;
+                var detailsUrl = Url.Action("Details", new { id = item.Id });
+                var hasVehicles = vehicleTypes.Any(type => card.Registrations.TryGetValue(type.Type, out var registrations) && registrations.Count > 0);
+                <tr class="clickable-row" data-href="@detailsUrl" tabindex="0">
+                    <th scope="row">@(string.IsNullOrWhiteSpace(item.CheckWeekDate) ? $"Check {item.Id}" : item.CheckWeekDate)</th>
+                    <td>@item.BranchCode</td>
+                    <td>@item.DateTimeCompleted.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>
+                        <div class="record-index-vehicles">
+                            @foreach (var vehicleType in vehicleTypes)
+                            {
+                                if (!card.Registrations.TryGetValue(vehicleType.Type, out var registrations)) continue;
+                                foreach (var registration in registrations)
+                                {
+                                    <span class="record-index-vehicle @(registration.IsIncomplete ? "text-danger" : "")"
+                                          title="@($"{vehicleType.Label}: {registration.Registration}")">
+                                        <partial name="_VehicleTypeIcon" model="vehicleType.Type" />
+                                        <span><span class="visually-hidden">@vehicleType.Label: </span>@registration.Registration</span>
+                                    </span>
+                                }
+                            }
+                            @if (!hasVehicles)
+                            {
+                                <span class="text-muted">—</span>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<record-pagination></record-pagination>

@@ -1,0 +1,63 @@
+{
+  "questions": [
+    {
+      "id": "Summary",
+      "question": "Item summary",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "parts_to_order",
+      "question": "Parts to order",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "bDifferentFromOriginal",
+      "question": "Is the item going to be different from the original?",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "ChangeItemTo",
+      "question": "Item has been changed to",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "bDifferentFromOriginal",
+        "operator": "Equals",
+        "value": "Yes"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

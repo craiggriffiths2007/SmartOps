@@ -1,0 +1,148 @@
+@model GarageDoorMotorViewModel
+@{ Layout = null; }
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <title>Garage Door Motor Declaration</title>
+
+    <link rel="stylesheet" href="~/css/pages/print-document.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/css/pages/job-header.css" asp-append-version="true" />
+</head>
+
+<body data-print-ready>
+
+    <div class="print-toolbar">
+
+        <button onclick="window.print();">
+            Print
+        </button>
+
+    </div>
+
+
+    <div class="page">
+
+        <!-- LETTER HEAD -->
+
+        <div class="letterhead">
+
+            <div>
+                @if (!string.IsNullOrWhiteSpace(Model.LogoUrl))
+                {
+                    <img src="@Model.LogoUrl"
+                         class="logo" />
+                }
+            </div>
+
+            <div class="company-details">
+
+                <strong>
+                    @Model.CompanyName
+                </strong>
+
+                @if (!string.IsNullOrWhiteSpace(
+                     Model.CompanyAddress1))
+                {
+                    <br />
+                    @Model.CompanyAddress1
+                }
+
+                @if (!string.IsNullOrWhiteSpace(
+                     Model.CompanyAddress2))
+                {
+                    <br />
+                    @Model.CompanyAddress2
+                }
+
+                @if (!string.IsNullOrWhiteSpace(
+                     Model.CompanyAddress3))
+                {
+                    <br />
+                    @Model.CompanyAddress3
+                }
+
+                @if (!string.IsNullOrWhiteSpace(
+                     Model.CompanyPostcode))
+                {
+                    <br />
+                    @Model.CompanyPostcode
+                }
+
+                @if (!string.IsNullOrWhiteSpace(
+                     Model.CompanyTelephone))
+                {
+                    <br /><br />
+                    <span>
+                        Tel: @Model.CompanyTelephone
+                    </span>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(
+                     Model.CompanyEmail))
+                {
+                    <br />
+                    <span>
+                        Email: @Model.CompanyEmail
+                    </span>
+                }
+
+            </div>
+
+        </div>
+
+
+        <div class="document-title">
+            Garage Door Motor Declaration
+        </div>
+
+        <div class="document-details">
+
+            @await Html.PartialAsync("_GarageDoorMotorDeclarationReport", Model.JobHeader)
+
+        </div>
+
+        <div class="signature-section">
+            @if (Model.JobHeader.GarageDoorMotor?.MotorSigned == true && !string.IsNullOrWhiteSpace(Model.FitterSignatureFilename))
+            {
+                <img src="/images/@Model.FitterSignatureFilename" class="signature" alt="Fitter signature" />
+            }
+            <div class="signature-line"><strong>Fitter signature</strong></div>
+        </div>
+        <div class="signature-section">
+
+            @if (Model.JobHeader.GarageDoorMotor?.MotorSignedCustomer == true && !string.IsNullOrWhiteSpace(
+                 Model.SignatureFilename))
+            {
+                <img src="/images/@Model.SignatureFilename"
+                     class="signature" />
+            }
+
+            <div class="signature-line">
+
+                <strong>
+                    @SmartOps.Shared.Models.GarageDoorMotorDeclarationQuestions.ReadAnswers(Model.JobHeader).FirstOrDefault(a => a.QuestionId == "gdm_cust_name")?.Value
+                </strong>
+
+                <br />
+
+                Customer Signature
+
+            </div>
+
+            <div class="signed-date">
+                <strong>Signed:</strong>
+                @SmartOps.Shared.Models.GarageDoorMotorDeclarationQuestions.ReadAnswers(Model.JobHeader).FirstOrDefault(a => a.QuestionId == "gdm_sign_date")?.Value
+            </div>
+
+        </div>
+
+
+    </div>
+
+</body>

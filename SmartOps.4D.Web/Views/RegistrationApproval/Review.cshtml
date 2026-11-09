@@ -1,0 +1,27 @@
+@model SmartOps.Web.Data.AppUser
+@using SmartOps.Web.Models
+@inject Microsoft.Extensions.Options.IOptions<Microsoft.AspNetCore.Identity.IdentityOptions> IdentityOptions
+@{ ViewData["Title"] = "Review registration"; var tenant = (Tenant)ViewBag.Tenant; }
+<div class="container py-4">
+    <h2>Review registration</h2>
+    @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+    @if (TempData["Error"] != null) { <div class="alert alert-warning">@TempData["Error"]</div> }
+    <p><strong>Company:</strong> @tenant.Name</p>
+    <p><strong>Code:</strong> @tenant.Code</p>
+    <p><strong>Applicant:</strong> @Model.FirstName @Model.LastName</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+    @if (!Model.IsApproved) {
+        <form asp-action="Approve" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="userId" value="@Model.Id" />
+            <button class="btn btn-success" type="submit">Approve and email customer</button>
+        </form>
+    } else {
+        <div class="alert alert-success">Approved @(IdentityOptions.Value.SignIn.RequireConfirmedEmail && !Model.EmailConfirmed ? "— awaiting email confirmation" : "— customer can sign in")</div>
+        <form asp-action="ResendApprovalEmail" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="userId" value="@Model.Id" />
+            <button class="btn btn-outline-primary" type="submit">Resend approval email</button>
+        </form>
+    }
+</div>

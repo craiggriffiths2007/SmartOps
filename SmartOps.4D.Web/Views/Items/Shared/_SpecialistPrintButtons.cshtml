@@ -1,0 +1,10 @@
+@model SmartOps.Web.Models.CustomItem
+@using SmartOps.Web.Helpers
+@if (SpecialistPrintBuilder.CanPrintLock(Model))
+{
+    <a class="btn btn-outline-primary" asp-controller="CustomItems" asp-action="LockDetails" asp-route-id="@Model.Id" data-print-document>Print lock details</a>
+}
+@if (SpecialistPrintBuilder.CanPrintLeading(Model))
+{
+    <a class="btn btn-outline-primary" asp-controller="CustomItems" asp-action="LeadingDetails" asp-route-id="@Model.Id" data-print-document>Print leading/bar details</a>
+}

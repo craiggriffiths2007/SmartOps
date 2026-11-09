@@ -1,0 +1,172 @@
+@model InsuranceClaimRequest
+
+@{
+    ViewData["Title"] = "Job Request Details";
+
+    var claim = Model.InsuranceClaim;
+}
+
+
+<div class="details-titlebar d-flex justify-content-between align-items-center">
+    <div>
+        <h4 class="mb-0">Job Details</h4>
+    </div>
+
+    <a asp-action="MyRequests"
+       class="btn btn-secondary">
+        Close
+    </a>
+</div>
+
+
+<hr />
+
+<div class="row">
+
+    <div class="col-md-6">
+
+        <h4>Claim</h4>
+
+        <dl class="row">
+
+            <dt class="col-sm-4">Claim Reference</dt>
+            <dd class="col-sm-8">@claim.ClaimReference</dd>
+
+            <dt class="col-sm-4">Policy Number</dt>
+            <dd class="col-sm-8">@claim.PolicyNumber</dd>
+
+            <dt class="col-sm-4">Incident Date</dt>
+            <dd class="col-sm-8">
+                @claim.IncidentDate.ToString("dd/MM/yyyy")
+            </dd>
+
+            <dt class="col-sm-4">Cause of Damage</dt>
+            <dd class="col-sm-8">@claim.CauseOfDamage</dd>
+
+            <dt class="col-sm-4">Damage Description</dt>
+            <dd class="col-sm-8">@claim.DamageDescription</dd>
+
+            <dt class="col-sm-4">Excess</dt>
+            <dd class="col-sm-8">@claim.Excess</dd>
+
+            <dt class="col-sm-4">Insurer</dt>
+            <dd class="col-sm-8">@claim.Insurer?.Name</dd>
+
+        </dl>
+
+    </div>
+
+    <div class="col-md-6">
+
+        @if (Model.Status == InsuranceClaimRequestStatus.Accepted)
+        {
+            <h4>Customer</h4>
+
+            <dl class="row">
+
+                <dt class="col-sm-4">Name</dt>
+                <dd class="col-sm-8">@claim.CustomerName</dd>
+
+                <dt class="col-sm-4">Address</dt>
+                <dd class="col-sm-8">
+                    @claim.Address1
+
+                    @if (!string.IsNullOrWhiteSpace(claim.Address2))
+                    {
+                        <br />
+                        @claim.Address2
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(claim.Address3))
+                    {
+                        <br />
+                        @claim.Address3
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(claim.Postcode))
+                    {
+                        <br />
+                        @claim.Postcode
+                    }
+                </dd>
+
+                <dt class="col-sm-4">Telephone</dt>
+                <dd class="col-sm-8">@claim.Telephone</dd>
+
+                <dt class="col-sm-4">Email</dt>
+                <dd class="col-sm-8">@claim.Email</dd>
+
+            </dl>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                Full customer details will be available if this request is accepted.
+            </div>
+        }
+        
+
+    </div>
+
+</div>
+@if (Model.InsuranceClaim.Photos.Any())
+{
+    <hr />
+
+    <h4>Claim Photographs</h4>
+
+    <div class="row g-3 mb-4">
+        @foreach (var photo in Model.InsuranceClaim.Photos)
+        {
+            <div class="col-6 col-md-3">
+                <a asp-action="ClaimPhoto"
+                   asp-route-id="@photo.Id"
+                   target="_blank">
+
+                    <img src="@Url.Action(
+                                                                          "ClaimPhoto",
+                                                                          new { id = photo.Id })"
+                         class="img-fluid rounded border record-photo"
+                         alt="Claim photograph" />
+                </a>
+            </div>
+        }
+    </div>
+}
+<hr />
+
+<h4>Request</h4>
+
+<dl class="row">
+
+    <dt class="col-sm-2">Requested</dt>
+    <dd class="col-sm-10">
+        @Model.RequestedDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+    </dd>
+
+    <dt class="col-sm-2">Status</dt>
+    <dd class="col-sm-10">
+        <strong>@Model.Status</strong>
+    </dd>
+
+    <dt class="col-sm-2">Contract</dt>
+    <dd class="col-sm-10">
+
+        @if (ViewBag.ContractId != null)
+        {
+            <a asp-controller="Contracts"
+               asp-action="Details"
+               asp-route-id="@ViewBag.ContractId">
+                @ViewBag.ContractCode
+            </a>
+        }
+        else
+        {
+            <span class="text-muted">
+                Not assigned
+            </span>
+        }
+
+    </dd>
+
+</dl>

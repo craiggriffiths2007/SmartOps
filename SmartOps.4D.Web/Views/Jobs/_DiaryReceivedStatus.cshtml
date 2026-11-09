@@ -1,0 +1,33 @@
+@model SmartOps.Web.ViewModels.DiaryReceivedStatusViewModel
+@{
+    var latestSurvey = Model.Headers.Where(h => h.JobType == enum_job_type.Survey)
+        .OrderByDescending(h => h.DateTimeCompleted).ThenByDescending(h => h.Id).FirstOrDefault();
+    var latestFitting = Model.Headers.Where(h => h.JobType == enum_job_type.Fitting)
+        .OrderByDescending(h => h.DateTimeCompleted).ThenByDescending(h => h.Id).FirstOrDefault();
+    var statuses = new[]
+    {
+        new { Header = latestSurvey, Name = "Survey", Glyph = "bi-clipboard-check", Complete = Model.Status >= ContractStatus.SurveyCompleted },
+        new { Header = latestFitting, Name = "Fitting", Glyph = "bi-tools", Complete = Model.Status >= ContractStatus.FittingCompleted }
+    };
+}
+<span class="diary-received-statuses">
+    @foreach (var status in statuses)
+    {
+        var description = status.Complete ? $"{status.Name} completed" : $"{status.Name} not yet completed";
+        if (status.Header != null)
+        {
+            description += $". Report: {status.Header.DateTimeCompleted:dd/MM/yyyy HH:mm}";
+            <a asp-controller="JobHeaders" asp-action="Details" asp-route-id="@status.Header.Id"
+               class="diary-received-status @(status.Complete ? "is-received" : "")" title="@description"
+               aria-label="@description. Open @status.Name.ToLowerInvariant() report">
+                <i class="bi @status.Glyph" aria-hidden="true"></i>
+            </a>
+        }
+        else
+        {
+            <span class="diary-received-status @(status.Complete ? "is-received" : "")" role="img" aria-label="@description" title="@description">
+                <i class="bi @status.Glyph" aria-hidden="true"></i>
+            </span>
+        }
+    }
+</span>

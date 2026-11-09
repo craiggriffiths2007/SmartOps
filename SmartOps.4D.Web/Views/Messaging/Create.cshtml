@@ -1,0 +1,86 @@
+@model SmartOps.Web.Models.SupportTicket
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>SupportTicket</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="ContractId" class="control-label"></label>
+                <input asp-for="ContractId" class="form-control" />
+                <span asp-validation-for="ContractId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Contract" class="control-label"></label>
+                <input asp-for="Contract" class="form-control" />
+                <span asp-validation-for="Contract" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CustomerId" class="control-label"></label>
+                <input asp-for="CustomerId" class="form-control" />
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Customer" class="control-label"></label>
+                <input asp-for="Customer" class="form-control" />
+                <span asp-validation-for="Customer" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Subject" class="control-label"></label>
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Created" class="control-label"></label>
+                <input asp-for="Created" class="form-control" />
+                <span asp-validation-for="Created" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Closed" class="control-label"></label>
+                <input asp-for="Closed" class="form-control" />
+                <span asp-validation-for="Closed" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Messages" class="control-label"></label>
+                <input asp-for="Messages" class="form-control" />
+                <span asp-validation-for="Messages" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TenantId" class="control-label"></label>
+                <input asp-for="TenantId" class="form-control" />
+                <span asp-validation-for="TenantId" class="text-danger"></span>
+            </div>
+            
+
+<div class="form-group d-flex justify-content-end">
+    <input type="submit" value="Create" class="btn btn-primary ms-auto" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

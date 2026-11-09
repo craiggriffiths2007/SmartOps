@@ -1,0 +1,43 @@
+@model SmartOps.Web.Models.LadderCheck
+@{
+    ViewData["Title"] = "Ladder check";
+}
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3 no-print">
+    <h4 class="mb-0">Ladder check</h4>
+    <div class="d-flex gap-2">
+        <button type="button" class="btn btn-outline-primary" onclick="window.print()">Print ladder check</button>
+        <button type="button" class="btn btn-secondary" onclick="history.back()">Back</button>
+    </div>
+</div>
+@if (Model == null)
+{
+    <p class="text-muted">No data available.</p>
+}
+else
+{
+    var mediaSections = new[]
+    {
+        (Title: "Signatures", Images: new (string Caption, string? Filename)[]
+        {
+            ($"Inspector signature — {Model.fitter_surveyor_name}", ViewData["Sign1"] as string),
+            ($"Manager signature — {Model.managers_name}", ViewData["Sign2"] as string)
+        }),
+        (Title: "Photographs", Images: ((IEnumerable<PhotoImage>?)ViewBag.Images ?? Enumerable.Empty<PhotoImage>())
+            .Where(image => !string.IsNullOrWhiteSpace(image.Filename))
+            .Select((image, index) => (Caption: $"Photograph {index + 1}", Filename: (string?)image.Filename)).ToArray())
+    };
+    <article class="go-item-report">
+        <section class="go-report-section">
+            <h3>Check details</h3>
+            <partial name="_RecordReportFields" model="Model" />
+        </section>
+    @foreach (var mediaSection in mediaSections)
+    {
+        if (!mediaSection.Images.Any(image => !string.IsNullOrWhiteSpace(image.Filename))) continue;
+        <section class="go-report-media-section">
+            <h3 class="go-report-media-title">@mediaSection.Title</h3>
+            <partial name="_RecordReportMedia" model="mediaSection.Images" />
+        </section>
+    }
+    </article>
+}

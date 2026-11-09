@@ -1,0 +1,16 @@
+@model bool?
+@{
+    var value = Model;
+}
+@if (value == true)
+{
+    <span title="Yes">✅</span>
+}
+else if (value == false)
+{
+    <span title="No" class="bool-icon-no">❌</span>
+}
+else
+{
+    <span title="Unknown">❓</span>
+}

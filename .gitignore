@@ -1,0 +1,31 @@
+
+# Visual Studio temporary files
+.vs/
+**/bin/
+**/obj/
+
+# Local databases and credentials
+# Keep application source under Data/ tracked; ignore only runtime data stores.
+**/Data/*.db
+**/Data/*.sqlite
+**/Data/*.sqlite3
+**/Data/*.mdf
+**/Data/*.ldf
+**/Data/*.4DD
+*.4DD
+*.4DIndx
+*.pfx
+*.keystore
+*.jks
+*.pem
+
+
+# 4D generated and machine-specific files
+SmartOps.4D/Project/DerivedData/
+SmartOps.4D/userPreferences.*/
+SmartOps.4D/Project/Data/
+SmartOps.4D/Project/Logs/
+SmartOps.4D/Project/Cache/
+*.4DIndx
+*.4DJournal
+*.4DBackup

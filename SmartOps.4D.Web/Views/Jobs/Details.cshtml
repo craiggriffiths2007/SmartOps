@@ -1,0 +1,437 @@
+@model SmartOps.Web.ViewModels.JobDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+
+    var thisJobUrl = Url.Action(
+        "Details",
+        "Jobs",
+        new { id = Model.Job?.Id, returnUrl = ViewBag.ReturnUrl });
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">@Model.Job?.JobType</h4>
+
+    @if (ViewBag.ReturnUrl != null)
+    {
+        <a href="@ViewBag.ReturnUrl" class="btn btn-secondary">Back</a>
+    }
+    else
+    {
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    }
+</div>
+
+<hr />
+
+<div class="row g-4">
+
+    @* =========================================================
+       LEFT COLUMN - BOOKING / JOB INFORMATION
+       ========================================================= *@
+    <div class="col-md-4">
+
+        <h5 class="mb-3">Booking</h5>
+
+                <div class="mb-3">
+
+            <div>@Model.Job?.DiaryDate.ToString("dd/MM/yyyy")</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Time</div>
+            <div>@Model.Job?.Time.ToString("HH:mm")</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Time Allocation</div>
+            <div>@Model.Job?.JobTime.ToString(@"hh\:mm")</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Branch</div>
+            <div>@(Model.Job?.Branch?.Name ?? "All")</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Agent</div>
+
+            @if (Model.Job?.Agent != null)
+            {
+                <div>
+                    @Model.Job.Agent.Code - @Model.Job.Agent.Name
+                </div>
+            }
+        </div>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input"
+                   type="checkbox"
+                   id="includeRecentSurveyCheck"
+                   checked="@(Model.Job?.bIncludeSurvey == true)"
+                   disabled />
+            <label class="form-check-label" for="includeRecentSurveyCheck">
+                Include Recent Survey
+            </label>
+        </div>
+
+        @if (Model.Job?.JobType == enum_job_type.Survey)
+        {
+            <div class="form-check mb-3">
+                <input class="form-check-input"
+                       type="checkbox"
+                       id="requestRepudiationCheck"
+                       checked="@Model.Job.bRequestRepudiation"
+                       disabled />
+                <label class="form-check-label" for="requestRepudiationCheck">
+                    Repudiate if Wnt or Bad Workmanship
+                </label>
+            </div>
+        }
+
+    </div>
+
+    @* =========================================================
+       MIDDLE COLUMN - CONTRACT / JOB INFORMATION
+       ========================================================= *@
+    <div class="col-md-4">
+
+        <h5 class="mb-3">Contract</h5>
+
+        <div class="mb-3">
+
+            <div>
+                <a asp-controller="Contracts"
+                   asp-action="Details"
+                   asp-route-id="@Model.Job?.ContractId"
+                   asp-route-returnUrl="@thisJobUrl"
+                   class="text-decoration-none">
+                    @Model.Job?.ContractCode
+                </a>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Contract Status</div>
+
+            <div class="@(Model.Job?.Contract?.IsCancelled == true
+                         ? "text-danger fw-bold"
+                         : "")">
+
+                @if (Model.Job?.Contract?.IsCancelled == true)
+                {
+                    <span>Cancelled</span>
+                }
+                else
+                {
+                    @Model.Job?.Contract?.Status
+                }
+
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Insurance Company</div>
+            <div>@Model.Job?.InsuranceCompanyName</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Damage</div>
+            <div>@Model.Job?.DamageDesc</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Cause of Damage</div>
+            <div>@Model.Job?.CauseOfDamage</div>
+        </div>
+
+    </div>
+
+    @* =========================================================
+       RIGHT COLUMN - CUSTOMER
+       ========================================================= *@
+    <div class="col-md-4">
+
+        <h5 class="mb-3">Customer</h5>
+
+        <div class="mb-3">
+
+            @if (Model.Job?.Customer != null)
+            {
+                <a asp-controller="Customers"
+                   asp-action="Details"
+                   asp-route-id="@Model.Job.Customer.Id"
+                   asp-route-contractId="@Model.Job.ContractId"
+                   asp-route-returnUrl="@thisJobUrl"
+                   class="text-decoration-none">
+                    @Model.Job.Customer.Name
+                </a>
+            }
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Address</div>
+
+            <div>@Model.Job?.Customer?.Add1</div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Job?.Customer?.Add2))
+            {
+                <div>@Model.Job.Customer.Add2</div>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.Job?.Customer?.Add3))
+            {
+                <div>@Model.Job.Customer.Add3</div>
+            }
+
+            <div>@Model.Job?.Customer?.Postcode</div>
+        </div>
+
+          <div class="mb-3">
+            <div class="fw-bold">Instructions</div>
+
+            <div id="instructions-editor">
+                @Html.Raw(Model.Job?.Instructions)
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+@if (Model.Job?.DiaryDate.Date < DateTime.Today)
+{
+    <div class="d-flex justify-content-end mb-4">
+        <a asp-action="Rebook"
+           asp-route-id="@Model.Job.Id"
+           asp-route-returnUrl="@ViewBag.ReturnUrl"
+           class="btn btn-primary">
+            Rebook
+        </a>
+    </div>
+}
+
+@if (Model.Job?.DiaryDate.Date >= DateTime.Today)
+{
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <a asp-action="Delete"
+           asp-route-id="@Model.Job.Id"
+           class="btn btn-danger">
+            Cancel Booking
+        </a>
+
+        <a asp-action="Edit"
+           asp-route-id="@Model.Job.Id"
+           asp-route-returnUrl="@ViewBag.ReturnUrl"
+           class="btn btn-primary">
+            Edit
+        </a>
+
+    </div>
+}
+
+<link href="~/lib/quill.snow.css" rel="stylesheet" />
+<script src="~/lib/quill.js"></script>
+<script>
+    // Initialize Quill editor with color pickers
+    const quill = new Quill('#instructions-editor', {
+        theme: 'snow',
+        readOnly: true,
+        modules: {
+            toolbar: '#toolbar-container'
+        }
+    });
+
+    // Find the closest form containing the editor
+    const form = document.querySelector('#instructions-editor').closest('form');
+    const hiddenInput = document.getElementById('instructions-hidden');
+
+    // Intercept the form submit to pass Quill's HTML into the ASP.NET hidden input
+    form.addEventListener('submit', function() {
+        // Get HTML content from Quill
+        const htmlContent = quill.getSemanticHTML();
+
+        // Put it in the hidden input so ASP.NET can bind it to Job.Instructions
+        hiddenInput.value = htmlContent;
+    });
+</script>
+
+<ul class="nav nav-tabs mb-3" id="jobDetailsTabs" role="tablist">
+
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active"
+                id="updates-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#updates"
+                type="button"
+                role="tab">
+            Contract Updates
+        </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <button class="nav-link"
+                id="jobs-received-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#jobs-received"
+                type="button"
+                role="tab">
+            Jobs Received
+        </button>
+    </li>
+
+</ul>
+
+<div class="tab-content" id="jobDetailsTabsContent">
+
+    <!-- CONTRACT UPDATES -->
+    <div class="tab-pane show active"
+         id="updates"
+         role="tabpanel">
+
+        <h4>Contract Updates</h4>
+
+        @if (Model.ContractUpdates == null ||
+             !Model.ContractUpdates.Any())
+        {
+            <div class="alert alert-light border">
+                There are no updates for this contract.
+            </div>
+        }
+        else
+        {
+            <div class="record-cards" data-paginate>
+@foreach (var update in Model.ContractUpdates)
+            {
+                <div class="record-card">
+
+                    <div class="card-header d-flex justify-content-between align-items-center">
+
+                        <strong>
+                            @update.Title
+                        </strong>
+
+                        <span class="badge bg-secondary">
+                            @update.Status
+                        </span>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="small text-muted mb-2">
+                            @update.DateTime.ToString("dd/MM/yyyy HH:mm")
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(update.Description))
+                        {
+                            <div>
+                                @update.Description
+                            </div>
+                        }
+
+                        @if (update.CustomerVisible)
+                        {
+                            <div class="mt-2">
+                                <span class="badge bg-success">
+                                    Visible to customer
+                                </span>
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            }
+</div>
+        }
+
+    </div>
+
+    <!-- JOBS RECEIVED -->
+    <div class="tab-pane"
+         id="jobs-received"
+         role="tabpanel">
+
+        <h4>Jobs Received</h4>
+
+        @if (Model.JobHeaderIndex?.Any() == true)
+        {
+            <div class="record-cards" data-paginate>
+@foreach (var header in Model.JobHeaderIndex.OrderByDescending(h => h.DateTimeCompleted).ThenByDescending(h => h.Id))
+                    {
+                        <article class="record-card">
+    <div class="record-card-title fw-bold"><a href="@Url.Action(
+                                "Details",
+                                "JobHeaders",
+                                new { id = header.Id })" class="stretched-link">@header.JobType</a></div>
+    <div class="record-card-fields">
+
+                            <div class="record-card-field">
+                <span class="record-field-label">Agent</span>
+                @header.AgentCode
+            </div>
+                            <div class="record-card-field">
+                <span class="record-field-label">Diary Date</span>
+                @header.DiaryDate.ToShortDateString()
+            </div>
+                            <div class="record-card-field">
+                <span class="record-field-label">Date/Time Completed</span>
+                @header.DateTimeCompleted
+            </div>
+
+    </div>
+</article>
+                    }
+</div>
+        }
+        else
+        {
+            <div class="alert alert-light border">
+                No jobs have been received for this diary booking.
+            </div>
+        }
+
+    </div>
+
+</div>
+
+                            <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Restore the previously selected tab
+        const hash = window.location.hash;
+
+        if (hash) {
+            const tab = document.querySelector(
+                `[data-bs-toggle="tab"][data-bs-target="${hash}"]`
+            );
+
+            if (tab) {
+                bootstrap.Tab.getOrCreateInstance(tab).show();
+            }
+        }
+
+        // Remember the selected tab in the URL
+        document.querySelectorAll('#jobDetailsTabs [data-bs-toggle="tab"]')
+            .forEach(tab => {
+
+                tab.addEventListener("shown.bs.tab", function (event) {
+
+                    const target =
+                        event.target.getAttribute("data-bs-target");
+
+                    history.replaceState(
+                        null,
+                        "",
+                        window.location.pathname +
+                        window.location.search +
+                        target
+                    );
+                });
+
+            });
+    });
+</script>

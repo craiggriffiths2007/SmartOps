@@ -1,0 +1,179 @@
+@model string
+@using SmartOps.Shared.Models
+@using System.Text.Json
+@{
+    ViewData["Title"] = "Dynamic questions";
+    var companyId = (int)ViewBag.TenantId;
+    var companyName = (string)ViewBag.TenantName;
+    var version = (int)ViewBag.Version;
+    var superAdmin = (bool)ViewBag.SuperAdmin;
+    var companies = (List<(int Id, string Name)>)ViewBag.Tenants;
+    var defaults = (string)ViewBag.DefaultsJson;
+    var draftRevision = (int)ViewBag.DraftRevision;
+    var isDraft = (bool)ViewBag.IsDraft;
+    var diagramNames = (string)ViewBag.DiagramNamesJson;
+}
+<link rel="stylesheet" href="~/css/dynamic-questions.css" asp-append-version="true" />
+<div class="container-fluid py-4 dq-page">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+        <div>
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                <h2 class="mb-0"><i class="bi bi-ui-checks-grid me-1"></i> Questions V@(version)</h2>
+                <span id="dirtyBadge" class="badge bg-warning text-dark" hidden>Unsaved changes</span>
+            </div>
+         
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <button type="button" id="importQuestions" class="btn btn-outline-primary">Import</button>
+            <button type="button" id="exportQuestions" class="btn btn-outline-primary">Export</button>
+            <input type="file" id="importQuestionsFile" accept=".json,application/json" multiple hidden />
+            @if (superAdmin)
+            {
+                <button type="button" id="resetGroup" class="btn btn-danger">Restore</button>
+                <button type="button" id="resetAll" class="btn btn-outline-danger" data-company-name="@companyName">Reset All</button>
+            }
+            <button type="button" id="discardDraft" class="btn btn-outline-danger" hidden="@(!isDraft)">Discard</button>
+            <button type="button" id="saveDraft" class="btn btn-outline-primary">Save</button>
+            <button type="submit" form="questionForm" class="btn btn-primary">Publish</button>
+        </div>
+    </div>
+    @if (TempData["Success"] is string success)
+    {
+        <div class="alert alert-success">@success</div>
+    }
+    <div class="small text-muted mb-2" id="draftStatus">@(isDraft ? "Unpublished draft loaded. The survey app still receives the published version." : "Changes will be autosaved as a draft after 25 seconds of inactivity.")</div>
+    <p class="small text-muted mb-2">Export saves each category as a separate JSON file in a subfolder named with the version and local date/time inside your chosen folder, including current edits. Import lets you select one or more category files; other categories stay unchanged. Review imported questions before publishing.</p>
+    <div id="questionFileStatus" class="small mb-2" role="status" aria-live="polite" hidden></div>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    @if (superAdmin)
+    {
+        <form method="get" asp-action="Index" class="mb-3">
+            <label for="tenantSelect" class="form-label">Company</label>
+            <select id="tenantSelect" name="tenantId" class="form-select question-tenant-select" onchange="if(!window.questionEditorDirty || confirm('Discard unsaved changes?')) this.form.submit(); else this.value='@companyId';">
+                @foreach (var company in companies)
+                {
+                    <option value="@company.Id" selected="@(company.Id == companyId)">@company.Name</option>
+                }
+            </select>
+        </form>
+    }
+    <p class="text-muted small">IDs must remain stable once answers have been collected; changing an ID will disconnect earlier answers from the question label. Saving publishes a new version to survey devices.</p>
+    <form id="questionForm" method="post" asp-controller="DynamicQuestions" asp-action="Save">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="tenantId" value="@companyId" />
+        <input type="hidden" name="version" value="@version" />
+        <input type="hidden" name="draftRevision" id="draftRevision" value="@draftRevision" />
+        <input type="hidden" name="questionsJson" id="questionsJson" />
+    </form>
+    <div class="dq-layout">
+
+        <!-- Live preview -->
+        <section class="card dq-pane">
+            <div class="card-body">
+
+                <label class="fw-semibold form-label" for="categoryArea">Question area</label>
+                <select id="categoryArea" class="form-select mb-3">
+                    <option value="Survey">Survey</option>
+                    <option value="SurveyHeaderFooter">Survey Header/Footer</option>
+                    <option value="Branch">Branch</option>
+                    <option value="Shared">Job Questions</option>
+                </select>
+
+                <label class="fw-semibold form-label"
+                       for="setChooser">
+                    Question category
+                </label>
+
+                <div class="d-flex gap-2 mb-3">
+                    <select id="setChooser" class="form-select">
+                    </select>
+                    <button type="button" id="removeItemType" class="btn btn-outline-danger btn-sm flex-shrink-0 text-nowrap">Remove</button>
+                </div>
+
+                <div id="standardQuestionIncludes" class="mb-3" hidden>
+                    <div class="form-check">
+                        <input type="checkbox" id="includeHeaderQuestions" class="form-check-input" checked />
+                        <label for="includeHeaderQuestions" class="form-check-label">Include Header questions</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="includeFooterQuestions" class="form-check-input" checked />
+                        <label for="includeFooterQuestions" class="form-check-label">Include Footer questions</label>
+                    </div>
+                </div>
+
+                <div id="newItemTypeArea" class="d-flex gap-2 mb-3">
+                    <input id="newItemType" class="form-control" maxlength="80" placeholder="New item type, e.g. Canopy" aria-label="New item type" />
+                    <button type="button" id="addItemType" class="btn btn-outline-primary btn-sm flex-shrink-0 text-nowrap">Add</button>
+                </div>
+                <p id="newItemTypeHelp" class="small text-muted">New item types include the shared Header and Footer questions by default. Edit them in Survey Header/Footer. Publish and synchronize to update the survey app.</p>
+                <div class="d-flex justify-content-between
+                    align-items-center mb-3">
+
+                    <strong>
+                        Questions
+                        <span id="questionCount"
+                              class="text-muted"></span>
+                    </strong>
+
+                    <button type="button"
+                            id="addQuestion"
+                            class="btn btn-outline-primary btn-sm">
+                        + Add
+                    </button>
+
+                </div>
+
+                <hr />
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">Live preview</h5>
+
+                    <div class="form-check mb-0">
+                        <input type="checkbox"
+                               class="form-check-input"
+                               id="showAllQuestions" />
+
+                        <label class="form-check-label"
+                               for="showAllQuestions">
+                            Show All Questions
+                        </label>
+                    </div>
+                </div>
+
+                <p class="small text-muted">
+                    Try answering questions to check conditional
+                    visibility. This is a preview; no answers are saved.
+                </p>
+
+                <div id="questionPreview"></div>
+
+            </div>
+        </section>
+
+        <!-- Edit question -->
+        <section class="card dq-pane">
+            <div class="card-body" id="questionEditor">
+                <h5>Edit question</h5>
+                <p class="text-muted">Select a question to edit it.</p>
+            </div>
+        </section>
+
+
+    </div>
+
+    <!-- Hidden list retained for JavaScript compatibility -->
+    <div id="questionList" hidden></div>
+</div>
+<script type="application/json" id="questionSetData">@Html.Raw(Model)</script>
+<script type="application/json" id="questionDefaults">@Html.Raw(defaults)</script>
+<script>
+    window.questionNonItemKeys = @Html.Raw((string)ViewBag.NonItemKeysJson);
+    window.questionItemLabels = @Html.Raw((string)ViewBag.ItemLabelsJson);
+    window.questionImages = @Html.Raw(diagramNames);
+    window.questionImageBase = @Html.Raw(JsonSerializer.Serialize(Url.Content("~/question-diagrams/")));
+    window.questionImportValidateUrl = @Html.Raw(JsonSerializer.Serialize(Url.Action("ValidateImport", "DynamicQuestions")));
+    window.questionDraftSaveUrl = @Html.Raw(JsonSerializer.Serialize(Url.Action("SaveDraft", "DynamicQuestions")));
+    window.questionResetAllUrl = @Html.Raw(JsonSerializer.Serialize(Url.Action("ResetAll", "DynamicQuestions")));
+    window.questionDraftDiscardUrl = @Html.Raw(JsonSerializer.Serialize(Url.Action("DiscardDraft", "DynamicQuestions")));
+</script>
+<script src="~/js/dynamic-questions.js" asp-append-version="true"></script>

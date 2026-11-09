@@ -1,0 +1,212 @@
+{
+  "source": "C:\\repos\\craiggriffiths2007\\SmartOps",
+  "commit": "3e2a0e45e788f7e6bda09b93cdc563561ece76b0",
+  "status": "?? SmartOps.Web.4D/\n",
+  "tables": 62,
+  "sourceEntities": 50,
+  "routes": [
+    {
+      "verb": "POST",
+      "path": "/GetAgentMessages",
+      "source": "SmartOps.Web\\EndpointMappings.AgentMessages.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/GetAgentUnreadMessageCount",
+      "source": "SmartOps.Web\\EndpointMappings.AgentMessages.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/MarkAgentMessageRead",
+      "source": "SmartOps.Web\\EndpointMappings.AgentMessages.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/SendChecks",
+      "source": "SmartOps.Web\\EndpointMappings.Checks.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/GetSpotCheckJobInfo",
+      "source": "SmartOps.Web\\EndpointMappings.Checks.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/GetVehicles",
+      "source": "SmartOps.Web\\EndpointMappings.Checks.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/AgentLogin",
+      "source": "SmartOps.Web\\EndpointMappings.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/GetUpdateContractNotes",
+      "source": "SmartOps.Web\\EndpointMappings.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/Customer/CreateTicket",
+      "source": "SmartOps.Web\\EndpointMappings.Customer.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/Customer/Tickets",
+      "source": "SmartOps.Web\\EndpointMappings.Customer.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/Customer/Ticket",
+      "source": "SmartOps.Web\\EndpointMappings.Customer.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/Customer/ReplyToTicket",
+      "source": "SmartOps.Web\\EndpointMappings.Customer.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/Customer/Login",
+      "source": "SmartOps.Web\\EndpointMappings.Customer.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/Customer/Account",
+      "source": "SmartOps.Web\\EndpointMappings.Customer.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/Customer/ChangePassword",
+      "source": "SmartOps.Web\\EndpointMappings.Customer.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/Customer/CurrentRepair",
+      "source": "SmartOps.Web\\EndpointMappings.Customer.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/Customer/CreateTestAccount",
+      "source": "SmartOps.Web\\EndpointMappings.Customer.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/SendJobs",
+      "source": "SmartOps.Web\\EndpointMappings.Jobs.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/GetDynamicQuestions",
+      "source": "SmartOps.Web\\EndpointMappings.Jobs.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/GetJobs",
+      "source": "SmartOps.Web\\EndpointMappings.Jobs.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/GetImage",
+      "source": "SmartOps.Web\\EndpointMappings.Media.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/SendMedia",
+      "source": "SmartOps.Web\\EndpointMappings.Media.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "GET",
+      "path": "/debug-paths",
+      "source": "SmartOps.Web\\EndpointMappings.Media.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "GET",
+      "path": "/images/{filename}",
+      "source": "SmartOps.Web\\EndpointMappings.Media.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/Customer/GetImage",
+      "source": "SmartOps.Web\\EndpointMappings.Media.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/ExportImages",
+      "source": "SmartOps.Web\\EndpointMappings.Media.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    },
+    {
+      "verb": "POST",
+      "path": "/SurveyEnRoute",
+      "source": "SmartOps.Web\\EndpointMappings.SurveyEnRoute.cs",
+      "status": "not ported; original mobile wire contract requires acceptance testing"
+    }
+  ],
+  "controllers": [
+    "SmartOps.Web\\Controllers\\AdminNewsController.cs",
+    "SmartOps.Web\\Controllers\\AgentMessagesController.cs",
+    "SmartOps.Web\\Controllers\\AgentsController.cs",
+    "SmartOps.Web\\Controllers\\BranchesController.cs",
+    "SmartOps.Web\\Controllers\\CompanyBackupController.cs",
+    "SmartOps.Web\\Controllers\\CompanyController.cs",
+    "SmartOps.Web\\Controllers\\ContractsController.cs",
+    "SmartOps.Web\\Controllers\\CustomersController.cs",
+    "SmartOps.Web\\Controllers\\DiagnosticsController.cs",
+    "SmartOps.Web\\Controllers\\DynamicQuestionsController.cs",
+    "SmartOps.Web\\Controllers\\EstimatesController.cs",
+    "SmartOps.Web\\Controllers\\FAccidentsController.cs",
+    "SmartOps.Web\\Controllers\\HomeController.cs",
+    "SmartOps.Web\\Controllers\\InsurersController.cs",
+    "SmartOps.Web\\Controllers\\InvoicesController.cs",
+    "SmartOps.Web\\Controllers\\JobBoardController.cs",
+    "SmartOps.Web\\Controllers\\JobHeadersController.cs",
+    "SmartOps.Web\\Controllers\\JobsController.cs",
+    "SmartOps.Web\\Controllers\\LadderChecksController.cs",
+    "SmartOps.Web\\Controllers\\LogController.cs",
+    "SmartOps.Web\\Controllers\\MessagingController.cs",
+    "SmartOps.Web\\Controllers\\MileageSheetsController.cs",
+    "SmartOps.Web\\Controllers\\NewsController.cs",
+    "SmartOps.Web\\Controllers\\ProfileController.cs",
+    "SmartOps.Web\\Controllers\\RegistrationApprovalController.cs",
+    "SmartOps.Web\\Controllers\\RoleManagerController.cs",
+    "SmartOps.Web\\Controllers\\SpotChecksController.cs",
+    "SmartOps.Web\\Controllers\\StatisticsController.cs",
+    "SmartOps.Web\\Controllers\\TenantsController.cs",
+    "SmartOps.Web\\Controllers\\ToolChecksController.cs",
+    "SmartOps.Web\\Controllers\\UserRolesController.cs",
+    "SmartOps.Web\\Controllers\\UsersController.cs",
+    "SmartOps.Web\\Controllers\\VAccidentsController.cs",
+    "SmartOps.Web\\Controllers\\Items\\CustomItemsController.cs",
+    "SmartOps.Web\\Controllers\\Vehicles\\VehicleChecksController.cs",
+    "SmartOps.Web\\Controllers\\Vehicles\\VehiclesController.cs",
+    "SmartOps.Web\\Areas\\Insurer\\Controllers\\ClaimsController.cs",
+    "SmartOps.Web\\Areas\\Insurer\\Controllers\\ContractsController.cs",
+    "SmartOps.Web\\Areas\\Insurer\\Controllers\\HomeController.cs"
+  ]
+}

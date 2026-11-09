@@ -1,0 +1,63 @@
+@model IEnumerable<SmartOps.Web.Models.UserRolesViewModel>
+
+@{
+    ViewData["Title"] = "Users";
+    var showCompany = User.IsInRole("SuperAdmin");
+}
+
+<div class="details-titlebar">
+    <h4>Users</h4>
+    <a asp-action="Create" class="btn btn-primary details-close">Add User</a>
+</div>
+<div class="small-gap"></div>
+<div class="table-responsive record-index-list">
+    <table class="table table-sm table-hover align-middle record-index-table mb-0">
+        <caption class="visually-hidden">Users</caption>
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Branch</th>
+                <th scope="col">Lock branch</th>
+                <th scope="col">Roles</th>
+                @if (showCompany)
+                {
+                    <th scope="col">Company</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr><td colspan="@(showCompany ? 7 : 6)" class="text-muted py-3">No users found.</td></tr>
+            }
+            @foreach (var user in Model)
+            {
+                var detailsUrl = Url.Action("Details", new { id = user.UserId });
+                var fullName = $"{user.FirstName} {user.LastName}".Trim();
+                <tr class="clickable-row" data-href="@detailsUrl">
+                    <th scope="row">
+                        <a asp-action="Details" asp-route-id="@user.UserId" class="d-inline-flex align-items-center gap-2 text-decoration-none">
+                            @if (user.ProfilePicture?.Length > 0)
+                            {
+                                <img src="data:image/png;base64,@Convert.ToBase64String(user.ProfilePicture)" class="img-thumbnail user-list-photo" alt="" />
+                            }
+                            <span>@(string.IsNullOrWhiteSpace(fullName) ? user.UserName : fullName)</span>
+                        </a>
+                    </th>
+                    <td>@user.UserName</td>
+                    <td class="record-index-text">@user.Email</td>
+                    <td>@(string.IsNullOrWhiteSpace(user.BranchCode) ? "All" : user.BranchCode)</td>
+                    <td>@(user.LockBranch ? "Yes" : "No")</td>
+                    <td class="record-index-text">@string.Join(", ", user.Roles ?? new List<string>())</td>
+                    @if (showCompany)
+                    {
+                        <td class="record-index-text">@user.Tenant</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<record-pagination></record-pagination>
