@@ -87,8 +87,18 @@ Try
 				
 				If (Value type($value)=Is text)
 					
+					// Resolve relative dates at seed time so fresh databases always
+					// have several months of activity and jobs for today.
 					If ($value="$today")
 						$value:=Substring(Timestamp; 1; 10)
+					Else
+						If (Position("$today-"; $value)=1)
+							$value:=String(Current date-Num(Substring($value; 8)); ISO date)
+						Else
+							If (Position("$today+"; $value)=1)
+								$value:=String(Current date+Num(Substring($value; 8)); ISO date)
+							End if
+						End if
 					End if 
 					
 					If ($value="$now")
