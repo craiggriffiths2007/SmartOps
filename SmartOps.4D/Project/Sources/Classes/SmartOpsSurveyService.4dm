@@ -282,7 +282,7 @@ Function headForJob($account : 4D.Entity; $job : 4D.Entity) : Object
 	$head.customerPhoneNumber:=$customer.Phone1
 	$head.customerPhoneNumber2:=String($customer.Phone2)
 	$head.customerPhoneNumber3:=String($customer.Phone3)
-	$head.incidentDate:=Substring(String($c.IncidentDate); 1; 10)
+	$head.incidentDate:=Substring(String($c.IncidentDate); 9; 2)+"/"+Substring(String($c.IncidentDate); 6; 2)+"/"+Substring(String($c.IncidentDate); 1; 4)
 	$head.causeOfDamage:=$c.CauseOfDamage
 	$head.policyNumber:=$c.PolicyNumber
 	$head.excess:=$c.Excess
@@ -932,7 +932,7 @@ Function notes($account : 4D.Entity; $body : Object) : Object
 		$notes.push(This.dto("ContractNotes"; $item))
 	End for each 
 	
-	return New object("id"; $c.Id; "contractId"; $c.Id; "contractCode"; $code; "name"; $customer.Name; "add1"; $customer.Add1; "add2"; String($customer.Add2); "add3"; String($customer.Add3); "postcode"; $customer.Postcode; "phone1"; $customer.Phone1; "phone2"; String($customer.Phone2); "phone3"; String($customer.Phone3); "incidentDate"; Substring(String($c.IncidentDate); 1; 10); "causeOfDamage"; $c.CauseOfDamage; "damageDesc"; $c.DamageDescription; "instructions"; ""; "excess"; $c.Excess; "policyNumber"; $c.PolicyNumber; "contractNotes"; $notes)
+	return New object("id"; $c.Id; "contractId"; $c.Id; "contractCode"; $code; "name"; $customer.Name; "add1"; $customer.Add1; "add2"; String($customer.Add2); "add3"; String($customer.Add3); "postcode"; $customer.Postcode; "phone1"; $customer.Phone1; "phone2"; String($customer.Phone2); "phone3"; String($customer.Phone3); "incidentDate"; Substring(String($c.IncidentDate); 9; 2)+"/"+Substring(String($c.IncidentDate); 6; 2)+"/"+Substring(String($c.IncidentDate); 1; 4); "causeOfDamage"; $c.CauseOfDamage; "damageDesc"; $c.DamageDescription; "instructions"; ""; "excess"; $c.Excess; "policyNumber"; $c.PolicyNumber; "contractNotes"; $notes)
 	
 	
 // Published questions belong to the company; drafts never reach tablets.
