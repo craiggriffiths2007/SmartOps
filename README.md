@@ -4,10 +4,6 @@ SmartOps is a 4D integration and testing platform for field-service workflows. I
 
 > **Integration testing environment.** The included accounts and records are for local development and integration testing, not production use. Do not expose a server running the supplied test credentials to the public internet.
 
-## Based on GlassOps
-
-SmartOps is based on **[GlassOps](https://glassops.co.uk/)**, the full field-service management system. Developers can explore and experiment with a **fully functioning online demonstration system** at **[glassops.co.uk](https://glassops.co.uk/)** to understand the workflows and capabilities before working with the SmartOps 4D integration and its local integration test data.
-
 ## Included projects
 
 - `SmartOps.4D` — 4D database and API server.
@@ -62,3 +58,5 @@ If your existing data file is empty but was created before these changes, close 
 ## Architecture
 
 The separately distributed Android survey app connects directly to the 4D API. The ASP.NET Core frontend uses the 4D bridge. This repository contains only the three listed source projects and their required supporting files.
+
+Developers can explore and experiment with a **fully functioning online demonstration system** at **[glassops.co.uk](https://glassops.co.uk/)** to understand the workflows and capabilities before working with the SmartOps 4D integration and its local integration test data.
