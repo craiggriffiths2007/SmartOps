@@ -1,0 +1,100 @@
+name: Build and release SmartOps Web (Windows)
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish_release:
+        description: "Attach the Windows ZIP to a public GitHub Release"
+        required: true
+        type: boolean
+        default: false
+      version:
+        description: "Release tag to create when publishing, e.g. v1.0.0"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  windows-package:
+    runs-on: windows-latest
+    steps:
+      - name: Validate release inputs
+        shell: pwsh
+        env:
+          PUBLISH_RELEASE: ${{ inputs.publish_release }}
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          if ($env:PUBLISH_RELEASE -eq 'true' -and $env:RELEASE_VERSION -notmatch '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?$') {
+            throw "For a release, enter a tag like v1.0.0."
+          }
+
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install .NET 11 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '11.0.x'
+
+      - name: Publish self-contained Windows executable
+        shell: pwsh
+        run: |
+          dotnet publish ./SmartOps.4D.Web/SmartOps.4D.Web.csproj --configuration Release --runtime win-x64 --self-contained true --output "$env:RUNNER_TEMP/SmartOps-Web" -p:PublishSingleFile=false -p:DebugType=none -p:DebugSymbols=false
+          if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed" }
+
+      - name: Add double-click launcher and instructions
+        shell: pwsh
+        run: |
+          Copy-Item ./packaging/windows/Start-SmartOps-Web.cmd "$env:RUNNER_TEMP/SmartOps-Web/Start-SmartOps-Web.cmd"
+          Copy-Item ./packaging/windows/README-Windows.txt "$env:RUNNER_TEMP/SmartOps-Web/README-Windows.txt"
+          if (!(Test-Path "$env:RUNNER_TEMP/SmartOps-Web/SmartOps.Web.exe")) { throw "Published executable is missing" }
+
+      - name: Smoke-test the packaged web application
+        shell: pwsh
+        run: |
+          $folder = "$env:RUNNER_TEMP/SmartOps-Web"
+          $exe = Join-Path $folder "SmartOps.Web.exe"
+          $process = Start-Process -FilePath $exe -WorkingDirectory $folder -PassThru -WindowStyle Hidden
+          try {
+            $ready = $false
+            for ($i = 0; $i -lt 40; $i++) {
+              if ($process.HasExited) { throw "SmartOps Web exited unexpectedly: $($process.ExitCode)" }
+              try {
+                $response = Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:5245/Account/Login' -TimeoutSec 3
+                if ($response.StatusCode -eq 200 -and $response.Content -match 'SMARTOPS') {
+                  $ready = $true
+                  break
+                }
+              } catch {}
+              Start-Sleep -Seconds 2
+            }
+            if (-not $ready) { throw 'Web login page did not become ready' }
+            Write-Host 'Smoke test succeeded: login page responds with HTTP 200.'
+          } finally {
+            if (-not $process.HasExited) { Stop-Process -Id $process.Id -Force }
+          }
+
+      - name: Create Windows download ZIP
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "$env:RUNNER_TEMP/SmartOps-Web/*" -DestinationPath "$env:GITHUB_WORKSPACE/SmartOps-Web-Windows-x64.zip" -Force
+
+      - name: Store build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SmartOps-Web-Windows-x64
+          path: SmartOps-Web-Windows-x64.zip
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: Publish GitHub Release with Windows ZIP
+        if: ${{ inputs.publish_release }}
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          gh release create "$env:RELEASE_VERSION" "SmartOps-Web-Windows-x64.zip" --title "SmartOps $env:RELEASE_VERSION" --target "$env:GITHUB_SHA" --generate-notes
