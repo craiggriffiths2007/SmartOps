@@ -135,7 +135,7 @@ $jobs = Invoke-RestMethod -Method Post -Uri "$base/GetJobs" `
   } | ConvertTo-Json)
 ```
 
-An agent whose `SerialNumber` field is **blank** may currently sign in by company and agent code alone for integration testing. If a serial number is assigned, the existing device registration rules apply, including requiring privileged agents to use their own registered device. **Agent-code-only login is not suitable for production authentication.**
+The separately distributed **MartOps.Survey** app sends a persistent, randomly generated **10-character installation ID** in the `SerialNumber` request field; it does not read the Android hardware ID. If an agent's `SerialNumber` field is **blank**, the 4D API permits login by company and agent code without checking the installation ID, including for privileged agents. When populated, the field **must match that agent's installation ID** (case-insensitive); another agent's registered ID does not grant access. The web agent editor labels this field **Installation ID (optional)**. Privileged Access separately controls access to all jobs. **Agent-code-only login is for trusted local integration testing, not secure production authentication.**
 
 For complete request/response details and data shapes, see the existing [survey API reference](SURVEY-API-REFERENCE.md). Some historical examples in that reference refer to older mobile-authentication behaviour; the [current `SmartOpsSurveyService` source](../Project/Sources/Classes/SmartOpsSurveyService.4dm) is authoritative.
 
