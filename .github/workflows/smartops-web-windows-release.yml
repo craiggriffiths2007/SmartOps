@@ -42,8 +42,15 @@ jobs:
       - name: Publish self-contained Windows executable
         shell: pwsh
         run: |
-          dotnet publish ./SmartOps.4D.Web/SmartOps.4D.Web.csproj --configuration Release --runtime win-x64 --self-contained true --output "$env:RUNNER_TEMP/SmartOps-Web" -p:PublishSingleFile=false -p:DebugType=none -p:DebugSymbols=false
+          dotnet publish ./SmartOps.4D.Web/SmartOps.4D.Web.csproj --configuration Release --runtime win-x64 --self-contained true --output "$env:RUNNER_TEMP/SmartOps-Web" -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=false -p:DebugType=none -p:DebugSymbols=false
           if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed" }
+
+      - name: Report published file count
+        shell: pwsh
+        run: |
+          $files = @(Get-ChildItem "$env:RUNNER_TEMP/SmartOps-Web" -Recurse -File)
+          Write-Host "Published files: $($files.Count)"
+          Get-ChildItem "$env:RUNNER_TEMP/SmartOps-Web" -File | Select-Object Name,Length | Format-Table
 
       - name: Add double-click launcher and instructions
         shell: pwsh
