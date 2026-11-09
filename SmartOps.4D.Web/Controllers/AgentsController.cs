@@ -180,7 +180,9 @@ namespace SmartOps.Web.Controllers
 
                         existingAgent.Code = agent.Code;
                         existingAgent.Name = agent.Name;
-                        existingAgent.SerialNumber = agent.SerialNumber;
+                        existingAgent.SerialNumber = string.IsNullOrWhiteSpace(agent.SerialNumber)
+                            ? string.Empty
+                            : agent.SerialNumber.Trim();
                         existingAgent.PrivilegedAccess = agent.PrivilegedAccess;
                         existingAgent.Type = agent.Type;
 
