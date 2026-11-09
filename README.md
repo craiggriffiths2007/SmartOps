@@ -4,6 +4,10 @@ SmartOps is a 4D integration and testing platform for field-service workflows. I
 
 > **Integration testing environment.** The included accounts and records are for local development and integration testing, not production use. Do not expose a server running the supplied test credentials to the public internet.
 
+## Based on GlassOps
+
+SmartOps is based on **[GlassOps](https://glassops.co.uk/)**, the full field-service management system. Developers can explore and experiment with a **fully functioning online demonstration system** at **[glassops.co.uk](https://glassops.co.uk/)** to understand the workflows and capabilities before working with the SmartOps 4D integration and its local integration test data.
+
 ## Included projects
 
 - `SmartOps.4D` — 4D database and API server.
