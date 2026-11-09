@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       publish_release:
-        description: "Attach the Windows ZIP to a public GitHub Release"
+        description: "Attach the complete 4D + optional web package to a public GitHub Release"
         required: true
         type: boolean
         default: false
@@ -84,26 +84,47 @@ jobs:
             if (-not $process.HasExited) { Stop-Process -Id $process.Id -Force }
           }
 
-      - name: Create Windows download ZIP
+      - name: Package 4D integration project and optional web ZIP
         shell: pwsh
         run: |
-          Compress-Archive -Path "$env:RUNNER_TEMP/SmartOps-Web/*" -DestinationPath "$env:GITHUB_WORKSPACE/SmartOps-Web-Windows-x64.zip" -Force
+          $stage = Join-Path $env:RUNNER_TEMP "SmartOps-Integration"
+          New-Item -ItemType Directory -Path $stage -Force | Out-Null
 
-      - name: Store build artifact
+          # 4D creates its data file on first use; GO_StartLAN then seeds test data.
+          Copy-Item -Path "./SmartOps.4D" -Destination (Join-Path $stage "SmartOps.4D") -Recurse
+          $project = Join-Path $stage "SmartOps.4D/Project/smartops4d.4DProject"
+          $sampleData = Join-Path $stage "SmartOps.4D/Resources/sample-data.json"
+          if (!(Test-Path $project)) { throw "4D project not found in package" }
+          if (!(Test-Path $sampleData)) { throw "4D integration test data not found" }
+
+          # Optional standalone ASP.NET Core app packaged separately inside release.
+          $webZip = Join-Path $stage "SmartOps-Web-Windows-x64.zip"
+          Compress-Archive -Path "$env:RUNNER_TEMP/SmartOps-Web/*" -DestinationPath $webZip -Force
+          Copy-Item "./packaging/windows/README-Integration.txt" (Join-Path $stage "README-START-HERE.txt")
+
+          $unexpected = @(Get-ChildItem $stage -Recurse -File | Where-Object {
+            $_.Name -match '(?i)\.(4DD|4DIndx|4DJournal|pfx|pem|keystore|jks)$'
+          })
+          if ($unexpected.Count -gt 0) { throw "Unexpected database or key files: $($unexpected.FullName -join ', ')" }
+
+          Compress-Archive -Path "$stage/*" -DestinationPath "$env:GITHUB_WORKSPACE/SmartOps-Integration-Windows-x64.zip" -Force
+          Write-Host "Release package: SmartOps-Integration-Windows-x64.zip"
+          Get-ChildItem $stage | Select-Object Name,Length | Format-Table
+
+      - name: Store integration package as Actions artifact
         uses: actions/upload-artifact@v4
         with:
-          name: SmartOps-Web-Windows-x64
-          # Actions automatically ZIPs artifacts. Upload the published folder, not
-          # our release ZIP, to avoid delivering a ZIP inside another ZIP.
-          path: ${{ runner.temp }}/SmartOps-Web/
+          name: SmartOps-Integration-Windows-x64
+          # Actions automatically ZIPs artifacts; upload the folder contents.
+          path: ${{ runner.temp }}/SmartOps-Integration/
           retention-days: 14
           if-no-files-found: error
 
-      - name: Publish GitHub Release with Windows ZIP
+      - name: Publish GitHub Release with complete integration package
         if: ${{ inputs.publish_release }}
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_VERSION: ${{ inputs.version }}
         run: |
-          gh release create "$env:RELEASE_VERSION" "SmartOps-Web-Windows-x64.zip" --title "SmartOps $env:RELEASE_VERSION" --target "$env:GITHUB_SHA" --generate-notes
+          gh release create "$env:RELEASE_VERSION" "SmartOps-Integration-Windows-x64.zip" --title "SmartOps $env:RELEASE_VERSION" --target "$env:GITHUB_SHA" --generate-notes
