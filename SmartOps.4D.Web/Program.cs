@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -126,6 +127,32 @@ app.MapGet("/images/{filename}", async (string filename, HttpContext context, Br
 app.MapControllerRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+// When launched directly from the packaged Windows executable, open the login
+// page in the user's default browser after the HTTP server has started.
+// Visual Studio/dotnet launches and automated smoke tests remain unaffected.
+app.Lifetime.ApplicationStarted.Register(() =>
+{
+    if (!OperatingSystem.IsWindows() ||
+        Environment.GetEnvironmentVariable("SMARTOPS_NO_BROWSER") == "1" ||
+        !string.Equals(Path.GetFileName(Environment.ProcessPath),
+            "SmartOps.Web.exe", StringComparison.OrdinalIgnoreCase))
+        return;
+
+    try
+    {
+        Process.Start(new ProcessStartInfo("http://127.0.0.1:5245/Account/Login")
+        {
+            UseShellExecute = true
+        });
+    }
+    catch (Exception error)
+    {
+        app.Logger.LogWarning(error,
+            "Could not open the browser automatically. Visit http://127.0.0.1:5245/Account/Login.");
+    }
+});
+
 app.Run();
 
 // Prefer the machine's active LAN address because 4D may bind its HTTP listener
