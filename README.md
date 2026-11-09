@@ -18,6 +18,10 @@ The companion **SmartOps Survey** Android application is distributed on [Google 
 
 Only the three projects listed above and the supporting solution, configuration and documentation files needed to develop and operate them belong in this repository. The Google Play survey application is a separate distribution.
 
+## API integration guide
+
+For developers integrating another system with SmartOps, see the **[4D API integration guide](SmartOps.4D/Documentation/API-INTEGRATION.md)**. It explains the 4D HTTP endpoints, direct Android API versus ASP.NET bridge architecture, authentication, example test requests, and useful methods such as `GO_StartLAN`, `SmartOpsHTTP.handle`, `SmartOpsService.dispatch`, and `SmartOpsSurveyService.sendJobs`.
+
 ## Local integration testing setup
 
 SmartOps includes fictional 4D integration test data so developers can exercise the API, web interface and mobile workflows without manually creating records. After cloning, open `SmartOps.4D/Project/smartops4d.4DProject` in 4D and create a **new empty** data file if prompted. The 4D `onStartup` method automatically invokes `GO_StartLAN`, which starts HTTP port **8045** and imports the integration test records only if the database is completely empty. Successful startups and seeds do **not** display confirmation dialogs. `GO_Start` is also available as a manual alias for the same startup.
