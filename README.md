@@ -24,7 +24,7 @@ For developers integrating another system with SmartOps, see the **[4D API integ
 
 ## Download prebuilt SmartOps Web for Windows
 
-**No Visual Studio required.** Windows 64-bit users can download the self-contained ASP.NET Core web application from **[GitHub Releases](https://github.com/craiggriffiths2007/SmartOps/releases)**. Select a release and download `SmartOps-Web-Windows-x64.zip` from its assets (the ZIP is available after the first release is published). Extract the **entire ZIP**, open the 4D project and create a new database, then double-click `Start-SmartOps-Web.cmd`. The launcher starts the local web server and opens the login page in your browser.
+**No Visual Studio required.** Windows 64-bit users can download the self-contained ASP.NET Core web application from **[GitHub Releases](https://github.com/craiggriffiths2007/SmartOps/releases)**. Select a release and download `SmartOps-Web-Windows-x64.zip` from its assets (the ZIP is available after the first release is published). The Windows package uses **single-file .NET publishing** to bundle the executable, runtime and most assemblies into `SmartOps.Web.exe`, reducing the number of separate DLLs. Some website assets, configuration and support files still accompany the executable. Extract the **entire ZIP**, open the 4D project and create a new database, then double-click `Start-SmartOps-Web.cmd`. The launcher starts the local web server and opens the login page in your browser.
 
 Keep the console window open while using the interface. The prebuilt package includes the .NET runtime and web assets, and is intended for **local Windows integration testing**, not an internet-facing deployment. It does not contain the 4D database itself; download or clone the repository source for that.
 
