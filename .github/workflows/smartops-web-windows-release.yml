@@ -57,10 +57,9 @@ jobs:
           Write-Host "Published files: $($files.Count)"
           Get-ChildItem "$env:RUNNER_TEMP/SmartOps-Web" -File | Select-Object Name,Length | Format-Table
 
-      - name: Add double-click launcher and instructions
+      - name: Include standalone EXE instructions
         shell: pwsh
         run: |
-          Copy-Item ./packaging/windows/Start-SmartOps-Web.cmd "$env:RUNNER_TEMP/SmartOps-Web/Start-SmartOps-Web.cmd"
           Copy-Item ./packaging/windows/README-Windows.txt "$env:RUNNER_TEMP/SmartOps-Web/README-Windows.txt"
           if (!(Test-Path "$env:RUNNER_TEMP/SmartOps-Web/SmartOps.Web.exe")) { throw "Published executable is missing" }
 
@@ -69,6 +68,7 @@ jobs:
         run: |
           $folder = "$env:RUNNER_TEMP/SmartOps-Web"
           $exe = Join-Path $folder "SmartOps.Web.exe"
+          $env:SMARTOPS_NO_BROWSER = "1"
           $process = Start-Process -FilePath $exe -WorkingDirectory $folder -PassThru -WindowStyle Hidden
           try {
             $ready = $false
