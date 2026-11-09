@@ -22,6 +22,18 @@ Only the three projects listed above and the supporting solution, configuration 
 
 For developers integrating another system with SmartOps, see the **[4D API integration guide](SmartOps.4D/Documentation/API-INTEGRATION.md)**. It explains the 4D HTTP endpoints, direct Android API versus ASP.NET bridge architecture, authentication, example test requests, and useful methods such as `GO_StartLAN`, `SmartOpsHTTP.handle`, `SmartOpsService.dispatch`, and `SmartOpsSurveyService.sendJobs`.
 
+## Download prebuilt SmartOps Web for Windows
+
+**No Visual Studio required.** Windows 64-bit users can download the self-contained ASP.NET Core web application from **[GitHub Releases](https://github.com/craiggriffiths2007/SmartOps/releases)**. Select a release and download `SmartOps-Web-Windows-x64.zip` from its assets (the ZIP is available after the first release is published). Extract the **entire ZIP**, open the 4D project and create a new database, then double-click `Start-SmartOps-Web.cmd`. The launcher starts the local web server and opens the login page in your browser.
+
+Keep the console window open while using the interface. The prebuilt package includes the .NET runtime and web assets, and is intended for **local Windows integration testing**, not an internet-facing deployment. It does not contain the 4D database itself; download or clone the repository source for that.
+
+**Developers who want to modify the integration** can [download the source code](https://github.com/craiggriffiths2007/SmartOps) and build `SmartOps.4D.Web` themselves.
+
+### Building Windows downloads
+
+Maintainers can run [Build and release SmartOps Web (Windows)](https://github.com/craiggriffiths2007/SmartOps/actions/workflows/smartops-web-windows-release.yml) using **Actions → Run workflow**. With `publish_release=false` (the default), it compiles, smoke-tests and uploads a temporary Actions artifact. After confirming a successful build, run the workflow with `publish_release=true` and a new version tag such as `v1.0.0` to attach the Windows ZIP to a public GitHub Release.
+
 ## Local integration testing setup
 
 SmartOps includes fictional 4D integration test data so developers can exercise the API, web interface and mobile workflows without manually creating records. After cloning, open `SmartOps.4D/Project/smartops4d.4DProject` in 4D and create a **new empty** data file if prompted. The 4D `onStartup` method automatically invokes `GO_StartLAN`, which starts HTTP port **8045** and imports the integration test records only if the database is completely empty. Successful startups and seeds do **not** display confirmation dialogs. `GO_Start` is also available as a manual alias for the same startup.
