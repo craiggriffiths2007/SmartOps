@@ -24,7 +24,7 @@ For developers integrating another system with SmartOps, see the **[4D API integ
 
 ## Download SmartOps 4D integration package
 
-**[Download SmartOps from GitHub Releases](https://github.com/craiggriffiths2007/SmartOps/releases)** and select `SmartOps-Integration-Windows-x64.zip` under the latest release's assets (available after the new combined-package release is published).
+**[Download the latest SmartOps integration package (ZIP)](https://github.com/craiggriffiths2007/SmartOps/releases/latest/download/SmartOps-Integration-Windows-x64.zip)** — a ready-to-use download containing the editable 4D project, integration test data and optional prebuilt Windows web interface. You can also [view all releases](https://github.com/craiggriffiths2007/SmartOps/releases).
 
 The single download contains:
 
