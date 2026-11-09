@@ -58,23 +58,4 @@ The initial integration test dataset is modelled on the **smaller GlassOps regis
 
 For the [Android survey app on Google Play](https://play.google.com/store/apps/details?id=com.authorityx.smartops), set the tablet's **Server** to `http://YOUR-PC-IP:8045`, the **Agent Code** to an existing agent such as `ADMIN`, and the company code to `SMARTOPS`. **No device ID registration is needed when that agent's Serial Number field is blank.** If an agent has a registered serial number, the existing device checks still apply (privileged agents must use their own registered device). This agent-code-only fallback supports local integration testing and is not secure production authentication. On Windows, allow incoming TCP **8045** from the trusted local subnet on a **Private** network. Do not expose the API publicly.
 
-**Security:** These credentials are published in the source code and README. Never use them for a deployed or internet-accessible instance. Configure unique private administrator credentials and disable automatic integration test data seeding before a real deployment. `GO_StartLAN` exposes the 4D API to the local network and should not be used with unchanged demonstration credentials. A production-grade first-run account registration process is still required.
-
-If your existing data file is empty but was created before these changes, close 4D, pull the latest changes, and reopen the project. It will seed and start automatically. Do not delete an existing data file containing useful records.
-
-## Checks before public or production use
-
-- [ ] Import source using a **fresh Git history** after cleaning the working tree, not a Git mirror of private history.
-- [ ] Rename all projects, solution files, namespaces, assemblies, resource references, workflows, branding, and application identifiers where safe.
-- [ ] Implement secure production first-run administrator provisioning and remove the published test password from production deployments.
-- [ ] Review all checked-in files and generated assets for secrets, private data, confidential information and proprietary dependencies.
-- [ ] Confirm rights to distribute code originally developed for an employer/client, images, and third-party assets.
-- [ ] Build and test a fresh 4D installation, the web bridge, and integration with the Google Play survey app.
-- [ ] Choose and add a licence only after ownership review.
-- [ ] Publish only after all checks pass.
-
-## Architecture
-
-The separately distributed Android survey app connects directly to the 4D API. The ASP.NET Core frontend uses the 4D bridge. This repository contains only the three listed source projects and their required supporting files.
-
 Developers can explore and experiment with a **fully functioning online demonstration system** at **[glassops.co.uk](https://glassops.co.uk/)** to understand the workflows and capabilities before working with the SmartOps 4D integration and its local integration test data.
