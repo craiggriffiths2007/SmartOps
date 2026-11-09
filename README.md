@@ -34,7 +34,7 @@ The single download contains:
 
 **4D-only quick start:** Extract the main ZIP, open `SmartOps.4D/Project/smartops4d.4DProject` in 4D, and create a **new empty data file** when prompted. The 4D `onStartup` method runs `GO_StartLAN`, starts HTTP on port **8045** and automatically imports the integration test records. You can now explore 4D methods and test the API **without installing or running the web frontend**. A compatible installation/licence for 4D is still required.
 
-**Optional web frontend:** Extract the **inner** `SmartOps-Web-Windows-x64.zip` to its own folder, then double-click `Start-SmartOps-Web.cmd` while 4D is running. It opens the web login page at `http://127.0.0.1:5245/Account/Login`. Keep the server console open while using the interface.
+**Optional web frontend:** Extract the **inner** `SmartOps-Web-Windows-x64.zip` to its own folder, then double-click `SmartOps.Web.exe` while 4D is running. The executable automatically opens the web login page at `http://127.0.0.1:5245/Account/Login`. Keep the server console open while using the interface.
 
 The web ZIP uses .NET single-file publishing to reduce separate DLLs, although some website assets and supporting files remain. The package is intended for **local integration testing**; packaging the web executable inside a second ZIP does **not** guarantee that antivirus software, Chrome or Windows SmartScreen will consider it safe. Validate the download and do not disable security protections.
 
