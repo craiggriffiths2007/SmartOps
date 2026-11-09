@@ -1,0 +1,206 @@
+@inherits Microsoft.VisualStudio.Web.CodeGeneration.Templating.RazorTemplateBase
+@using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore
+@using System.Collections.Generic
+@using System.Linq
+@@model @GetEnumerableTypeExpression(Model.ViewDataTypeName)
+
+@{
+    if (Model.IsPartialView)
+    {
+    }
+    else if (Model.IsLayoutPageSelected)
+    {
+@:@@{
+    @:ViewData["Title"] = "@Model.ViewDataTypeShortName";
+        if (!string.IsNullOrEmpty(Model.LayoutPageFile))
+        {
+    @:Layout = "@Model.LayoutPageFile";
+        }
+@:}
+@:
+@:<h4>@Model.ViewDataTypeShortName</h4>
+@:
+    }
+    else
+    {
+@:@@{
+    @:Layout = null;
+@:}
+@:
+@:<!DOCTYPE html>
+@:
+@:<html>
+@:<head>
+    @:<meta name="viewport" content="width=device-width" />
+    @:<title>@Model.ViewDataTypeShortName</title>
+@:</head>
+@:<body>
+@:
+    }
+
+@:<p>
+    @:<a asp-action="Create">Add @Model.ViewDataTypeShortName</a>
+@:</p>
+
+@:<table class="table squash-table">
+
+    @:<thead>
+        @:<tr>
+
+        Dictionary<string, IPropertyMetadata> propertyLookup =
+            ((IModelMetadata)Model.ModelMetadata)
+            .Properties
+            .ToDictionary(x => x.PropertyName, x => x);
+
+        Dictionary<string, INavigationMetadata> navigationLookup =
+            ((IModelMetadata)Model.ModelMetadata)
+            .Navigations
+            .ToDictionary(x => x.AssociationPropertyName, x => x);
+
+        foreach (var item in Model.ModelMetadata.ModelType.GetProperties())
+        {
+            if (propertyLookup.TryGetValue(
+                    item.Name,
+                    out IPropertyMetadata property)
+                && property.Scaffold
+                && !property.IsForeignKey
+                && !property.IsPrimaryKey)
+            {
+            @:<th>
+                @:@@Html.DisplayNameFor(model => model.@GetValueExpression(property))
+            @:</th>
+            }
+            else if (navigationLookup.TryGetValue(
+                         item.Name,
+                         out INavigationMetadata navigation))
+            {
+            @:<th>
+                @:@@Html.DisplayNameFor(model => model.@GetValueExpression(navigation))
+            @:</th>
+            }
+        }
+
+        @:</tr>
+    @:</thead>
+
+    @:<tbody>
+
+    string pkName = GetPrimaryKeyName();
+
+@:@@foreach (var item in Model)
+@:{
+        if (pkName != null)
+        {
+        @:<tr class="clickable-row"
+        @:    data-href="@@Url.Action("Details", new { id = item.@pkName })">
+        }
+        else
+        {
+        @:<tr>
+        }
+
+        foreach (var modelProperty in Model.ModelMetadata.ModelType.GetProperties())
+        {
+            if (propertyLookup.TryGetValue(
+                    modelProperty.Name,
+                    out IPropertyMetadata property)
+                && property.Scaffold
+                && !property.IsForeignKey
+                && !property.IsPrimaryKey)
+            {
+            @:<td>
+                @:@@Html.DisplayFor(modelItem => item.@GetValueExpression(property))
+            @:</td>
+            }
+            else if (navigationLookup.TryGetValue(
+                         modelProperty.Name,
+                         out INavigationMetadata navigation))
+            {
+            @:<td>
+                @:@@Html.DisplayFor(modelItem => item.@GetValueExpression(navigation).@navigation.DisplayPropertyName)
+            @:</td>
+            }
+        }
+
+        @:</tr>
+@:}
+
+    @:</tbody>
+
+@:</table>
+
+
+@:{
+    @:var pageNumber = (ViewBag.PageNumber as int?) ?? 1;
+    @:var totalPages = (ViewBag.TotalPages as int?) ?? 1;
+@:}
+
+@:@@if (totalPages > 1)
+@:{
+    @:<nav aria-label="@Model.ViewDataTypeShortName pages">
+        @:<ul class="pagination">
+
+            @:<li class="page-item @@(pageNumber <= 1 ? "disabled" : "")">
+                @:<a class="page-link"
+                @:   asp-action="Index"
+                @:   asp-route-page="@@(pageNumber - 1)">
+                @:    Previous
+                @:</a>
+            @:</li>
+
+@:@@for (int i = 1; i <= totalPages; i++)
+@:{
+            @:<li class="page-item @@(i == pageNumber ? "active" : "")">
+                @:<a class="page-link"
+                @:   asp-action="Index"
+                @:   asp-route-page="@@i">
+                @:    @@i
+                @:</a>
+            @:</li>
+@:}
+
+            @:<li class="page-item @@(pageNumber >= totalPages ? "disabled" : "")">
+                @:<a class="page-link"
+                @:   asp-action="Index"
+                @:   asp-route-page="@@(pageNumber + 1)">
+                @:    Next
+                @:</a>
+            @:</li>
+
+        @:</ul>
+    @:</nav>
+@:}
+
+    if (!Model.IsPartialView && !Model.IsLayoutPageSelected)
+    {
+@:</body>
+@:</html>
+    }
+}
+
+@functions
+{
+    string GetPrimaryKeyName()
+    {
+        return (
+            Model.ModelMetadata.PrimaryKeys != null &&
+            Model.ModelMetadata.PrimaryKeys.Length == 1)
+            ? Model.ModelMetadata.PrimaryKeys[0].PropertyName
+            : null;
+    }
+
+    string GetValueExpression(IPropertyMetadata property)
+    {
+        return property.PropertyName;
+    }
+
+    string GetValueExpression(INavigationMetadata navigation)
+    {
+        return navigation.AssociationPropertyName;
+    }
+
+    string GetEnumerableTypeExpression(string typeName)
+    {
+        return "IEnumerable<" + typeName + ">";
+    }
+}

@@ -1,0 +1,105 @@
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@inject SmartOps.Web.Services.BuildInfoService BuildInfo
+
+@{
+    ViewData["Title"] = "Contact";
+    ViewData["Description"] =
+        "Contact Mart Ops for information about the glazing operations platform, mobile applications and demonstration system.";
+
+    DateTime? published = null;
+
+    if (BuildInfo.PublishedUtc.HasValue)
+    {
+        var ukZone = TimeZoneInfo.FindSystemTimeZoneById(
+            "GMT Standard Time");
+
+        published = TimeZoneInfo.ConvertTimeFromUtc(
+            BuildInfo.PublishedUtc.Value,
+            ukZone);
+    }
+}
+
+<div class="container py-4">
+
+    <div class="text-center mb-5">
+
+        <h1 class="display-5 fw-bold">
+            Contact
+        </h1>
+
+        <p class="lead text-muted">
+            Get in touch about Mart Ops.
+        </p>
+
+    </div>
+
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7 col-xl-6">
+
+            <div class="border rounded-3 p-4 p-md-5">
+
+                <h3 class="mb-4">Contact</h3>
+
+                <p>
+                    For enquiries about Mart Ops demonstration system, please contact:
+                </p>
+
+
+                <div class="d-flex align-items-center gap-3 my-4">
+
+                    <i class="bi bi-envelope fs-2"></i>
+
+                    <div>
+                        <div class="text-muted small">
+                            Email
+                        </div>
+
+                        <a href="mailto:contact@glassops.co.uk"
+                           class="fs-5">
+                            contact@glassops.co.uk
+                        </a>
+                    </div>
+
+                </div>
+
+
+
+                
+                <!--
+                <h5>Developer</h5>
+
+
+
+                <div class="d-flex align-items-center gap-3 mt-3">
+
+                    <i class="bi bi-person-circle fs-2"></i>
+
+                    <div>
+
+
+                        <a href="https://craiggriffiths.co.uk/"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="fs-5">
+                            craiggriffiths.co.uk
+                            <i class="bi bi-box-arrow-up-right small ms-1"></i>
+                        </a>
+                    </div>
+
+                </div>
+                -->
+            </div>
+
+        </div>
+
+    </div>
+
+    
+
+</div>

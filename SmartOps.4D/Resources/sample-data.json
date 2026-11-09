@@ -1,0 +1,830 @@
+{
+  "demoPassword": "Password1!",
+  "records": [
+    {
+      "table": "Tenant",
+      "ref": "demo",
+      "tenant": "",
+      "values": {
+        "Code": "SMARTOPS",
+        "Name": "SmartOps 4D Integration Test",
+        "IsActive": true,
+        "Email": "office@example.test",
+        "Address1": "1 Demonstration Lane",
+        "Postcode": "CF10 1AA",
+        "Telephone": "029 0000 0000",
+        "Created": "$now",
+        "Theme": "default"
+      }
+    },
+    {
+      "table": "Tenant",
+      "ref": "other",
+      "tenant": "",
+      "values": {
+        "Code": "OTHER",
+        "Name": "Second Company — isolation test",
+        "IsActive": true,
+        "Created": "$now",
+        "Theme": "default"
+      }
+    },
+    {
+      "table": "Branches",
+      "ref": "branch",
+      "tenant": "demo",
+      "values": {
+        "Code": "BOLT",
+        "Name": "Cardiff",
+        "Description": "Demonstration branch"
+      }
+    },
+    {
+      "table": "Agent",
+      "ref": "agent1",
+      "tenant": "demo",
+      "values": {
+        "Name": "Avery Morgan",
+        "Code": "ADMIN",
+        "BranchId": {
+          "ref": "branch"
+        },
+        "Type": 0
+      }
+    },
+    {
+      "table": "Agent",
+      "ref": "agent2",
+      "tenant": "demo",
+      "values": {
+        "Name": "Jordan Ellis",
+        "Code": "A02",
+        "BranchId": {
+          "ref": "branch"
+        },
+        "Type": 0
+      }
+    },
+    {
+      "table": "Agent",
+      "ref": "agent3",
+      "tenant": "demo",
+      "values": {
+        "Name": "Taylor Green",
+        "Code": "FITTER",
+        "BranchId": {
+          "ref": "branch"
+        },
+        "Type": 1
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer1",
+      "tenant": "demo",
+      "values": {
+        "Name": "Alex Demo",
+        "Add1": "11 Example Road",
+        "Add2": "",
+        "Add3": "Cardiff",
+        "Postcode": "CF10 1AA",
+        "Email": "customer1@example.test",
+        "Phone1": "029 0000 0000",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer2",
+      "tenant": "demo",
+      "values": {
+        "Name": "Sam Example",
+        "Add1": "12 Example Road",
+        "Add2": "",
+        "Add3": "Cardiff",
+        "Postcode": "CF10 1AA",
+        "Email": "customer2@example.test",
+        "Phone1": "029 0000 0000",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer3",
+      "tenant": "demo",
+      "values": {
+        "Name": "Robin Sample",
+        "Add1": "13 Example Road",
+        "Add2": "",
+        "Add3": "Cardiff",
+        "Postcode": "CF10 1AA",
+        "Email": "customer3@example.test",
+        "Phone1": "029 0000 0000",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "otherCustomer",
+      "tenant": "other",
+      "values": {
+        "Name": "Other Company Customer",
+        "Add1": "99 Isolation Road",
+        "Email": "other@example.test",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Insurers",
+      "ref": "insurer1",
+      "tenant": "demo",
+      "values": {
+        "Name": "Example Mutual",
+        "Address1": "1 Sample Square",
+        "Postcode": "CF10 1AA",
+        "Email": "claims1@example.test",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Insurers",
+      "ref": "insurer2",
+      "tenant": "demo",
+      "values": {
+        "Name": "Demonstration Assurance",
+        "Address1": "2 Sample Square",
+        "Postcode": "CF10 1AA",
+        "Email": "claims2@example.test",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "account_admin",
+      "tenant": "demo",
+      "values": {
+        "Username": "admin",
+        "Role": "Admin",
+        "Active": true
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "account_staff",
+      "tenant": "demo",
+      "values": {
+        "Username": "staff",
+        "Role": "Staff",
+        "Active": true
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "account_customer",
+      "tenant": "demo",
+      "values": {
+        "Username": "customer",
+        "Role": "Customer",
+        "Active": true,
+        "CustomerId": {
+          "ref": "customer1"
+        }
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "account_insurer",
+      "tenant": "demo",
+      "values": {
+        "Username": "insurer",
+        "Role": "Insurer",
+        "Active": true,
+        "InsurerId": {
+          "ref": "insurer1"
+        }
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "account_insurer2",
+      "tenant": "demo",
+      "values": {
+        "Username": "insurer2",
+        "Role": "Insurer",
+        "Active": true,
+        "InsurerId": {
+          "ref": "insurer2"
+        }
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "otherAccount",
+      "tenant": "other",
+      "values": {
+        "Username": "admin",
+        "Role": "Admin",
+        "Active": true
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "otherCustomerAccount",
+      "tenant": "other",
+      "values": {
+        "Username": "customer",
+        "Role": "Customer",
+        "Active": true,
+        "CustomerId": {
+          "ref": "otherCustomer"
+        }
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "mobile_FITTER",
+      "tenant": "demo",
+      "values": {
+        "Username": "agent:fitter",
+        "Role": "Agent",
+        "AgentId": {
+          "ref": "agent3"
+        },
+        "Active": true,
+        "GoAllJobs": false
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "mobile_ADMIN",
+      "tenant": "demo",
+      "values": {
+        "Username": "agent:admin",
+        "Role": "Agent",
+        "AgentId": {
+          "ref": "agent1"
+        },
+        "Active": true,
+        "GoAllJobs": true
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract1",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer1"
+        },
+        "InsurerId": {
+          "ref": "insurer1"
+        },
+        "ContractNumber": 10001,
+        "CustomerReference": "DEMO-001",
+        "Status": 10,
+        "DamageDescription": "Cracked kitchen double glazing",
+        "CauseOfDamage": "Accidental impact",
+        "IncidentDate": "$today",
+        "Excess": "100.00",
+        "PolicyNumber": "POL-DEMO-1",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 0
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract1"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Repair received",
+        "Description": "Demonstration repair record",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract2",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer2"
+        },
+        "InsurerId": {
+          "ref": "insurer1"
+        },
+        "ContractNumber": 10002,
+        "CustomerReference": "DEMO-002",
+        "Status": 40,
+        "DamageDescription": "Damaged front entrance panel",
+        "CauseOfDamage": "Accidental impact",
+        "IncidentDate": "$today",
+        "Excess": "100.00",
+        "PolicyNumber": "POL-DEMO-2",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 0
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update2",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract2"
+        },
+        "DateTime": "$now",
+        "Status": 40,
+        "Title": "Repair received",
+        "Description": "Demonstration repair record",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "Estimates",
+      "ref": "estimate2",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract2"
+        },
+        "ServiceLevel": "Standard repair",
+        "CreatedUtc": "$now",
+        "CreatedBy": "admin",
+        "VatRate": 20,
+        "Subtotal": 250,
+        "VatAmount": 50,
+        "Total": 300
+      }
+    },
+    {
+      "table": "EstimateLines",
+      "ref": "line2",
+      "tenant": "demo",
+      "values": {
+        "EstimateId": {
+          "ref": "estimate2"
+        },
+        "SortOrder": 0,
+        "Details": "Replacement glazing and labour",
+        "Cost": 250
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract3",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer3"
+        },
+        "InsurerId": {
+          "ref": "insurer2"
+        },
+        "ContractNumber": 10003,
+        "CustomerReference": "DEMO-003",
+        "Status": 70,
+        "DamageDescription": "Replacement patio door",
+        "CauseOfDamage": "Accidental impact",
+        "IncidentDate": "$today",
+        "Excess": "100.00",
+        "PolicyNumber": "POL-DEMO-3",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 0
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update3",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract3"
+        },
+        "DateTime": "$now",
+        "Status": 70,
+        "Title": "Repair received",
+        "Description": "Demonstration repair record",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "Estimates",
+      "ref": "estimate3",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract3"
+        },
+        "ServiceLevel": "Standard repair",
+        "CreatedUtc": "$now",
+        "CreatedBy": "admin",
+        "VatRate": 20,
+        "Subtotal": 250,
+        "VatAmount": 50,
+        "Total": 300,
+        "AuthorizedUtc": "2026-10-26T08:00:00.000Z",
+        "AuthorizedBy": "insurer"
+      }
+    },
+    {
+      "table": "EstimateLines",
+      "ref": "line3",
+      "tenant": "demo",
+      "values": {
+        "EstimateId": {
+          "ref": "estimate3"
+        },
+        "SortOrder": 0,
+        "Details": "Replacement glazing and labour",
+        "Cost": 250
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract4",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer1"
+        },
+        "InsurerId": {
+          "ref": "insurer1"
+        },
+        "ContractNumber": 10004,
+        "CustomerReference": "DEMO-004",
+        "Status": 80,
+        "DamageDescription": "Window fitting complete",
+        "CauseOfDamage": "Accidental impact",
+        "IncidentDate": "$today",
+        "Excess": "100.00",
+        "PolicyNumber": "POL-DEMO-4",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 0
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update4",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract4"
+        },
+        "DateTime": "$now",
+        "Status": 80,
+        "Title": "Repair received",
+        "Description": "Demonstration repair record",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "Estimates",
+      "ref": "estimate4",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract4"
+        },
+        "ServiceLevel": "Standard repair",
+        "CreatedUtc": "$now",
+        "CreatedBy": "admin",
+        "VatRate": 20,
+        "Subtotal": 250,
+        "VatAmount": 50,
+        "Total": 300,
+        "AuthorizedUtc": "2026-10-26T08:00:00.000Z",
+        "AuthorizedBy": "insurer"
+      }
+    },
+    {
+      "table": "EstimateLines",
+      "ref": "line4",
+      "tenant": "demo",
+      "values": {
+        "EstimateId": {
+          "ref": "estimate4"
+        },
+        "SortOrder": 0,
+        "Details": "Replacement glazing and labour",
+        "Cost": 250
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract5",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer2"
+        },
+        "InsurerId": {
+          "ref": "insurer1"
+        },
+        "ContractNumber": 10005,
+        "CustomerReference": "DEMO-005",
+        "Status": 90,
+        "DamageDescription": "Completed repair",
+        "CauseOfDamage": "Accidental impact",
+        "IncidentDate": "$today",
+        "Excess": "100.00",
+        "PolicyNumber": "POL-DEMO-5",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 0
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update5",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract5"
+        },
+        "DateTime": "$now",
+        "Status": 90,
+        "Title": "Repair received",
+        "Description": "Demonstration repair record",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "Estimates",
+      "ref": "estimate5",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract5"
+        },
+        "ServiceLevel": "Standard repair",
+        "CreatedUtc": "$now",
+        "CreatedBy": "admin",
+        "VatRate": 20,
+        "Subtotal": 250,
+        "VatAmount": 50,
+        "Total": 300,
+        "AuthorizedUtc": "2026-10-26T08:00:00.000Z",
+        "AuthorizedBy": "insurer"
+      }
+    },
+    {
+      "table": "EstimateLines",
+      "ref": "line5",
+      "tenant": "demo",
+      "values": {
+        "EstimateId": {
+          "ref": "estimate5"
+        },
+        "SortOrder": 0,
+        "Details": "Replacement glazing and labour",
+        "Cost": 250
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract2_selection",
+      "tenant": "demo",
+      "updateRef": "contract2",
+      "values": {
+        "SelectedEstimateId": {
+          "ref": "estimate2"
+        }
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract3_selection",
+      "tenant": "demo",
+      "updateRef": "contract3",
+      "values": {
+        "SelectedEstimateId": {
+          "ref": "estimate3"
+        }
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract4_selection",
+      "tenant": "demo",
+      "updateRef": "contract4",
+      "values": {
+        "SelectedEstimateId": {
+          "ref": "estimate4"
+        }
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract5_selection",
+      "tenant": "demo",
+      "updateRef": "contract5",
+      "values": {
+        "SelectedEstimateId": {
+          "ref": "estimate5"
+        }
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract1"
+        },
+        "CustomerId": {
+          "ref": "customer1"
+        },
+        "AgentId": {
+          "ref": "agent1"
+        },
+        "ContractCode": "00010001",
+        "DiaryDate": "$today",
+        "Time": "09:00",
+        "JobTime": "01:00:00",
+        "JobType": 0,
+        "GoStartMinute": 540,
+        "GoEndMinute": 600,
+        "GoCancelled": false,
+        "Instructions": "Sample booking — no real visit required",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job2",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract3"
+        },
+        "CustomerId": {
+          "ref": "customer3"
+        },
+        "AgentId": {
+          "ref": "agent3"
+        },
+        "ContractCode": "00010003",
+        "DiaryDate": "$today",
+        "Time": "10:00",
+        "JobTime": "01:00:00",
+        "JobType": 1,
+        "GoStartMinute": 600,
+        "GoEndMinute": 660,
+        "GoCancelled": false,
+        "Instructions": "Sample booking — no real visit required",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job3",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract4"
+        },
+        "CustomerId": {
+          "ref": "customer1"
+        },
+        "AgentId": {
+          "ref": "agent2"
+        },
+        "ContractCode": "00010004",
+        "DiaryDate": "$today",
+        "Time": "12:00",
+        "JobTime": "01:00:00",
+        "JobType": 1,
+        "GoStartMinute": 720,
+        "GoEndMinute": 780,
+        "GoCancelled": false,
+        "Instructions": "Sample booking — no real visit required",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "GoSequence",
+      "ref": "sequence",
+      "tenant": "",
+      "values": {
+        "Name": "ContractNumber",
+        "Value": 20001
+      }
+    },
+    {
+      "table": "InsuranceClaims",
+      "ref": "claim1",
+      "tenant": "demo",
+      "values": {
+        "InsurerId": {
+          "ref": "insurer1"
+        },
+        "ClaimReference": "CLAIM-DEMO-001",
+        "CustomerName": "Chris Example",
+        "Address1": "25 Sample Avenue",
+        "Postcode": "CF10 1AA",
+        "Email": "chris@example.test",
+        "IncidentDate": "$today",
+        "CauseOfDamage": "Storm",
+        "DamageDescription": "Broken side window",
+        "PolicyNumber": "POL-EXAMPLE",
+        "Excess": 100,
+        "Status": 0,
+        "Created": "$now"
+      }
+    },
+    {
+      "table": "InsuranceClaims",
+      "ref": "claim2",
+      "tenant": "demo",
+      "values": {
+        "InsurerId": {
+          "ref": "insurer2"
+        },
+        "ClaimReference": "CLAIM-SECOND-002",
+        "CustomerName": "Second insurer example",
+        "IncidentDate": "$today",
+        "CauseOfDamage": "Impact",
+        "DamageDescription": "Cracked glass",
+        "Status": 0,
+        "Created": "$now"
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "otherContract",
+      "tenant": "other",
+      "values": {
+        "CustomerId": {
+          "ref": "otherCustomer"
+        },
+        "ContractNumber": 20001,
+        "CustomerReference": "OTHER-PRIVATE",
+        "Status": 0,
+        "DamageDescription": "Must never appear in DEMO",
+        "CauseOfDamage": "Isolation test",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "GoTicket",
+      "ref": "ticket1",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer1"
+        },
+        "Subject": "Confirm my survey time",
+        "Status": "Open",
+        "CreatedAt": "$now"
+      }
+    },
+    {
+      "table": "GoTicketMessage",
+      "ref": "ticketMessage",
+      "tenant": "demo",
+      "values": {
+        "TicketId": {
+          "ref": "ticket1"
+        },
+        "Body": "Could you confirm my appointment?",
+        "SenderRole": "Customer",
+        "CreatedAt": "$now"
+      }
+    },
+    {
+      "table": "GoMessage",
+      "ref": "message1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract2"
+        },
+        "InsurerId": {
+          "ref": "insurer1"
+        },
+        "Body": "Estimate ready for review.",
+        "SenderRole": "Staff",
+        "CreatedAt": "$now"
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle1",
+      "tenant": "demo",
+      "values": {
+        "Registration": "DEMO 01",
+        "Name": "Sample van"
+      }
+    }
+  ]
+}

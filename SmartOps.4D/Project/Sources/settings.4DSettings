@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences stamp="1"><com.4d><general startup_environnement="1"/><web><standalone_server><configuration port_number="8044" publish_at_startup="false"/><rest launch_at_startup="false"/></standalone_server><server><rest launch_at_startup="false"/></server></web></com.4d></preferences>

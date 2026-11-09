@@ -1,0 +1,16 @@
+@model SmartOps.Web.Models.Invoice
+@{ Layout = null; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@Model.InvoiceNumber</title>
+    <link rel="stylesheet" href="~/css/pages/invoices.css" asp-append-version="true" />
+</head>
+<body data-print-ready class="invoice-print">
+    <div class="invoice-print-actions"><a asp-action="Details" asp-route-id="@Model.Id">Back to invoice</a> <button type="button" onclick="window.print()">Print invoice</button></div>
+    <partial name="_InvoiceBody" model="Model" />
+    <script>if (window === window.top) window.addEventListener('load', () => window.print());</script>
+</body>
+</html>

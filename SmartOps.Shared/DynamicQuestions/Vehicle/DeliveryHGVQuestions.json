@@ -1,0 +1,185 @@
+{
+  "questions": [
+    {
+      "id": "loading_storage",
+      "question": "Loading/storage floor and area in good condition",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "loading_storage_s",
+      "question": "Reason loading/storage area is not in good condition",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "loading_storage",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "fire_extinguisher",
+      "question": "Fire extinguisher present and serviceable",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "first_aid_box",
+      "question": "First aid kit present and stocked",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "horn",
+      "question": "Horn working",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "oil_and_water_checked",
+      "question": "Engine oil and coolant levels checked",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "ad_blue_level_check",
+      "question": "AdBlue level sufficient (if applicable)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "racks_and_poles",
+      "question": "Glass racks and poles secure and in good condition",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "ratchet_straps",
+      "question": "Ratchet straps present and in good condition",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "tyres_and_wheel_fixing",
+      "question": "Tyres, pressures and wheel fixings in good condition",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "van_height_sticker",
+      "question": "Vehicle height notice visible (if applicable)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "van_locks",
+      "question": "Vehicle doors and locks working",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "windscreen_washer",
+      "question": "Windscreen washer fluid sufficient",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "fuel_oil_leaks",
+      "question": "No visible fuel, oil or fluid leaks",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "battery_security_condition",
+      "question": "Battery secure with no visible defects",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "steering",
+      "question": "Steering operates normally",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "security_of_load",
+      "question": "Load correctly secured",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "mirrors",
+      "question": "Mirrors intact, clean and correctly adjusted",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "lights",
+      "question": "Lights, indicators and reflectors working and undamaged",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "wipers",
+      "question": "Wipers and washers working correctly",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "brakes",
+      "question": "Brakes, including parking brake, operating normally",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "security_of_body",
+      "question": "Body panels, wings and doors secure",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "glass_windscreen",
+      "question": "Windscreen and windows undamaged with clear view",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "excessive_exhaust_smoke",
+      "question": "No excessive exhaust smoke",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "service_due_sticker",
+      "question": "Vehicle service not overdue",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "delivery_lists",
+      "question": "Delivery/collection instructions available",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "marks_out_of_10",
+      "question": "Marks out of 10",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+      ]
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

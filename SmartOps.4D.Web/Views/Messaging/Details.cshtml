@@ -1,0 +1,147 @@
+@model SmartOps.Web.Models.SupportTicket
+
+@{
+    ViewData["Title"] = "Message";
+}
+
+<div class="details-titlebar">
+    <h3 class="mb-0">Messaging</h3>
+
+    <button type="button"
+            class="btn btn-secondary details-close"
+            onclick="window.location.href='@Url.Action("Index", "Messaging")';"
+            title="Close">
+        Close
+    </button>
+</div>
+<div class="small-gap"></div>
+
+<div class="message-header">
+    <div>
+        <strong>Contract:</strong>
+        @Model.Contract?.ContractCode
+    </div>
+
+    <div>
+        <strong>Customer:</strong>
+        @Model.Customer?.Name
+    </div>
+
+    <div>
+        <strong>Subject:</strong>
+        @Model.Subject
+    </div>
+
+    <div>
+        <strong>Status:</strong>
+        @Model.Status
+    </div>
+</div>
+
+<div class="record-cards message-thread" data-paginate>
+
+    @foreach (var message in Model.Messages.OrderBy(m => m.Created))
+    {
+        var fromCustomer =
+            message.Sender == TicketMessageSender.Customer;
+
+        <div class="record-card message-row @(fromCustomer ? "customer-message-row" : "office-message-row")">
+
+            <div class="message-bubble @(fromCustomer ? "customer-message" : "office-message")">
+
+                <div class="message-sender">
+                    @if (fromCustomer)
+                    {
+                        @Model.Customer?.Name
+                    }
+                    else if (message.SentByUser != null)
+                    {
+                        @($"{message.SentByUser.FirstName} {message.SentByUser.LastName}")
+                    }
+                    else
+                    {
+                        <text>Office</text>
+                    }
+                </div>
+
+                <div class="message-text">
+                    @message.Message
+                </div>
+
+                <div class="message-date">
+                    @message.Created.ToLocalTime().ToString("dd/MM/yy HH:mm")
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
+@if (Model.Status == TicketStatus.Closed)
+{
+    <div class="message-action-row">
+
+        <form asp-action="Reopen"
+              method="post">
+
+            <input type="hidden"
+                   name="id"
+                   value="@Model.Id" />
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Reopen Conversation
+            </button>
+
+        </form>
+
+    </div>
+}
+else
+{
+    <div class="message-reply">
+
+        <form asp-action="Reply"
+              method="post">
+
+            <input type="hidden"
+                   name="id"
+                   value="@Model.Id" />
+
+            <textarea name="message"
+                      class="form-control"
+                      rows="4"
+                      placeholder="Type your reply..."
+                      required></textarea>
+
+            <div class="message-action-row">
+                <button type="submit"
+                        class="btn btn-primary">
+                    Send Reply
+                </button>
+            </div>
+
+        </form>
+
+        <form asp-action="Close"
+              method="post"
+              class="message-close-form">
+
+            <input type="hidden"
+                   name="id"
+                   value="@Model.Id" />
+
+            <button type="submit"
+                    class="btn btn-secondary"
+                    onclick="return confirm('Close this conversation?');">
+                Close Conversation
+            </button>
+
+        </form>
+
+    </div>
+}
+
+        <link rel="stylesheet" href="~/css/pages/message-thread.css" asp-append-version="true" />

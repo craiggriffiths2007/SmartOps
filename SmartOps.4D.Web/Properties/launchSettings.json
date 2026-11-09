@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "SmartOps.4D.Web": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "Account/Login",
+      "applicationUrl": "http://127.0.0.1:5245",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "questions": [
+    {
+      "id": "have_you_repudiated",
+      "question": "Have you repudiated on site?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "reason_not_repudiated",
+      "question": "Please explain why you have not repudiated on site",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "have_you_repudiated",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "repudiation_reason_different",
+      "question": "Detailed explanation and reasons",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "repudiation_other_information",
+      "question": "Other relevant information",
+      "type": "Text",
+      "required": true
+    }
+  ],
+  "includeHeaderQuestions": false,
+  "includeFooterQuestions": false
+}

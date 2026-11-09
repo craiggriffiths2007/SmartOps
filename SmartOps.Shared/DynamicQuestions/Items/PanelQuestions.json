@@ -1,0 +1,229 @@
+{
+  "questions": [
+    {
+      "id": "knockedit",
+      "question": "Knocker required",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Lions Head",
+        "Urn Type",
+        "Urn Type With Spyhole"
+      ]
+    },
+    {
+      "id": "knocoledit",
+      "question": "Knocker colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "White",
+        "Gold",
+        "Silver",
+        "Black",
+        "None"
+      ],
+      "showWhen": {
+        "questionId": "knockedit",
+        "operator": "NotEquals",
+        "value": "None"
+      }
+    },
+    {
+      "id": "panel_width",
+      "question": "Panel width",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "wholeNumber": false
+    },
+    {
+      "id": "panel_height",
+      "question": "Panel height",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "wholeNumber": false
+    },
+    {
+      "id": "letteredit",
+      "question": "Letter box",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Black",
+        "Chrome",
+        "Gold",
+        "Satin Silver",
+        "White"
+      ]
+    },
+    {
+      "id": "letter_box_pos",
+      "question": "Letter box position",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "n/a",
+        "Midrail",
+        "Middle",
+        "Bottom"
+      ],
+      "showWhen": {
+        "questionId": "letteredit",
+        "operator": "NotBlankOrNone",
+        "value": ""
+      }
+    },
+    {
+      "id": "pet_flap",
+      "question": "Pet flap",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Small",
+        "Medium",
+        "Large"
+      ]
+    },
+    {
+      "id": "pet_type",
+      "question": "Pet Type",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "n/a",
+        "Cat",
+        "Dog"
+      ],
+      "showWhen": {
+        "questionId": "pet_flap",
+        "operator": "NotBlankOrNone",
+        "value": ""
+      }
+    },
+    {
+      "id": "pet_magnetic",
+      "question": "Microchip/Magnetic",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "None",
+        "Microchip",
+        "Magnetic"
+      ],
+      "showWhen": {
+        "questionId": "pet_flap",
+        "operator": "NotBlankOrNone",
+        "value": ""
+      }
+    },
+    {
+      "id": "typeedit",
+      "question": "Panel type",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "thickedit",
+      "question": "Panel thickness",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "20mm",
+        "24mm",
+        "28mm"
+      ]
+    },
+    {
+      "id": "backgedit",
+      "question": "Backing glass",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Clear",
+        "Artic",
+        "Autumn Leaf",
+        "Chantilly",
+        "Charcoal Stick",
+        "Contora",
+        "Cotswold",
+        "Digital",
+        "EverGlade",
+        "Flemish",
+        "Florielle",
+        "Mayflower",
+        "Minster",
+        "Oak",
+        "Pellerine",
+        "Satin",
+        "Stipolite",
+        "Sycamore",
+        "Taffetta",
+        "Trad. lead light",
+        "Warwick"
+      ]
+    },
+    {
+      "id": "coledit",
+      "question": "Panel colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Standard White",
+        "830 White",
+        "C156 White",
+        "D/Plas White",
+        "Oak",
+        "Oak on White",
+        "Pearl White",
+        "Rosewood",
+        "Rosewood on White",
+        "Saphire White",
+        "Woodgrain 013",
+        "Woodgrain 021",
+        "Woodgrain 013 on White",
+        "Woodgrain 021 on White",
+        "Ultra White"
+      ]
+    },
+    {
+      "id": "gltext",
+      "question": "Glass design",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "backgedit",
+        "operator": "NotBlankOrNone",
+        "value": ""
+      }
+    },
+    {
+      "id": "spaccoloedit",
+      "question": "Spacer bar colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Black super spacer",
+        "Brown - Ali",
+        "Gold - Ali",
+        "Silver - Ali",
+        "White - Ali",
+        "Grey - Warm Edge - Plastic",
+        "Black - Warm Edge - Plastic"
+      ],
+      "showWhen": {
+        "questionId": "backgedit",
+        "operator": "NotBlankOrNone",
+        "value": ""
+      }
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

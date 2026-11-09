@@ -1,0 +1,1483 @@
+{
+  "questions": [
+    {
+      "id": "flex_repair",
+      "question": "Repair item",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "flex_reason_not_repaired",
+      "question": "Reason item cannot be repaired",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "flex_repair",
+        "operator": "Equals",
+        "value": "No"
+      }
+    },
+    {
+      "id": "flex_replace_glass",
+      "question": "Include roof glass",
+      "type": "ReplaceGlass",
+      "required": true
+    },
+    {
+      "id": "type",
+      "question": "Type of roof",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Ultralight 500",
+        "Flat",
+        "Victorian",
+        "Edwardian",
+        "Other"
+      ]
+    },
+    {
+      "id": "spars_line_up",
+      "question": "Do the spars line through with the window mullions",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "type",
+        "operator": "NotEquals",
+        "value": "Ultralight 500"
+      }
+    },
+    {
+      "id": "conservatory_drawing_warning",
+      "question": "Show all splits, support / fixing details and roof dimensions on the drawing.",
+      "type": "Information",
+      "required": false,
+      "showWhen": {
+        "questionId": "spars_line_up",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "material_type",
+      "question": "Material type",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Aluminium",
+        "Timber",
+        "UPVC"
+      ]
+    },
+    {
+      "id": "ridge_length",
+      "question": "Ridge length",
+      "type": "Measurement",
+      "required": true,
+      "showWhen": {
+        "questionId": "type",
+        "operator": "NotEquals",
+        "value": "Ultralight 500"
+      },
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "wall_pos",
+      "question": "Wall position",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Left",
+        "Right",
+        "Both"
+      ],
+      "showWhen": {
+        "questionId": "type",
+        "operator": "In",
+        "value": "Ultralight 500|Flat|Edwardian"
+      }
+    },
+    {
+      "id": "eaves_connection",
+      "question": "Roof / soffit connection and weathering arrangement",
+      "type": "Picker",
+      "required": true,
+      "readOnly": true,
+      "options": [
+        "Below soffit - flashing / ventilation confirmed",
+        "At / above soffit - connection detail required",
+        "Unknown - detail / review required"
+      ]
+    },
+    {
+      "id": "bDrawingsOnly",
+      "question": "Use preset diagrams",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "conservatory_roof_diagram",
+      "question": "Conservatory roof layout (reference)",
+      "type": "Image",
+      "required": false,
+      "imageRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "$conservatory_roof",
+              "operator": "Equals",
+              "value": "Flat"
+            },
+            {
+              "questionId": "$conservatory_wall",
+              "operator": "Equals",
+              "value": "Left"
+            }
+          ],
+          "images": [
+            "edward_wallleft.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$conservatory_roof",
+              "operator": "Equals",
+              "value": "Flat"
+            },
+            {
+              "questionId": "$conservatory_wall",
+              "operator": "Equals",
+              "value": "Right"
+            }
+          ],
+          "images": [
+            "edward_wallright.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$conservatory_roof",
+              "operator": "Equals",
+              "value": "Flat"
+            },
+            {
+              "questionId": "$conservatory_wall",
+              "operator": "Equals",
+              "value": "Both"
+            }
+          ],
+          "images": [
+            "edward_both.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$conservatory_roof",
+              "operator": "Equals",
+              "value": "Flat"
+            },
+            {
+              "questionId": "$conservatory_wall",
+              "operator": "Equals",
+              "value": "None"
+            }
+          ],
+          "images": [
+            "edward.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$conservatory_roof",
+              "operator": "Equals",
+              "value": "Ultralight 500"
+            },
+            {
+              "questionId": "$conservatory_wall",
+              "operator": "Equals",
+              "value": "Left"
+            }
+          ],
+          "images": [
+            "edward_wallleft.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$conservatory_roof",
+              "operator": "Equals",
+              "value": "Ultralight 500"
+            },
+            {
+              "questionId": "$conservatory_wall",
+              "operator": "Equals",
+              "value": "Right"
+            }
+          ],
+          "images": [
+            "edward_wallright.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$conservatory_roof",
+              "operator": "Equals",
+              "value": "Ultralight 500"
+            },
+            {
+              "questionId": "$conservatory_wall",
+              "operator": "Equals",
+              "value": "Both"
+            }
+          ],
+          "images": [
+            "edward_both.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$conservatory_roof",
+              "operator": "Equals",
+              "value": "Ultralight 500"
+            },
+            {
+              "questionId": "$conservatory_wall",
+              "operator": "Equals",
+              "value": "None"
+            }
+          ],
+          "images": [
+            "edward.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$conservatory_roof",
+              "operator": "Equals",
+              "value": "Victorian"
+            }
+          ],
+          "images": [
+            "victorian.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "$conservatory_roof",
+              "operator": "Equals",
+              "value": "Edwardian"
+            }
+          ],
+          "images": [
+            "edward.png"
+          ]
+        }
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "bDrawingsOnly",
+          "operator": "NotEquals",
+          "value": "No"
+        },
+        {
+          "questionId": "type",
+          "operator": "In",
+          "value": "Flat|Ultralight 500|Victorian|Edwardian"
+        }
+      ]
+    },
+    {
+      "id": "sizeA",
+      "question": "Size A",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bDrawingsOnly",
+          "operator": "NotEquals",
+          "value": "No"
+        },
+        {
+          "questionId": "type",
+          "operator": "In",
+          "value": "Flat|Ultralight 500|Victorian|Edwardian"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sizeB",
+      "question": "Size B",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bDrawingsOnly",
+          "operator": "NotEquals",
+          "value": "No"
+        },
+        {
+          "questionId": "type",
+          "operator": "In",
+          "value": "Flat|Ultralight 500|Victorian|Edwardian"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sizeC",
+      "question": "Size C",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bDrawingsOnly",
+          "operator": "NotEquals",
+          "value": "No"
+        },
+        {
+          "questionId": "type",
+          "operator": "In",
+          "value": "Flat|Ultralight 500|Victorian|Edwardian"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sizeD",
+      "question": "Size D",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bDrawingsOnly",
+          "operator": "NotEquals",
+          "value": "No"
+        },
+        {
+          "questionId": "type",
+          "operator": "Equals",
+          "value": "Victorian"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sizeE",
+      "question": "Size E",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bDrawingsOnly",
+          "operator": "NotEquals",
+          "value": "No"
+        },
+        {
+          "questionId": "type",
+          "operator": "Equals",
+          "value": "Victorian"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sizeF",
+      "question": "Size F",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bDrawingsOnly",
+          "operator": "NotEquals",
+          "value": "No"
+        },
+        {
+          "questionId": "type",
+          "operator": "Equals",
+          "value": "Victorian"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sizeG",
+      "question": "Size G",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bDrawingsOnly",
+          "operator": "NotEquals",
+          "value": "No"
+        },
+        {
+          "questionId": "type",
+          "operator": "Equals",
+          "value": "Victorian"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "angle1",
+      "question": "Angle 1",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bDrawingsOnly",
+          "operator": "NotEquals",
+          "value": "No"
+        },
+        {
+          "questionId": "type",
+          "operator": "Equals",
+          "value": "Victorian"
+        }
+      ],
+      "unit": "°",
+      "minimum": 0,
+      "maximum": 360,
+      "wholeNumber": false
+    },
+    {
+      "id": "angle2",
+      "question": "Angle 2",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bDrawingsOnly",
+          "operator": "NotEquals",
+          "value": "No"
+        },
+        {
+          "questionId": "type",
+          "operator": "Equals",
+          "value": "Victorian"
+        }
+      ],
+      "unit": "°",
+      "minimum": 0,
+      "maximum": 360,
+      "wholeNumber": false
+    },
+    {
+      "id": "angle3",
+      "question": "Angle 3",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bDrawingsOnly",
+          "operator": "NotEquals",
+          "value": "No"
+        },
+        {
+          "questionId": "type",
+          "operator": "Equals",
+          "value": "Victorian"
+        }
+      ],
+      "unit": "°",
+      "minimum": 0,
+      "maximum": 360,
+      "wholeNumber": false
+    },
+    {
+      "id": "angle4",
+      "question": "Angle 4",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bDrawingsOnly",
+          "operator": "NotEquals",
+          "value": "No"
+        },
+        {
+          "questionId": "type",
+          "operator": "Equals",
+          "value": "Victorian"
+        }
+      ],
+      "unit": "°",
+      "minimum": 0,
+      "maximum": 360,
+      "wholeNumber": false
+    },
+    {
+      "id": "pitch_height",
+      "question": "Pitch height",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "profile_section_size",
+      "question": "Profile section size",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "pitch_degree",
+      "question": "Pitch degree",
+      "type": "Measurement",
+      "required": true,
+      "unit": "°",
+      "minimum": 0,
+      "maximum": 90,
+      "wholeNumber": false
+    },
+    {
+      "id": "overall_length_of_sheet",
+      "question": "Overall length of sheet",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "roof_sheets_quantity_1",
+      "question": "Roof sheets 1 quantity",
+      "type": "PlusMinus",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        }
+      ],
+      "minimum": 0,
+      "maximum": 16,
+      "wholeNumber": true,
+      "defaultValue": 1
+    },
+    {
+      "id": "sheet_1_width",
+      "question": "Sheet 1 width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_1",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sheet_1_height",
+      "question": "Sheet 1 height",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_1",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "roof_sheets_quantity_2",
+      "question": "Roof sheets 2 quantity",
+      "type": "PlusMinus",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_1",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "minimum": 0,
+      "maximum": 16,
+      "wholeNumber": true,
+      "defaultValue": 0
+    },
+    {
+      "id": "sheet_2_width",
+      "question": "Sheet 2 width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_2",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sheet_2_height",
+      "question": "Sheet 2 height",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_2",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "roof_sheets_quantity_3",
+      "question": "Roof sheets 3 quantity",
+      "type": "PlusMinus",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_2",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "minimum": 0,
+      "maximum": 16,
+      "wholeNumber": true,
+      "defaultValue": 0
+    },
+    {
+      "id": "sheet_3_width",
+      "question": "Sheet 3 width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_3",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sheet_3_height",
+      "question": "Sheet 3 height",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_3",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "roof_sheets_quantity_4",
+      "question": "Roof sheets 4 quantity",
+      "type": "PlusMinus",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_3",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "minimum": 0,
+      "maximum": 16,
+      "wholeNumber": true,
+      "defaultValue": 0
+    },
+    {
+      "id": "sheet_4_width",
+      "question": "Sheet 4 width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_4",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sheet_4_height",
+      "question": "Sheet 4 height",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_4",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "roof_sheets_quantity_5",
+      "question": "Roof sheets 5 quantity",
+      "type": "PlusMinus",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_4",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "minimum": 0,
+      "maximum": 16,
+      "wholeNumber": true,
+      "defaultValue": 0
+    },
+    {
+      "id": "sheet_5_width",
+      "question": "Sheet 5 width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_5",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sheet_5_height",
+      "question": "Sheet 5 height",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_5",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "roof_sheets_quantity_6",
+      "question": "Roof sheets 6 quantity",
+      "type": "PlusMinus",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_5",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "minimum": 0,
+      "maximum": 16,
+      "wholeNumber": true,
+      "defaultValue": 0
+    },
+    {
+      "id": "sheet_6_width",
+      "question": "Sheet 6 width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_6",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sheet_6_height",
+      "question": "Sheet 6 height",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_6",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "roof_sheets_quantity_7",
+      "question": "Roof sheets 7 quantity",
+      "type": "PlusMinus",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_6",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "minimum": 0,
+      "maximum": 16,
+      "wholeNumber": true,
+      "defaultValue": 0
+    },
+    {
+      "id": "sheet_7_width",
+      "question": "Sheet 7 width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_7",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sheet_7_height",
+      "question": "Sheet 7 height",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_7",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "roof_sheets_quantity_8",
+      "question": "Roof sheets 8 quantity",
+      "type": "PlusMinus",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_7",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "minimum": 0,
+      "maximum": 16,
+      "wholeNumber": true,
+      "defaultValue": 0
+    },
+    {
+      "id": "sheet_8_width",
+      "question": "Sheet 8 width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_8",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sheet_8_height",
+      "question": "Sheet 8 height",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_8",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "roof_sheets_quantity_9",
+      "question": "Roof sheets 9 quantity",
+      "type": "PlusMinus",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_8",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "minimum": 0,
+      "maximum": 16,
+      "wholeNumber": true,
+      "defaultValue": 0
+    },
+    {
+      "id": "sheet_9_width",
+      "question": "Sheet 9 width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_9",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sheet_9_height",
+      "question": "Sheet 9 height",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_9",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "roof_sheets_quantity_10",
+      "question": "Roof sheets 10 quantity",
+      "type": "PlusMinus",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_9",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "minimum": 0,
+      "maximum": 16,
+      "wholeNumber": true,
+      "defaultValue": 0
+    },
+    {
+      "id": "sheet_10_width",
+      "question": "Sheet 10 width",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_10",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "sheet_10_height",
+      "question": "Sheet 10 height",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_sheets_quantity_10",
+          "operator": "GreaterThan",
+          "value": "0"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "roof_glazing_thickness",
+      "question": "Polycarbonate sheet thickness / system (glass: use Glass item)",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "10mm",
+        "16mm",
+        "25mm",
+        "32mm",
+        "35mm",
+        "40mm",
+        "Ultralite"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        }
+      ]
+    },
+    {
+      "id": "color",
+      "question": "Polycarbonate sheet colour (glass must use the Glass item)",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Clear",
+        "Bronze",
+        "Opal",
+        "Bronze on opal",
+        "Heat guard (silver on opal)",
+        "Other - supplier reference"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        }
+      ]
+    },
+    {
+      "id": "roof_color",
+      "question": "Roof colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "White",
+        "Brown",
+        "Woodgrain",
+        "Oak",
+        "Rosewood"
+      ]
+    },
+    {
+      "id": "conservatory_capping_warning",
+      "question": "Confirm coloured capping availability and compatibility with the supplier. Reuse only where condition and fixing suitability are confirmed; record alternatives for review.",
+      "type": "Information",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "type",
+          "operator": "Equals",
+          "value": "Ultralight 500"
+        },
+        {
+          "questionId": "roof_color",
+          "operator": "IsNotBlank",
+          "value": ""
+        },
+        {
+          "questionId": "roof_color",
+          "operator": "NotEquals",
+          "value": "White"
+        }
+      ]
+    },
+    {
+      "id": "flute_size",
+      "question": "Flute size (chamber distance)",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$replace_glass",
+          "operator": "NotEquals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type",
+          "operator": "NotEquals",
+          "value": "Ultralight 500"
+        }
+      ],
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "new_firrings_req",
+      "question": "New firrings / supports required",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "new_gutters_req",
+      "question": "New gutters required",
+      "type": "YesNo",
+      "required": true
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

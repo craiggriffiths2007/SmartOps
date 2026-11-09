@@ -1,0 +1,116 @@
+{
+  "questions": [
+    {
+      "id": "bMulti",
+      "question": "Multipoint lock",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "item",
+      "question": "Item",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Door",
+        "Window"
+      ],
+      "showWhen": {
+        "questionId": "bMulti",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "locking_make",
+      "question": "Lock make",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "MILA",
+        "GU",
+        "MACO",
+        "AVOCET/WMS",
+        "FUHR",
+        "FERCO",
+        "SIGNIA",
+        "YALE",
+        "WINKNAUS",
+        "AUBI"
+      ],
+      "showWhen": {
+        "questionId": "bMulti",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "GearBox",
+      "question": "Gearbox",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Offset",
+        "Inline"
+      ],
+      "showWhen": {
+        "questionId": "bMulti",
+        "operator": "Equals",
+        "value": "Yes"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "item",
+          "operator": "Equals",
+          "value": "Window"
+        }
+      ]
+    },
+    {
+      "id": "pagenum",
+      "question": "Page number",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "bMulti",
+        "operator": "Equals",
+        "value": "No"
+      }
+    },
+    {
+      "id": "locking_codes",
+      "question": "Lock codes",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "lock_colour",
+      "question": "Lock colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Satin chrome",
+        "Brass",
+        "Nickel plated",
+        "Polished chrome",
+        "White",
+        "Silver",
+        "Brown",
+        "Grey"
+      ],
+      "showWhen": {
+        "questionId": "bMulti",
+        "operator": "Equals",
+        "value": "No"
+      }
+    },
+    {
+      "id": "COD_Code",
+      "question": "Supplier / brochure",
+      "type": "Text",
+      "required": true
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

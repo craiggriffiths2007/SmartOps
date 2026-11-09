@@ -1,0 +1,350 @@
+{
+  "questions": [
+    {
+      "id": "no_of_fitters",
+      "question": "No. of fitters",
+      "type": "PlusMinus",
+      "required": true,
+      "minimum": 1,
+      "maximum": 8,
+      "wholeNumber": true,
+      "defaultValue": 1
+    },
+    {
+      "id": "fname1",
+      "question": "Fitter name 1",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "fname2",
+      "question": "Fitter name 2",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "fname3",
+      "question": "Fitter name 3",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "id": "fname4",
+      "question": "Fitter name 4",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "id": "fname5",
+      "question": "Fitter name 5",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "4"
+        }
+      ]
+    },
+    {
+      "id": "fname6",
+      "question": "Fitter name 6",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "5"
+        }
+      ]
+    },
+    {
+      "id": "fname7",
+      "question": "Fitter name 7",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "6"
+        }
+      ]
+    },
+    {
+      "id": "fname8",
+      "question": "Fitter name 8",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "7"
+        }
+      ]
+    },
+    {
+      "id": "bFitterExcessPaid",
+      "question": "Excess paid",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "FitterReasonExcessNotPaid",
+      "question": "Reason excess not paid",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bFitterExcessPaid",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "bFitterAdditionalPaid",
+      "question": "Additional paid",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "FitterAdditionalAmmount",
+      "question": "Additional amount paid",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bFitterAdditionalPaid",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ],
+      "unit": "GBP",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "bFitterJobComplete",
+      "question": "Job completed",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "FitterUnfinishedCode",
+      "question": "Unfinished code",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Fitters",
+        "Surveyors",
+        "Production",
+        "Order",
+        "Customer",
+        "Delivery",
+        "Copied"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "bFitterJobComplete",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "FitterReasonJobNotCompleted",
+      "question": "Reason job not completed",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bFitterJobComplete",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "FitterPartsRequiredToComplete",
+      "question": "Parts (including sizes) needed to complete the job",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bFitterJobComplete",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "bFitterAdditionalImage",
+      "question": "Additional drawing",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "bFitterJobComplete",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "FitWorkCarriedOut",
+      "question": "Work carried out",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bFitterJobComplete",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "FitterReasonMandateNotSigned",
+      "question": "Reason mandate not signed",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bFitterJobComplete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "$mandate_signed",
+          "operator": "NotEquals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "garage_door_motor",
+      "question": "Garage door motor",
+      "type": "YesNo",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "bFitterJobComplete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "$has_garage_items",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "directive_complete",
+      "question": "Garage door motor directive",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "bFitterJobComplete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "garage_door_motor",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "InevitableDamage",
+      "question": "Inevitable damage",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bFitterJobComplete",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "InevitableDamageExplain",
+      "question": "Please explain inevitable damage",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bFitterJobComplete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "InevitableDamage",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "inevitable_warning",
+      "question": "An authorization Code is required from your Manager and photos must be taken before you leave site.",
+      "type": "Information",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "bFitterJobComplete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "InevitableDamage",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "bFitterSigned",
+      "question": "Customer Signature",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bFitterJobComplete",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    }
+  ],
+  "includeHeaderQuestions": false,
+  "includeFooterQuestions": false
+}

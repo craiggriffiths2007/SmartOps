@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SQLite" Version="3.54.0" />
+  </ItemGroup>
+
+	<ItemGroup>
+    <EmbeddedResource Include="DynamicQuestions\*.json" />
+</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="DynamicQuestions\Items\ItemAssemblyQuestions.json" />
+	  <EmbeddedResource Include="DynamicQuestions\Items\BifoldingQuestions.json" />
+      <EmbeddedResource Include="DynamicQuestions\Items\ConservatoryQuestions.json" />
+      <EmbeddedResource Include="DynamicQuestions\Items\GarageQuestions.json" />
+	  <EmbeddedResource Include="DynamicQuestions\Items\CompositeQuestions.json" />
+	  <EmbeddedResource Include="DynamicQuestions\Items\GlassQuestions.json" />
+	  <EmbeddedResource Include="DynamicQuestions\Items\PanelQuestions.json" />
+      <EmbeddedResource Include="DynamicQuestions\Items\LockmechQuestions.json" />
+	  <EmbeddedResource Include="DynamicQuestions\Vehicle\ToolCheckQuestions.json" />
+	  <EmbeddedResource Include="DynamicQuestions\Vehicle\DeliveryHGVQuestions.json" />
+	  <EmbeddedResource Include="DynamicQuestions\Vehicle\DeliveryVanQuestions.json" />
+	  <EmbeddedResource Include="DynamicQuestions\Vehicle\FitterVanQuestions.json" />
+	  <EmbeddedResource Include="DynamicQuestions\Vehicle\SalesCarQuestions.json" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <None Update="DynamicQuestions\Items\CompositeQuestions.json">
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </None>
+  </ItemGroup>
+
+</Project>

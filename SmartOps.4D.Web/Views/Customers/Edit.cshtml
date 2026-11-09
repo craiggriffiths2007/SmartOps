@@ -1,0 +1,54 @@
+@model SmartOps.Web.Models.Customer
+
+@{
+    ViewData["Title"] = "Edit Customer";
+    ViewData["IsEdit"] = true;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Edit Customer</h4>
+
+    <a asp-action="Details"
+       asp-route-id="@Model.Id"
+       asp-route-returnUrl="@ViewBag.ReturnUrl"
+       class="btn btn-secondary">
+        Cancel
+    </a>
+</div>
+
+<hr />
+
+<form asp-action="Edit">
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger"></div>
+
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+    <div class="row bold-form">
+
+
+            <partial name="_CustomerForm"
+                     model="@Model" />
+
+    </div>
+
+    
+
+<div class="mt-4 d-flex justify-content-between align-items-center">
+
+
+        <input type="submit"
+               value="Save"
+               class="btn btn-primary ms-auto" />
+
+    </div>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

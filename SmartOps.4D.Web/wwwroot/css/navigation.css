@@ -1,0 +1,416 @@
+/* MART OPS - NAVIGATION */
+.split-menu .diary-dropdown-trigger {
+    margin-left: 12px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 14px;
+}
+
+.logo-link {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.logo a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.04em;
+}
+
+.logo-glass {
+    color: #fff;
+}
+
+.logo-ops {
+    color: var(--cyan);
+}
+
+.demo-notice {
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: .65rem;
+    font-weight: 400;
+    white-space: nowrap;
+    opacity: .92;
+}
+
+.demo-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+}
+
+.demo-notice:hover {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.top-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+    background: linear-gradient( to bottom,
+    /* narrow dark curved top */
+    color-mix(in srgb, var(--navbar-color) 82%, black 18%) 0%, color-mix(in srgb, var(--navbar-color) 92%, black 8%) 7%, var(--navbar-color) 14%,
+    /* main colour */
+    var(--navbar-color) 86%,
+    /* narrow light curved bottom */
+    color-mix(in srgb, var(--navbar-color) 94%, white 6%) 93%, color-mix(in srgb, var(--navbar-color) 82%, white 18%) 100% );
+    box-shadow: 0 2px 10px rgba(2,34,59,.16);
+}
+
+.top-nav-left,
+.top-nav-right,
+.nav-left,
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.top-nav-left,
+.top-nav-right {
+    gap: 0;
+}
+
+.nav-left,
+.nav-right {
+    gap: 20px;
+}
+
+.top-nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 9px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: background-color .18s ease, color .18s ease;
+}
+
+.top-nav-item a {
+    padding: 0;
+    margin: 0;
+    color: #fff;
+    text-decoration: none;
+}
+
+.top-nav-item:hover,
+.navbar .nav-item:hover,
+.nav-item:hover {
+    color: #fff;
+    background-color: rgba(255,255,255,.12);
+    border-radius: var(--radius-sm);
+}
+
+.top-nav-item:hover > a {
+    color: #fff;
+}
+
+.navbar .nav-item {
+    position: relative;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar .nav-item a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    min-width: 180px;
+    overflow: hidden;
+    color: var(--text);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-7px);
+    transition: opacity .18s ease, transform .18s ease, visibility .18s;
+}
+
+.top-nav-item:hover .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown a {
+    display: block;
+    padding: 11px 14px;
+    color: var(--text);
+    text-decoration: none;
+    transition: background-color .15s ease, padding-left .15s ease;
+}
+
+.dropdown a:hover {
+    color: var(--navy);
+    background: var(--sky);
+    padding-left: 18px;
+}
+
+.diary-menu {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+}
+
+.diary-link {
+    padding-right: 3px;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.diary-dropdown-trigger {
+    position: relative;
+    margin-left: 3px;
+    padding: 10px 1px 10px 0;
+    color: #fff;
+    cursor: pointer;
+}
+
+.diary-dropdown-trigger .dropdown {
+    display: none;
+    top: 100%;
+    left: -60px;
+}
+
+.diary-dropdown-trigger:hover .dropdown {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+}
+
+.smartops-icons,
+.public-nav-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.smartops-icons {
+    gap: 20px;
+}
+
+.public-nav-buttons {
+    gap: 8px;
+}
+
+.smartops-download,
+.public-nav-buttons .smartops-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0;
+    padding: 8px 14px;
+    color: #fff;
+    text-decoration: none;
+    border: 0;
+    border-radius: var(--radius-sm);
+    transition: background-color .18s ease;
+}
+
+.smartops-download i {
+    color: #fff;
+}
+
+.smartops-download:hover {
+    color: #fff;
+    text-decoration: none;
+    background: rgba(255,255,255,.13);
+}
+
+.message-count {
+    display: inline-block;
+    min-width: 18px;
+    height: 18px;
+    margin-left: 5px;
+    padding: 0 5px;
+    color: #fff;
+    background: var(--cyan);
+    border-radius: 9px;
+    font-size: .75rem;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+}
+
+/* Role-aware navigation for signed-in users. */
+.account-nav-toggle,
+.account-mobile-menu {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    .account-navbar.top-navbar {
+        min-height: 64px;
+        padding: 8px 12px;
+        flex-wrap: nowrap;
+        gap: 8px;
+    }
+
+    .account-navbar .nav-right {
+        gap: 8px;
+    }
+
+    .account-navbar .account-nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 8px 12px;
+        border: 1px solid rgba(255, 255, 255, .35);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, .1);
+        color: #fff;
+        font: inherit;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .account-nav-icon {
+        width: 22px;
+        font-size: 24px;
+        line-height: 1;
+        text-align: center;
+    }
+
+    .account-navbar .account-mobile-menu:not([hidden]) {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        position: absolute;
+        top: 100%;
+        left: 12px;
+        right: 12px;
+        max-height: calc(100dvh - 88px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 10px;
+        border: 1px solid rgba(255, 255, 255, .18);
+        border-radius: 0 0 14px 14px;
+        background: var(--navbar-color, #123b57);
+        box-shadow: 0 14px 30px rgba(2, 34, 59, .25);
+    }
+
+    .account-navbar .account-mobile-link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 16px;
+        line-height: 1.4;
+        text-decoration: none;
+        overflow-wrap: anywhere;
+    }
+
+    .account-navbar .account-mobile-sublink {
+        margin-left: 14px;
+        padding-left: 18px;
+        border-left: 2px solid rgba(255, 255, 255, .3);
+        border-radius: 0 8px 8px 0;
+        font-size: 15px;
+    }
+
+    .account-navbar .account-mobile-link:hover,
+    .account-navbar .account-nav-toggle:hover {
+        background: rgba(255, 255, 255, .16);
+    }
+
+    .account-navbar .account-mobile-link:focus-visible,
+    .account-navbar .account-nav-toggle:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+    }
+
+}
+
+@media (max-width: 760px) {
+    /* Restore breathing room below the signed-in header. */
+    .account-navbar + br + .container {
+        padding-top: 20px;
+    }
+
+    .account-navbar .top-nav-left {
+        flex: 1 1 auto;
+        min-width: 0;
+        gap: 8px;
+    }
+
+    .account-navbar .top-nav-left > .logo:first-child {
+        flex: 0 0 auto;
+    }
+
+    .account-navbar .top-nav-left > .logo:first-child img {
+        width: 34px;
+        height: 34px;
+    }
+
+    .account-navbar .top-nav-left > .account-company-name {
+        display: block;
+        min-width: 0;
+        height: auto;
+        padding: 8px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .account-navbar .nav-right {
+        flex: 0 0 auto;
+    }
+
+    /* Leave more room for the company name on narrow phones. */
+    @media (max-width: 420px) {
+        .account-navbar .account-nav-toggle {
+            gap: 6px;
+            padding: 8px;
+        }
+
+        .account-navbar .nav-right {
+            gap: 5px;
+        }
+
+    }
+
+}

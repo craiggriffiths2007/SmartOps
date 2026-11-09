@@ -1,0 +1,228 @@
+@model InsuranceClaimCreateViewModel
+
+@{
+    ViewData["Title"] = "New Claim";
+}
+
+<h1>New Claim</h1>
+
+<p class="text-muted">
+    Create a new insurance glazing claim and assign it to a glazing
+    company or publish it to the Mart Ops Job Board.
+</p>
+
+<hr />
+
+<form asp-action="Create"
+      enctype="multipart/form-data">
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger"></div>
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <h5>Claim Details</h5>
+
+            <div class="mb-3">
+                <label asp-for="ClaimReference"
+                       class="form-label"></label>
+
+                <input asp-for="ClaimReference"
+                       class="form-control" />
+
+                <span asp-validation-for="ClaimReference"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PolicyNumber"
+                       class="form-label"></label>
+
+                <input asp-for="PolicyNumber"
+                       class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="IncidentDate"
+                       class="form-label"></label>
+
+                <input asp-for="IncidentDate"
+                       class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CauseOfDamage"
+                       class="form-label"></label>
+
+                <select asp-for="CauseOfDamage"
+                        asp-items="ViewBag.CausesOfDamage"
+                        class="form-select">
+
+                    <option value="">-- Select Cause of Damage --</option>
+
+                </select>
+
+                <span asp-validation-for="CauseOfDamage"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="DamageDescription"
+                       class="form-label"></label>
+
+                <textarea asp-for="DamageDescription"
+                          class="form-control"
+                          rows="4"></textarea>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Photos"
+                       class="form-label">
+                    Photographs
+                </label>
+
+                <input asp-for="Photos"
+                       type="file"
+                       class="form-control"
+                       accept=".jpg,.jpeg,.png,.webp"
+                       multiple />
+
+                <div class="form-text">
+                    Select one or more photographs of the damage.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Excess"
+                       class="form-label"></label>
+
+                <input asp-for="Excess"
+                       class="form-control" />
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <h5>Policyholder</h5>
+
+            <div class="mb-3">
+                <label asp-for="CustomerName"
+                       class="form-label"></label>
+
+                <input asp-for="CustomerName"
+                       class="form-control" />
+
+                <span asp-validation-for="CustomerName"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Address1"
+                       class="form-label"></label>
+
+                <input asp-for="Address1"
+                       class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Address2"
+                       class="form-label"></label>
+
+                <input asp-for="Address2"
+                       class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Address3"
+                       class="form-label"></label>
+
+                <input asp-for="Address3"
+                       class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Postcode"
+                       class="form-label"></label>
+
+                <input asp-for="Postcode"
+                       class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Telephone"
+                       class="form-label"></label>
+
+                <input asp-for="Telephone"
+                       class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email"
+                       class="form-label"></label>
+
+                <input asp-for="Email"
+                       class="form-control" />
+            </div>
+
+        </div>
+        
+    </div>
+
+    <hr />
+
+    <h5>Job Assignment</h5>
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="mb-3">
+                <label asp-for="AssignedTenantId"
+                       class="form-label">
+                    Assign to glazing company
+                </label>
+
+                <select asp-for="AssignedTenantId"
+                        asp-items="ViewBag.GlazingCompanies"
+                        class="form-select">
+
+                    <option value="">
+                        -- Not assigned --
+                    </option>
+
+                </select>
+            </div>
+
+            <div class="form-check mb-3">
+
+                <input asp-for="AddToJobBoard"
+                       class="form-check-input" />
+
+                <label asp-for="AddToJobBoard"
+                       class="form-check-label">
+                    Publish to Mart Ops Job Board
+                </label>
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+<div class="d-flex justify-content-end mt-4">
+
+        <button type="submit"
+            class="btn btn-primary ms-auto">
+        Create Claim
+    </button>
+
+    </div>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

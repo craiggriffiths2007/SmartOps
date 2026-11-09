@@ -1,0 +1,47 @@
+@model SmartOps.Web.ViewModels.JobDetailsViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Edit Booking</h4>
+
+       <a asp-action="Details"
+           asp-route-id="@Model.Job.Id"
+           asp-route-returnUrl="@ViewBag.ReturnUrl"
+           class="btn btn-secondary" data-release-booking>
+            Cancel
+        </a>
+</div>
+<hr/>
+<form asp-action="Edit" method="post" id="booking-form">
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger"></div>
+
+    <input type="hidden" asp-for="Job.Id" />
+    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+    <partial name="_JobFormFields" model="Model" />
+
+    
+
+<div class="mt-4 d-flex justify-content-between align-items-center">
+
+        <input type="submit"
+               value="Save"
+               class="btn btn-primary ms-auto" />
+
+    </div>
+
+</form>
+
+<partial name="_BookingAvailability" model="Model" />
+
+@section Scripts {
+    <script src="~/js/booking-availability.js" asp-append-version="true"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,15 @@
+/* Styles for Views/Items/Shared/_ItemDrawingsPartial.cshtml. */
+.item-drawing {
+    min-width: 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.item-drawing a {
+    display: block;
+    cursor: pointer;
+}
+
+.item-drawing a:hover img {
+    opacity: .85;
+}

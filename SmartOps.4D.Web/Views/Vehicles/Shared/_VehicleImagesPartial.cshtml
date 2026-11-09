@@ -1,0 +1,47 @@
+@using SmartOps.Web.Models
+@model SmartOps.Web.ViewModels.VehicleCheckDetailsViewModel
+@{
+    var sections = new[]
+    {
+        (Title: "Signatures", Images: new (string Caption, PhotoImage? Image)[]
+        {
+            ("Driver signature", Model.drv_signature), ("Checker / auditor signature", Model.chk_signature)
+        }),
+        (Title: "Outside photographs", Images: new (string Caption, PhotoImage? Image)[]
+        {
+            ("Passenger side", Model.photoLeft), ("Driver side", Model.photoRight),
+            ("Front", Model.photoFront), ("Rear", Model.photoBack)
+        }),
+        (Title: "Damage diagrams", Images: new (string Caption, PhotoImage? Image)[]
+        {
+            ("Passenger side", Model.diagramLeft), ("Driver side", Model.diagramRight),
+            ("Front", Model.diagramFront), ("Rear", Model.diagramBack)
+        }),
+        (Title: "Inside photographs", Images: (Model.insidePhotos ?? Enumerable.Empty<PhotoImage>())
+            .Select((image, index) => (Caption: $"Inside photograph {index + 1}", Image: (PhotoImage?)image)).ToArray())
+    };
+}
+@foreach (var mediaSection in sections)
+{
+    var images = mediaSection.Images.Where(x => !string.IsNullOrWhiteSpace(x.Image?.Filename)).ToList();
+    if (images.Count == 0) continue;
+    <section class="go-report-media-section">
+        <h3 class="go-report-media-title">@mediaSection.Title</h3>
+        <div class="container-fluid px-0">
+            <div class="row g-3 go-report-media-grid">
+                @foreach (var image in images)
+                {
+                    <div class="col-6 col-md-3 go-report-media-card">
+                        <figure class="m-0">
+                            <a href="/images/@(image.Image!.Filename)" class="image-lightbox-link">
+                                <img src="/images/@(image.Image!.Filename)" class="media-thumbnail"
+                                     alt="@image.Caption" loading="eager" />
+                            </a>
+                            <figcaption class="go-report-meta text-center mt-1">@image.Caption</figcaption>
+                        </figure>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}

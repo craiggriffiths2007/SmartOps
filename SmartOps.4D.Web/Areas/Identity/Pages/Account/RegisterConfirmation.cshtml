@@ -1,0 +1,23 @@
+@page
+@model RegisterConfirmationModel
+@{ ViewData["Title"] = "Registration status"; }
+<div class="container mt-5"><div class="card shadow-sm"><div class="card-body p-4">
+@if (Model.AwaitingApproval)
+{
+    <h1>Registration awaiting approval</h1>
+    <p>Thank you for registering. Your request has been sent to Mart Ops for approval.</p>
+    <p>We will notify you at <strong>@Model.Email</strong> once approved.</p>
+}
+else if (Model.AwaitingEmailConfirmation)
+{
+    <h1>Confirm your email address</h1>
+    <p>Check <strong>@Model.Email</strong> for a confirmation link before signing in.</p>
+    <a asp-page="./ResendEmailConfirmation">Resend confirmation email</a>
+}
+else
+{
+    <h1>Registration complete</h1>
+    <p>Your account is ready. You can now sign in.</p>
+    <a asp-page="./Login" class="btn btn-primary">Sign in</a>
+}
+</div></div></div>

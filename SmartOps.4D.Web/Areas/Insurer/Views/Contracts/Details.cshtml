@@ -1,0 +1,379 @@
+@model SmartOps.Web.Models.Contract
+@using SmartOps.Web.Helpers
+
+@using SmartOps.Web.Models
+
+@{
+    ViewData["Title"] = "Contract Details";
+
+    var estimates = ViewBag.Estimates as List<Estimate> ?? new List<Estimate>();
+    var selectedEstimate = estimates.FirstOrDefault(e => e.Id == Model.SelectedEstimateId);
+
+    var updates =
+        ViewBag.ContractUpdates as List<ContractUpdate>
+        ?? new List<ContractUpdate>();
+
+    var photos = ViewBag.ContractPhotos as List<PhotoImage>
+        ?? new List<PhotoImage>();
+
+    var messages =
+        ViewBag.InsurerMessages as List<InsurerMessage>
+        ?? new List<InsurerMessage>();
+}
+
+<h1>Contract Details</h1>
+
+<hr />
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <dl class="row">
+
+            <dt class="col-sm-5">
+                Contract
+            </dt>
+            <dd class="col-sm-7">
+                @Model.ContractCode
+            </dd>
+
+            <dt class="col-sm-5">
+                Glazing Company
+            </dt>
+            <dd class="col-sm-7">
+                @Model.Tenant?.Name
+            </dd>
+
+            <dt class="col-sm-5">
+                Customer
+            </dt>
+            <dd class="col-sm-7">
+                @Model.Customer?.Name
+            </dd>
+
+            <dt class="col-sm-5">
+                Incident Date
+            </dt>
+            <dd class="col-sm-7">
+                @Model.IncidentDate.ToString("dd/MM/yyyy")
+            </dd>
+
+        </dl>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <dl class="row">
+
+            <dt class="col-sm-5">
+                Policy Number
+            </dt>
+            <dd class="col-sm-7">
+                @Model.PolicyNumber
+            </dd>
+
+            <dt class="col-sm-5">
+                Excess
+            </dt>
+            <dd class="col-sm-7">
+                @Model.Excess
+            </dd>
+
+            <dt class="col-sm-5">
+                Cause of Damage
+            </dt>
+            <dd class="col-sm-7">
+                @Model.CauseOfDamage
+            </dd>
+
+        </dl>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <dl class="row">
+
+            <dt class="col-sm-5">
+                Status
+            </dt>
+            <dd class="col-sm-7">
+                @if (Model.IsCancelled)
+                {
+                    <span class="text-danger fw-bold">Cancelled</span>
+                }
+                else
+                {
+                    @ContractStatusHelper.GetTitle(Model.Status)
+                }
+            </dd>
+
+            <dt class="col-sm-5">
+                Damage
+            </dt>
+            <dd class="col-sm-7">
+                @Model.DamageDescription
+            </dd>
+
+        </dl>
+
+    </div>
+
+</div>
+
+<div class="mt-3">
+    <a asp-area="Insurer"
+       asp-controller="Contracts"
+       asp-action="Index"
+       class="btn btn-secondary">
+        Back to Contracts
+    </a>
+</div>
+
+@if (selectedEstimate != null && !selectedEstimate.IsAuthorized && !Model.IsCancelled)
+{
+    <form asp-action="AuthorizeEstimate" method="post" class="my-3"
+          onsubmit="return confirm('Authorize the chosen estimate and update the contract status?');">
+        <input type="hidden" name="contractId" value="@Model.Id" />
+        <input type="hidden" name="estimateId" value="@selectedEstimate.Id" />
+        <button type="submit" class="btn btn-success">Authorize estimate: @selectedEstimate.ServiceLevel</button>
+    </form>
+}
+
+<hr />
+
+<link rel="stylesheet" href="~/css/pages/insurer-contract.css" asp-append-version="true" />
+
+<ul class="nav nav-tabs" id="insurerContractTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="progress-tab" data-bs-toggle="tab"
+                data-bs-target="#progress-panel" type="button" role="tab"
+                aria-controls="progress-panel" aria-selected="true">Progress &amp; Photos</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="estimates-tab" data-bs-toggle="tab" data-bs-target="#estimates-panel"
+                type="button" role="tab" aria-controls="estimates-panel" aria-selected="false">Estimation</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="messages-tab" data-bs-toggle="tab"
+                data-bs-target="#messages-panel" type="button" role="tab"
+                aria-controls="messages-panel" aria-selected="false">Messages</button>
+    </li>
+</ul>
+
+<div class="tab-content pt-3" id="insurerContractTabContent">
+    <div class="tab-pane fade" id="estimates-panel" role="tabpanel" aria-labelledby="estimates-tab">
+        <h4>Estimation</h4>
+        @await Html.PartialAsync("~/Views/Shared/_EstimateList.cshtml", new SmartOps.Web.ViewModels.EstimateListViewModel
+        {
+            ContractId = Model.Id, SelectedEstimateId = Model.SelectedEstimateId,
+            IsCancelled = Model.IsCancelled, IsInsurer = true, Estimates = estimates
+        })
+    </div>
+
+    <div class="tab-pane fade show active" id="progress-panel" role="tabpanel" aria-labelledby="progress-tab">
+        <h4>Contract progress</h4>
+        <p class="text-muted">Updates shared by @Model.Tenant?.Name.</p>
+
+        @if (Model.IsCancelled)
+        {
+            <div class="alert alert-warning">
+                <strong>Contract cancelled</strong>
+                @if (Model.CancelledAt.HasValue)
+                {
+                    <span> on @Model.CancelledAt.Value.ToLocalTime().ToString("dd/MM/yyyy")</span>
+                }
+                @* Only display the reason where the company's cancellation update is customer-visible. *@
+                @if (updates.Any(u => u.Title.Contains("cancel", StringComparison.OrdinalIgnoreCase)) &&
+                     !string.IsNullOrWhiteSpace(Model.CancellationReason))
+                {
+                    <div class="mt-1">@Model.CancellationReason</div>
+                }
+            </div>
+        }
+
+        @if (!updates.Any())
+        {
+            <div class="alert alert-light border">There are no shared progress updates yet.</div>
+        }
+        else
+        {
+            <div class="record-cards" data-paginate>
+                @foreach (var update in updates.OrderBy(u => u.DateTime))
+                {
+                    <div class="record-card">
+                        <div class="insurer-timeline-date">@update.DateTime.ToLocalTime().ToString("dd MMMM yyyy, HH:mm")</div>
+                        <div class="fw-bold">@update.Title</div>
+                        @if (!string.IsNullOrWhiteSpace(update.Description))
+                        {
+                            <div class="mt-1">@update.Description</div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+
+        <hr />
+        <h4>Photographs</h4>
+        <p class="text-muted">Photographs and drawings shared by the glazing company.</p>
+        @if (!photos.Any())
+        {
+            <div class="alert alert-light border">No photographs have been shared for this contract yet.</div>
+        }
+        else
+        {
+            var groups = new[] {
+                new { Name = "Survey", Items = photos.Where(p => p.Filename.Contains("cAZ", StringComparison.OrdinalIgnoreCase)).ToList() },
+                new { Name = "Fitting", Items = photos.Where(p => p.Filename.Contains("fAZ", StringComparison.OrdinalIgnoreCase) ||
+                    (p.Filename.StartsWith(Model.ContractCode + "_f", StringComparison.OrdinalIgnoreCase) &&
+                     !p.Filename.Contains("cAZ", StringComparison.OrdinalIgnoreCase))).ToList() },
+                new { Name = "Remedial / Other", Items = photos.Where(p => !p.Filename.Contains("cAZ", StringComparison.OrdinalIgnoreCase) &&
+                    !p.Filename.Contains("fAZ", StringComparison.OrdinalIgnoreCase) &&
+                    !p.Filename.StartsWith(Model.ContractCode + "_f", StringComparison.OrdinalIgnoreCase)).ToList() }
+            };
+            @foreach (var group in groups.Where(g => g.Items.Any()))
+            {
+                <h5 class="mt-4">@group.Name</h5>
+                <div class="row g-3 mb-4">
+                    @foreach (var photo in group.Items)
+                    {
+                        var mediaUrl = Url.Action("Photo", "Contracts", new { area = "Insurer", id = Model.Id, photoId = photo.Id });
+                        var extension = System.IO.Path.GetExtension(photo.Filename).ToLowerInvariant();
+                        var isVideo = extension == ".mp4" || extension == ".webm" || extension == ".ogg";
+                        <div class="col-6 col-md-3">
+                            @if (isVideo)
+                            {
+                                <video controls preload="metadata" class="w-100 insurer-media-thumb">
+                                    <source src="@mediaUrl" />
+                                    Your browser does not support video.
+                                </video>
+                            }
+                            else
+                            {
+                                <a href="@mediaUrl" target="_blank" rel="noopener" title="Open photograph">
+                                    <img src="@mediaUrl" class="insurer-media-thumb" loading="lazy" alt="@group.Name photograph" />
+                                </a>
+                            }
+                            <div class="small text-muted mt-1">@photo.DateTime.ToString("dd/MM/yyyy")</div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
+    <div class="tab-pane fade" id="messages-panel" role="tabpanel" aria-labelledby="messages-tab">
+
+<h4>Messages</h4>
+
+<p class="text-muted">
+    Messages between @Model.Insurer?.Name and @Model.Tenant?.Name.
+</p>
+
+@if (!messages.Any())
+{
+    <div class="alert alert-light border">
+        There are no messages for this contract yet.
+    </div>
+}
+else
+{
+    <div class="record-cards" data-paginate>
+@foreach (var message in messages)
+    {
+        <div class="record-card">
+            <div class="card-body">
+
+                <div class="small text-muted">
+
+                    @if (message.Sender == InsurerMessageSender.Insurer)
+                    {
+                        var senderName = message.SentByUser != null
+                            ? $"{message.SentByUser.FirstName} {message.SentByUser.LastName}".Trim()
+                            : "";
+
+                        <strong>
+                            @(string.IsNullOrWhiteSpace(senderName)
+                                ? Model.Insurer?.Name ?? "Insurer"
+                                : senderName)
+                        </strong>
+                    }
+                    else
+                    {
+                        var senderName = message.SentByUser != null
+                            ? $"{message.SentByUser.FirstName} {message.SentByUser.LastName}".Trim()
+                            : "";
+
+                        <strong>
+                            @(string.IsNullOrWhiteSpace(senderName)
+                                ? Model.Tenant?.Name ?? "Glazing Company"
+                                : senderName)
+                        </strong>
+                    }
+
+                    -
+                    @message.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+
+                </div>
+
+                <div class="mt-2">
+                    @message.Message
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+}
+
+<form asp-area="Insurer"
+      asp-controller="Contracts"
+      asp-action="ReplyToCompany"
+      method="post"
+      class="mt-3">
+
+    <input type="hidden"
+           name="contractId"
+           value="@Model.Id" />
+
+    <div class="form-group">
+
+        <label class="control-label">
+            Reply to @Model.Tenant?.Name
+        </label>
+
+        <textarea name="insurerMessage"
+                  class="form-control"
+                  rows="3"></textarea>
+
+    </div>
+
+    <div class="mt-2">
+
+        <button type="submit"
+                class="btn btn-primary">
+            Send Message
+        </button>
+
+    </div>
+
+</form>
+
+    </div>
+</div>
+
+<script>
+    // Preserve the active tab after sending a message or refreshing the page.
+    document.addEventListener('DOMContentLoaded', function () {
+        var hash = window.location.hash;
+        var tab = hash === '#messages' ? document.getElementById('messages-tab')
+            : hash === '#estimates' ? document.getElementById('estimates-tab') : null;
+        if (tab && window.bootstrap && bootstrap.Tab) bootstrap.Tab.getOrCreateInstance(tab).show();
+        document.querySelectorAll('#insurerContractTabs button[data-bs-toggle="tab"]').forEach(function (button) {
+            button.addEventListener('shown.bs.tab', function () {
+                history.replaceState(null, '', button.id === 'messages-tab' ? '#messages' : button.id === 'estimates-tab' ? '#estimates' : '#progress');
+            });
+        });
+    });
+</script>

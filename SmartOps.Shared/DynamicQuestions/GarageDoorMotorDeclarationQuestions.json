@@ -1,0 +1,132 @@
+{
+  "questions": [
+    {
+      "id": "gdm_door_type",
+      "question": "Garage door type (complete assembly)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_model_type",
+      "question": "Model type",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_unique_serial",
+      "question": "Unique serial number (complete assembly)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_door_size",
+      "question": "Door size",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_door_manufacturer",
+      "question": "Door manufactured by",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_powerered_operator_type",
+      "question": "Powered operator type",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_operator_type",
+      "question": "Door operator type",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_operator_manufacturer",
+      "question": "Operator manufactured by",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "declaration_wording",
+      "question": "On behalf of the responsible manufacturer identified below, I declare that the complete powered garage door assembly identified above conforms to the applicable legislation recorded below. The assembly has been installed, connected and tested in accordance with the manufacturer’s instructions. The supporting technical documentation and relevant standards are identified below.",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "gdm_manufacturer_address",
+      "question": "Responsible manufacturer: business name and full address",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_technical_file_contact",
+      "question": "Person authorised to compile the technical file: name and address",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_applicable_legislation",
+      "question": "Applicable legislation and conformity assessment route",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_applied_standards",
+      "question": "Applied standards and specifications, including editions",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_test_reference",
+      "question": "Commissioning, safety test and technical file references",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_declaration_place",
+      "question": "Place of declaration",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_site_address",
+      "question": "Site address",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_dec_made_by",
+      "question": "Declaration made by",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_declaration_date",
+      "question": "Declaration date",
+      "type": "Date",
+      "required": true
+    },
+    {
+      "id": "gdm_behalf_of",
+      "question": "Declared on behalf of",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_cust_name",
+      "question": "Customer name",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "gdm_sign_date",
+      "question": "Customer signature date",
+      "type": "Date",
+      "required": true
+    }
+  ],
+  "includeHeaderQuestions": false,
+  "includeFooterQuestions": false
+}
