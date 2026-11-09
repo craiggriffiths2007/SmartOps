@@ -42,7 +42,7 @@ The web ZIP uses .NET single-file publishing to reduce separate DLLs, although s
 
 ### Building a release
 
-Maintainers can run [Build and release SmartOps Web (Windows)](https://github.com/craiggriffiths2007/SmartOps/actions/workflows/smartops-web-windows-release.yml) using **Actions → Run workflow**. With `publish_release=false` (the default), it builds and smoke-tests the web app, bundles the 4D project with the optional web ZIP, and uploads an Actions artifact for testing. After validating the package, run with `publish_release=true` and a **new** version tag such as `v1.0.1` to attach `SmartOps-Integration-Windows-x64.zip` to a GitHub Release.
+Maintainers can run [Build and release SmartOps Web (Windows)](https://github.com/craiggriffiths2007/SmartOps/actions/workflows/smartops-web-windows-release.yml) using **Actions → Run workflow**. With `publish_release=false` (the default), it builds and smoke-tests the web app, bundles the 4D project with the optional web ZIP, and uploads an Actions artifact for testing. After validating the package, run with `publish_release=true` and leave the version blank for an automatically generated tag, or enter a **new** version tag such as `v1.0.1`. The workflow attaches `SmartOps-Integration-Windows-x64.zip` to a GitHub Release.
 
 ## Local integration testing setup
 
