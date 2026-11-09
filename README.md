@@ -22,17 +22,27 @@ Only the three projects listed above and the supporting solution, configuration 
 
 For developers integrating another system with SmartOps, see the **[4D API integration guide](SmartOps.4D/Documentation/API-INTEGRATION.md)**. It explains the 4D HTTP endpoints, direct Android API versus ASP.NET bridge architecture, authentication, example test requests, and useful methods such as `GO_StartLAN`, `SmartOpsHTTP.handle`, `SmartOpsService.dispatch`, and `SmartOpsSurveyService.sendJobs`.
 
-## Download prebuilt SmartOps Web for Windows
+## Download SmartOps 4D integration package
 
-**No Visual Studio required.** Windows 64-bit users can download the self-contained ASP.NET Core web application from **[GitHub Releases](https://github.com/craiggriffiths2007/SmartOps/releases)**. Select a release and download `SmartOps-Web-Windows-x64.zip` from its assets (the ZIP is available after the first release is published). The Windows package uses **single-file .NET publishing** to bundle the executable, runtime and most assemblies into `SmartOps.Web.exe`, reducing the number of separate DLLs. Some website assets, configuration and support files still accompany the executable. Extract the **entire ZIP**, open the 4D project and create a new database, then double-click `Start-SmartOps-Web.cmd`. The launcher starts the local web server and opens the login page in your browser.
+**[Download SmartOps from GitHub Releases](https://github.com/craiggriffiths2007/SmartOps/releases)** and select `SmartOps-Integration-Windows-x64.zip` under the latest release's assets (available after the new combined-package release is published).
 
-Keep the console window open while using the interface. The prebuilt package includes the .NET runtime and web assets, and is intended for **local Windows integration testing**, not an internet-facing deployment. It does not contain the 4D database itself; download or clone the repository source for that.
+The single download contains:
 
-**Developers who want to modify the integration** can [download the source code](https://github.com/craiggriffiths2007/SmartOps) and build `SmartOps.4D.Web` themselves.
+- **`SmartOps.4D/`** — editable 4D project, API, documentation, and fictional integration test data.
+- **`SmartOps-Web-Windows-x64.zip`** — optional prebuilt, self-contained ASP.NET Core browser interface for Windows x64. No Visual Studio or separately installed .NET runtime is required.
+- **`README-START-HERE.txt`** — setup instructions for both options.
 
-### Building Windows downloads
+**4D-only quick start:** Extract the main ZIP, open `SmartOps.4D/Project/smartops4d.4DProject` in 4D, and create a **new empty data file** when prompted. The 4D `onStartup` method runs `GO_StartLAN`, starts HTTP on port **8045** and automatically imports the integration test records. You can now explore 4D methods and test the API **without installing or running the web frontend**. A compatible installation/licence for 4D is still required.
 
-Maintainers can run [Build and release SmartOps Web (Windows)](https://github.com/craiggriffiths2007/SmartOps/actions/workflows/smartops-web-windows-release.yml) using **Actions → Run workflow**. With `publish_release=false` (the default), it compiles, smoke-tests and uploads a temporary Actions artifact. After confirming a successful build, run the workflow with `publish_release=true` and a new version tag such as `v1.0.0` to attach the Windows ZIP to a public GitHub Release.
+**Optional web frontend:** Extract the **inner** `SmartOps-Web-Windows-x64.zip` to its own folder, then double-click `Start-SmartOps-Web.cmd` while 4D is running. It opens the web login page at `http://127.0.0.1:5245/Account/Login`. Keep the server console open while using the interface.
+
+The web ZIP uses .NET single-file publishing to reduce separate DLLs, although some website assets and supporting files remain. The package is intended for **local integration testing**; packaging the web executable inside a second ZIP does **not** guarantee that antivirus software, Chrome or Windows SmartScreen will consider it safe. Validate the download and do not disable security protections.
+
+**Developers who want to change the integration** can [download the source repository](https://github.com/craiggriffiths2007/SmartOps) and build the .NET frontend themselves. The proprietary Android application source code is not distributed.
+
+### Building a release
+
+Maintainers can run [Build and release SmartOps Web (Windows)](https://github.com/craiggriffiths2007/SmartOps/actions/workflows/smartops-web-windows-release.yml) using **Actions → Run workflow**. With `publish_release=false` (the default), it builds and smoke-tests the web app, bundles the 4D project with the optional web ZIP, and uploads an Actions artifact for testing. After validating the package, run with `publish_release=true` and a **new** version tag such as `v1.0.1` to attach `SmartOps-Integration-Windows-x64.zip` to a GitHub Release.
 
 ## Local integration testing setup
 
