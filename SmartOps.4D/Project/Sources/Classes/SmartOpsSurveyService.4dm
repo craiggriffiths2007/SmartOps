@@ -90,33 +90,19 @@ Function login($body : Object) : 4D.OutgoingMessage
         return This.reply(401; New object("reasonPhrase"; "Agent not found"))
     End if
 
-    // Developer demo: an Agent without an assigned serial number may sign in
-    // using their company and AgentCode alone. An Agent with a registered
-    // serial retains the existing device checks below.
-    var $assignedSerial:=Lowercase(Trim(String($agent.SerialNumber)))
-    If (Length($assignedSerial)>0)
-        var $serialNumber:=Lowercase(Trim(String(This.value($body; "SerialNumber"))))
-        If ((Length($serialNumber)#16) | (Not(Match regex("^[a-f0-9]{16}$"; $serialNumber))))
-            return This.reply(401; New object("reasonPhrase"; "Invalid or missing Android device ID"))
-        End if
-
-        var $registeredDevice : 4D.Entity
-        $registeredDevice:=ds.Agent.query("GoTenantId = :1 AND SerialNumber = :2"; $company.Id; $serialNumber).first()
-        If ($registeredDevice=Null)
-            return This.reply(401; New object("reasonPhrase"; "Device is not registered for this company"))
-        End if
-
-        // Privileged agents with a configured device must use their own device.
-        // Ordinary agents with a configured device may use any registered
-        // device within their tenant, as before.
-        If ($agent.PrivilegedAccess)
-            If ($assignedSerial#$serialNumber)
-                return This.reply(401; New object("reasonPhrase"; "This account requires its own registered device"))
-            End if
+    // Optional per-agent installation lock, matching MartOps.4D.
+    // Blank SerialNumber: permit login without an installation ID match.
+    // Populated SerialNumber: require this agent's matching installation ID.
+    // PrivilegedAccess controls all-jobs visibility, not login registration.
+    var $serialNumber:=Lowercase(Trim(String(This.value($body; "SerialNumber"))))
+    var $registeredId:=Lowercase(Trim(String($agent.SerialNumber)))
+    If ($registeredId#"")
+        If ($serialNumber#$registeredId)
+            return This.reply(401; New object("reasonPhrase"; "Installation ID does not match the registered agent"))
         End if
     End if
 
-    // Generate the authentication token used by SmartOps.Survey.
+    // Generate the authentication token used by MartOps.Survey.
     var $token:=Generate UUID+Generate UUID
 
     $agent.AuthenticationString:=$token
