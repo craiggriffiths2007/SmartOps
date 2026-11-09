@@ -6,8 +6,8 @@ Visual Studio, the .NET SDK and a separate .NET runtime are NOT required.
 1. Download and extract the FULL SmartOps-Web-Windows-x64.zip archive.
 2. Open SmartOps.4D in 4D and create a new data file if prompted.
    Let the 4D database start its API on port 8045.
-3. Double-click Start-SmartOps-Web.cmd in this folder.
-4. Your browser should open http://127.0.0.1:5245/Account/Login.
+3. Double-click SmartOps.Web.exe in this folder.
+4. Once the server starts, your default browser opens http://127.0.0.1:5245/Account/Login.
 5. Local integration test sign-in: username admin, password Password1!
    Company code SMARTOPS is selected automatically.
 
