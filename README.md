@@ -18,11 +18,14 @@ The primary guide is **[APP_API_INTEGRATION.md](SmartOps.4D/Documentation/APP_AP
 
 **[Download SmartOps Integration Kit (ZIP)](https://github.com/craiggriffiths2007/SmartOps/releases/latest/download/SmartOps-Integration-Windows-x64.zip)** — a ready-to-use download containing the editable 4D project, integration test data and optional prebuilt Windows web interface. You can also [view all releases](https://github.com/craiggriffiths2007/SmartOps/releases).
 
+The individual, publication-ready API reference PDFs can also be linked directly from a website or News article: **[Android Survey API PDF](https://github.com/craiggriffiths2007/SmartOps/releases/latest/download/APP_API_INTEGRATION.pdf)** and **[ASP.NET Web API PDF](https://github.com/craiggriffiths2007/SmartOps/releases/latest/download/WEB_API_INTEGRATION.pdf)**. These assets are produced when a new public Integration Kit release is published.
+
 The single download contains:
 
 - **`SmartOps.4D/`** — editable 4D project, API, documentation, and fictional integration test data.
 - **`SmartOps-Web-Windows-x64.zip`** — optional prebuilt, self-contained ASP.NET Core browser interface for Windows x64. No Visual Studio or separately installed .NET runtime is required.
 - **`README-START-HERE.txt`** — setup instructions for both options.
+- **`APP_API_INTEGRATION.pdf`** and **`WEB_API_INTEGRATION.pdf`** — branded, printable developer API references, also available as standalone release downloads.
 
 **4D-only quick start:** Extract the main ZIP, open `SmartOps.4D/Project/smartops4d.4DProject` in 4D, and create a **new empty data file** when prompted. The 4D `onStartup` method runs `GO_StartLAN`, starts HTTP on port **8045** and automatically imports the integration test records. You can now explore 4D methods and test the API **without installing or running the web frontend**. A compatible installation/licence for 4D is still required.
 
