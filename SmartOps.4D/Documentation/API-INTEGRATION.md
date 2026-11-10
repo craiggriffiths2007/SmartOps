@@ -32,7 +32,6 @@ All links below are repository-relative, so they work both in GitHub and a local
 | [`GO_Start`](../Project/Sources/Methods/GO_Start.4dm) | Manual entry point to the same startup sequence |
 | [`GO_Stop`](../Project/Sources/Methods/GO_Stop.4dm) | Stops the API server |
 | [`GO_Seed`](../Project/Sources/Methods/GO_Seed.4dm) | Imports fictional integration test records; protected against seeding nonempty mapped tables |
-| [`GO_UpgradeCompanyCode`](../Project/Sources/Methods/GO_UpgradeCompanyCode.4dm) | Handles the integration test company's earlier code variants |
 | [`HTTPHandlers.json`](../Project/Sources/HTTPHandlers.json) | Registers the API route patterns and routes requests to the HTTP handler |
 | [`SmartOpsHTTP.handle`](../Project/Sources/Classes/SmartOpsHTTP.4dm) | Reads incoming requests and JSON, manages write transactions, dispatches calls and formats error responses |
 | [`SmartOpsService.dispatch`](../Project/Sources/Classes/SmartOpsService.4dm) | Implements the general `/api/*` routes for the web frontend and other integrations |
@@ -137,7 +136,7 @@ $jobs = Invoke-RestMethod -Method Post -Uri "$base/GetJobs" `
 
 The separately distributed **MartOps.Survey** app sends a persistent, randomly generated **10-character installation ID** in the `SerialNumber` request field; it does not read the Android hardware ID. If an agent's `SerialNumber` field is **blank**, the 4D API permits login by company and agent code without checking the installation ID, including for privileged agents. When populated, the field **must match that agent's installation ID** (case-insensitive); another agent's registered ID does not grant access. The web agent editor labels this field **Installation ID (optional)**. Privileged Access separately controls access to all jobs. **Agent-code-only login is for trusted local integration testing, not secure production authentication.**
 
-For complete request/response details and data shapes, see the existing [survey API reference](SURVEY-API-REFERENCE.md). Some historical examples in that reference refer to older mobile-authentication behaviour; the [current `SmartOpsSurveyService` source](../Project/Sources/Classes/SmartOpsSurveyService.4dm) is authoritative.
+For complete request/response details and data shapes, see the existing [survey API reference](SURVEY-API-REFERENCE.md). The survey reference documents the current installation-ID behaviour. The [current `SmartOpsSurveyService` source](../Project/Sources/Classes/SmartOpsSurveyService.4dm) is authoritative.
 
 ## Integrating or extending the API
 
@@ -152,7 +151,6 @@ For complete request/response details and data shapes, see the existing [survey 
 
 - [4D schema and table mapping](SCHEMA.md)
 - [Survey API reference and payloads](SURVEY-API-REFERENCE.md)
-- [Local survey integration test setup](SURVEY-TRIAL-SETUP.md)
 - [ASP.NET bridge code](../../SmartOps.4D.Web/Bridge/BridgeSession.cs)
 - [ASP.NET API configuration](../../SmartOps.4D.Web/Program.cs)
 
