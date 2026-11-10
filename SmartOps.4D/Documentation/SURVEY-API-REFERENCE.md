@@ -28,7 +28,7 @@ SmartOps.Survey (.NET MAUI on Android)
 
 **Important:** `SmartOps.4D.Web` is a *separate* ASP.NET/Razor adapter using `/api/web/snapshot` and `/api/web/commit`. The MAUI app does **not** call this bridge.
 
-### Files to open in 4D
+### 4D implementation files
 
 | Role | File / class |
 |---|---|
@@ -37,13 +37,6 @@ SmartOps.Survey (.NET MAUI on Android)
 | Mobile API route dispatcher | `Classes/SmartOpsSurveyService.4dm` → `dispatch` |
 | Mobile login & session checking | `SmartOpsSurveyService.login`, `authenticate` |
 | Shared 4D database/schema helpers | `Classes/SmartOpsService.4dm` |
-| App login | `SmartOps.Survey/SettingsPage.xaml.cs` |
-| Job download | `SmartOps.Survey/Comms/JobsReceive.xaml.cs` |
-| Job/media upload | `SmartOps.Survey/Comms/JobsSend.xaml.cs` |
-| Checks upload | `SmartOps.Survey/Comms/ChecksSend.xaml.cs` |
-| Vehicle download | `SmartOps.Survey/Comms/VanChecksReceive.xaml.cs` |
-| DTO definitions | `SmartOps.Survey/Models/DTOs.cs` |
-| Questions sync | `SmartOps.Survey/Comms/DynamicQuestionSync.cs` |
 
 ## 2. Transport and authentication
 
@@ -126,7 +119,7 @@ Response: JSON **array** of `JobHeaderDTO` objects, each containing `head` (JobH
 ]
 ```
 
-This is an **abbreviated** illustration, not a complete JobHeader. Consult `SmartOps.Survey/Models/JobHeader.cs` and `SmartOps.4D/Resources/survey-head-default.json` for all fields.
+This is an **abbreviated** illustration, not a complete JobHeader. Consult `SmartOps.4D/Resources/survey-head-default.json` and the separately distributed Android app's matching DTO version for all fields.
 
 4D selects accessible, non-cancelled bookings for **today and tomorrow** in diary date order. `GoAllJobs` controls broader access; otherwise only the account's assigned jobs are returned. `headForJob` preserves or creates a stable visit GUID; previously submitted job data/items can be included. It converts the compact 4D GUID to the hyphenated .NET GUID format.
 
