@@ -51,3 +51,7 @@ The initial integration test dataset is modelled on the **smaller GlassOps regis
 For the [Android survey app on Google Play](https://play.google.com/store/apps/details?id=com.authorityx.smartops), set the tablet's **Server** to `http://YOUR-PC-IP:8045`, the **Agent Code** to an existing agent such as `ADMIN`, and the company code to `SMARTOPS`. **No device ID registration is needed when that agent's Serial Number field is blank.** If an agent has a registered serial number, the existing device checks still apply (privileged agents must use their own registered device). This agent-code-only fallback supports local integration testing and is not secure production authentication. On Windows, allow incoming TCP **8045** from the trusted local subnet on a **Private** network. Do not expose the API publicly.
 
 Developers can explore and experiment with a **fully functioning online demonstration system** at **[glassops.co.uk](https://glassops.co.uk/)** to understand the workflows and capabilities before working with the SmartOps 4D integration and its local integration test data.
+
+## Fresh-dataset policy
+
+SmartOps is intended for new integration-test databases, not upgrades of older demo data or old Android client builds. Create a new empty 4D data file to reset the sample dataset. Existing nonempty databases are not silently reseeded or migrated. API clients must preserve the server-issued visit GUID; incompatible old mobile payloads are rejected rather than automatically associated with a different booking.

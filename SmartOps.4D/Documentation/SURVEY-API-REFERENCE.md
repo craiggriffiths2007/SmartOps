@@ -1,9 +1,9 @@
 # SmartOps.Survey ↔ 4D API reference
 
-**Audience:** David and the 4D development team  
+**Audience:** Developers integrating with the 4D survey API  
 **Scope:** The native 4D API used by the .NET MAUI Android survey app. **Not** the ASP.NET/Razor web bridge.  
-**Source of truth:** `SmartOps.4D/Project/Sources/Classes/SmartOpsSurveyService.4dm`, `SmartOps.4D/Project/Sources/Classes/SmartOpsHTTP.4dm`, `SmartOps.4D/Project/Sources/HTTPHandlers.json` and `SmartOps.Survey`.  
-**Status:** Current integration implementation (October 2026). Illustrative request snippets omit some DTO fields; the code and schema are authoritative.
+**Source of truth:** `SmartOps.4D/Project/Sources/Classes/SmartOpsSurveyService.4dm`, `SmartOps.4D/Project/Sources/Classes/SmartOpsHTTP.4dm`, `SmartOps.4D/Project/Sources/HTTPHandlers.json` and the separately distributed Android survey app.  
+**Status:** Current fresh-dataset integration contract (November 2026). Illustrative request snippets omit some DTO fields; the code and schema are authoritative.
 
 ## 1. Architecture at a glance
 
@@ -28,7 +28,7 @@ SmartOps.Survey (.NET MAUI on Android)
 
 **Important:** `SmartOps.4D.Web` is a *separate* ASP.NET/Razor adapter using `/api/web/snapshot` and `/api/web/commit`. The MAUI app does **not** call this bridge.
 
-### Files to open in 4D
+### 4D implementation files
 
 | Role | File / class |
 |---|---|
@@ -37,13 +37,6 @@ SmartOps.Survey (.NET MAUI on Android)
 | Mobile API route dispatcher | `Classes/SmartOpsSurveyService.4dm` → `dispatch` |
 | Mobile login & session checking | `SmartOpsSurveyService.login`, `authenticate` |
 | Shared 4D database/schema helpers | `Classes/SmartOpsService.4dm` |
-| App login | `SmartOps.Survey/SettingsPage.xaml.cs` |
-| Job download | `SmartOps.Survey/Comms/JobsReceive.xaml.cs` |
-| Job/media upload | `SmartOps.Survey/Comms/JobsSend.xaml.cs` |
-| Checks upload | `SmartOps.Survey/Comms/ChecksSend.xaml.cs` |
-| Vehicle download | `SmartOps.Survey/Comms/VanChecksReceive.xaml.cs` |
-| DTO definitions | `SmartOps.Survey/Models/DTOs.cs` |
-| Questions sync | `SmartOps.Survey/Comms/DynamicQuestionSync.cs` |
 
 ## 2. Transport and authentication
 
@@ -59,35 +52,17 @@ Trial server: `http://YOUR-4D-SERVER:8045`. For a physical tablet, use the serve
 {
   "tenantCode": "SMARTOPS",
   "agentCode": "AG01",
-  "password": "",
-  "serialNumber": "0123456789abcdef",
+  "serialNumber": "A1B2C3D4E5",
   "currentVersion": "1.0",
-  "currentBuild": "500"
+  "currentBuild": "1"
 }
 ```
 
-The serial number in this contract is **Android's app-specific ANDROID_ID**, not the inaccessible physical hardware serial/IMEI. In the app it is obtained from `Android.Provider.Settings.Secure.AndroidId`. The string above is illustrative.
+The `serialNumber` field carries the Android application's persistent **10-character installation ID**, not a hardware serial number or Android ID. For local testing, an Agent record with a **blank** `SerialNumber` accepts any installation ID (including an empty value). When an Agent has a nonblank `SerialNumber`, its own configured installation ID must match, regardless of whether Privileged Access is enabled. This optional-ID mode is for trusted local integration testing and **must not be treated as production authentication**.
 
-4D `login`:
-1. Finds an active company by `Tenant.Code`.
-2. Finds the Agent in that tenant by `Agent.Code`.
-3. Requires a 16-character hexadecimal Android ID registered in **an Agent.SerialNumber in the same tenant** (it need not belong to the Agent Code record).
-4. Finds or, in the **current local test-login mode**, creates an associated `GoAccount` with Agent role. Checks account activity. The current test mode bypasses password validation; do **not** treat that as production authentication.
-5. Generates an authentication token, stores it in the authenticating Agent's `AuthenticationString`, and responds:
+4D looks up the active company and agent, checks the configured installation ID when present, issues an authentication token, and stores it against that agent. The response includes `authenticationString`, company and agent details, plus version fields.
 
-```json
-{
-  "tenantCode": "SMARTOPS",
-  "agentCode": "AG01",
-  "agentType": 0,
-  "branchCode": "MAIN",
-  "authenticationString": "<new-token>",
-  "currentVersion": "1.0",
-  "currentBuild": "500"
-}
-```
-
-The app persists the token, and subsequently sends these **common fields** in request JSON:
+The app persists that token and sends the following common fields for later API calls:
 
 ```json
 {
@@ -97,7 +72,7 @@ The app persists the token, and subsequently sends these **common fields** in re
 }
 ```
 
-`SmartOpsSurveyService.authenticate` verifies company, Agent Code, stored Agent token and active associated `GoAccount`. **The Android ID is checked on login, not on each later token-authenticated request.** Logging out in the app clears the *local* token. Treat Android ID matching as a device allowlist, not cryptographic attestation.
+`SmartOpsSurveyService.authenticate` validates the company, agent code and stored token. An installation ID is checked at login, not on each later token-authenticated request. Logging out in the app clears its local token.
 
 ## 3. Endpoint catalogue
 
@@ -144,7 +119,7 @@ Response: JSON **array** of `JobHeaderDTO` objects, each containing `head` (JobH
 ]
 ```
 
-This is an **abbreviated** illustration, not a complete JobHeader. Consult `SmartOps.Survey/Models/JobHeader.cs` and `SmartOps.4D/Resources/survey-head-default.json` for all fields.
+This is an **abbreviated** illustration, not a complete JobHeader. Consult `SmartOps.4D/Resources/survey-head-default.json` and the separately distributed Android app's matching DTO version for all fields.
 
 4D selects accessible, non-cancelled bookings for **today and tomorrow** in diary date order. `GoAllJobs` controls broader access; otherwise only the account's assigned jobs are returned. `headForJob` preserves or creates a stable visit GUID; previously submitted job data/items can be included. It converts the compact 4D GUID to the hyphenated .NET GUID format.
 
@@ -183,7 +158,7 @@ Request uses `JobSendDTO`:
 }
 ```
 
-The nested `head` above is abbreviated. Up to **100** jobs per batch. For every job, 4D validates the contract, visit GUID and relevant booking/agent/date details. It can recover narrowly defined legacy client GUID/agent mismatches, but rejects ambiguous matches. It persists submitted header/item data and submission records; retries are checked to avoid duplicate or conflicting submissions. The submission also feeds the 4D integration outbox. See `sendJobs` for exact validation and business rules. Media files are uploaded separately via `SendMedia`; a completed job payload alone does not transfer image/video bytes.
+The nested `head` above is abbreviated. Up to **100** jobs per batch. For every job, 4D validates the contract, visit GUID and relevant booking/agent/date details. The submitted visit GUID, agent and booking details must match the current booking; mismatches are rejected. It persists submitted header/item data and submission records; retries are checked to avoid duplicate or conflicting submissions. The submission also feeds the 4D integration outbox. See `sendJobs` for exact validation and business rules. Media files are uploaded separately via `SendMedia`; a completed job payload alone does not transfer image/video bytes.
 
 ### SendMedia
 

@@ -1,7 +1,6 @@
 // Start this method to test SmartOps.Survey on a phone or tablet over a private LAN.
 // HTTP listens on port 8045. HTTPS is enabled only when both certificate files exist.
 // Do not expose the demo server to the public internet.
-GO_UpgradeCompanyCode
 // Seed fictional data only when every mapped table is empty.
 var $seedService:=cs.SmartOpsService.new()
 var $seedTable : Text
