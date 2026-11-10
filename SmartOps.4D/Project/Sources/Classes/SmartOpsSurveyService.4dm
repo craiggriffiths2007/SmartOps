@@ -233,19 +233,7 @@ Function headForJob($account : 4D.Entity; $job : 4D.Entity) : Object
 				$head.report:=$survey.Report
 			End if
 			$head.bSurvey:=True
-		Else
-			// Retain compatibility with older payload-only submissions.
-			var $previous:=ds.GoSurveySubmission.query("GoTenantId = :1 AND ContractId = :2 AND JobType = 0"; $account.GoTenantId; $c.Id).orderBy("Id desc").first()
-			If ($previous#Null)
-				var $saved:=JSON Parse($previous.Payload)
-				If ($existing=Null)
-					$head:=$saved.head
-					$items:=$saved.customItems
-				Else
-					$head.report:=$saved.head.report
-				End if
-				$head.bSurvey:=True
-			End if
+
 		End if
 	End if
 
