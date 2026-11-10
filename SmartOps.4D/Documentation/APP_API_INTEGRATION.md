@@ -226,9 +226,9 @@ Check photos are uploaded separately via `SendMedia`. In the app, `ChecksSend` s
 7. 4D stores canonical records and enqueues the appropriate integration events.
 8. Tablet uses notes, messages, en-route and version endpoints as needed.
 
-## 9. Guidance for integrating into Martindales' existing 4D system
+## 9. Guidance for integrating into an existing 4D system
 
-The purpose of the interface is to keep the **mobile wire contract** stable even if Martindales changes 4D table names or internal architecture. David can implement equivalent 4D methods behind these routes and translate DTOs to existing entities.
+The purpose of the interface is to keep the **mobile wire contract** stable regardless of an organisation's 4D table names or internal architecture. Developers can implement equivalent 4D methods behind these routes and map the DTOs to their own existing entities.
 
 - Keep **endpoint names**, JSON casing, GUID/date conventions, return structures and HTTP statuses compatible with the deployed MAUI app.
 - Preserve company/agent boundaries and the device registration check. Do not rely on an Android ID alone as a secure proof of device ownership.
