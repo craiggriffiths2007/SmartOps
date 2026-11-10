@@ -44,6 +44,16 @@ only. Do not publish port 8045 or deploy this instance on the public internet
 with the supplied test credentials. The project is source code, not the 4D
 software or a 4D licence. A 4D runtime/development environment is still needed.
 
-Documentation:
-SmartOps.4D/Documentation/API-INTEGRATION.md
-https://github.com/craiggriffiths2007/SmartOps
+API REFERENCE DOCUMENTATION
+
+APP_API_INTEGRATION.pdf - illustrated / printable native Android-to-4D guide.
+WEB_API_INTEGRATION.pdf - illustrated / printable optional ASP.NET bridge guide.
+
+The canonical, editable Markdown sources are included in:
+SmartOps.4D/Documentation/APP_API_INTEGRATION.md
+SmartOps.4D/Documentation/WEB_API_INTEGRATION.md
+
+The two PDFs are also attached individually to the GitHub Release for linking
+from websites and News articles:
+https://github.com/craiggriffiths2007/SmartOps/releases/latest
+
