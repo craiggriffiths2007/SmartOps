@@ -89,6 +89,17 @@ jobs:
             if (-not $process.HasExited) { Stop-Process -Id $process.Id -Force }
           }
 
+      - name: Generate SmartOps PDF API guides
+        shell: pwsh
+        run: |
+          python -m pip install --disable-pip-version-check reportlab mistune
+          if ($LASTEXITCODE -ne 0) { throw "Unable to install PDF generator dependencies" }
+          python ./packaging/windows/build-api-pdfs.py
+          if ($LASTEXITCODE -ne 0) { throw "Unable to generate API PDFs" }
+          foreach ($name in @("APP_API_INTEGRATION.pdf", "WEB_API_INTEGRATION.pdf")) {
+            if (!(Test-Path "./packaging/generated-api-pdfs/$name")) { throw "Missing $name" }
+          }
+
       - name: Package 4D integration project and optional web ZIP
         shell: pwsh
         run: |
@@ -106,6 +117,11 @@ jobs:
           $webZip = Join-Path $stage "SmartOps-Web-Windows-x64.zip"
           Compress-Archive -Path "$env:RUNNER_TEMP/SmartOps-Web/*" -DestinationPath $webZip -Force
           Copy-Item "./packaging/windows/README-Integration.txt" (Join-Path $stage "README-START-HERE.txt")
+          # Include publication-ready API references in the root of the kit,
+          # as well as the original Markdown documentation inside SmartOps.4D.
+          Copy-Item "./packaging/generated-api-pdfs/APP_API_INTEGRATION.pdf" (Join-Path $stage "APP_API_INTEGRATION.pdf")
+          Copy-Item "./packaging/generated-api-pdfs/WEB_API_INTEGRATION.pdf" (Join-Path $stage "WEB_API_INTEGRATION.pdf")
+
 
           $unexpected = @(Get-ChildItem $stage -Recurse -File | Where-Object {
             $_.Name -match '(?i)\.(4DD|4DIndx|4DJournal|pfx|pem|keystore|jks)$'
@@ -131,4 +147,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "$env:RELEASE_VERSION" "SmartOps-Integration-Windows-x64.zip" --title "SmartOps $env:RELEASE_VERSION" --target "$env:GITHUB_SHA" --generate-notes
+          gh release create "$env:RELEASE_VERSION" "SmartOps-Integration-Windows-x64.zip" "packaging/generated-api-pdfs/APP_API_INTEGRATION.pdf" "packaging/generated-api-pdfs/WEB_API_INTEGRATION.pdf" --title "SmartOps $env:RELEASE_VERSION" --target "$env:GITHUB_SHA" --generate-notes
