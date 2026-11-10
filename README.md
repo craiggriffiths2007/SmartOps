@@ -10,9 +10,9 @@ SmartOps is a 4D integration and testing platform for field-service workflows. I
 - `SmartOps.4D.Web` — ASP.NET Core web frontend connected to 4D through a bridge.
 - `SmartOps.Shared` — shared contracts, DTOs, and dynamic question definitions.
 
-## API integration guide
+## API integration guides
 
-For developers integrating another system with SmartOps, see the **[4D API integration guide](SmartOps.4D/Documentation/API-INTEGRATION.md)**. It explains the 4D HTTP endpoints, direct Android API versus ASP.NET bridge architecture, authentication, example test requests, and useful methods such as `GO_StartLAN`, `SmartOpsHTTP.handle`, `SmartOpsService.dispatch`, and `SmartOpsSurveyService.sendJobs`.
+The primary guide is **[APP_API_INTEGRATION.md](SmartOps.4D/Documentation/APP_API_INTEGRATION.md)** for the Android survey app connecting directly to 4D (without an ASP.NET bridge). Developers using the optional web interface can consult **[WEB_API_INTEGRATION.md](SmartOps.4D/Documentation/WEB_API_INTEGRATION.md)** for web login, snapshot/commit and the ASP.NET Core bridge. The native [4D database schema](SmartOps.4D/Documentation/SCHEMA.md) is documented separately.
 
 ## SmartOps 4D Integration Kit
 

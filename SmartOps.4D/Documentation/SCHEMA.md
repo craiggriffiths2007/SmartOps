@@ -1,8 +1,7 @@
-# Database mapping
+# SmartOps 4D database schema
 
-Generated from AppDBContextModelSnapshot.cs; no source database connection is made.
+Native 4D table mapping for the fresh SmartOps integration dataset. The schema was initially derived from an EF model snapshot, but SmartOps creates a new 4D data file; it does not migrate SQL Server records.
 
-- **AspNetUsers**: 26 fields; key `Id`; 2 source foreign keys; generic editor: False
 - **Agent**: 12 fields; key `Id`; 1 source foreign keys; generic editor: True
 - **AgentMessages**: 8 fields; key `Id`; 0 source foreign keys; generic editor: False
 - **AgentMessageRecipients**: 8 fields; key `Id`; 2 source foreign keys; generic editor: False
@@ -45,12 +44,6 @@ Generated from AppDBContextModelSnapshot.cs; no source database connection is ma
 - **Vehicles**: 9 fields; key `Id`; 1 source foreign keys; generic editor: True
 - **VehicleChecks**: 38 fields; key `Id`; 0 source foreign keys; generic editor: True
 - **VehicleCheckHeaders**: 20 fields; key `Id`; 0 source foreign keys; generic editor: True
-- **AspNetRoles**: 6 fields; key `Id`; 0 source foreign keys; generic editor: False
-- **AspNetRoleClaims**: 6 fields; key `Id`; 1 source foreign keys; generic editor: False
-- **AspNetUserClaims**: 6 fields; key `Id`; 1 source foreign keys; generic editor: False
-- **AspNetUserLogins**: 7 fields; key `GoKey`; 1 source foreign keys; generic editor: False
-- **AspNetUserRoles**: 5 fields; key `GoKey`; 2 source foreign keys; generic editor: False
-- **AspNetUserTokens**: 7 fields; key `GoKey`; 1 source foreign keys; generic editor: False
 - **SystemSettings**: 5 fields; key `Id`; 0 source foreign keys; generic editor: True
 - **GoAccount**: 13 fields; key `Id`; 0 source foreign keys; generic editor: False
 - **GoSession**: 6 fields; key `Id`; 0 source foreign keys; generic editor: False
@@ -66,3 +59,16 @@ Generated from AppDBContextModelSnapshot.cs; no source database connection is ma
 - **GoIntegrationOutbox**: 9 fields; key `Id`; 0 source foreign keys; generic editor: False
 
 Dates/timestamps and durations use ISO text to preserve date AND time. Decimal properties map to 4D Real; financial workflow calculations round integer pence and cap input. Full SQL decimal(18,2) range is not supported. GoTenantId scopes all records, including source tables that were global (insurers/claims). GoRevision is an API concurrency counter. Source Identity tables are structural only; GoAccount is the separate bcrypt login store. Composite Identity keys use a GoKey surrogate; original composite uniqueness is not implemented. Foreign-key relation definitions do not cascade deletes; API validates referenced rows within the tenant. This is a new empty database, not a SQL Server migration.
+
+
+## ASP.NET Identity compatibility tables
+
+The following mapped ASP.NET Identity tables are retained for structural compatibility with the optional web frontend. They are not the survey app's login mechanism; Android agents authenticate using the native `Agent` record and the `SmartOpsSurveyService`. The main 4D web/API account store is `GoAccount`.
+
+- **AspNetUsers**: 26 fields; key `Id`; 2 source foreign keys; generic editor: False
+- **AspNetRoles**: 6 fields; key `Id`; 0 source foreign keys; generic editor: False
+- **AspNetRoleClaims**: 6 fields; key `Id`; 1 source foreign keys; generic editor: False
+- **AspNetUserClaims**: 6 fields; key `Id`; 1 source foreign keys; generic editor: False
+- **AspNetUserLogins**: 7 fields; key `GoKey`; 1 source foreign keys; generic editor: False
+- **AspNetUserRoles**: 5 fields; key `GoKey`; 2 source foreign keys; generic editor: False
+- **AspNetUserTokens**: 7 fields; key `GoKey`; 1 source foreign keys; generic editor: False

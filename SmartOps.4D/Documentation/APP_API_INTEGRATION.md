@@ -1,19 +1,19 @@
-# SmartOps.Survey ↔ 4D API reference
+# APP_API_INTEGRATION — Android survey API
 
-**Audience:** Developers integrating with the 4D survey API  
+**Audience:** Developers integrating the Android survey app directly with SmartOps.4D  
 **Scope:** The native 4D API used by the .NET MAUI Android survey app. **Not** the ASP.NET/Razor web bridge.  
 **Source of truth:** `SmartOps.4D/Project/Sources/Classes/SmartOpsSurveyService.4dm`, `SmartOps.4D/Project/Sources/Classes/SmartOpsHTTP.4dm`, `SmartOps.4D/Project/Sources/HTTPHandlers.json` and the separately distributed Android survey app.  
 **Status:** Current fresh-dataset integration contract (November 2026). Illustrative request snippets omit some DTO fields; the code and schema are authoritative.
 
-## 1. Architecture at a glance
+## 1. Android-to-4D architecture
 
 ```text
-SmartOps.Survey (.NET MAUI on Android)
+Android survey app (.NET MAUI)
   Settings: ServerURL, TenantCode, UserCode, AuthenticationString
         |
         | HTTP POST, JSON (except binary GetImage response)
         v
-4D HTTP server (trial: port 8045)
+4D HTTP server (local integration: port 8045)
   HTTPHandlers.json -> SmartOpsHTTP.handle()
         |
         +--> SmartOpsSurveyService.dispatch()
@@ -26,7 +26,7 @@ SmartOps.Survey (.NET MAUI on Android)
              4D ORDA entities + SmartOpsMedia/<tenant-id> files
 ```
 
-**Important:** `SmartOps.4D.Web` is a *separate* ASP.NET/Razor adapter using `/api/web/snapshot` and `/api/web/commit`. The MAUI app does **not** call this bridge.
+**Important:** The Android app communicates directly with 4D. The optional ASP.NET web bridge is unrelated to mobile requests; see [WEB_API_INTEGRATION.md](WEB_API_INTEGRATION.md) only if you are integrating the web frontend.
 
 ### 4D implementation files
 
