@@ -404,7 +404,6 @@ Function sendJobs($account : 4D.Entity; $body : Object) : 4D.OutgoingMessage
 		
 		var $job : 4D.Entity
 		$job:=Null
-		var $recoveredAgent:=False
 		var $candidate : 4D.Entity
 		var $matches:=This.accessibleJobs($account).query("ContractId = :1"; $c.Id)
 		For each ($candidate; $matches)
@@ -420,73 +419,10 @@ Function sendJobs($account : 4D.Entity; $body : Object) : 4D.OutgoingMessage
 		End for each 
 		
 		If ($job=Null)
-			// Recovery for earlier SmartOps.Survey builds that replaced a received
-			// visit GUID with Guid.NewGuid(). Never accept ambiguous bookings:
-			// require a single current booking for the same contract, agent,
-			// visit type and date. Previously submitted bookings only permit an
-			// exact replay of the already accepted legacy submission.
-			This.service.debugStage:="sendJobs: checking legacy mobile GUID recovery"
-			var $eligible:=New collection
-			For each ($candidate; $matches)
-				If (($candidate.CustomerId=Num($head.customerId)) & ($candidate.JobType=Num($head.jobType)) & ($candidate.DiaryDate=Substring(String($head.diaryDate); 1; 10)))
-					If ($candidate.AgentId=Num($head.agentId))
-						$eligible.push($candidate.Id)
-					Else 
-						// Older clients can retain the agent from a previous fitting
-						// when downloading a later survey for the same contract.
-						// Require an all-jobs account, exact current visit details,
-						// and an earlier fitting for that same stale agent/customer.
-						If ($account.PrivilegedAccess & ($candidate.JobType=0) & (Num($head.contractId)=$c.Id) & (Num($head.customerId)=$c.CustomerId) & ($candidate.GoTime=String($head.startTime)))
-							var $priorFitting:=ds.Job.query("GoTenantId = :1 AND ContractId = :2 AND CustomerId = :3 AND AgentId = :4 AND JobType = 1 AND DiaryDate < :5 AND GoCancelled = false"; $account.GoTenantId; $c.Id; $c.CustomerId; Num($head.agentId); $candidate.DiaryDate)
-							If ($priorFitting.length>0)
-								$eligible.push($candidate.Id)
-							End if 
-						End if 
-						
-						// Older tablets retain the survey agent when receiving a
-						// fitting visit. Recovery needs an all-jobs account, its own
-						// stale ID, saved survey evidence and an exact fitting time.
-						If ($account.PrivilegedAccess & (Num($head.agentId)=$account.Id) & (Num($head.contractId)=$c.Id) & (Num($head.customerId)=$c.CustomerId))
-							If (($candidate.JobType=1) & ($candidate.GoTime=String($head.startTime)))
-								This.service.debugStage:="sendJobs: checking prior survey for fitting agent recovery"
-								var $previousSurvey:=ds.JobHeader.query("GoTenantId = :1 AND ContractId = :2 AND CustomerId = :3 AND AgentId = :4 AND JobType = 0 AND bSent = true"; $account.GoTenantId; $c.Id; $c.CustomerId; $account.Id)
-								If ($previousSurvey.length>0)
-									$eligible.push($candidate.Id)
-								End if 
-							End if 
-						End if 
-					End if 
-				End if 
-			End for each 
-			
-			If ($eligible.length=1)
-				var $recoveryJob:=This.service.row("Job"; Num($eligible[0]); $account.GoTenantId)
-				var $alreadySubmitted:=ds.GoSurveySubmission.query("GoTenantId = :1 AND JobId = :2"; $account.GoTenantId; $recoveryJob.Id)
-				var $canRecover:=($alreadySubmitted.length=0)
-				If (Not($canRecover))
-					// A lost HTTP response can make the tablet resend a successful
-					// legacy submission. Only allow its exact stored payload through
-					// to the idempotency check; different payloads remain rejected.
-					var $recoveryKey:=String($recoveryJob.Id)+":"+$guid
-					$canRecover:=($alreadySubmitted.query("SubmissionKey = :1 AND Digest = :2"; $recoveryKey; $digest).length>0)
-				End if 
-				
-				If ($canRecover)
-					$job:=$recoveryJob
-					$recoveredAgent:=($job.AgentId#Num($head.agentId))
-					This.service.debugStage:="sendJobs: recovered legacy locally generated GUID"
-				End if 
-			End if 
-			
-			If ($job=Null)
-				// Keep identity-only diagnostics for a rejected offline survey.
-				// Do not log the survey answers or full request payload.
-				This.service.debugStage:="sendJobs: unmatched visit "+String($head.contractCode)+"; agent="+String($head.agentId)+"; customer="+String($head.customerId)+"; type="+String($head.jobType)+"; date="+String($head.diaryDate)+"; time="+String($head.startTime)+"; eligible="+String($eligible.length)
-				throw(409; "Visit GUID does not match an unsubmitted unique booking for contract "+String($head.contractCode)+". Keep the completed survey on the tablet.")
-			End if 
+			This.service.debugStage:="sendJobs: unmatched visit "+String($head.contractCode)+"; agent="+String($head.agentId)+"; date="+String($head.diaryDate)
+			throw(409; "Visit GUID does not match the booked visit for contract "+String($head.contractCode)+". Keep the completed survey on the tablet.")
 		End if 
-		
-		If (($head.contractId#$c.Id) | ($head.customerId#$c.CustomerId) | (($head.agentId#$job.AgentId) & Not($recoveredAgent)) | ($head.jobType#$job.JobType) | (Substring($head.diaryDate; 1; 10)#$job.DiaryDate))
+		If (($head.contractId#$c.Id) | ($head.customerId#$c.CustomerId) | ($head.agentId#$job.AgentId) | ($head.jobType#$job.JobType) | (Substring($head.diaryDate; 1; 10)#$job.DiaryDate))
 			throw(400; "Job ownership or visit details do not match the booking")
 		End if 
 		
