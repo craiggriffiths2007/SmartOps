@@ -49,8 +49,8 @@ Additional business resource endpoints live in `SmartOpsService.dispatch`. Consu
 
 ```powershell
 $base = "http://YOUR-PC-IP:8045"
-$login = Invoke-RestMethod -Method Post -Uri "$base/api/auth/login" \`
-  -ContentType "application/json" \`
+$login = Invoke-RestMethod -Method Post -Uri "$base/api/auth/login" `
+  -ContentType "application/json" `
   -Body (@{
     TenantCode = "SMARTOPS"
     Username = "admin"
