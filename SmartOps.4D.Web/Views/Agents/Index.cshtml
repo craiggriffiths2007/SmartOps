@@ -1,0 +1,54 @@
+@model IEnumerable<SmartOps.Web.Models.Agent>
+
+@{
+    ViewData["Title"] = "Agents";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Agents</h4>
+    <a asp-action="Create" class="btn btn-primary">Add Agent</a>
+</div>
+<partial name="_BranchIndexFilter" />
+<div class="table-responsive record-index-list">
+    <table class="table table-sm table-hover align-middle record-index-table mb-0">
+        <caption class="visually-hidden">Agents</caption>
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(model => model.Name)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Type)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Code)</th>
+                <th scope="col">Privilige</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Branch)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.SerialNumber)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.CurrentAppVersion)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.LoggedInDateTime)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr><td colspan="7" class="text-muted py-3">No records found.</td></tr>
+            }
+            @foreach (var item in Model)
+            {
+                var detailsUrl = Url.Action("Details", new { id = item.Id });
+                <tr class="clickable-row" data-href="@detailsUrl" tabindex="0">
+                    <th scope="row">@Html.DisplayFor(modelItem => item.Name)</th>
+                    <td>@(((SmartOps.Shared.Enums.agent_type)item.Type).ToString())</td>
+                    <td>@Html.DisplayFor(modelItem => item.Code)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PrivilegedAccess)</td>
+                    <td>@item.Branch?.Name</td>
+                    <td>@Html.DisplayFor(modelItem => item.SerialNumber)</td>
+                    <td>@(string.IsNullOrWhiteSpace(item.CurrentAppVersion) ? "-" : item.CurrentAppVersion)</td>
+                    <td>
+                        @if (item.LoggedInDateTime.Year != 0001)
+                        {
+                            @Html.DisplayFor(modelItem => item.LoggedInDateTime)
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<record-pagination></record-pagination>

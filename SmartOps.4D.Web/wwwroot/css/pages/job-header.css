@@ -1,0 +1,213 @@
+/* Styles for Views/JobHeaders/Details.cshtml. */
+/* Compact, plain layout consistent with the original Details page. */
+.jh-page {
+    width: 100%;
+}
+
+.jh-titlebar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.jh-titlebar h4 {
+    margin: 0;
+}
+
+.jh-titlebar + hr {
+    margin: 10px 0 12px;
+}
+
+.jh-customer {
+    margin-bottom: 10px;
+    line-height: 1.45;
+}
+
+.jh-customer .jh-address {
+    overflow-wrap: anywhere;
+}
+
+.jh-customer-details {
+    display: grid;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    column-gap: 16px;
+}
+
+.jh-tabs {
+    margin: 10px 0 12px;
+}
+
+.jh-tabs .nav-link {
+    border-radius: 0;
+    padding: 6px 12px;
+}
+
+.jh-panel {
+    margin-bottom: 12px;
+    break-inside: avoid;
+}
+
+.jh-panel h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    border-bottom: 1px solid #ced4da;
+    padding-bottom: 4px;
+    margin: 12px 0 5px;
+}
+
+.jh-fields {
+    display: grid;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    column-gap: 18px;
+}
+
+.jh-field {
+    display: flex;
+    gap: 6px;
+    padding: 2px 0;
+    align-items: baseline;
+    overflow-wrap: anywhere;
+}
+
+.jh-label {
+    color: #111;
+    font-weight: 600;
+}
+
+.jh-label::after {
+    content: ":";
+}
+
+.jh-value {
+    color: #555;
+    font-weight: 400;
+}
+
+.jh-yes {
+    color: #555;
+}
+
+.jh-no,
+.jh-empty {
+    color: #777;
+}
+
+.jh-report {
+    overflow-wrap: anywhere;
+}
+
+.jh-report img,
+.jh-report.jh-readonly-quill .ql-editor img {
+    max-width: 50%;
+    height: auto;
+}
+
+.jh-readonly-quill .ql-container {
+    font-family: inherit;
+    font-size: inherit;
+    border: 0;
+}
+
+.jh-readonly-quill .ql-editor {
+    padding: 0;
+    min-height: 0;
+    overflow-wrap: anywhere;
+}
+
+@media(max-width:950px) {
+    .jh-fields,
+    .jh-customer-details {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+
+}
+
+@media(max-width:650px) {
+    .jh-fields,
+    .jh-customer-details {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media print {
+    @page {
+        margin: 12mm;
+    }
+
+    .jh-titlebar .details-close,
+    .jh-tabs,
+    .jh-actions {
+        display: none!important;
+    }
+
+    .jh-titlebar + hr {
+        margin: 5px 0 8px;
+    }
+
+    .jh-customer {
+        margin-bottom: 6px;
+    }
+
+    .tab-content > .tab-pane {
+        display: block!important;
+        opacity: 1!important;
+        visibility: visible!important;
+    }
+
+    .tab-pane + .tab-pane {
+        break-before: page;
+    }
+
+    .jh-panel {
+        break-inside: auto;
+        margin-bottom: 8px;
+    }
+
+    .jh-panel h5 {
+        break-after: avoid;
+        margin: 8px 0 4px;
+    }
+
+    .jh-field {
+        padding: 1px 0;
+        break-inside: avoid;
+    }
+
+    .jh-page {
+        font-size: 10pt;
+    }
+
+    .jh-fields {
+        grid-template-columns: repeat(3,minmax(0,1fr));
+    }
+
+    .jh-print-heading {
+        display: block!important;
+        font-size: 12pt;
+        font-weight: 600;
+        margin: 8px 0;
+    }
+
+    .jh-customer-details {
+        grid-template-columns: repeat(3,minmax(0,1fr));
+    }
+
+}
+
+.jh-health-safety-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 12px;
+    padding: 4px 0;
+    border-bottom: 1px solid #e4e7eb;
+    break-inside: avoid;
+}
+.jh-health-safety-row .jh-value { white-space: pre-wrap; overflow-wrap: anywhere; }
+.jh-health-safety-note { margin: 6px 0; font-weight: 600; break-inside: avoid; }
+.jh-health-safety-image { break-inside: avoid; }
+.jh-health-safety-image img { display: block; max-width: 100%; max-height: 80mm; object-fit: contain; }
+@media screen and (max-width: 600px) {
+    .jh-health-safety-row { grid-template-columns: 1fr; gap: 2px; }
+}

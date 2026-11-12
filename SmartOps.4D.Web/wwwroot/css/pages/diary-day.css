@@ -1,0 +1,56 @@
+/* Styles for Views/Jobs/_DiaryDay.cshtml. */
+/* Day view only: time alongside type; single-line, truncated address. */
+.day-booking-card .day-booking-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.day-booking-card .day-booking-title {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.day-booking-card .day-booking-header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 0 0 auto;
+}
+
+.day-booking-card .day-booking-time {
+    white-space: nowrap;
+}
+
+.day-booking-card .day-booking-address-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.day-booking-card .day-booking-address {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.day-booking-card .day-booking-allocated {
+    flex: 0 0 auto;
+    margin-left: auto;
+    text-align: right;
+    white-space: nowrap;
+}
+
+@media (max-width: 540px) {
+    .day-booking-card .day-booking-header {
+        flex-wrap: wrap;
+    }
+
+    .day-booking-card .day-booking-header-right {
+        margin-left: auto;
+    }
+
+}

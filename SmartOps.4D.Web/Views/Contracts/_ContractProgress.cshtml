@@ -1,0 +1,36 @@
+@model SmartOps.Web.ViewModels.ContractIndexViewModel
+@{
+    var latestSurvey = Model.Headers.Where(h => h.JobType == enum_job_type.Survey)
+        .OrderByDescending(h => h.DateTimeCompleted).ThenByDescending(h => h.Id).FirstOrDefault();
+    var latestFitting = Model.Headers.Where(h => h.JobType == enum_job_type.Fitting)
+        .OrderByDescending(h => h.DateTimeCompleted).ThenByDescending(h => h.Id).FirstOrDefault();
+    var statuses = new[]
+    {
+        new { Header = latestSurvey, Label = "Survey completed", Pending = "Survey not yet completed", Glyph = "bi-clipboard-check", Complete = Model.Contract.Status >= ContractStatus.SurveyCompleted },
+        new { Header = (SmartOps.Web.Models.JobHeader?)null, Label = "Estimated", Pending = "Not yet estimated", Glyph = "bi-calculator", Complete = Model.Contract.Status >= ContractStatus.EstimateCompleted },
+        new { Header = (SmartOps.Web.Models.JobHeader?)null, Label = "Authorized", Pending = "Not yet authorized", Glyph = "bi-shield-check", Complete = Model.Contract.Status >= ContractStatus.Authorised },
+        new { Header = latestFitting, Label = "Fitting completed", Pending = "Fitting not yet completed", Glyph = "bi-tools", Complete = Model.Contract.Status >= ContractStatus.FittingCompleted },
+        new { Header = (SmartOps.Web.Models.JobHeader?)null, Label = "Invoiced", Pending = "Not yet invoiced", Glyph = "bi-receipt", Complete = Model.Contract.Status >= ContractStatus.Invoiced }
+    };
+}
+<span class="diary-received-statuses">
+    @foreach (var status in statuses)
+    {
+        var description = status.Complete ? status.Label : status.Pending;
+        if (status.Header != null)
+        {
+            description += $". Report: {status.Header.DateTimeCompleted:dd/MM/yyyy HH:mm}";
+            <a asp-controller="JobHeaders" asp-action="Details" asp-route-id="@status.Header.Id"
+               class="diary-received-status @(status.Complete ? "is-received" : "")" title="@description"
+               aria-label="@description. Open report">
+                <i class="bi @status.Glyph" aria-hidden="true"></i>
+            </a>
+        }
+        else
+        {
+            <span class="diary-received-status @(status.Complete ? "is-received" : "")" role="img" aria-label="@description" title="@description">
+                <i class="bi @status.Glyph" aria-hidden="true"></i>
+            </span>
+        }
+    }
+</span>

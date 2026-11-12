@@ -1,0 +1,169 @@
+@model SmartOps.Web.ViewModels.JobIndexViewModel
+@{
+    var currentDate = new DateTime(Model.Year, Model.Month, 1);
+    var daysInMonth = DateTime.DaysInMonth(Model.Year, Model.Month);
+    int startDayOfWeek = (int)currentDate.DayOfWeek;
+    startDayOfWeek = startDayOfWeek == 0 ? 6 : startDayOfWeek - 1;
+    var jobsByDay = Model.Jobs?
+        .GroupBy(j => j.DiaryDate.Day)
+        .ToDictionary(g => g.Key, g => g.ToList())
+        ?? new Dictionary<int, List<SmartOps.Web.Models.Job>>();
+}
+
+    <!-- MONTH VIEW -->
+
+    <table class="table table-bordered calendar-table">
+        <thead class="table-light">
+    <tr class="calendar-day-heading">
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th class="calendar-weekend-header">Sat</th>
+        <th class="calendar-weekend-header">Sun</th>
+    </tr>
+</thead>
+        <tbody>
+            @{
+                int day = 1;
+                int totalCells = startDayOfWeek + daysInMonth;
+                int rows = (int)Math.Ceiling(totalCells / 7.0);
+            }
+            @for (int row = 0; row < rows; row++)
+            {
+                <tr>
+                    @for (int col = 0; col < 7; col++)
+                    {
+                        int cellIndex = row * 7 + col;
+                        if (cellIndex < startDayOfWeek || day > daysInMonth)
+                        {
+                            <td class="calendar-cell calendar-empty"></td>
+                        }
+                        else
+{
+    bool isToday =
+        day == DateTime.Today.Day &&
+        Model.Month == DateTime.Today.Month &&
+        Model.Year == DateTime.Today.Year;
+
+    bool isWeekend = col == 5 || col == 6;
+
+    <td class="calendar-cell
+               @(isToday ? "calendar-today" : "")
+               @(isWeekend ? "calendar-weekend" : "")">
+
+        <div class="calendar-day-number @(isToday ? "calendar-today-label" : "")">
+            @{
+                var monthCellDate = new DateTime(Model.Year, Model.Month, day);
+            }
+            <a asp-action="Index"
+               asp-route-view="list"
+               asp-route-weekStart="@monthCellDate.ToString("yyyy-MM-dd")"
+               asp-route-branchId="@(Model.BranchId ?? 0)"
+               asp-route-q="@Model.SearchQuery" class="diary-heading-link"
+               title="Show @monthCellDate.ToString("dddd d MMMM")">
+                @day
+            </a>
+        </div>
+
+        @if (jobsByDay.ContainsKey(day))
+        {
+                                    @foreach (var job in jobsByDay[day])
+                                    {
+                                        var jobClass = job.JobType == enum_job_type.Survey
+                                            ? "job-type-survey"
+                                            : job.JobType == enum_job_type.Fitting
+                                                ? "job-type-fitting"
+                                                : "job-type-remedial";
+
+                                        <div class="calendar-event diary-booking @jobClass">
+                                            <div class="diary-booking-header">
+
+    <a asp-controller="Contracts"
+   asp-action="Details"
+   asp-route-id="@job.ContractId"
+   asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
+   class="diary-contract-link">
+    <strong>@job.ContractCode</strong>
+</a>
+
+    <a asp-controller="Jobs" asp-action="Details" asp-route-id="@job.Id" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
+            class="diary-booking-toggle diary-time-toggle"
+            data-diary-target="diary-job-@job.Id"
+            aria-controls="diary-job-@job.Id"
+            aria-expanded="false"
+            title="@job.ContractCode - @job.Customer?.Name">
+
+        <span>
+            @job.Time.ToString("HH:mm") -
+            @job.Time.Add(job.JobTime).ToString("HH:mm")
+        </span>
+
+    </a>
+
+</div>
+                                            <div class="diary-name-agent">
+                                                <a asp-controller="Customers" asp-action="Details" asp-route-id="@job.CustomerId" asp-route-contractId="@job.ContractId" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
+                                               class="calendar-event-link diary-booking-link diary-customer-name">@job.Customer?.Name</a>
+                                                @await Html.PartialAsync("_DiaryReceivedStatus", new SmartOps.Web.ViewModels.DiaryReceivedStatusViewModel
+                                                {
+                                                    Status = job.Contract?.Status,
+                                                    Headers = Model.Headers?.Where(h => !string.IsNullOrEmpty(job.ContractCode) && h.ContractCode == job.ContractCode) ?? Enumerable.Empty<SmartOps.Web.Models.JobHeader>()
+                                                })
+                                            </div>
+
+                                            
+
+                                            <div class="diary-agent-row">
+                                                <span class="diary-agent-name" title="@job.Agent?.Name">@job.Agent?.Name</span>
+                                                <span class="diary-agent-code">@job.Agent?.Code</span>
+                                            </div>
+
+                                            <div class="diary-booking-extra" id="diary-job-@job.Id" hidden>
+                                                <div class="diary-booking-divider"></div>
+                                                <div><strong>Type:</strong> <a asp-action="Details" asp-route-id="@job.Id" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)" class="diary-job-type-link">@job.JobType</a></div>
+                                                <div class="diary-agent-details">
+                                                    <strong>Agent:</strong>
+                                                    <span>@job.Agent?.Name</span>
+                                                    @if (!string.IsNullOrWhiteSpace(job.Agent?.Code))
+                                                    {
+                                                        <span class="diary-expanded-agent-code">- @job.Agent.Code</span>
+                                                    }
+                                                </div>
+                                                <div><strong>Duration:</strong> @job.JobTime.ToString(@"hh\:mm")</div>
+                                                @if (job.Customer != null)
+                                                {
+                                                    <div class="mt-1">
+                                                        <strong>Address</strong>
+                                                        <div>@job.Customer.Add1</div>
+                                                        @if (!string.IsNullOrWhiteSpace(job.Customer.Add2))
+                                                        {
+                                                            <div>@job.Customer.Add2</div>
+                                                        }
+                                                        @if (!string.IsNullOrWhiteSpace(job.Customer.Add3))
+                                                        {
+                                                            <div>@job.Customer.Add3</div>
+                                                        }
+                                                        <div>@job.Customer.Postcode</div>
+                                                    </div>
+                                                }
+                                                @if (!string.IsNullOrWhiteSpace(job.DamageDesc))
+                                                {
+                                                    <div class="mt-1"><strong>Damage:</strong> @job.DamageDesc</div>
+                                                }
+                                                
+                                                
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </td>
+                            day++;
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+

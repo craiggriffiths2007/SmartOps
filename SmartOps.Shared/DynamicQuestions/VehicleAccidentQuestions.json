@@ -1,0 +1,619 @@
+{
+  "includeHeaderQuestions": false,
+  "includeFooterQuestions": false,
+  "questions": [
+    {
+      "id": "incident",
+      "question": "Accident details",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "brief",
+      "question": "Brief overview / title",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "acc_date",
+      "question": "Accident date",
+      "type": "Date",
+      "required": true
+    },
+    {
+      "id": "acc_time",
+      "question": "Accident time",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "d_description",
+      "question": "Description of the accident circumstances",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "d_place",
+      "question": "Place of accident",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "d_weather",
+      "question": "Weather and road conditions",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "d_speed",
+      "question": "Speed of impact",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mph",
+      "minimum": 0
+    },
+    {
+      "id": "your_details",
+      "question": "Your vehicle and driver",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "y_make",
+      "question": "Vehicle make",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_model",
+      "question": "Vehicle model",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_reg",
+      "question": "Vehicle registration",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_used_for",
+      "question": "What is the vehicle used for?",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_driver_full_name",
+      "question": "Driver or person last in charge: full name",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_driver_dob",
+      "question": "Driver date of birth",
+      "type": "Date",
+      "required": true
+    },
+    {
+      "id": "y_address1",
+      "question": "Driver address line 1",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_address2",
+      "question": "Driver address line 2",
+      "type": "Text",
+      "required": false
+    },
+    {
+      "id": "y_address3",
+      "question": "Driver address line 3",
+      "type": "Text",
+      "required": false
+    },
+    {
+      "id": "y_pcode",
+      "question": "Driver postcode",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_occupation",
+      "question": "Driver occupation",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_years_employed",
+      "question": "Years employed by the company",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_months_employed",
+      "question": "Additional months employed by the company",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_any_other_accidents",
+      "question": "Accidents in the past three years (give details or enter None)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_prosecution",
+      "question": "Motoring convictions or pending prosecutions (give details or enter None)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_infirmity",
+      "question": "Infirmity or disability (give details or enter None)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_vehicle_damage",
+      "question": "Damage to your vehicle (give details or enter None)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_driveable",
+      "question": "Is your vehicle driveable?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "y_damage_to_property",
+      "question": "Damage to other property (give details or enter None)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "y_injuries_sustained",
+      "question": "Injuries sustained (give details or enter None)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "third_party",
+      "question": "Other person and vehicle",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "third_party_involved",
+      "question": "Was another person or vehicle involved?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "t_name",
+      "question": "Other person: full name",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "third_party_involved",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "t_add1",
+      "question": "Other person: address line 1",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "third_party_involved",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "t_add2",
+      "question": "Other person: address line 2",
+      "type": "Text",
+      "required": false,
+      "showWhen": {
+        "questionId": "third_party_involved",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "t_add3",
+      "question": "Other person: address line 3",
+      "type": "Text",
+      "required": false,
+      "showWhen": {
+        "questionId": "third_party_involved",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "t_pcode",
+      "question": "Other person: postcode",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "third_party_involved",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "t_telnum",
+      "question": "Other person: telephone number",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "third_party_involved",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "t_make",
+      "question": "Other vehicle: make",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "third_party_involved",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "t_model",
+      "question": "Other vehicle: model",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "third_party_involved",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "t_reg",
+      "question": "Other vehicle: registration",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "third_party_involved",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "t_insurer",
+      "question": "Other person: insurer",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "third_party_involved",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "t_policy_no",
+      "question": "Other person: policy number",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "third_party_involved",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "police",
+      "question": "Police details",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "d_bPolice",
+      "question": "Did the police attend?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "d_officers_name",
+      "question": "Officer's name",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "d_bPolice",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "d_officers_number",
+      "question": "Officer's badge / collar number",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "d_bPolice",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "d_station",
+      "question": "Police station",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "d_bPolice",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "witnesses",
+      "question": "Witnesses (maximum three)",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "witness_count",
+      "question": "Number of witnesses",
+      "type": "PlusMinus",
+      "required": true,
+      "minimum": 0,
+      "maximum": 3,
+      "defaultValue": 0,
+      "wholeNumber": true
+    },
+    {
+      "id": "witness_1",
+      "question": "Witness 1",
+      "type": "Information",
+      "required": false,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "0"
+      }
+    },
+    {
+      "id": "witness_1_name",
+      "question": "Witness 1: Full name",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "0"
+      }
+    },
+    {
+      "id": "witness_1_add1",
+      "question": "Witness 1: Address line 1",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "0"
+      }
+    },
+    {
+      "id": "witness_1_add2",
+      "question": "Witness 1: Address line 2",
+      "type": "Text",
+      "required": false,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "0"
+      }
+    },
+    {
+      "id": "witness_1_add3",
+      "question": "Witness 1: Address line 3",
+      "type": "Text",
+      "required": false,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "0"
+      }
+    },
+    {
+      "id": "witness_1_pcode",
+      "question": "Witness 1: Postcode",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "0"
+      }
+    },
+    {
+      "id": "witness_1_wittel",
+      "question": "Witness 1: Telephone number",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "0"
+      }
+    },
+    {
+      "id": "witness_2",
+      "question": "Witness 2",
+      "type": "Information",
+      "required": false,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "1"
+      }
+    },
+    {
+      "id": "witness_2_name",
+      "question": "Witness 2: Full name",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "1"
+      }
+    },
+    {
+      "id": "witness_2_add1",
+      "question": "Witness 2: Address line 1",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "1"
+      }
+    },
+    {
+      "id": "witness_2_add2",
+      "question": "Witness 2: Address line 2",
+      "type": "Text",
+      "required": false,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "1"
+      }
+    },
+    {
+      "id": "witness_2_add3",
+      "question": "Witness 2: Address line 3",
+      "type": "Text",
+      "required": false,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "1"
+      }
+    },
+    {
+      "id": "witness_2_pcode",
+      "question": "Witness 2: Postcode",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "1"
+      }
+    },
+    {
+      "id": "witness_2_wittel",
+      "question": "Witness 2: Telephone number",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "1"
+      }
+    },
+    {
+      "id": "witness_3",
+      "question": "Witness 3",
+      "type": "Information",
+      "required": false,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "2"
+      }
+    },
+    {
+      "id": "witness_3_name",
+      "question": "Witness 3: Full name",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "2"
+      }
+    },
+    {
+      "id": "witness_3_add1",
+      "question": "Witness 3: Address line 1",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "2"
+      }
+    },
+    {
+      "id": "witness_3_add2",
+      "question": "Witness 3: Address line 2",
+      "type": "Text",
+      "required": false,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "2"
+      }
+    },
+    {
+      "id": "witness_3_add3",
+      "question": "Witness 3: Address line 3",
+      "type": "Text",
+      "required": false,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "2"
+      }
+    },
+    {
+      "id": "witness_3_pcode",
+      "question": "Witness 3: Postcode",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "2"
+      }
+    },
+    {
+      "id": "witness_3_wittel",
+      "question": "Witness 3: Telephone number",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "witness_count",
+        "operator": "GreaterThan",
+        "value": "2"
+      }
+    },
+    {
+      "id": "declaration",
+      "question": "Driver declaration",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "declaration_confirmed",
+      "question": "I confirm that the details in this accident report are correct to the best of my knowledge.",
+      "type": "YesNo",
+      "required": true
+    }
+  ]
+}

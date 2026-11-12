@@ -1,0 +1,11 @@
+{
+  "version": "3.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "unpkg",
+      "library": "quill@2.0.3",
+      "destination": "wwwroot/lib/quill/"
+    }
+  ]
+}

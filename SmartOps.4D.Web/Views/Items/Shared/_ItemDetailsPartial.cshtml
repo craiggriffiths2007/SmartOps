@@ -1,0 +1,112 @@
+@model object
+@inject SmartOps.Web.Services.TenantQuestionSetService QuestionSetService
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment WebHostEnvironment
+@using SmartOps.Shared.Models
+@using SmartOps.Web.Helpers
+@using System.ComponentModel
+@using System.Reflection
+@using System.Text.Json
+@using System.Text.RegularExpressions
+
+@if (Model is SurveyItemBase item)
+{
+    // Each saved visit owns its question labels and rules.
+    var definition = DynamicQuestionSnapshots.Read(item);
+    var questionSet = DynamicQuestionSnapshots.SetName(item);
+    var version = item.SurveyQuestionSetVersion;
+    if (definition == null && !string.IsNullOrWhiteSpace(questionSet))
+    {
+        try { definition = await QuestionSetService.GetDefinitionAsync(item.TenantId, questionSet); }
+        catch { definition = new DynamicQuestionDefinition(); }
+    }
+    definition ??= new DynamicQuestionDefinition();
+    var answers = DynamicQuestionSnapshots.GetAnswers(item);
+    var context = DynamicQuestionSnapshots.Context(item);
+    var questionRows = new List<(string Label, string Value)>();
+    var diagramRows = new List<(string Caption, string File)>();
+    foreach (var q in definition.Questions)
+    {
+
+        if (q.Type == DynamicQuestionType.Information) continue;
+        if (!DynamicQuestionLogic.IsApplicable(q, answers, context)) continue;
+        if (q.Type == DynamicQuestionType.Image)
+        {
+            // The configuration gallery is a survey selection aid. Reports use
+            // bifold_selected_configuration, resolved from the recorded choice.
+            if (string.Equals(q.Id, "bifold_configuration_diagrams", StringComparison.OrdinalIgnoreCase)) continue;
+            foreach (var image in DynamicQuestionLogic.ResolveImages(q, answers, context))
+                diagramRows.Add((q.Question, image));
+            continue;
+        }
+        var value = answers.FirstOrDefault(a =>
+            string.Equals(a.QuestionId, q.Id, StringComparison.OrdinalIgnoreCase));
+        if (value is null || string.IsNullOrWhiteSpace(value.Value)) continue;
+        var display = DynamicWorkflowQuestions.IsYesNo(q.Type) && DynamicWorkflowQuestions.IsBoolean(value.Value)
+            ? DynamicWorkflowQuestions.IsYes(value.Value) ? "Yes" : "No" : value.Value;
+        questionRows.Add((q.Question, display));
+    }
+    var reportRows = questionRows.Select(answer => (answer.Label, Value: (object?)answer.Value)).ToList();
+
+    // Restrict output to known, locally-hosted assets. Never interpolate an
+    // arbitrary filename/path supplied by a custom tenant JSON definition.
+    var validDiagrams = diagramRows
+        .Where(d => Regex.IsMatch(d.File, @"^[A-Za-z0-9_-]+\.(png|jpg|jpeg|webp)$", RegexOptions.IgnoreCase))
+        .Where(d => System.IO.File.Exists(System.IO.Path.Combine(
+            WebHostEnvironment.WebRootPath, "question-diagrams", d.File)))
+        .DistinctBy(d => d.File, StringComparer.OrdinalIgnoreCase)
+        .ToList();
+
+    <article class="go-item-report">
+        <header class="go-report-header">
+    <div class="go-report-header-left">
+        <span class="go-report-meta">Contract @item.ContractCode</span>
+        <span class="go-report-meta">Item No. @item.item_number</span>
+    </div>
+
+    <span class="go-report-meta">Questions v@(version)</span>
+</header>
+
+        @if (reportRows.Count > 0)
+        {
+            var half = (reportRows.Count + 1) / 2;
+            <section class="go-report-section">
+                <div class="go-report-answer-columns">
+                    @foreach (var column in new[] { reportRows.Take(half), reportRows.Skip(half) })
+                    {
+                        <dl class="go-report-fields">
+                            @foreach (var field in column)
+                            {
+                                <div class="go-report-field">
+                                    <dt>@field.Label</dt>
+                                    @* Keep recorded values on one line to avoid introducing whitespace. *@
+                                    <dd><span class="go-report-field-value @(field.Value is bool yesNo ? (yesNo ? "go-report-yes" : "go-report-no") : "")">@(field.Value is bool boolValue ? (boolValue ? "Yes" : "No") : field.Value?.ToString()?.Trim())</span></dd>
+                                </div>
+                            }
+                        </dl>
+                    }
+                </div>
+            </section>
+        }
+
+        @if (validDiagrams.Count > 0)
+        {
+            <section class="go-report-section go-report-diagrams-section">
+                <h3>Reference diagrams</h3>
+                <div class="go-report-diagrams">
+                    @foreach (var diagram in validDiagrams)
+                    {
+                        <figure class="go-report-diagram">
+                            <img src="@Url.Content("~/question-diagrams/" + diagram.File)"
+                                 alt="@diagram.Caption" loading="eager" />
+                            <figcaption>@diagram.Caption</figcaption>
+                        </figure>
+                    }
+                </div>
+            </section>
+        }
+    </article>
+}
+else
+{
+    <p class="text-muted">No survey item data available.</p>
+}

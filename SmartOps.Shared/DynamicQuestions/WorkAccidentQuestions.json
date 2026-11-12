@@ -1,0 +1,132 @@
+{
+  "includeHeaderQuestions": false,
+  "includeFooterQuestions": false,
+  "questions": [
+    {
+      "id": "injured_person",
+      "question": "About the person who had the accident",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "full_name",
+      "question": "Injured person: full name",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "add1",
+      "question": "Injured person: address line 1",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "add2",
+      "question": "Injured person: address line 2",
+      "type": "Text",
+      "required": false
+    },
+    {
+      "id": "add3",
+      "question": "Injured person: address line 3",
+      "type": "Text",
+      "required": false
+    },
+    {
+      "id": "pcode",
+      "question": "Injured person: postcode",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "occupation",
+      "question": "Injured person: occupation",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "reporter",
+      "question": "About the person reporting the accident",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "filer_full_name",
+      "question": "Reporter: full name",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "filer_add1",
+      "question": "Reporter: address line 1",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "filer_add2",
+      "question": "Reporter: address line 2",
+      "type": "Text",
+      "required": false
+    },
+    {
+      "id": "filer_add3",
+      "question": "Reporter: address line 3",
+      "type": "Text",
+      "required": false
+    },
+    {
+      "id": "filer_pcode",
+      "question": "Reporter: postcode",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "filer_occupation",
+      "question": "Reporter: occupation",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "incident",
+      "question": "Accident details",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "date_happened",
+      "question": "Date happened",
+      "type": "Date",
+      "required": true
+    },
+    {
+      "id": "time_happened",
+      "question": "Time happened",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "how_did_accident_happen",
+      "question": "How did the accident happen?",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "where_it_happened",
+      "question": "Where did the accident happen?",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "materials_used_in_treatment",
+      "question": "Materials used in treatment (enter None if not applicable)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "injuries_sustained",
+      "question": "Injuries sustained (enter None if not applicable)",
+      "type": "Text",
+      "required": true
+    }
+  ]
+}

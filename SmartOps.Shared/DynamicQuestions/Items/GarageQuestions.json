@@ -1,0 +1,573 @@
+{
+  "questions": [
+    {
+      "id": "color",
+      "question": "Colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "White",
+        "Black",
+        "Green",
+        "Red",
+        "Blue",
+        "Brown",
+        "Mahogany"
+      ]
+    },
+    {
+      "id": "door_fits_into",
+      "question": "Subframe material",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Timber",
+        "Metal"
+      ]
+    },
+    {
+      "id": "new_subframe_req",
+      "question": "New subframe",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "None",
+        "HW",
+        "SW",
+        "Metal"
+      ],
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_fits_into",
+              "operator": "Equals",
+              "value": "Timber"
+            }
+          ],
+          "options": [
+            "Metal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "obstruction_outside_b",
+      "question": "Obstruction outside",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "obstruction_outside",
+      "question": "External obstructions and available clearances",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "obstruction_outside_b",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "obstruction_inside_b",
+      "question": "Obstruction inside",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "obstruction_inside",
+      "question": "Internal obstructions and available clearances",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "obstruction_inside_b",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "actual_door_width",
+      "question": "Actual door width",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "actual_door_height",
+      "question": "Actual door height",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "frame_fix_type",
+      "question": "Frame fix type",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Back Fix",
+        "In-between Fix"
+      ]
+    },
+    {
+      "id": "door_within_perimeter",
+      "question": "Is the garage door in customers house perimeter",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "where_is_garage",
+      "question": "Where is it",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "door_within_perimeter",
+        "operator": "Equals",
+        "value": "No"
+      }
+    },
+    {
+      "id": "type_of_garage",
+      "question": "Garage wall / roof construction",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Brick",
+        "Timber",
+        "Concrete Prefab",
+        "Asbestos",
+        "Unknown / suspected asbestos"
+      ]
+    },
+    {
+      "id": "new_electric_operator_req",
+      "question": "New or replacement electric operator required?",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "readOnly": true
+    },
+    {
+      "id": "wire_type",
+      "question": "Proposed motor supply / isolation arrangement",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Hard Wired",
+        "240v Plug"
+      ],
+      "showWhen": {
+        "questionId": "new_electric_operator_req",
+        "operator": "Equals",
+        "value": "Yes"
+      },
+      "readOnly": true
+    },
+    {
+      "id": "socket_within_1m",
+      "question": "Suitable earthed 230V socket within manufacturer-permitted cable reach?",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "new_electric_operator_req",
+        "operator": "Equals",
+        "value": "Yes"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "wire_type",
+          "operator": "Equals",
+          "value": "240v Plug"
+        }
+      ]
+    },
+    {
+      "id": "electric_door",
+      "question": "Will the door be power operated after this work?",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "new_electric_operator_req",
+              "operator": "Equals",
+              "value": "Yes"
+            }
+          ],
+          "options": [
+            "Yes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_position",
+      "question": "Motor position (viewed from inside)",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Left",
+        "Right",
+        "Centre",
+        "Integrated / other - record in safety review"
+      ],
+      "showWhen": {
+        "questionId": "electric_door",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "other_access",
+      "question": "Independent pedestrian access available when the garage door cannot be opened?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "need_safety_release",
+      "question": "Additional manufacturer-approved external emergency manual release required?",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "electric_door",
+        "operator": "Equals",
+        "value": "Yes"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "other_access",
+          "operator": "Equals",
+          "value": "No"
+        }
+      ]
+    },
+    {
+      "id": "handle_outside",
+      "question": "Handle on the outside",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "door_stuck_shut",
+      "question": "Garage door stuck shut",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "garage_side_reference",
+      "question": "Garage side elevation reference",
+      "type": "Image",
+      "required": false,
+      "image": "garageside.png"
+    },
+    {
+      "id": "side_size_A",
+      "question": "Side size A",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "side_size_B",
+      "question": "Side size B",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "side_size_C",
+      "question": "Side size C",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "side_size_D",
+      "question": "Side size D",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "side_size_E",
+      "question": "Side size E",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "side_size_F",
+      "question": "Side size F",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "side_size_G",
+      "question": "Side size G",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "side_timber_1",
+      "question": "Side timber 1",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "side_timber_2",
+      "question": "Side timber 2",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "garage_plan_reference",
+      "question": "Garage plan reference",
+      "type": "Image",
+      "required": false,
+      "image": "garageplan.png"
+    },
+    {
+      "id": "plan_size_A",
+      "question": "Plan size A",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "plan_size_B",
+      "question": "Plan size B",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "plan_size_C1",
+      "question": "Plan size C1",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "plan_size_C2",
+      "question": "Plan size C2",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "plan_size_D",
+      "question": "Plan size D",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "plan_timber_1",
+      "question": "Plan timber 1",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "plan_timber_2",
+      "question": "Plan timber 2",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "opening_type",
+      "question": "Opening type",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Canopy",
+        "Retractable",
+        "Roller Door",
+        "Sectional Door",
+        "Side Hung"
+      ]
+    },
+    {
+      "id": "roller_door_reference",
+      "question": "Roller shutter reference",
+      "type": "Image",
+      "required": false,
+      "image": "rollergarage.png",
+      "showWhen": {
+        "questionId": "opening_type",
+        "operator": "Equals",
+        "value": "Roller Door"
+      }
+    },
+    {
+      "id": "roller_door_type",
+      "question": "Type of roller door",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Thermaglide 77",
+        "Thermaglide 55",
+        "Steel Line"
+      ],
+      "showWhen": {
+        "questionId": "opening_type",
+        "operator": "Equals",
+        "value": "Roller Door"
+      }
+    },
+    {
+      "id": "roller_box_type",
+      "question": "Roll box type",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "No roll box",
+        "Full roll box",
+        "Half roll box"
+      ],
+      "showWhen": {
+        "questionId": "opening_type",
+        "operator": "Equals",
+        "value": "Roller Door"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "roller_door_type",
+          "operator": "Equals",
+          "value": "Thermaglide 77"
+        }
+      ]
+    },
+    {
+      "id": "colour_match_roll_box",
+      "question": "Colour match roll box",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "opening_type",
+        "operator": "Equals",
+        "value": "Roller Door"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "roller_door_type",
+          "operator": "Equals",
+          "value": "Thermaglide 77"
+        },
+        {
+          "questionId": "roller_box_type",
+          "operator": "In",
+          "value": "Full roll box|Half roll box"
+        }
+      ]
+    },
+    {
+      "id": "garage_additional_drawing",
+      "question": "Additional roller opening drawing required",
+      "type": "Information",
+      "required": false,
+      "showWhen": {
+        "questionId": "opening_type",
+        "operator": "Equals",
+        "value": "Roller Door"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "roller_door_type",
+          "operator": "In",
+          "value": "Thermaglide 77|Thermaglide 55"
+        }
+      ]
+    },
+    {
+      "id": "finish",
+      "question": "Finish",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Metal Painted",
+        "Woodgrain Plastic",
+        "Fibre Glass",
+        "UPVC Finish"
+      ]
+    },
+    {
+      "id": "opening_direction",
+      "question": "Opening direction",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Open In",
+        "Open Out"
+      ],
+      "showWhen": {
+        "questionId": "opening_type",
+        "operator": "Equals",
+        "value": "Side Hung"
+      }
+    },
+    {
+      "id": "power_points",
+      "question": "Existing electrical supply available?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "insulated",
+      "question": "Insulated door required?",
+      "type": "YesNo",
+      "required": true
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

@@ -1,0 +1,23 @@
+@model Tuple<object, List<KeyValuePair<string,string[]>>>
+@using System.ComponentModel
+@using System.Reflection
+@{
+ var h = Model.Item1;
+ var props = h.GetType();
+}
+@foreach(var group in Model.Item2){
+ <section class="jh-panel"><h5>@group.Key</h5><div class="jh-fields">
+ @foreach(var name in group.Value){
+   var prop=props.GetProperty(name);
+   if(prop==null || prop.GetCustomAttribute<BrowsableAttribute>()?.Browsable == false)continue;
+   var value=prop.GetValue(h);
+   if(value==null || (value is string str && string.IsNullOrWhiteSpace(str)))continue;
+   var label=prop.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? prop.Name;
+   <div class="jh-field"><span class="jh-label">@label</span><span class="jh-value">
+    @if(value is bool b){<span class="@(b ? "jh-yes" : "jh-no")">@(b ? "Yes" : "No")</span>}
+    else if(value is DateTime dt){@dt.ToString("dd MMM yyyy HH:mm")}
+    else{@value}
+   </span></div>
+ }
+ </div></section>
+}

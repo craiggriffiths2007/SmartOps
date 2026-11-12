@@ -1,0 +1,34 @@
+@model IEnumerable<SmartOps.Web.Models.ToolCheck>
+@{
+    ViewData["Title"] = "Tool Checks";
+}
+<h4 class="mb-3">Tool Checks</h4>
+<partial name="_BranchIndexFilter" />
+<div class="table-responsive record-index-list">
+    <table class="table table-sm table-hover align-middle record-index-table mb-0">
+        <caption class="visually-hidden">Tool Checks</caption>
+        <thead>
+            <tr>
+                <th scope="col">Completed</th>
+                <th scope="col">Vehicle registration</th>
+                <th scope="col">Branch</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr><td colspan="3" class="text-muted py-3">No records found.</td></tr>
+            }
+            @foreach (var item in Model)
+            {
+                var detailsUrl = Url.Action("Details", new { id = item.Id });
+                <tr class="clickable-row" data-href="@detailsUrl" tabindex="0">
+                    <th scope="row">@item.DateTimeCompleted.ToString("dd/MM/yyyy HH:mm")</th>
+                    <td>@item.registration</td>
+                    <td>@item.branch</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<record-pagination></record-pagination>

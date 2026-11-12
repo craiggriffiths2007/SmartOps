@@ -1,0 +1,253 @@
+{
+  "questions": [
+    {
+      "id": "no_of_fitters",
+      "question": "No. of fitters",
+      "type": "PlusMinus",
+      "required": true,
+      "minimum": 1,
+      "maximum": 8,
+      "wholeNumber": true,
+      "defaultValue": 1
+    },
+    {
+      "id": "fname1",
+      "question": "Fitter name 1",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "fname2",
+      "question": "Fitter name 2",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "fname3",
+      "question": "Fitter name 3",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "id": "fname4",
+      "question": "Fitter name 4",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "id": "fname5",
+      "question": "Fitter name 5",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "4"
+        }
+      ]
+    },
+    {
+      "id": "fname6",
+      "question": "Fitter name 6",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "5"
+        }
+      ]
+    },
+    {
+      "id": "fname7",
+      "question": "Fitter name 7",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "6"
+        }
+      ]
+    },
+    {
+      "id": "fname8",
+      "question": "Fitter name 8",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "no_of_fitters",
+          "operator": "GreaterThan",
+          "value": "7"
+        }
+      ]
+    },
+    {
+      "id": "RemedialFault",
+      "question": "Fault",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Fitters Fault",
+        "Faulty Parts",
+        "Manu Fault",
+        "Orig. Ins. Fault",
+        "Sorted Itself Out"
+      ]
+    },
+    {
+      "id": "bRemedialExcessPaid",
+      "question": "Excess paid",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "RemedialReasonExcessNotPaid",
+      "question": "Reason excess not paid",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bRemedialExcessPaid",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "bRemedialCompleted",
+      "question": "Job completed",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "ReasonRemedialNotCompleted",
+      "question": "Reason job not completed",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bRemedialCompleted",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "RemedialTimeToComplete",
+      "question": "Time to complete job",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "15 mins",
+        "30 mins",
+        "45 mins",
+        "1 Hour",
+        "1.5 Hours",
+        "2 Hours",
+        "2.5 Hours",
+        "Half Day",
+        "Full Day"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "bRemedialCompleted",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "RemedialWork",
+      "question": "Work carried out",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bRemedialCompleted",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "RemedialWorkReason",
+      "question": "Reason for work carried out",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bRemedialCompleted",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "RemedialAdditionalInformation",
+      "question": "Additional information",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bRemedialCompleted",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "bRemedialAdditionalImage",
+      "question": "Additional drawing",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bRemedialCompleted",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "bRemedialCustomerSigned",
+      "question": "Customer Signature",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "bRemedialCompleted",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    }
+  ],
+  "includeHeaderQuestions": false,
+  "includeFooterQuestions": false
+}

@@ -1,0 +1,121 @@
+@model SmartOps.Web.Models.UserRolesViewModel
+
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">User</h4>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Close
+    </a>
+</div>
+<hr />
+
+@if (TempData["UserLoginSuccess"] is string success)
+{
+    <div class="alert alert-success" role="status">@success</div>
+}
+@if (TempData["UserLoginWarning"] is string warning)
+{
+    <div class="alert alert-warning" role="alert">@warning</div>
+}
+
+<div class="row">
+
+    @* LEFT COLUMN - User details *@
+    <div class="col-md-4">
+
+        <div class="mb-3">
+            <div class="fw-bold">Username</div>
+            <div>@Model.UserName</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Email</div>
+            <div>@Model.Email</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">First Name</div>
+            <div>@Model.FirstName</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Last Name</div>
+            <div>@Model.LastName</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Branch</div>
+            <div>@(string.IsNullOrWhiteSpace(Model.BranchCode) ? "All" : Model.BranchCode)</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Lock branch</div>
+            <div>@(Model.LockBranch ? "Yes" : "No")</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Roles</div>
+            <div>
+                @(Model.Roles != null && Model.Roles.Any()
+                    ? string.Join(", ", Model.Roles)
+                    : "None")
+            </div>
+        </div>
+
+    </div>
+
+
+    @* RIGHT COLUMN - Profile photo *@
+    <div class="col-md-4">
+
+        <div class="mb-3">
+            <div class="fw-bold mb-2">
+                Profile Photo
+            </div>
+
+            @if (Model.ProfilePicture != null &&
+                 Model.ProfilePicture.Length > 0)
+            {
+                <img src="data:image/png;base64,@Convert.ToBase64String(Model.ProfilePicture)" class="user-photo-preview" />
+            }
+            else
+            {
+                <div class="text-muted">
+                    No profile photo
+                </div>
+            }
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+@if (ViewData["RegistrationUser"] is SmartOps.Web.Data.AppUser registrationUser)
+{
+    <partial name="_RegistrationConfirmation" model="registrationUser" />
+}
+
+<div class="mt-4 d-flex justify-content-between align-items-center">
+
+    <a asp-action="Delete"
+       asp-route-id="@Model.UserId"
+       class="btn btn-danger">
+        Delete User
+    </a>
+
+    <a asp-action="Edit"
+       asp-route-id="@Model.UserId"
+       class="btn btn-primary ms-auto">
+        Edit
+    </a>
+
+
+</div>

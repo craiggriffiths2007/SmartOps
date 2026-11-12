@@ -1,0 +1,178 @@
+@model SmartOps.Web.ViewModels.SignedItemChangeViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <title>Item Changed Declaration</title>
+
+    <link rel="stylesheet" href="~/css/pages/print-document.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/pages/item-change-declaration.css" asp-append-version="true" />
+
+</head>
+
+<body>
+
+<div class="print-toolbar">
+
+    <button onclick="window.print();">
+        Print
+    </button>
+
+</div>
+
+
+<div class="page">
+
+    <!-- LETTER HEAD -->
+
+        <div class="letterhead">
+
+            <div>
+                @if (!string.IsNullOrWhiteSpace(Model.LogoUrl))
+                {
+                    <img src="@Model.LogoUrl"
+                         class="logo" />
+                }
+            </div>
+
+            <div class="company-details">
+
+                <strong>
+                    @Model.CompanyName
+                </strong>
+
+                @if (!string.IsNullOrWhiteSpace(
+                     Model.CompanyAddress1))
+                {
+                    <br />
+                    @Model.CompanyAddress1
+                }
+
+                @if (!string.IsNullOrWhiteSpace(
+                     Model.CompanyAddress2))
+                {
+                    <br />
+                    @Model.CompanyAddress2
+                }
+
+                @if (!string.IsNullOrWhiteSpace(
+                     Model.CompanyAddress3))
+                {
+                    <br />
+                    @Model.CompanyAddress3
+                }
+
+                @if (!string.IsNullOrWhiteSpace(
+                     Model.CompanyPostcode))
+                {
+                    <br />
+                    @Model.CompanyPostcode
+                }
+
+                @if (!string.IsNullOrWhiteSpace(
+                     Model.CompanyTelephone))
+                {
+                    <br /><br />
+                    <span>
+                        Tel: @Model.CompanyTelephone
+                    </span>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(
+                     Model.CompanyEmail))
+                {
+                    <br />
+                    <span>
+                        Email: @Model.CompanyEmail
+                    </span>
+                }
+
+            </div>
+
+        </div>
+
+
+        <div class="document-title">
+            Item Changed Declaration
+        </div>
+
+        <div class="document-details">
+
+            <div>
+                <strong>Contract Reference:</strong>
+                @Model.JobHeader.ContractCode
+            </div>
+
+            <div>
+                <strong>Customer:</strong>
+                @Model.JobHeader.CustomerName
+            </div>
+
+            <div>
+                <strong>Property:</strong>
+                @Model.JobHeader.CustomerAddressLine1,
+                @Model.JobHeader.CustomerAddressLine2,
+                @Model.JobHeader.CustomerPostcode
+            </div>
+
+        </div>
+
+
+        <div class="document-details">
+            <strong>Item:</strong> @Model.Item.item_number — @Model.Item.ItemTitle
+        </div>
+
+        <div class="mandate-text">
+
+            <p>
+                I confirm I have chosen to change the item to:
+            </p>
+            <p class="item-change-details">@Model.Item.ChangeItemTo</p>
+
+
+        </div>
+
+
+        <div class="signature-section">
+
+            @if (!string.IsNullOrWhiteSpace(
+                 Model.SignatureFilename))
+            {
+                <img src="@Url.Content("~/images/" + Uri.EscapeDataString(Model.SignatureFilename))" alt="Customer signature approving the item change"
+                     class="signature" />
+            }
+
+            @if (string.IsNullOrWhiteSpace(Model.SignatureFilename))
+            {
+                <p>@(Model.Item.bDifferentFromOriginalSigned ? "Signature has not been uploaded." : "Not signed.")</p>
+            }
+
+            <div class="signature-line">
+
+                <strong>
+                    @Model.SignerName
+                </strong>
+
+                <br />
+
+                Customer Signature
+
+            </div>
+
+
+
+        </div>
+
+
+</div>
+
+</body>
+
+</html>

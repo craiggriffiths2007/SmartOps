@@ -1,0 +1,34 @@
+@model SmartOps.Web.ViewModels.JobDetailsViewModel
+
+<form asp-action="Create" method="post" id="booking-form">
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger"></div>
+
+    <input type="hidden" asp-for="Job.Id" />
+    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+    @if (ViewData["FixedContractId"] is int fixedContractId)
+    {
+        <input type="hidden" name="fixedContractId" value="@fixedContractId" />
+    }
+
+    @if (ViewData["PreserveBookingDetails"] is true)
+    {
+        <input type="hidden" name="preserveBookingDetails" value="true" />
+    }
+
+    <partial name="_JobFormFields" model="Model" />
+
+    
+
+<div class="mt-4 d-flex justify-content-between align-items-center">
+
+       
+
+        <input type="submit"
+               value="Save"
+               class="btn btn-primary ms-auto" />
+
+    </div>
+
+</form>

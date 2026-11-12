@@ -1,0 +1,55 @@
+@model SmartOps.Web.Models.Tenant
+@{
+    ViewData["Title"] = "Edit Company";
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Edit Company</h4>
+    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Cancel</a>
+</div>
+<hr />
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+    @Html.AntiForgeryToken()
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="Created" type="hidden" />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+<section class="mb-4"><h5 class="mb-3">Company</h5><div class="row g-3">
+    <div class="col-md-6"><label asp-for="Name" class="form-label fw-semibold">Name</label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="Code" class="form-label fw-semibold">Code</label><input asp-for="Code" class="form-control" /><span asp-validation-for="Code" class="text-danger"></span></div>
+    <div class="col-12"><div class="form-check"><input asp-for="IsActive" class="form-check-input" /><label asp-for="IsActive" class="form-check-label fw-semibold">Active</label></div><span asp-validation-for="IsActive" class="text-danger"></span></div>
+</div></section>
+
+<section class="mb-4"><h5 class="mb-3">Address</h5><div class="row g-3">
+    <div class="col-md-6"><label asp-for="Address1" class="form-label fw-semibold">Address line 1</label><input asp-for="Address1" class="form-control" /><span asp-validation-for="Address1" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="Address2" class="form-label fw-semibold">Address line 2</label><input asp-for="Address2" class="form-control" /><span asp-validation-for="Address2" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="Town" class="form-label fw-semibold">Town</label><input asp-for="Town" class="form-control" /><span asp-validation-for="Town" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="County" class="form-label fw-semibold">County</label><input asp-for="County" class="form-control" /><span asp-validation-for="County" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="Postcode" class="form-label fw-semibold">Postcode</label><input asp-for="Postcode" class="form-control" /><span asp-validation-for="Postcode" class="text-danger"></span></div>
+</div></section>
+
+<section class="mb-4"><h5 class="mb-3">Contact</h5><div class="row g-3">
+    <div class="col-md-6"><label asp-for="Telephone" class="form-label fw-semibold">Telephone</label><input asp-for="Telephone" class="form-control" /><span asp-validation-for="Telephone" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="Email" class="form-label fw-semibold">Email</label><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="Website" class="form-label fw-semibold">Website</label><input asp-for="Website" class="form-control" /><span asp-validation-for="Website" class="text-danger"></span></div>
+</div></section>
+
+<section class="mb-4"><h5 class="mb-3">Branding</h5><div class="row g-3">
+    <div class="col-md-6"><label asp-for="Logo" class="form-label fw-semibold">Logo</label><input asp-for="Logo" class="form-control" /><span asp-validation-for="Logo" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="LogoUpdated" class="form-label fw-semibold">Logo updated</label><input asp-for="LogoUpdated" class="form-control" /><span asp-validation-for="LogoUpdated" class="text-danger"></span></div>
+</div></section>
+
+<section class="mb-4"><h5 class="mb-3">Subscription</h5><div class="row g-3">
+    <div class="col-md-6"><label asp-for="SubscriptionPlan" class="form-label fw-semibold">SubscriptionPlan</label><input asp-for="SubscriptionPlan" class="form-control" /><span asp-validation-for="SubscriptionPlan" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="SubscriptionStarted" class="form-label fw-semibold">Subscription started</label><input asp-for="SubscriptionStarted" class="form-control" /><span asp-validation-for="SubscriptionStarted" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="SubscriptionExpires" class="form-label fw-semibold">Subscription expires</label><input asp-for="SubscriptionExpires" class="form-control" /><span asp-validation-for="SubscriptionExpires" class="text-danger"></span></div>
+    <div class="col-12"><div class="form-check"><input asp-for="AutoRenew" class="form-check-input" /><label asp-for="AutoRenew" class="form-check-label fw-semibold">Auto renew</label></div><span asp-validation-for="AutoRenew" class="text-danger"></span></div>
+</div></section>
+
+
+<div class="mt-4 d-flex justify-content-end">
+    <button type="submit" class="btn btn-primary">Save</button>
+</div>
+</form>
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

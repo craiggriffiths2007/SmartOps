@@ -1,0 +1,103 @@
+@model SmartOps.Web.ViewModels.SpecialistPrintViewModel
+@{ Layout = null; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@Model.Title - @Model.Item.ContractCode - Item @Model.Item.item_number</title>
+    <link rel="stylesheet" href="~/css/pages/specialist-print.css" asp-append-version="true" />
+</head>
+<body data-print-ready>
+    <nav class="print-toolbar" aria-label="Print controls">
+        <button type="button" onclick="window.close()">Close</button>
+        <button type="button" id="print-sheet" onclick="window.print()">Print / Save PDF</button>
+    </nav>
+    <main class="technical-sheet">
+        <header class="sheet-header">
+            <div><p class="company-name">@Model.CompanyName</p><h1>@Model.Title</h1></div>
+            <strong class="design-status @(Model.IsComplete ? "complete" : "draft")">@(Model.IsComplete ? "Design complete" : "DRAFT / INCOMPLETE")</strong>
+        </header>
+        <section class="identity" aria-label="Job details">
+            <div><span>Contract</span><strong>@Model.Item.ContractCode</strong></div>
+            <div><span>Item</span><strong>@Model.Item.item_number · @Model.Item.ItemTitle</strong></div>
+            <div><span>Customer</span><strong>@(string.IsNullOrWhiteSpace(Model.CustomerName) ? "Not recorded" : Model.CustomerName)</strong></div>
+            <div class="property"><span>Property</span><strong>@(string.IsNullOrWhiteSpace(Model.PropertyAddress) ? "Not recorded" : Model.PropertyAddress)</strong></div>
+        </section>
+        @if (!Model.IsComplete)
+        {
+            <p class="notice">This design is incomplete or has missing measurements. Confirm the details before ordering or manufacture.</p>
+        }
+        @if (Model.Warning != null) { <p class="notice">@Model.Warning</p> }
+        <section class="specifications" aria-label="Specification">
+            @foreach (var field in Model.Specifications)
+            {
+                <div><span>@field.Label</span><strong>@field.Value</strong></div>
+            }
+        </section>
+        <div class="drawing-and-measurements">
+            <section class="diagram-section">
+                <h2>@(Model.IsLock ? "Mechanism diagram" : "Pattern layout")</h2>
+                <figure>
+                    <div class="diagram-frame">
+                        @if (Model.ImageFilename != null)
+                        {
+                            <img id="design-image" src="@Url.Content("~/images/" + Uri.EscapeDataString(Model.ImageFilename))" alt="Recorded @Model.Title diagram for item @Model.Item.item_number" loading="eager" />
+                        }
+                        <p id="missing-image" hidden="@(Model.ImageFilename != null)">Diagram not uploaded or unavailable.<br />Recorded measurements are listed alongside.</p>
+                    </div>
+                    <figcaption>Schematic. Use the recorded measurements in mm.</figcaption>
+                </figure>
+            </section>
+            <aside class="measurement-panel">
+                <h2>Measurements · mm</h2>
+                <table><thead><tr><th scope="col">Reference</th><th scope="col">Recorded value</th></tr></thead><tbody>
+                    @foreach (var field in Model.Measurements)
+                    {
+                        <tr><th scope="row">@field.Label</th><td class="@(field.Value == "Not recorded" ? "missing" : "")">@field.Value</td></tr>
+                    }
+                </tbody></table>
+                @if (Model.IsLock)
+                {
+                    <p class="explanation">@(Model.Bolts.Count > 0 ? "Lettered spans run between the marked points and ends." : "Lettered spans run between adjacent components.") References match the recorded diagram.</p>
+                    <h2>Components · top to bottom</h2>
+                    @if (Model.Components.Count > 0)
+                    {
+                        <ol class="components">@foreach (var component in Model.Components) { <li>@component</li> }</ol>
+                    }
+                    else { <p class="missing">No locking components recorded.</p> }
+                    @if (Model.Bolts.Count > 0)
+                    {
+                        <h2>Shoot bolts</h2>
+                        <dl class="bolt-list">@foreach (var bolt in Model.Bolts) { <div><dt>@bolt.Label</dt><dd>@bolt.Value</dd></div> }</dl>
+                    }
+                }
+                else
+                {
+                    <h2>Measurement notes</h2>
+                    <p class="explanation">Values are printed exactly as recorded, including the survey designer's allowances. Do not add the allowances again.</p>
+                    <p class="explanation">Opposite gaps share the same pattern spacing. For diamond leading, A–D locate the repeating reference grid through the diamond points.</p>
+                }
+            </aside>
+        </div>
+        <footer>Contract @Model.Item.ContractCode · Item @Model.Item.item_number · @Model.Title<br />Check the reference letters against the diagram. Older diagrams may omit values; use the measurement table.</footer>
+    </main>
+    <script>
+        const designImage = document.getElementById('design-image');
+        const printButton = document.getElementById('print-sheet');
+        if (designImage) {
+            printButton.disabled = !designImage.complete;
+            function imageReady() {
+                if (!designImage.naturalWidth) {
+                    designImage.hidden = true;
+                    document.getElementById('missing-image').hidden = false;
+                }
+                printButton.disabled = false;
+            }
+            designImage.addEventListener('load', imageReady);
+            designImage.addEventListener('error', imageReady);
+            if (designImage.complete) imageReady();
+        }
+    </script>
+</body>
+</html>

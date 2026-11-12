@@ -1,0 +1,36 @@
+@model SmartOps.Web.Models.NewsArticle
+
+@{
+    ViewData["Title"] = Model.Title;
+    ViewData["Description"] = Model.Summary;
+}
+
+<link href="~/lib/quill.snow.css" rel="stylesheet" />
+
+<article class="news-article mx-auto">
+
+    <div class="mb-4">
+        <a asp-controller="News"
+           asp-action="Index"
+           class="text-decoration-none">
+            &larr; News
+        </a>
+    </div>
+
+    <header class="mb-0">
+        <div class="text-muted mb-2">
+            @Model.PublishedDate.ToString("d MMMM yyyy")
+        </div>
+
+        <h1 class="display-6 mb-0">@Model.Title</h1>
+    </header>
+
+    <div class="news-body ql-editor p-0">
+        @Html.Raw(Model.BodyHtml)
+    </div>
+
+</article>
+
+<link rel="stylesheet"
+      href="~/css/pages/news-article.css"
+      asp-append-version="true" />
