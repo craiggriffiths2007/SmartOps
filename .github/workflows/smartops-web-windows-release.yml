@@ -121,6 +121,10 @@ jobs:
           # as well as the original Markdown documentation inside SmartOps.4D.
           Copy-Item "./packaging/generated-api-pdfs/APP_API_INTEGRATION.pdf" (Join-Path $stage "APP_API_INTEGRATION.pdf")
           Copy-Item "./packaging/generated-api-pdfs/WEB_API_INTEGRATION.pdf" (Join-Path $stage "WEB_API_INTEGRATION.pdf")
+          # Include the database schema diagram with the downloadable integration kit.
+          $schemaDiagram = "./Database Schema ER Diagram.png"
+          if (!(Test-Path $schemaDiagram)) { throw "Database schema ER diagram not found" }
+          Copy-Item $schemaDiagram (Join-Path $stage "Database Schema ER Diagram.png")
 
 
           $unexpected = @(Get-ChildItem $stage -Recurse -File | Where-Object {
