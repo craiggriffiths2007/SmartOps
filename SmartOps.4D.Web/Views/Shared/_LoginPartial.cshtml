@@ -1,0 +1,58 @@
+@using Microsoft.AspNetCore.Identity
+@using SmartOps.Web.Data
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+    @{
+        var currentUser = await UserManager.GetUserAsync(User);
+    }
+    @if (SignInManager.IsSignedIn(User) && currentUser == null)
+    {
+        await SignInManager.SignOutAsync();
+    }
+    @if (SignInManager.IsSignedIn(User) && currentUser != null)
+    {
+        <a asp-area="Identity"
+           asp-page="/Account/Manage/Index"
+           title="@currentUser?.FirstName" class="profile-link">
+
+            @if (currentUser?.ProfilePicture != null &&
+                 currentUser.ProfilePicture.Length > 0)
+            {
+                <img src="data:image/*;base64,@Convert.ToBase64String(currentUser.ProfilePicture)" class="profile-photo-link"
+                     alt="Profile" />
+            }
+            else
+            {
+                <i class="bi bi-person-circle nav-profile-icon"
+                   title="@currentUser?.FirstName"></i>
+            }
+
+        </a>
+        <form class="nav-item"
+              id="logoutForm"
+              asp-area="Identity"
+              asp-page="/Account/Logout"
+              asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+
+            <button id="logout"
+                    type="submit"
+                    class="btn btn-link text-white p-0"
+                    title="Logout"
+                    aria-label="Logout">
+                <i class="bi bi-box-arrow-right nav-logout-icon"></i>
+            </button>
+
+        </form>
+
+    }
+    else
+    {
+        <a class="nav-item" asp-area="Identity" asp-page="/Account/Register">Register</a>
+
+        <a class="nav-item" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    }
+
+    
+

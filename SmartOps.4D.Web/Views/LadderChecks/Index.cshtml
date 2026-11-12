@@ -1,0 +1,40 @@
+@model IEnumerable<SmartOps.Web.Models.LadderCheck>
+@{
+    ViewData["Title"] = "Ladder Checks";
+}
+<h4 class="mb-3">Ladder Checks</h4>
+<partial name="_BranchIndexFilter" />
+<div class="table-responsive record-index-list">
+    <table class="table table-sm table-hover align-middle record-index-table mb-0">
+        <caption class="visually-hidden">Ladder Checks</caption>
+        <thead>
+            <tr>
+                <th scope="col">Check date</th>
+                <th scope="col">Branch</th>
+                <th scope="col">Ladder number</th>
+                <th scope="col">Ladder type</th>
+                <th scope="col">Vehicle registration</th>
+                <th scope="col">Fitter / surveyor</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr><td colspan="6" class="text-muted py-3">No records found.</td></tr>
+            }
+            @foreach (var item in Model)
+            {
+                var detailsUrl = Url.Action("Details", new { id = item.Id });
+                <tr class="clickable-row" data-href="@detailsUrl" tabindex="0">
+                    <th scope="row">@(string.IsNullOrWhiteSpace(item.date_done) ? item.DateTimeCompleted.ToString("dd/MM/yyyy") : item.date_done)</th>
+                    <td>@item.branch</td>
+                    <td>@item.ladder_number</td>
+                    <td>@item.ladder_type</td>
+                    <td>@item.registration</td>
+                    <td>@item.fitter_surveyor_name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<record-pagination></record-pagination>

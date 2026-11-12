@@ -1,0 +1,107 @@
+/* Styles for Views/Contracts/Details.cshtml. */
+/* One flexible instructions column and one three-row details column. */
+.contract-booking-card {
+    display: block;
+    color: inherit;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+.contract-booking-card .booking-card-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+    min-width: 0;
+}
+
+.contract-booking-card .booking-instructions-preview {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 72px;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.contract-booking-card .booking-instructions-preview .ql-editor {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    font-size: inherit;
+    line-height: inherit;
+    overflow-wrap: anywhere;
+}
+
+.contract-booking-card .booking-instructions-preview .ql-editor p {
+    margin: 0;
+}
+
+.contract-booking-card .booking-card-details {
+    flex: 0 0 auto;
+    display: grid;
+    grid-template-rows: repeat(3, 24px);
+    justify-items: end;
+    align-items: center;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.contract-booking-card .booking-card-date {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.contract-booking-card .booking-card-operative {
+    font-weight: 600;
+}
+
+@media (max-width: 700px) {
+    .contract-booking-card .booking-card-content {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .contract-booking-card .booking-instructions-preview {
+        flex: none;
+        width: 100%;
+    }
+
+    .contract-booking-card .booking-card-details {
+        width: 100%;
+        justify-items: start;
+        text-align: left;
+        white-space: normal;
+    }
+
+    .contract-booking-card .booking-card-date {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+}
+
+.contract-status-progress .diary-received-statuses {
+    margin-left: 0;
+}
+
+.contract-notes-list [data-contract-note] {
+    white-space: pre-wrap;
+    font: inherit;
+}
+
+.contract-notes-list [data-contract-note] .ql-editor {
+    padding: 0;
+}
+
+[data-contract-note-form] [data-note-editor],
+[data-contract-note-form] [data-note-editor] .ql-editor {
+    height: auto;
+}
+
+[data-contract-note-form] [data-note-editor] .ql-editor {
+    padding-block: .375rem;
+}

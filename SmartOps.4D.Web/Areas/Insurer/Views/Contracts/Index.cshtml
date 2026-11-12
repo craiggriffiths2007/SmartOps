@@ -1,0 +1,70 @@
+@using SmartOps.Web.Helpers
+@model IEnumerable<SmartOps.Web.ViewModels.InsurerContractListItemViewModel>
+@{
+    ViewData["Title"] = "Contracts";
+}
+
+<h1>Contracts</h1>
+
+<hr />
+
+@if (!Model.Any())
+{
+    <p class="text-muted py-3">No records found.</p>
+}
+<div class="record-cards">
+@foreach (var item in Model)
+        {
+            <article class="record-card">
+    <div class="record-card-title fw-bold"><a href="@Url.Action("Details", new { id = item.Contract.Id })" class="stretched-link">@item.Contract.ContractCode</a></div>
+    <div class="record-card-fields">
+
+                <div class="record-card-field">
+                <span class="record-field-label">Customer</span>
+                @item.Contract.Customer?.Name
+            </div>
+
+                <div class="record-card-field">
+                <span class="record-field-label">Incident Date</span>
+                @item.Contract.IncidentDate.ToString("dd/MM/yyyy")
+            </div>
+
+                <div class="record-card-field">
+                <span class="record-field-label">Policy Number</span>
+                @item.Contract.PolicyNumber
+            </div>
+
+                <div class="record-card-field">
+                <span class="record-field-label">Glazing Company</span>
+                @item.Contract.Tenant?.Name
+            </div>
+
+                <div class="record-card-field">
+                <span class="record-field-label">Status</span>
+                @ContractStatusHelper.GetTitle(item.Contract.Status)
+            </div>
+                <div class="record-card-field">
+                <span class="record-field-label">Messages</span>
+@if (item.UnreadMessages > 0)
+                    {
+                        <span class="badge bg-danger">
+                            @item.UnreadMessages
+                        </span>
+                }
+            </div>
+
+                <div class="record-card-field"><span class="record-field-label">Actions</span>
+<a asp-area="Insurer"
+                       asp-controller="Contracts"
+                       asp-action="Details"
+                       asp-route-id="@item.Contract.Id"
+                       class="btn btn-sm btn-outline-primary">
+                        View
+                    </a>
+</div>
+
+    </div>
+</article>
+        }
+</div>
+<record-pagination></record-pagination>

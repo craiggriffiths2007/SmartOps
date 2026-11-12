@@ -1,0 +1,109 @@
+{
+  "questions": [
+    {
+      "id": "FitPartsUsed",
+      "question": "Parts used",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "hire_equipment_used",
+      "question": "Branch or hired",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Branch",
+        "Hired",
+        "None"
+      ]
+    },
+    {
+      "id": "hire_equipment_used_text",
+      "question": "Equipment used",
+      "type": "Picker",
+      "required": true,
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "hire_equipment_used",
+              "operator": "Equals",
+              "value": "Branch"
+            }
+          ],
+          "options": [
+            "Conservatory Access Ladders",
+            "Scaffold Tower"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "hire_equipment_used",
+              "operator": "Equals",
+              "value": "Hired"
+            }
+          ],
+          "options": [
+            "Tall Steps",
+            "Conservatory Access Ladders",
+            "3 Tier Ladder",
+            "Scaffold Tower"
+          ]
+        }
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "hire_equipment_used",
+          "operator": "Equals",
+          "value": "Hired"
+        }
+      ]
+    },
+    {
+      "id": "bFitterUsedTowerScaffolding",
+      "question": "Have you used a mobile tower?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "lintel_present",
+      "question": "Is there a lintel present?",
+      "type": "ButtonPicker",
+      "required": false,
+      "options": [
+        "n/a",
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "id": "lintel_warning",
+      "question": "You must advise the customer that a Lintel is required and ask the customer to sign below to confirm that they understand.",
+      "type": "Information",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "lintel_present",
+          "operator": "Equals",
+          "value": "No"
+        }
+      ]
+    },
+    {
+      "id": "bFitterLintelSigned",
+      "question": "Lintel signature",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "lintel_present",
+          "operator": "Equals",
+          "value": "No"
+        }
+      ]
+    }
+  ],
+  "includeHeaderQuestions": false,
+  "includeFooterQuestions": false
+}

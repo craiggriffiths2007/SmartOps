@@ -1,0 +1,120 @@
+@model SmartOps.Web.Models.EditUserViewModel
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Edit User</h4>
+
+    <a asp-action="Details"
+           asp-route-id="@Model.Id"
+           class="btn btn-secondary">
+        Cancel
+    </a>
+</div>
+<hr />
+
+<form asp-action="Edit"
+      method="post"
+      enctype="multipart/form-data">
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger"></div>
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="row bold-form">
+
+        @* LEFT COLUMN *@
+        <div class="col-md-4">
+
+            <partial name="_UserForm"
+                     model="@Model" />
+
+
+        </div>
+
+
+        @* RIGHT COLUMN *@
+        <div class="col-md-4">
+
+            
+            
+
+
+            <div class="form-group mb-4">
+
+                <label asp-for="Photo"
+                       class="control-label">
+                    Profile Photo
+                </label>
+
+                @if (Model.ExistingPhoto != null &&
+                     Model.ExistingPhoto.Length > 0)
+                {
+                    <div class="mb-3">
+
+                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.ExistingPhoto)" class="user-photo-preview" />
+
+                    </div>
+                }
+
+                <input asp-for="Photo"
+                       class="form-control"
+                       type="file"
+                       accept="image/*" />
+
+                <span asp-validation-for="Photo"
+                      class="text-danger"></span>
+
+                <small class="text-muted">
+                    Leave blank to keep current photo
+                </small>
+
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="NewPassword" class="control-label"></label>
+                <div class="input-group">
+                    <input asp-for="NewPassword" class="form-control" type="text" autocomplete="new-password" />
+                    <button type="button" class="btn btn-outline-secondary" data-generate-password
+                            data-password-input="NewPassword" data-url="@Url.Action("GeneratePassword")">Generate</button>
+                </div>
+                <span asp-validation-for="NewPassword" class="text-danger"></span>
+                <div class="form-text">Leave blank to keep the current password. Generate or enter a replacement to save or email new login details.</div>
+                <div class="form-text text-danger" data-password-status role="status"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    
+
+<div class="mt-4 d-flex justify-content-between align-items-center">
+
+
+        <div class="d-flex gap-2 flex-wrap ms-auto">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" name="emailLogin" value="true" class="btn btn-outline-primary">
+                <i class="bi bi-envelope me-1"></i>Email Login Details
+            </button>
+        </div>
+
+    </div>
+
+</form>
+
+@if (ViewData["RegistrationUser"] is SmartOps.Web.Data.AppUser registrationUser)
+{
+    <partial name="_RegistrationConfirmation" model="registrationUser" />
+}
+
+@section Scripts {
+    <script src="~/js/user-login.js" asp-append-version="true"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

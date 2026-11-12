@@ -1,0 +1,105 @@
+/* Styles for wwwroot/SmartOpsPrivicy.html. */
+:root {
+    --blue: #2878c8;
+    --blue-dark: #174f86;
+    --sky: #eef8ff;
+    --text: #294052;
+    --muted: #6f8190;
+    --border: #dcecf7;
+    --card: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    background: linear-gradient(180deg, var(--sky) 0%, #ffffff 100%);
+    line-height: 1.6;
+}
+
+.page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 18px 60px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.brand {
+    color: var(--blue-dark);
+    font-size: 34px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.subtitle {
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 8px 28px rgba(40, 120, 200, 0.08);
+}
+
+h1 {
+    font-size: 28px;
+    color: var(--blue-dark);
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 20px;
+    color: var(--blue-dark);
+    margin-top: 30px;
+}
+
+p,
+li {
+    font-size: 16px;
+}
+
+ul {
+    padding-left: 22px;
+}
+
+.updated {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.notice {
+    background: #f7fbff;
+    border-left: 4px solid var(--blue);
+    padding: 14px 16px;
+    border-radius: 8px;
+}
+
+.contact-box {
+    background: #f7fbff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+a {
+    color: var(--blue);
+}
+
+.footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 24px;
+}

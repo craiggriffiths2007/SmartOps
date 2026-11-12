@@ -1,0 +1,364 @@
+{
+  "questions": [
+    {
+      "id": "bodywork_check",
+      "question": "Bodywork and exterior panels secure and undamaged",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "bodywork_check_s",
+      "question": "Bodywork and exterior panels secure and undamaged - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "bodywork_check",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "breakdown_card",
+      "question": "Breakdown assistance details available",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "breakdown_card_s",
+      "question": "Breakdown assistance details available - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "breakdown_card",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "clean_internal",
+      "question": "Cab and interior clean and free of loose items",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "clean_internal_s",
+      "question": "Cab and interior clean and free of loose items - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "clean_internal",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "fire_extinguisher",
+      "question": "Fire extinguisher present and serviceable",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "fire_extinguisher_s",
+      "question": "Fire extinguisher present and serviceable - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "fire_extinguisher",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "first_aid_box",
+      "question": "First aid kit present and stocked",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "first_aid_box_s",
+      "question": "First aid kit present and stocked - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "first_aid_box",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "horn",
+      "question": "Horn working",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "horn_s",
+      "question": "Horn working - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "horn",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "jack",
+      "question": "Jack present and serviceable (if provided)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "jack_s",
+      "question": "Jack present and serviceable (if provided) - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "jack",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "lights_inducators",
+      "question": "Lights and indicators working",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "lights_inducators_s",
+      "question": "Lights and indicators working - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "lights_inducators",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "oil_water_checked",
+      "question": "Engine oil and coolant levels checked",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "oil_water_checked_s",
+      "question": "Engine oil and coolant levels checked - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "oil_water_checked",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "racks_poles",
+      "question": "Glass racks and poles secure and undamaged",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "racks_poles_s",
+      "question": "Glass racks and poles secure and undamaged - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "racks_poles",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "ratchet_straps",
+      "question": "Ratchet straps present and in good condition",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "ratchet_straps_s",
+      "question": "Ratchet straps present and in good condition - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "ratchet_straps",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "bump_hats",
+      "question": "Bump hats (x2) available and in good condition",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "bump_hats_s",
+      "question": "Bump hats (x2) available and in good condition - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "bump_hats",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "service_due_sticker",
+      "question": "Vehicle servicing up to date",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "service_due_sticker_s",
+      "question": "Vehicle servicing up to date - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "service_due_sticker",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "spare_wheel",
+      "question": "Spare wheel or tyre repair kit present (if provided)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "spare_wheel_s",
+      "question": "Spare wheel or tyre repair kit present (if provided) - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "spare_wheel",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "tyre_pressure",
+      "question": "All tyre pressures and visible tyre condition checked",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "tyre_pressure_s",
+      "question": "All tyre pressures and visible tyre condition checked - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "tyre_pressure",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "van_height_sticker",
+      "question": "Van height displayed correctly (where required)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "van_height_sticker_s",
+      "question": "Van height displayed correctly (where required) - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "van_height_sticker",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "van_locks",
+      "question": "Van doors and locks working",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "van_locks_s",
+      "question": "Van doors and locks working - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "van_locks",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "wheelbrace",
+      "question": "Wheel brace present (if required)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "wheelbrace_s",
+      "question": "Wheel brace present (if required) - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "wheelbrace",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "windscreen_washer",
+      "question": "Windscreen, wipers and washers in good condition",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "windscreen_washer_s",
+      "question": "Windscreen, wipers and washers in good condition - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "windscreen_washer",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "loading_storage",
+      "question": "Loading/storage floor in good condition",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "loading_storage_s",
+      "question": "Loading/storage floor in good condition - give details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "loading_storage",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "marks_out_of_10",
+      "question": "Marks out of 10",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+      ]
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

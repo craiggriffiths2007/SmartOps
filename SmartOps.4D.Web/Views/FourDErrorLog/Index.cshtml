@@ -1,0 +1,46 @@
+@model SmartOps.Web.ViewModels.FourDErrorLogViewModel
+@using System.Text.Json
+@{
+    ViewData["Title"] = "4D Error Log";
+}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>4D Error Log</h1>
+        <a asp-action="Index" class="btn btn-outline-primary">Refresh</a>
+    </div>
+    <p class="text-muted">Latest 200 errors for your company from the past seven days. Times are shown in UK local time (GMT/BST). Errors are recorded automatically without a 4D popup.</p>
+    @if (Model.LoadError != null)
+    {
+        <div class="alert alert-warning" role="alert">@Model.LoadError</div>
+    }
+    else if (Model.Entries.Count == 0)
+    {
+        <div class="alert alert-info">No 4D errors recorded for your company in the past seven days.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead><tr><th>Time (UK)</th><th>Status</th><th>Request</th><th>Stage</th><th>Details</th></tr></thead>
+                <tbody>
+                @foreach (var entry in Model.Entries)
+                {
+                    <tr>
+                        <td class="text-nowrap">@entry.UkTime</td>
+                        <td>@entry.Status</td>
+                        <td><code>@entry.Method /@entry.Path</code></td>
+                        <td>@entry.Stage</td>
+                        <td>
+                            <details>
+                                <summary>View error</summary>
+                                <p class="small text-muted mt-2">Reference: @entry.Id</p>
+                                <pre class="text-wrap">@JsonSerializer.Serialize(entry.Errors, new JsonSerializerOptions { WriteIndented = true })</pre>
+                            </details>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

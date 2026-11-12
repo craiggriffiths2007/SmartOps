@@ -1,0 +1,31 @@
+@model IEnumerable<SmartOps.Web.Models.Invoice>
+@{ ViewData["Title"] = "Invoices"; var currency = System.Globalization.CultureInfo.GetCultureInfo("en-GB"); }
+<h4 class="mb-3">Invoices</h4>
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-8">
+        <label for="invoice-search" class="visually-hidden">Search invoices</label>
+        <input id="invoice-search" name="search" value="@ViewBag.Search" class="form-control" placeholder="Invoice number, contract, customer or billed party" />
+    </div>
+    <div class="col-md-4"><button type="submit" class="btn btn-primary">Search</button> <a asp-action="Index" class="btn btn-outline-secondary">Clear</a></div>
+</form>
+@if (!Model.Any()) { <p class="text-muted py-3">No invoices found.</p> }
+else
+{
+    <div class="record-cards">
+    @foreach (var invoice in Model)
+    {
+        <article class="record-card">
+            <div class="record-card-header">
+                <h5 class="record-card-title"><a asp-action="Details" asp-route-id="@invoice.Id" class="stretched-link">@invoice.InvoiceNumber · @invoice.BillToName</a></h5>
+                <strong>@invoice.Total.ToString("C2", currency)</strong>
+            </div>
+            <div class="record-card-fields">
+                <div class="record-card-field"><span class="record-field-label">Contract</span>@invoice.ContractCode</div>
+                <div class="record-card-field"><span class="record-field-label">Invoice date</span>@invoice.InvoiceDate.ToString("dd/MM/yyyy")</div>
+                <div class="record-card-field"><span class="record-field-label">Billed to</span>@(invoice.BillingParty == InvoiceBillingParty.Customer ? "Customer (Domestic)" : "Insurer")</div>
+            </div>
+        </article>
+    }
+    </div>
+}
+<record-pagination></record-pagination>

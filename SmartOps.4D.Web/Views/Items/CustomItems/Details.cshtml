@@ -1,0 +1,19 @@
+@model SmartOps.Web.ViewModels.ItemDetailsViewModel
+@{ ViewData["Title"] = Model.CustomItem!.ItemTitle; }
+<div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3 no-print">
+    <h4>@Model.CustomItem.ItemTitle</h4>
+    <div class="d-flex flex-wrap gap-2"><button class="btn btn-outline-primary" onclick="window.print()">Print</button>
+    <partial name="_SpecialistPrintButtons" model="Model.CustomItem" />
+    <partial name="_ItemChangedSignatureButton" model="Model.CustomItem" />
+    <button class="btn btn-secondary" onclick="history.back()">Back</button></div>
+</div>
+<partial name="_ItemDetailsPartial" model="Model.CustomItem" />
+@foreach (var child in Model.CustomChildren)
+{
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5>@child.ItemTitle</h5>
+        <div class="no-print d-flex flex-wrap gap-2"><partial name="_SpecialistPrintButtons" model="child" /><partial name="_ItemChangedSignatureButton" model="child" /></div>
+    </div>
+    <partial name="_ItemDetailsPartial" model="child" />
+}
+<partial name="_ItemImagesPartial" model="Model.Images" />

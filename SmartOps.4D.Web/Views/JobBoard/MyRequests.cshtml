@@ -1,0 +1,69 @@
+@using SmartOps.Web.ViewModels
+@model IEnumerable<JobRequestListItemViewModel>
+
+@{
+    ViewData["Title"] = "My Job Requests";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>My Jobs</h3>
+
+    <a asp-controller="JobBoard"
+       asp-action="Index"
+       class="btn btn-secondary">
+        Job Board
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <p class="text-muted py-3">No records found.</p>
+}
+<div class="record-cards">
+@foreach (var request in Model)
+        {
+            <article class="record-card">
+    <div class="record-card-title fw-bold"><a href="@Url.Action("RequestDetails", new { id = request.RequestId })" class="stretched-link">@request.Postcode</a></div>
+    <div class="record-card-fields">
+
+                <div class="record-card-field">
+                <span class="record-field-label">Incident Date</span>
+                @request.IncidentDate.ToString("dd/MM/yy")
+            </div>
+
+                <div class="record-card-field">
+                <span class="record-field-label">Cause</span>
+                @request.CauseOfDamage
+            </div>
+
+                <div class="record-card-field">
+                <span class="record-field-label">Requested</span>
+                @request.RequestedDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+            </div>
+
+                <div class="record-card-field">
+                <span class="record-field-label">Status</span>
+                @request.Status
+            </div>
+
+                <div class="record-card-field">
+                <span class="record-field-label">Contract</span>
+@if (request.ContractId.HasValue)
+                    {
+                        <a asp-controller="Contracts"
+                           asp-action="Details"
+                           asp-route-id="@request.ContractId.Value">
+                            @request.ContractCode
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">—</span>
+                }
+            </div>
+
+    </div>
+</article>
+        }
+</div>
+<record-pagination></record-pagination>

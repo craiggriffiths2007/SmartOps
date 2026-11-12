@@ -1,0 +1,427 @@
+{
+  "questions": [
+    {
+      "id": "flex_repair",
+      "question": "Repair item",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "flex_reason_not_repaired",
+      "question": "Reason item cannot be repaired",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "flex_repair",
+        "operator": "Equals",
+        "value": "No"
+      }
+    },
+    {
+      "id": "flex_replace_glass",
+      "question": "Include glass",
+      "type": "ReplaceGlass",
+      "required": true
+    },
+    {
+      "id": "flex_handles_required",
+      "question": "Handles required",
+      "type": "Handles",
+      "required": true,
+      "showWhen": {
+        "questionId": "flex_repair",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "flex_handles_text",
+      "question": "Handle details",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "flex_handles_required",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "door_make",
+      "question": "Door make",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Rockdoor",
+        "Solidoor",
+        "Fusion/Global Door",
+        "Steel Skin",
+        "Mart Door"
+      ]
+    },
+    {
+      "id": "door_location",
+      "question": "Door location / use",
+      "type": "Picker",
+      "required": true,
+      "readOnly": true,
+      "options": [
+        "House external entrance",
+        "Flat entrance to common parts",
+        "Flat entrance directly outdoors",
+        "Internal / garage separation",
+        "Other / uncertain - review required"
+      ]
+    },
+    {
+      "id": "door_wood",
+      "question": "Frame",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "HW",
+        "SW",
+        "UPVC"
+      ]
+    },
+    {
+      "id": "opens",
+      "question": "Opens",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "In",
+        "Out"
+      ]
+    },
+    {
+      "id": "hinged_on",
+      "question": "Hinged on (viewed from outside)",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Left",
+        "Right"
+      ]
+    },
+    {
+      "id": "frame_colour_inside",
+      "question": "Frame colour inside",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "White",
+        "Other"
+      ]
+    },
+    {
+      "id": "frame_colour_outside",
+      "question": "Frame colour outside",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "White",
+        "Mahogany",
+        "Oak",
+        "Whitegrain",
+        "Cherrywood",
+        "Black-Brown",
+        "Other"
+      ]
+    },
+    {
+      "id": "door_colour_inside",
+      "question": "Door colour inside",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "White",
+        "Other"
+      ]
+    },
+    {
+      "id": "door_colour_outside",
+      "question": "Door colour outside",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "White",
+        "Red",
+        "Green",
+        "Black",
+        "Oak",
+        "Dark Oak",
+        "Light Oak",
+        "Other"
+      ]
+    },
+    {
+      "id": "head_drip",
+      "question": "Head drip",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "door_design",
+      "question": "Door design / system reference",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "brick_width",
+      "question": "Brick width",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "brick_height",
+      "question": "Brick height",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "internal_width",
+      "question": "Internal width",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "internal_height",
+      "question": "Internal height",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "pet_flap",
+      "question": "Pet flap",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Small",
+        "Medium",
+        "Large"
+      ],
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_location",
+              "operator": "Equals",
+              "value": "Flat entrance to common parts"
+            }
+          ],
+          "options": [
+            "None",
+            "Specialist-approved aperture - evidence in door specification"
+          ]
+        }
+      ],
+      "readOnly": true
+    },
+    {
+      "id": "pet_type",
+      "question": "Pet Type",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "n/a",
+        "Cat",
+        "Dog"
+      ],
+      "showWhen": {
+        "questionId": "pet_flap",
+        "operator": "NotBlankOrNone",
+        "value": ""
+      }
+    },
+    {
+      "id": "pet_magnetic",
+      "question": "Microchip/Magnetic",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "None",
+        "Microchip",
+        "Magnetic"
+      ],
+      "showWhen": {
+        "questionId": "pet_flap",
+        "operator": "NotBlankOrNone",
+        "value": ""
+      }
+    },
+    {
+      "id": "gaskets",
+      "question": "Gaskets",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Code:-",
+        "Other",
+        "None"
+      ]
+    },
+    {
+      "id": "gaskets_text",
+      "question": "Gasket code / details",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "gaskets",
+        "operator": "In",
+        "value": "Code:-|Other"
+      }
+    },
+    {
+      "id": "profile_type",
+      "question": "Profile type",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Chamfered (Standard)",
+        "Rustic (Sculptured)"
+      ]
+    },
+    {
+      "id": "threshold_type",
+      "question": "Threshold / upstand, drainage and clear opening dimensions",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "ventilation_assessment",
+      "question": "Existing / proposed ventilation, ventilator sizes and product reference",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "handle_colour",
+      "question": "Handle colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Shiny brass",
+        "Satin gold",
+        "Chrome",
+        "Satin silver",
+        "White",
+        "Black",
+        "Brown"
+      ]
+    },
+    {
+      "id": "lever_pad_handles",
+      "question": "Handle operation",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Lever/lever",
+        "Lever pad",
+        "Split spindle",
+        "Long bar"
+      ]
+    },
+    {
+      "id": "is_lock",
+      "question": "Lock specification",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Manufacturer-approved lock set",
+        "Existing lock retained - compatibility confirmed",
+        "Other"
+      ]
+    },
+    {
+      "id": "lock_other_text",
+      "question": "Lock make, model and product reference",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "is_lock",
+        "operator": "Equals",
+        "value": "Other"
+      }
+    },
+    {
+      "id": "addons",
+      "question": "Add-ons",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "addons_width",
+      "question": "Add-on width",
+      "type": "Measurement",
+      "required": true,
+      "showWhen": {
+        "questionId": "addons",
+        "operator": "Equals",
+        "value": "Yes"
+      },
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "addons_height",
+      "question": "Add-on height",
+      "type": "Measurement",
+      "required": true,
+      "showWhen": {
+        "questionId": "addons",
+        "operator": "Equals",
+        "value": "Yes"
+      },
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "letteredit",
+      "question": "Letterbox colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None",
+        "Black",
+        "Chrome",
+        "Gold",
+        "Satin Silver",
+        "White"
+      ]
+    },
+    {
+      "id": "letter_box_pos",
+      "question": "Letterbox position",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "n/a",
+        "Midrail",
+        "Middle",
+        "Bottom"
+      ],
+      "showWhen": {
+        "questionId": "letteredit",
+        "operator": "NotBlankOrNone",
+        "value": ""
+      }
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

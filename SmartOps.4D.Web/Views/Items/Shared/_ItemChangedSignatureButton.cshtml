@@ -1,0 +1,6 @@
+@model SmartOps.Web.Models.CustomItem
+@if (Model.bDifferentFromOriginal == true || Model.bDifferentFromOriginalSigned)
+{
+    <a class="btn btn-outline-primary" asp-controller="CustomItems" asp-action="SignedItemChange"
+       asp-route-id="@Model.Id" target="_blank" rel="noopener">Item changed</a>
+}

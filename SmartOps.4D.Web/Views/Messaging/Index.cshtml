@@ -1,0 +1,115 @@
+@model SmartOps.Web.ViewModels.MessagingViewModel
+@{
+    ViewData["Title"] = "Messaging";
+    var unreadInsurer = (ViewBag.UnreadInsurer as int?) ?? 0;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Messaging</h3>
+    <a asp-action="Closed" class="btn btn-secondary">Closed Messages</a>
+</div>
+
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#customer-messages" type="button">Customer Messages</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#insurer-messages" type="button">
+            Insurer Messages
+            @if (unreadInsurer > 0)
+            {
+                <span class="badge bg-danger ms-1">@unreadInsurer</span>
+            }
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="customer-messages">
+        <div class="table-responsive record-index-list">
+            <table class="table table-sm table-hover align-middle record-index-table message-index-table mb-0">
+                <caption class="visually-hidden">Customer messages</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Contract</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Last Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.CustomerMessages.Any())
+                    {
+                        <tr><td colspan="5" class="text-muted py-3">No customer messages found.</td></tr>
+                    }
+                    @foreach (var item in Model.CustomerMessages)
+                    {
+                        var awaitingOffice = item.Status == TicketStatus.AwaitingOffice;
+                        var lastMessageDate = item.Messages != null && item.Messages.Any()
+                            ? item.Messages.Max(m => m.Created) : item.Created;
+                        var detailsUrl = Url.Action("Details", new { id = item.Id });
+                        <tr class="clickable-row @(awaitingOffice ? "message-unread" : "")" data-href="@detailsUrl" tabindex="0">
+                            <th scope="row">
+                                <a href="@detailsUrl">@item.Contract?.ContractCode</a>
+                                @if (awaitingOffice)
+                                {
+                                    <span class="visually-hidden">Awaiting office reply</span>
+                                }
+                            </th>
+                            <td><span class="message-list-name" title="@item.Customer?.Name">@item.Customer?.Name</span></td>
+                            <td><span class="message-list-preview" title="@item.Subject">@item.Subject</span></td>
+                            <td>@item.Status</td>
+                            <td>@lastMessageDate.ToLocalTime().ToString("dd/MM/yy HH:mm")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <record-pagination fragment="customer-messages"></record-pagination>
+    </div>
+
+    <div class="tab-pane" id="insurer-messages">
+        <div class="table-responsive record-index-list">
+            <table class="table table-sm table-hover align-middle record-index-table message-index-table mb-0">
+                <caption class="visually-hidden">Insurer messages</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Contract</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Insurer</th>
+                        <th scope="col">Message</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.InsurerMessages.Any())
+                    {
+                        <tr><td colspan="5" class="text-muted py-3">No insurer messages found.</td></tr>
+                    }
+                    @foreach (var item in Model.InsurerMessages)
+                    {
+                        var unread = item.Sender == InsurerMessageSender.Insurer && !item.ReadByCompany;
+                        var detailsUrl = Url.Action("Details", "Contracts", new { id = item.ContractId, tab = "insurer" });
+                        <tr class="clickable-row @(unread ? "message-unread" : "")" data-href="@detailsUrl" tabindex="0">
+                            <th scope="row">
+                                <a href="@detailsUrl">@item.Contract?.ContractCode</a>
+                                @if (unread)
+                                {
+                                    <span class="visually-hidden">Unread message</span>
+                                }
+                            </th>
+                            <td><span class="message-list-name" title="@item.Contract?.Customer?.Name">@item.Contract?.Customer?.Name</span></td>
+                            <td><span class="message-list-name" title="@item.Insurer?.Name">@item.Insurer?.Name</span></td>
+                            <td><span class="message-list-preview" title="@item.Message">@item.Message</span></td>
+                            <td>@item.Created.ToLocalTime().ToString("dd/MM/yy HH:mm")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <record-pagination prefix="Insurer" page-parameter="insurerPage" fragment="insurer-messages"></record-pagination>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/css/pages/message-list.css" asp-append-version="true" />

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SmartOps.Shared/SmartOps.Shared.csproj" />
+  <Project Path="SmartOps.4D.Web/SmartOps.4D.Web.csproj" />
+</Solution>

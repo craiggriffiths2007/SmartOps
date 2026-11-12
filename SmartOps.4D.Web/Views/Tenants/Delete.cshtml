@@ -1,0 +1,27 @@
+@model SmartOps.Web.Models.Tenant
+@{ ViewData["Title"] = "Delete Company"; }
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0 text-danger">Delete Company</h4>
+    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Back</a>
+</div>
+<hr />
+<div class="alert alert-danger">
+    <strong>Warning:</strong> This permanently deletes the company and its associated data. This cannot be undone.
+</div>
+<div class="row g-3">
+    <div class="col-md-6"><div class="fw-bold">Company</div><div>@Model.Name</div></div>
+    <div class="col-md-6"><div class="fw-bold">Company code</div><div>@Model.Code</div></div>
+    <div class="col-md-6"><div class="fw-bold">Email</div><div>@Model.Email</div></div>
+    <div class="col-md-6"><div class="fw-bold">Subscription plan</div><div>@Model.SubscriptionPlan</div></div>
+</div>
+<form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="mt-4"
+      onsubmit="return confirm('Permanently delete this company and all associated data?');">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.Id" />
+    
+
+<div class="d-flex justify-content-between align-items-center">
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-danger">Delete Company</button>
+    </div>
+</form>
