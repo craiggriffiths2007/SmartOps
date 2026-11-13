@@ -1,5 +1,9 @@
 # SmartOps 4D database schema
 
+## Database entity-relationship diagram
+
+![SmartOps database schema ER diagram](../../Database%20Schema%20ER%20Diagram.png)
+
 Native 4D table mapping for the fresh SmartOps integration dataset. The schema was initially derived from an EF model snapshot, but SmartOps creates a new 4D data file; it does not migrate SQL Server records.
 
 - **Agent**: 12 fields; key `Id`; 1 source foreign keys; generic editor: True

@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       publish_release:
-        description: "Attach the complete 4D + optional web package to a public GitHub Release"
+        description: "Publish the integration kit to a public GitHub Release (disable for validation only)"
         required: true
         type: boolean
-        default: false
+        default: true
       version:
         description: "Optional release tag (e.g. v1.0.0); blank selects an automatic version"
         required: false
@@ -121,6 +121,10 @@ jobs:
           # as well as the original Markdown documentation inside SmartOps.4D.
           Copy-Item "./packaging/generated-api-pdfs/APP_API_INTEGRATION.pdf" (Join-Path $stage "APP_API_INTEGRATION.pdf")
           Copy-Item "./packaging/generated-api-pdfs/WEB_API_INTEGRATION.pdf" (Join-Path $stage "WEB_API_INTEGRATION.pdf")
+          # Include the database schema diagram with the downloadable integration kit.
+          $schemaDiagram = "./Database Schema ER Diagram.png"
+          if (!(Test-Path $schemaDiagram)) { throw "Database schema ER diagram not found" }
+          Copy-Item $schemaDiagram (Join-Path $stage "Database Schema ER Diagram.png")
 
 
           $unexpected = @(Get-ChildItem $stage -Recurse -File | Where-Object {
@@ -131,15 +135,6 @@ jobs:
           Compress-Archive -Path "$stage/*" -DestinationPath "$env:GITHUB_WORKSPACE/SmartOps-Integration-Windows-x64.zip" -Force
           Write-Host "Release package: SmartOps-Integration-Windows-x64.zip"
           Get-ChildItem $stage | Select-Object Name,Length | Format-Table
-
-      - name: Store integration package as Actions artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: SmartOps-Integration-Windows-x64
-          # Actions automatically ZIPs artifacts; upload the folder contents.
-          path: ${{ runner.temp }}/SmartOps-Integration/
-          retention-days: 14
-          if-no-files-found: error
 
       - name: Publish GitHub Release with complete integration package
         if: ${{ inputs.publish_release }}
