@@ -18,8 +18,6 @@ The primary guide is **[APP_API_INTEGRATION.md](SmartOps.4D/Documentation/APP_AP
 
 The diagram below provides a visual overview of the SmartOps 4D database structure and relationships. For the full table inventory, field counts, key information, and implementation notes, see the [database schema documentation](SmartOps.4D/Documentation/SCHEMA.md).
 
-![SmartOps 4D database entity-relationship diagram](Database%20Schema%20ER%20Diagram.png)
-
 ## SmartOps 4D Integration Kit
 
 **[Download SmartOps Integration Kit (ZIP)](https://github.com/craiggriffiths2007/SmartOps/releases/latest/download/SmartOps-Integration-Windows-x64.zip)** — a ready-to-use download containing the editable 4D project, integration test data and optional prebuilt Windows web interface. You can also [view all releases](https://github.com/craiggriffiths2007/SmartOps/releases).
