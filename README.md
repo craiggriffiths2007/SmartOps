@@ -14,6 +14,12 @@ SmartOps is a 4D integration and testing platform for field-service workflows. I
 
 The primary guide is **[APP_API_INTEGRATION.md](SmartOps.4D/Documentation/APP_API_INTEGRATION.md)** for the Android survey app connecting directly to 4D (without an ASP.NET bridge). Developers using the optional web interface can consult **[WEB_API_INTEGRATION.md](SmartOps.4D/Documentation/WEB_API_INTEGRATION.md)** for web login, snapshot/commit and the ASP.NET Core bridge. The native [4D database schema](SmartOps.4D/Documentation/SCHEMA.md) is documented separately.
 
+## Database schema and ER diagram
+
+The diagram below provides a visual overview of the SmartOps 4D database structure and relationships. For the full table inventory, field counts, key information, and implementation notes, see the [database schema documentation](SmartOps.4D/Documentation/SCHEMA.md).
+
+![SmartOps 4D database entity-relationship diagram](Database%20Schema%20ER%20Diagram.png)
+
 ## SmartOps 4D Integration Kit
 
 **[Download SmartOps Integration Kit (ZIP)](https://github.com/craiggriffiths2007/SmartOps/releases/latest/download/SmartOps-Integration-Windows-x64.zip)** — a ready-to-use download containing the editable 4D project, integration test data and optional prebuilt Windows web interface. You can also [view all releases](https://github.com/craiggriffiths2007/SmartOps/releases).
