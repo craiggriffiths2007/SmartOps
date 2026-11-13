@@ -58,3 +58,19 @@ The initial integration test dataset is modelled on the **smaller GlassOps regis
 For the [Android survey app on Google Play](https://play.google.com/store/apps/details?id=com.authorityx.smartops), set the tablet's **Server** to `http://YOUR-PC-IP:8045`, the **Agent Code** to an existing agent such as `ADMIN`, and the company code to `SMARTOPS`. **No device ID registration is needed when that agent's Serial Number field is blank.** If an agent has a registered serial number, the existing device checks still apply (privileged agents must use their own registered device). This agent-code-only fallback supports local integration testing and is not secure production authentication. On Windows, allow incoming TCP **8045** from the trusted local subnet on a **Private** network. 
 
 Developers can explore and experiment with a **fully functioning online demonstration system** at **[glassops.co.uk](https://glassops.co.uk/)** to understand the workflows and capabilities before working with the SmartOps 4D integration and its local integration test data.
+
+---
+
+## Screenshots
+
+The following screenshots show the SmartOps interface and example field-service workflows.
+
+![SmartOps screenshot 1](Screenshots/screenshot-1.png)
+
+![SmartOps screenshot 2](Screenshots/screenshot-2.png)
+
+![SmartOps screenshot 3](Screenshots/screenshot-3.png)
+
+![SmartOps screenshot 4](Screenshots/screenshot-4.png)
+
+![SmartOps screenshot 5](Screenshots/screenshot-5.png)
