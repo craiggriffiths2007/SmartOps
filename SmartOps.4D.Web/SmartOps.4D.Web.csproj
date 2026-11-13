@@ -66,11 +66,11 @@
     <Folder Include="Pages\Shared\" />
     <Folder Include="Views\JobHeader\" />
     <Folder Include="Views\ToolCheck\" />
+    <Folder Include="wwwroot\img\Screenshots\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\downloads\SmartOps.pdf" />
-    <None Include="wwwroot\SmartOpsPrivicy.html" />
   </ItemGroup>
 
   <ItemGroup>
