@@ -74,6 +74,14 @@
           asp-append-version="true" />
 
     <link rel="stylesheet" href="~/css/view-components.css" asp-append-version="true" />
+    <script>
+        function showProfileFallback() {
+            const image = document.querySelector('.nav-profile-photo');
+            const icon = image?.nextElementSibling;
+            image?.setAttribute('hidden', 'hidden');
+            icon?.setAttribute('style', 'font-size:2.2rem;color:white;display:block;');
+        }
+    </script>
 
     @if (isAuthenticated && !isInsurer && !User.IsInRole("SuperAdmin"))
     {
@@ -353,7 +361,7 @@
                          width="40"
                          height="40" class="nav-profile-photo"
                          alt="Profile"
-                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+                         onerror="showProfileFallback()" />
 
                     <i class="bi bi-person-circle"
                        style="font-size:2.2rem;
