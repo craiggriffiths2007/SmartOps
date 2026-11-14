@@ -177,14 +177,16 @@ namespace SmartOps.Web.Areas.Identity.Pages.Account
                             new { area = "" });
                     }
 
+                    // SmartOps ships the company staff interface only; the
+                    // separate insurer portal is not part of this integration kit.
                     if (await _userManager.IsInRoleAsync(
                             loginUser,
                             Roles.Insurer.ToString()))
                     {
-                        return RedirectToAction(
-                            "Index",
-                            "Home",
-                            new { area = "Insurer" });
+                        await _signInManager.SignOutAsync();
+                        ModelState.AddModelError(string.Empty,
+                            "Insurer portal accounts are not supported in this web interface.");
+                        return Page();
                     }
 
                     return RedirectToAction(

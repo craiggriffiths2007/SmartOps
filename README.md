@@ -57,6 +57,8 @@ For source development, open `SmartOps.4D.Web` in Visual Studio with the appropr
 
 These are public **testing credentials**. Never reuse them for a production system.
 
+The optional web interface is **an authenticated operational workspace**, not a public marketing website. The Home, News and Insurer Portal pages have been removed; visiting the web root redirects to login (or to the diary when already signed in). Insurer company records remain available to contracts and demonstrations, but insurer portal sign-in is not supported.
+
 ### 3. Connect the Android survey app (optional)
 
 Install the [SmartOps Android survey app](https://play.google.com/store/apps/details?id=com.authorityx.smartops). Configure **Server** as `http://YOUR-PC-IP:8045`, company code `SMARTOPS` and an existing agent code such as `ADMIN`.
