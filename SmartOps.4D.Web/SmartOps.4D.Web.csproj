@@ -4,7 +4,6 @@
     <TargetFramework>net11.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
@@ -58,16 +57,7 @@
     <PackageReference Include="UAParser" Version="3.1.47" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Insurer\Views\Shared\Components\" />
-    <Folder Include="CodeTemplates\MvcControllerWithContext\" />
-    <Folder Include="Migrations\" />
-    <Folder Include="Pages\Shared\" />
-    <Folder Include="Views\JobHeader\" />
-    <Folder Include="Views\ToolCheck\" />
-    <Folder Include="wwwroot\img\Screenshots\" />
-  </ItemGroup>
+  <!-- Visual Studio folder placeholders removed; real files and directories remain unchanged. -->
 
   <ItemGroup>
     <None Include="wwwroot\downloads\SmartOps.pdf" />
