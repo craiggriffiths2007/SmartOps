@@ -63,30 +63,6 @@
 
         </div>
 
-        <fieldset class="form-group mb-3">
-            <legend class="col-form-label">Traffic Light</legend>
-            <div class="d-flex flex-wrap gap-3">
-                @foreach (var light in Enum.GetValues<SmartOps.Shared.Enums.enum_tlight>())
-                {
-                    var colour = light switch
-                    {
-                        SmartOps.Shared.Enums.enum_tlight.Red => "#dc3545",
-                        SmartOps.Shared.Enums.enum_tlight.Orange => "#fd7e14",
-                        _ => "#198754"
-                    };
-                    <div class="form-check">
-                        <input asp-for="TrafficLight" type="radio" value="@light"
-                               id="TrafficLight_@light" class="form-check-input" />
-                        <label for="TrafficLight_@light" class="form-check-label">
-                            <span aria-hidden="true" style="display:inline-block;width:.8em;height:.8em;border-radius:50%;background-color:@colour"></span>
-                            @light
-                        </label>
-                    </div>
-                }
-            </div>
-            <span asp-validation-for="TrafficLight" class="text-danger"></span>
-        </fieldset>
-
         <div class="form-group">
             <label asp-for="IncidentDate"
                    class="control-label"></label>
