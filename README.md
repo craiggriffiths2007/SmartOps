@@ -2,7 +2,7 @@
 
 SmartOps is an **open-source 4D integration and testing platform** for field-service workflows. It combines a native 4D database and HTTP/JSON API with an optional ASP.NET Core web interface. A companion Android survey application is available separately on [Google Play](https://play.google.com/store/apps/details?id=com.authorityx.smartops); its source is not part of this repository.
 
-> **For local development and evaluation only.** The supplied records and accounts are fictional test data. The included credentials, HTTP access and optional serial-number fallback are **not secure production defaults**. Do not expose the test API to the public internet.
+> **For local development and evaluation only.** The supplied records and accounts are fictional test data. The included credentials, HTTP access and optional serial-number fallback are **not secure production defaults**. 
 
 ## Projects
 
