@@ -23,8 +23,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Opt-in LAN test. Never expose the web interface by default.
 var surveyProxyEnabled = builder.Configuration.GetValue<bool>("SurveyProxy:Enabled");
 builder.WebHost.UseUrls(surveyProxyEnabled
-    ? ["http://127.0.0.1:5245", "http://0.0.0.0:8085"]
-    : [builder.Configuration["Urls"] ?? "http://127.0.0.1:5245"]);
+    ? new[] { "http://127.0.0.1:5245", "http://0.0.0.0:8085" }
+    : new[] { builder.Configuration["Urls"] ?? "http://127.0.0.1:5245" });
 CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("en-GB");
 CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo("en-GB");
 builder.Services.AddHttpContextAccessor();
