@@ -17,9 +17,14 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Yarp.ReverseProxy.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseUrls(builder.Configuration["Urls"] ?? "http://127.0.0.1:5245");
+// Opt-in LAN test. Never expose the web interface by default.
+var surveyProxyEnabled = builder.Configuration.GetValue<bool>("SurveyProxy:Enabled");
+builder.WebHost.UseUrls(surveyProxyEnabled
+    ? ["http://127.0.0.1:5245", "http://0.0.0.0:8085"]
+    : [builder.Configuration["Urls"] ?? "http://127.0.0.1:5245"]);
 CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("en-GB");
 CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo("en-GB");
 builder.Services.AddHttpContextAccessor();
@@ -50,6 +55,39 @@ builder.Services.AddHttpClient("4D", client => {
     client.BaseAddress = new Uri(builder.Configuration["FourD:BaseUrl"] ?? FindLocalFourDAddress());
     client.Timeout = TimeSpan.FromSeconds(30);
 });
+if (surveyProxyEnabled)
+{
+    // Use the same known-good 4D destination as the web bridge. To force
+    // loopback, set FourD__BaseUrl=http://127.0.0.1:8045/.
+    var fourDAddress = builder.Configuration["FourD:BaseUrl"] ?? FindLocalFourDAddress();
+    if (!fourDAddress.EndsWith('/')) fourDAddress += "/";
+
+    var proxyRoutes = SurveyProxyPaths.PostPaths.Select((path, index) => new RouteConfig
+    {
+        RouteId = $"survey-{index}",
+        ClusterId = "survey-4d",
+        Order = -100,
+        Match = new RouteMatch { Path = path, Methods = ["POST"] }
+    }).Append(new RouteConfig
+    {
+        RouteId = "survey-health",
+        ClusterId = "survey-4d",
+        Order = -100,
+        Match = new RouteMatch { Path = "/api/health", Methods = ["GET"] }
+    }).ToArray();
+
+    builder.Services.AddReverseProxy().LoadFromMemory(proxyRoutes,
+    [
+        new ClusterConfig
+        {
+            ClusterId = "survey-4d",
+            Destinations = new Dictionary<string, DestinationConfig>
+            {
+                ["4d"] = new() { Address = fourDAddress }
+            }
+        }
+    ]);
+}
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.Configure<RazorViewEngineOptions>(o => o.ViewLocationExpanders.Add(new CustomViewLocationExpander()));
@@ -63,6 +101,20 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<EmailLoginLinkService>();
 builder.Services.AddTransient<IEmailSender, LocalEmailDisabled>();
 var app = builder.Build();
+// The LAN test port is for mobile API requests only, not the web UI.
+if (surveyProxyEnabled)
+{
+    app.Use(async (context, next) =>
+    {
+        if (context.Connection.LocalPort == 8085 &&
+            !SurveyProxyPaths.IsSurveyPath(context.Request.Path))
+        {
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            return;
+        }
+        await next();
+    });
+}
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
@@ -75,6 +127,11 @@ app.Use(async (context, next) => {
     await next();
 });
 app.UseMiddleware<BridgeMiddleware>();
+if (surveyProxyEnabled)
+{
+    app.MapReverseProxy();
+    app.Logger.LogInformation("Survey API proxy enabled on LAN port 8085");
+}
 app.MapGet("/Account/Login", (bool? passwordChanged) => Results.Content(LoginHtml(
     passwordChanged == true ? "Your password has been changed. Please sign in again." : ""), "text/html"));
 app.MapPost("/Account/Login", async (HttpContext context, BridgeSession bridge, IConfiguration configuration) => {
