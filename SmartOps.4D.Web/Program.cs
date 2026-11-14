@@ -118,7 +118,7 @@ if (surveyProxyEnabled)
     {
         if (context.Connection.LocalPort == 8085 &&
             !SurveyProxyPaths.IsSurveyPath(context.Request.Path) &&
-            !context.Request.Path.Equals("/proxy/status", StringComparison.OrdinalIgnoreCase))
+            !string.Equals(context.Request.Path.Value, "/proxy/status", StringComparison.OrdinalIgnoreCase))
         {
             context.Response.StatusCode = StatusCodes.Status404NotFound;
             return;
