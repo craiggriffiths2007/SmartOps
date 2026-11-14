@@ -8,6 +8,16 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "SmartOps.4D.Web (Survey Proxy Test)": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "launchUrl": "Account/Login",
+      "applicationUrl": "http://127.0.0.1:5245",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SurveyProxy__Enabled": "true"
+      }
     }
   }
 }
