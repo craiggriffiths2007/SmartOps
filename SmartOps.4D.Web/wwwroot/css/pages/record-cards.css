@@ -255,7 +255,7 @@
 /* Keep all contract columns visible on desktop; long descriptions use the available space. */
 .contract-index-table {
     width: 100%;
-    min-width: 48rem;
+    min-width: 65rem;
     table-layout: fixed;
 }
 .contract-index-table > :not(caption) > * > * {
@@ -263,22 +263,40 @@
     white-space: normal;
     overflow-wrap: anywhere;
 }
-.contract-index-table .contract-column { width: 10%; }
-.contract-index-table .customer-column { width: 18%; }
-.contract-index-table .damage-column { width: 14%; }
+.contract-index-table .contract-column { width: 9%; }
+.contract-index-table .customer-column { width: 17%; }
+.contract-index-table .damage-column { width: 13%; }
 .contract-index-table .status-column { width: 16%; }
 .contract-index-table .appointment-column { width: 18%; }
-.contract-index-table .insurer-column,
-.contract-index-table .progress-column { width: 12%; }
+.contract-index-table .insurer-column { width: 13%; }
+.contract-index-table .progress-column { width: 14%; }
 .contract-index-table .text-truncate { max-width: 100%; }
 .contract-index-table .badge {
     max-width: 100%;
     white-space: normal;
     text-align: left;
 }
-.contract-index-table .diary-received-statuses {
-    flex-wrap: wrap;
-    max-width: 100%;
-    gap: .35rem;
+.contract-index-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.contract-index-progress .contract-traffic-light {
+    display: inline-block;
+    width: .8em;
+    height: .8em;
+    flex: 0 0 .8em;
+    border-radius: 50%;
+}
+
+.contract-index-progress .diary-received-statuses {
+    flex-wrap: nowrap;
+    gap: 6px;
     margin-left: 0;
+}
+
+.contract-index-progress .diary-received-status {
+    flex-shrink: 0;
 }
