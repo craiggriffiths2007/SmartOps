@@ -3,7 +3,6 @@
 
 @using Microsoft.EntityFrameworkCore
 
-@inject UserManager<AppUser> UserManager
 @inject AppDBContext DbContext
 
 @inject ITenantContext TenantContext
@@ -14,12 +13,7 @@
     var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
     var pictureVersion = User.FindFirst("ProfilePictureVersion")?.Value;
 
-    var pageTitle = ViewData["Title"]?.ToString() ?? "Mart Ops";
-
-    var pageDescription =
-        ViewData["Description"]?.ToString()
-        ?? "Mart Ops connects back-office teams with surveyors, fitters and field staff through integrated scheduling, mobile surveying, fitting and operational management software.";
-
+    var pageTitle = ViewData["Title"]?.ToString() ?? "SmartOps";
     var isAuthenticated =
         User.Identity?.IsAuthenticated == true;
 
@@ -29,8 +23,6 @@
 
     var isInsurer =
         User.IsInRole("Insurer");
-
-    string insurerName = "";
 
     var siteThemeColour = SiteThemes.All["Midnight"];
 
@@ -47,15 +39,6 @@
         siteThemeColour = SiteThemes.GetColour(tenantTheme);
     }
 
-    if (isInsurer && userId != null)
-    {
-        var insurerUser = await UserManager.Users
-            .Include(u => u.Insurer)
-            .FirstOrDefaultAsync(u => u.Id == userId);
-
-        insurerName =
-            insurerUser?.Insurer?.Name ?? "Insurance Portal";
-    }
 }
 
 <!DOCTYPE html>
@@ -64,46 +47,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>@pageTitle | Mart Ops</title>
-
-    <meta name="description" content="@pageDescription" />
-
-    @if (isAuthenticated)
-    {
-        <meta name="robots" content="noindex, nofollow" />
-    }
-    else
-    {
-        <meta name="robots" content="index, follow" />
-    }
-
-    <meta name="author" content="Mart Ops" />
-
-    <!-- Open Graph / social sharing -->
-    <meta property="og:title" content="@pageTitle | Mart Ops" />
-    <meta property="og:description" content="@pageDescription" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Mart Ops" />
-
-<meta property="og:url"
-      content="https://glassops.co.uk/" />
-
-<meta property="og:image"
-      content="https://glassops.co.uk/img/smartops-social.png?v=2" />
-
-<meta property="og:image:secure_url"
-      content="https://glassops.co.uk/img/smartops-social.png?v=2" />
-
-<meta property="og:image:type" content="image/png" />
-<meta property="og:image:width" content="1536" />
-<meta property="og:image:height" content="1024" />
-<meta property="og:image:alt"
-      content="Mart Ops - Glazing Job Management Software" />
-
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image"
-      content="https://glassops.co.uk/img/smartops-social.png?v=2" />
-
+    <title>@pageTitle | SmartOps</title>
+    <meta name="robots" content="noindex, nofollow" />
     <link rel="icon"
           type="image/png"
           href="~/img/splash.png"
@@ -121,7 +66,6 @@
     <link rel="stylesheet" href="~/css/pages/record-cards.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/item-report.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/diary.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/company.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/cookie-consent.css" asp-append-version="true" />
 
@@ -142,36 +86,15 @@
     }
 
 </head>
-@{
-    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
-    var action = ViewContext.RouteData.Values["action"]?.ToString();
-
-    var isHomePage =
-        controller == "Home" &&
-        action == "Index";
-}
 <body>
     <div class="top-navbar">
         <!-- LEFT -->
         <div class="top-nav-left">
             <div class="logo">
 
-                @if (isHomePage && User.Identity?.IsAuthenticated == false)
-                {
-                    <span></span>
-                }
-                else
-                {
-                    <a asp-area=""
-                       asp-controller="Home"
-                       asp-action="Index">
-                        <img src="~/img/cs.png"
-                             width="60"
-                             height="60"
-                             alt="Mart Ops" />
-                    </a>
-                }
-
+                <a href="/Jobs">
+                    <img src="~/img/cs.png" width="60" height="60" alt="SmartOps" />
+                </a>
             </div>
 
             @if (User.IsInRole("SuperAdmin"))
@@ -199,24 +122,7 @@
                     <i class="bi bi-ui-checks-grid"></i>&nbsp;Questions
                 </a>
 
-                <a class="top-nav-item"
-                   asp-area=""
-                   asp-controller="AdminNews"
-                   asp-action="Index"
-                   title="Manage website news">
-                    <i class="bi bi-newspaper"></i>
-                    &nbsp;News
-                </a>
-            }
-            else if (isInsurer)
-            {
-                <a class="top-nav-item"
-                   asp-area="Insurer"
-                   asp-controller="Home"
-                   asp-action="Index">
-                    <i class="bi bi-shield-check"></i>
-                    @insurerName
-                </a>
+
             }
             else
             {
@@ -253,26 +159,7 @@
                 }
                 else
                 {
-                    @if (isHomePage)
-                    {
-                        <span></span>
-                    }
-                    else
-                    {
-                       <!-- <div class="logo">
-                            <a asp-area=""
-                               asp-controller="Home"
-                               asp-action="Index">
-
-                                <div class="logo-title">
-                                    <span class="glass">Glass</span>
-                                    <span class="ops">Ops</span>
-                                </div>
-
-                            </a>
-                        </div>-->
-                    }
-
+                    <span></span>
                 }
             }
 
@@ -304,27 +191,6 @@
 
                     </a>
                 </div>*@
-
-                @if (isInsurer)
-                {
-                    <a class="top-nav-item" asp-area="Insurer"
-                       asp-controller="Claims"
-                       asp-action="Index"
-                       class="nav-link">
-                        Claims
-                    </a>
-
-                    <a class="top-nav-item"
-                       asp-area="Insurer"
-                       asp-controller="Contracts"
-                       asp-action="Index">
-
-                        Contracts
-
-                        @await Component.InvokeAsync("InsurerUnreadMessages")
-
-                    </a>
-                }
 
                 @if (!User.IsInRole("SuperAdmin") &&
                                  !User.IsInRole("Insurer"))
@@ -375,17 +241,7 @@
 
                                 @if (canDiary)
                                     {
-                                        <!--<a  asp-area="" asp-controller="JobBoard"
-                                            asp-action="Index"
-                                            class="nav-link">
-                                            Insurers
-                                        </a>-->
-                                    }
 
-                                @if (canDiary)
-                                {
-                                    <a asp-area="" asp-controller="Invoices" asp-action="Index">Invoices</a>
-                                }
 
                                 <a asp-area="" asp-controller="Messaging"
                                    asp-action="Index">
@@ -525,67 +381,8 @@
             }
             else
             {
-                <div class="public-nav-buttons">
-
-                    @*<a href="https://play.google.com/store/apps/details?id=com.authorityx.glassops2"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="smartops-download">
-                        <i class="bi bi-google-play"></i>
-                        Mart Ops
-                    </a>
-                    <a href="https://play.google.com/store/apps/details?id=uk.co.glassops.customer"
-                       target="_blank"
-                       title="Customer App"
-                       rel="noopener noreferrer"
-                       class="smartops-download">
-                        <i class="bi bi-google-play"></i>
-                        My Repair
-                    </a>*@
-                     <a asp-area=""
-                       asp-controller="Home"
-                       asp-action="Index"
-                       class="smartops-download">
-                        Home
-                    </a>
-
-                    <a asp-area=""
-                       asp-controller="News"
-                       asp-action="Index"
-                       class="smartops-download">
-                        News
-                    </a>
-@*
-                    <a asp-area=""
-                        asp-controller="Home"
-                       asp-action="Overview"
-                       class="top-nav-item">
-                        Overview
-                    </a>*@
-
-                    <a asp-area=""
-                       asp-controller="Home"
-                       asp-action="About"
-                       class="smartops-download">
-                        About
-                    </a>
-                    <a asp-area=""
-                       asp-controller="Home"
-                       asp-action="Contact"
-                       class="smartops-download">
-                        Contact
-                    </a>
-
-                    <a asp-area="Identity"
-                       asp-page="/Account/Login"
-                       class="smartops-download">
-                        Login
-
-                    </a>
-
-                </div>
+                <a class="smartops-download" href="/Account/Login">Login</a>
             }
-
         </div>
 
     </div>
@@ -596,33 +393,6 @@
             @RenderBody()
         </main>
     </div>
-                @if (User.Identity?.IsAuthenticated == false)
-        {
-            <footer class="border-top footer text-muted">
-                <div class="container d-flex justify-content-between align-items-center">
-                    <span>
-                        2026
-
-                    </span>
-
-                    <div class="d-flex gap-3">
-                        <a asp-area=""
-                        asp-controller="Home"
-                        asp-action="Privacy"
-                        class="text-muted text-decoration-none">
-                            Privacy Policy
-                        </a>
-
-                        <button type="button"
-                        id="cookie-settings"
-                        class="btn btn-link text-muted p-0 text-decoration-none">
-                            Cookie settings
-                        </button>
-                    </div>
-                </div>
-            </footer>
-        }
-
     <div id="imageLightbox"
          class="image-lightbox">
 
@@ -658,10 +428,6 @@
     @if (isAuthenticated)
     {
         <partial name="_AccountMobileNavigation" />
-    }
-    else if (controller == "Home")
-    {
-        <partial name="~/Views/Home/_MobileNavigation.cshtml" />
     }
     
 <partial name="_CookieConsent" />

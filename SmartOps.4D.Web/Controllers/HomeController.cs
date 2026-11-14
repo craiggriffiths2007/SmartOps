@@ -75,45 +75,11 @@ namespace SmartOps.Web.Controllers
             }
         }
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            await RecordPageHit("Home");
-            return View();
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> About()
-        {
-            await RecordPageHit("About");
-            return View();
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> Contact()
-        {
-            await RecordPageHit("Contact");
-            return View();
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> Demo()
-        {
-            await RecordPageHit("Demo");
-            return View();
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> Overview()
-        {
-            await RecordPageHit("Overview");
-            return View();
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> Privacy()
-        {
-            await RecordPageHit("Privacy");
-            return View();
+            return User.Identity?.IsAuthenticated == true
+                ? Redirect("/Jobs")
+                : Redirect("/Account/Login");
         }
 
         [HttpGet]
