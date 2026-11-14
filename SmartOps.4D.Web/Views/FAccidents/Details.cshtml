@@ -1,0 +1,66 @@
+@model SmartOps.Web.Models.FAccident
+@using SmartOps.Shared.Models
+@{
+    var reportTitle = WorkAccidentQuestions.IsNearMiss(Model?.Type ?? "") ? "Near miss report" : "Work accident";
+    ViewData["Title"] = reportTitle;
+    ViewData["HideEmptyReportFields"] = true;
+}
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3 no-print">
+    <h4 class="mb-0">@reportTitle</h4>
+    <div class="d-flex gap-2">
+        <button type="button" class="btn btn-outline-primary" onclick="window.print()">Print @reportTitle.ToLowerInvariant()</button>
+        <button type="button" class="btn btn-secondary" onclick="history.back()">Back</button>
+    </div>
+</div>
+@if (Model == null)
+{
+    <p class="text-muted">No data available.</p>
+}
+else
+{
+    var answers = WorkAccidentQuestions.Answers(Model.AccidentAnswersJson);
+    var entries = string.IsNullOrWhiteSpace(Model.AccidentQuestionsSnapshotJson)
+        ? Array.Empty<JobQuestionnaireLogic.ReportEntry>()
+        : JobQuestionnaireLogic.ReportEntries(WorkAccidentQuestions.Definition(Model.AccidentQuestionsSnapshotJson, Model.Type), answers).ToArray();
+    var mediaSections = new[]
+    {
+        (Title: "Signatures", Images: new (string Caption, string? Filename)[]
+        {
+            ($"Injured person signature — {WorkAccidentQuestions.Value(answers, "full_name")}", ViewData["sig_fname1"] as string),
+            ($"Reporter signature — {WorkAccidentQuestions.Value(answers, "filer_full_name")}", ViewData["sig_fname2"] as string)
+        }),
+        (Title: "Photographs", Images: ((IEnumerable<PhotoImage>?)ViewBag.Images ?? Enumerable.Empty<PhotoImage>())
+            .Where(image => !string.IsNullOrWhiteSpace(image.Filename))
+            .Select((image, index) => (Caption: $"Photograph {index + 1}", Filename: (string?)image.Filename)).ToArray())
+    };
+    <article class="go-item-report">
+        <section class="go-report-section">
+            <h3>@reportTitle</h3>
+            @if (entries.Length == 0)
+            {
+                <p>No dynamic questionnaire recorded.</p>
+            }
+            @foreach (var entry in entries)
+            {
+                if (entry.IsInformation)
+                {
+                    <h4>@entry.Label</h4>
+                }
+                else if (entry.Image == null)
+                {
+                    <dl class="go-report-fields">
+                        <div class="go-report-field"><dt>@entry.Label</dt><dd><span class="go-report-field-value">@entry.Value</span></dd></div>
+                    </dl>
+                }
+            }
+        </section>
+    @foreach (var mediaSection in mediaSections)
+    {
+        if (!mediaSection.Images.Any(image => !string.IsNullOrWhiteSpace(image.Filename))) continue;
+        <section class="go-report-media-section">
+            <h3 class="go-report-media-title">@mediaSection.Title</h3>
+            <partial name="_RecordReportMedia" model="mediaSection.Images" />
+        </section>
+    }
+    </article>
+}

@@ -1,0 +1,62 @@
+@model IEnumerable<SmartOps.Web.Models.Insurer>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Insurers</h4>
+
+    <a asp-action="Create" class="btn btn-primary">
+        Add Insurer
+    </a>
+</div>
+<hr/>
+@if (!Model.Any())
+{
+    <p class="text-muted py-3">No records found.</p>
+}
+<div class="record-cards">
+@foreach (var item in Model) {
+        <article class="record-card">
+    <div class="record-card-title fw-bold"><a href="@Url.Action("Details", new { id = item.Id })" class="stretched-link">@Html.DisplayFor(model => item.Name)</a></div>
+    <div class="record-card-fields">
+
+            <div class="record-card-field">
+                <span class="record-field-label">@Html.DisplayNameFor(model => model.ContactName)</span>
+                @Html.DisplayFor(model => item.ContactName)
+            </div>
+            <div class="record-card-field">
+                <span class="record-field-label">@Html.DisplayNameFor(model => model.Email)</span>
+                @Html.DisplayFor(model => item.Email)
+            </div>
+            <div class="record-card-field">
+                <span class="record-field-label">@Html.DisplayNameFor(model => model.Telephone)</span>
+                @Html.DisplayFor(model => item.Telephone)
+            </div>
+            <div class="record-card-field">
+                <span class="record-field-label">@Html.DisplayNameFor(model => model.Address1)</span>
+                @Html.DisplayFor(model => item.Address1)
+            </div>
+            <div class="record-card-field">
+                <span class="record-field-label">@Html.DisplayNameFor(model => model.Address2)</span>
+                @Html.DisplayFor(model => item.Address2)
+            </div>
+            <div class="record-card-field">
+                <span class="record-field-label">@Html.DisplayNameFor(model => model.Address3)</span>
+                @Html.DisplayFor(model => item.Address3)
+            </div>
+            <div class="record-card-field">
+                <span class="record-field-label">@Html.DisplayNameFor(model => model.Postcode)</span>
+                @Html.DisplayFor(model => item.Postcode)
+            </div>
+            <div class="record-card-field">
+                <span class="record-field-label">@Html.DisplayNameFor(model => model.IsActive)</span>
+                @Html.DisplayFor(model => item.IsActive)
+            </div>
+
+    </div>
+</article>
+}
+</div>
+<record-pagination></record-pagination>

@@ -1,0 +1,28 @@
+/* Compact customer, insurer and closed message indexes. */
+.message-unread {
+    font-weight: 600;
+}
+
+.message-index-table .message-unread > :first-child {
+    border-left: 4px solid var(--blue);
+}
+
+.message-index-table > :not(caption) > * > * {
+    padding: 7px 12px;
+}
+
+.message-list-name,
+.message-list-preview {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.message-list-name {
+    max-width: 16rem;
+}
+
+.message-list-preview {
+    max-width: 30rem;
+}

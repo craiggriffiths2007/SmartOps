@@ -1,0 +1,169 @@
+@model SmartOps.Web.ViewModels.JobHeaderItemIndexViewModel
+@using SmartOps.Shared.Enums
+@{
+    Layout = null;
+    var job = Model.JobHeader!;
+    var fitting = job.JobType == enum_job_type.Fitting;
+    var title = fitting ? "Fitting Report" : "Survey Report";
+    var address = string.Join(", ", new[] { job.CustomerAddressLine1, job.CustomerAddressLine2, job.CustomerAddressLine3, job.CustomerAddressLine4, job.CustomerPostcode }.Where(line => !string.IsNullOrWhiteSpace(line)));
+    var fields = new[]
+    {
+        ("Contract", job.ContractCode), ("Customer", job.CustomerName), ("Address", address),
+        ("Visit date", job.DiaryDate.ToString("dd/MM/yyyy")), ("Agent", job.AgentCode),
+        ("Phone", job.CustomerPhoneNumber), ("Other phone", job.CustomerPhoneNumber2),
+        ("Insurer", job.InsuranceCompanyName), ("Policy number", job.PolicyNumber),
+        ("Loss adjuster", job.LossAdjusterName), ("Incident date", job.IncidentDate),
+        ("Cause of damage", job.CauseOfDamage), ("Damage description", job.DamageDescription)
+    };
+    var photos = Model.Images?.Where(image => System.IO.Path.GetExtension(image.Filename)?.ToLowerInvariant()
+        is ".jpg" or ".jpeg" or ".png" or ".gif" or ".webp").OrderBy(image => image.Filename).ToList();
+
+    void RenderSurveyReport()
+    {
+        <section>
+            <h2>Survey report</h2>
+            @if (string.IsNullOrWhiteSpace(job.Report))
+            {
+                <p>No survey report recorded.</p>
+            }
+            else
+            {
+                <div class="ql-container ql-snow"><div class="ql-editor">@Html.Raw(job.Report)</div></div>
+            }
+        </section>
+    }
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@title - @job.ContractCode</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/quill.snow.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/pages/job-header.css" asp-append-version="true" />
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; color: #222; background: #fff; font: .9375rem/1.35 system-ui, sans-serif; }
+        main, .print-controls { max-width: 850px; margin: auto; padding: 12px; }
+        .print-controls { border-bottom: 1px solid #ccc; }
+        .print-controls button { font: inherit; padding: .5rem 1rem; margin-left: 1rem; }
+        .print-controls p { margin: .5rem 0 0; }
+        h1, h2 { margin: 0 0 .4rem; line-height: 1.2; }
+        h1 { font-size: 1.5rem; }
+        h2 { font-size: 1.15rem; }
+        .job-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: .4rem .75rem; }
+        .job-summary div { overflow-wrap: anywhere; break-inside: avoid; }
+        dt { font-weight: 600; }
+        dd { margin: 0; }
+        .report-content { border-top: 1px solid #ccc; padding-top: .6rem; margin-top: .75rem; }
+        .report-content .ql-container { height: auto; border: 0; }
+        .report-content .ql-editor { height: auto; overflow: visible; padding: 0; font: inherit; }
+        .report-content .ql-editor img { max-width: 50%; height: auto; }
+        .report-content section, .report-content p, .report-content ul { margin-bottom: .55rem; }
+        .report-content .jh-health-safety-row { padding: 2px 0; }
+        .media-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; margin-bottom: .5rem; }
+        .media-row figure { min-width: 0; margin: 0; }
+        .media-row img { display: block; width: 100%; max-height: 85mm; object-fit: contain; }
+        figcaption { font-size: .8em; overflow-wrap: anywhere; }
+        @@media print {
+            body { font-size: 10pt; }
+            main { padding: 0; max-width: none; }
+            .print-controls { display: none; }
+            .job-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .fitting-report .report-content { break-before: page; page-break-before: always; margin: 0; padding: 0; border: 0; }
+            h1, h2, h3 { break-after: avoid; }
+            .report-content img { break-inside: avoid; }
+            .report-content .ql-editor img { max-height: 180mm; }
+            .media-row { break-inside: avoid; page-break-inside: avoid; }
+            video, audio, iframe { display: none; }
+        }
+    </style>
+</head>
+<body data-print-ready>
+    <nav class="print-controls" aria-label="Print controls">
+        <a asp-action="Details" asp-route-id="@job.Id">Back to report</a>
+        <button type="button" class="btn btn-outline-primary" onclick="window.print()">Print</button>
+        <p>On a phone, you can also use the browser’s Share menu and choose Print.</p>
+    </nav>
+    <main class="@(fitting ? "fitting-report" : null)">
+        <section>
+            <h1>@title</h1>
+            <dl class="job-summary">
+                @foreach (var (label, value) in fields)
+                {
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        <div><dt>@label</dt><dd>@value</dd></div>
+                    }
+                }
+            </dl>
+        </section>
+
+        <div class="report-content">
+            @if (!fitting)
+            {
+                RenderSurveyReport();
+            }
+            @if (fitting)
+            {
+                <section>
+                    <h2>Fitter comments</h2>
+                    <div class="ql-container ql-snow"><div class="ql-editor">@Html.Raw(job.FitComments)</div></div>
+                </section>
+            }
+            @if (fitting)
+            {
+                @await Html.PartialAsync("_FitterCompletionReport", job)
+                @await Html.PartialAsync("_FitterStockUsageReport", job)
+            }
+            @await Html.PartialAsync("_HealthAndSafetyReport", job)
+            @await Html.PartialAsync("_JobSummaryReport", job)
+            @if (job.bRequestRepudiation == true || !string.IsNullOrWhiteSpace(job.RepudiationQuestionsSnapshotJson))
+            {
+                @await Html.PartialAsync("_RepudiationReport", job)
+            }
+            @if (job.garage_door_motor == true || !string.IsNullOrWhiteSpace(job.GarageDoorMotorDeclarationQuestionsSnapshotJson))
+            {
+                @await Html.PartialAsync("_GarageDoorMotorDeclarationReport", job)
+            }
+
+            @if (Model.SurveyItems?.Any() == true)
+            {
+                <section>
+                    <h2>Survey items</h2>
+                    <ul>
+                        @foreach (var item in Model.SurveyItems)
+                        {
+                            <li>@item.item_number. @item.ItemTitle</li>
+                        }
+                    </ul>
+                </section>
+            }
+            @if (fitting)
+            {
+                RenderSurveyReport();
+            }
+
+            @if (photos?.Count > 0)
+            {
+                <section>
+                    <h2>Photos and drawings</h2>
+                    @foreach (var row in photos.Chunk(2))
+                    {
+                        <div class="media-row">
+                            @foreach (var photo in row)
+                            {
+                                <figure>
+                                    <img src="@Url.Content("~/images/" + Uri.EscapeDataString(photo.Filename))" alt="@photo.Filename" />
+                                    <figcaption>@photo.Filename</figcaption>
+                                </figure>
+                            }
+                        </div>
+                    }
+                </section>
+            }
+        </div>
+    </main>
+</body>
+</html>

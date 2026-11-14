@@ -1,0 +1,112 @@
+@model SmartOps.Web.Models.SpotCheck
+@using SmartOps.Shared.Models
+@{
+    ViewData["Title"] = "Spot check";
+}
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3 no-print">
+    <h4 class="mb-0">Spot check</h4>
+    <div class="d-flex gap-2">
+        <button type="button" class="btn btn-outline-primary" onclick="window.print()">Print spot check</button>
+        <button type="button" class="btn btn-secondary" onclick="history.back()">Back</button>
+    </div>
+</div>
+@if (Model == null)
+{
+    <p class="text-muted">No data available.</p>
+}
+else
+{
+    // Keep questions and their notes in the same sequence as SpotCheckReport.xaml.
+    var contract = new (string Label, object? Value, string? Notes)[]
+    {
+        ("Contract", Model.ContractCode, null),
+        ("Diary date", Model.DiaryDate.ToString("dd/MM/yyyy"), null),
+        ("Time", Model.Time, null),
+        ("Name", Model.Name, null),
+        ("Address 1", Model.Add1, null),
+        ("Address 2", Model.Add2, null),
+        ("Address 3", Model.Add3, null),
+        ("Postcode", Model.Postcode, null),
+        ("Phone 1", Model.Phone1, null),
+        ("Phone 2", Model.Phone2, null),
+        ("Phone 3", Model.Phone3, null),
+        ("Damage", Model.DamageDesc, null)
+    };
+    var answers = SpotCheckQuestions.Answers(Model.SpotCheckAnswersJson);
+    var definition = string.IsNullOrWhiteSpace(Model.SpotCheckQuestionsSnapshotJson)
+        ? new DynamicQuestionDefinition() : SpotCheckQuestions.Definition(Model.SpotCheckQuestionsSnapshotJson);
+    var images = ((IEnumerable<PhotoImage>?)ViewBag.Images ?? Enumerable.Empty<PhotoImage>())
+        .Where(image => !string.IsNullOrWhiteSpace(image.Filename)).ToList();
+    var signatureFilename = $"{Model.ContractCode}_000SCSig.jpg";
+    var photos = images.Where(image => !string.Equals(image.Filename, signatureFilename, StringComparison.OrdinalIgnoreCase))
+        .Select((image, index) => (Caption: $"Photograph {index + 1}", Filename: (string?)image.Filename)).ToArray();
+    var signatures = images.Where(image => Model.uspot_signed && string.Equals(image.Filename, signatureFilename, StringComparison.OrdinalIgnoreCase))
+        .Select(image => (Caption: string.IsNullOrWhiteSpace(SpotCheckQuestions.Value(answers, "PersonCarryingOutSpotCheck"))
+            ? "Spot check signature" : $"Signature — {SpotCheckQuestions.Value(answers, "PersonCarryingOutSpotCheck")}", Filename: (string?)image.Filename)).ToArray();
+    <article class="go-item-report">
+        <header class="go-report-header">
+            <span class="go-report-meta">Branch @Model.branch</span>
+            <span class="go-report-meta">Completed @Model.DateTimeCompleted.ToString("dd/MM/yyyy HH:mm")</span>
+        </header>
+        <section class="go-report-section">
+            <h3>Contract details</h3>
+            <partial name="_SpotCheckReportFields" model="contract" />
+        </section>
+        <section class="go-report-section">
+            <h3>Spot check questions</h3>
+            @foreach (var question in definition.Questions.Where(q => DynamicQuestionLogic.IsApplicable(q, answers)))
+            {
+                if (question.Id == "photos_complete")
+                {
+                    if (photos.Length > 0)
+                    {
+                        <h3>@question.Question</h3>
+                        <partial name="_RecordReportMedia" model="photos" />
+                    }
+                }
+                else if (question.Id == "signature_complete")
+                {
+                    <h3>@question.Question</h3>
+                    <p>Signed: @(Model.uspot_signed ? "Yes" : "No") @Model.uspot_signeddate</p>
+                    if (signatures.Length > 0)
+                    {
+                        <partial name="_RecordReportMedia" model="signatures" />
+                    }
+                }
+                else if (question.Type == DynamicQuestionType.Information)
+                {
+                    if (question.Id.StartsWith("rating_guide_"))
+                    {
+                        <p class="go-report-meta">@question.Id[13..] — @question.Question</p>
+                    }
+                    else
+                    {
+                        <h3>@question.Question</h3>
+                    }
+                }
+                else
+                {
+                    var value = SpotCheckQuestions.Value(answers, question.Id);
+                    if (string.IsNullOrWhiteSpace(value) && !question.Required) continue;
+                    <dl class="go-report-fields">
+                        <div class="go-report-field">
+                            <dt>@question.Question</dt>
+                            <dd>
+                                @if (SpotCheckQuestions.IsRating(question) && int.TryParse(value, out int rating))
+                                {
+                                    <div aria-label="@($"{rating} out of 5 stars")"><partial name="_StarRating" model="new Tuple<int,int>(rating,5)" /></div>
+                                }
+                                else
+                                {
+                                    var formatted = string.IsNullOrWhiteSpace(value) ? "Not recorded"
+                                        : question.Type == DynamicQuestionType.YesNo ? (DynamicWorkflowQuestions.IsYes(value) ? "Yes" : "No") : value;
+                                    <span class="go-report-field-value">@formatted</span>
+                                }
+                            </dd>
+                        </div>
+                    </dl>
+                }
+            }
+        </section>
+    </article>
+}

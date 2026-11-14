@@ -1,0 +1,79 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+	<PropertyGroup>
+		<DefineConstants>$(DefineConstants);EMAIL_AVAILABLE</DefineConstants>
+		<AssemblyName>SmartOps.Web</AssemblyName>
+		<RootNamespace>SmartOps.Web</RootNamespace>
+	</PropertyGroup>
+	
+	<Target Name="WritePublishDate" AfterTargets="Publish">
+        <PropertyGroup>
+            <PublishDate>$([System.DateTime]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"))</PublishDate>
+        </PropertyGroup>
+
+        <WriteLinesToFile File="$(PublishDir)publish-date.txt" Lines="$(PublishDate)" Overwrite="true" />
+    </Target>
+			
+  <ItemGroup>
+    <!-- Keep the original API implementations visible as reference source only. -->
+    <Compile Remove="LegacyReference/**/*.cs" />
+    <None Include="LegacyReference/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\Surveys\**" />
+    <Content Remove="Views\Surveys\**" />
+    <EmbeddedResource Remove="Views\Surveys\**" />
+    <None Remove="Views\Surveys\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
+    <PackageReference Include="NuGet.Packaging" Version="7.9.0" />
+    <PackageReference Include="NuGet.Protocol" Version="7.9.0" />
+    <PackageReference Include="SkiaSharp" Version="4.153.1" />
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="3.53.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.3.1" />
+    <PackageReference Include="UAParser" Version="3.1.47" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
+  </ItemGroup>
+  <!-- Visual Studio folder placeholders removed; real files and directories remain unchanged. -->
+
+  <ItemGroup>
+    <None Include="wwwroot\downloads\SmartOps.pdf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartOps.Shared\SmartOps.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\lib\quill.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\quill.snow.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,13 @@
+[
+  {
+    "class": "SmartOpsHTTP",
+    "method": "handle",
+    "regexPattern": "^/(AgentLogin|GetJobs|SendJobs|SendMedia|GetImage|GetVehicles|SendChecks|GetDynamicQuestions|GetUpdateContractNotes|GetSpotCheckJobInfo|GetAgentMessages|GetAgentUnreadMessageCount|MarkAgentMessageRead|SurveyEnRoute|Home/SurveyAppVersion)/?$",
+    "verbs": "POST"
+  },
+  {
+    "class": "SmartOpsHTTP",
+    "method": "handle",
+    "pattern": "api"
+  }
+]

@@ -1,0 +1,426 @@
+{
+  "questions": [
+    {
+      "id": "AgentCode",
+      "question": "Surveyor",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "survey_complete",
+      "question": "Survey complete",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "reason_not_complete",
+      "question": "Reason survey not complete",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "No one in",
+        "Done at securing",
+        "Cancelled"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "incomplete_guidance",
+      "question": "To register attendance when a survey cannot be completed, record the reason, set the time of arrival and take a photo of the front of the property.",
+      "type": "Information",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "TimeArrived",
+      "question": "Time arrived",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "bExcessCollected",
+      "question": "Has the excess been collected?",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "MethodOfPayment",
+      "question": "Payment method",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Cheque",
+        "Visa",
+        "Master Card",
+        "Switch",
+        "Postal order"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "bExcessCollected",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "ReasonExcessNotCollected",
+      "question": "Reason excess not paid",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Not dele",
+        "Insured not present",
+        "Not going ahead yet",
+        "Already collected",
+        "No Excess"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "bExcessCollected",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "additional_ammount_str",
+      "question": "Additional amount",
+      "type": "Measurement",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ],
+      "unit": "GBP",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "time_to_complete",
+      "question": "Estimated time to complete job",
+      "type": "Picker",
+      "required": true,
+      "readOnly": true,
+      "options": [
+        "1 hour",
+        "1 hour 30 minutes",
+        "2 hours",
+        "2 hours 30 minutes",
+        "3 hours",
+        "3 hours 30 minutes",
+        "4 hours",
+        "4 hours 30 minutes",
+        "5 hours",
+        "5 hours 30 minutes",
+        "6 hours",
+        "6 hours 30 minutes",
+        "7 hours",
+        "7 hours 30 minutes",
+        "8 hours",
+        "8 hours 30 minutes",
+        "Half day",
+        "Full day",
+        "One and a half days",
+        "Two days",
+        "Two and a half days",
+        "Three days",
+        "Three and a half days",
+        "Four days",
+        "Four and a half days",
+        "Five days"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "BookedOnDay1",
+      "question": "Booked on day 1",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "ReasonNotBookedOnDay1",
+      "question": "Reason not booked on day 1",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "BookedOnDay1",
+          "operator": "Equals",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "id": "b_subcontract",
+      "question": "Subcontractor required?",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "subcontracttext",
+      "question": "Subcontractor details",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "b_subcontract",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "Summary",
+      "question": "Additional information",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "HasSpecialRequirements",
+      "question": "Are there any Special Requirements?",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "sr_doorbell",
+      "question": "Doorbell",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "HasSpecialRequirements",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "sr_alarm_cont",
+      "question": "Alarm contacts",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "HasSpecialRequirements",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "sr_acroreq",
+      "question": "Acrow prop required",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "HasSpecialRequirements",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "sr_acrosboy",
+      "question": "Acrow with Strongboy",
+      "type": "YesNo",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "HasSpecialRequirements",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "sr_sand_cemen",
+      "question": "Sand and cement",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "HasSpecialRequirements",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "sr_plaster",
+      "question": "Plaster required",
+      "type": "YesNo",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "HasSpecialRequirements",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "sr_genreq",
+      "question": "Generator required",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "HasSpecialRequirements",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "sr_architreq",
+      "question": "Architraves",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "HasSpecialRequirements",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "sr_acc_text",
+      "question": "Special requirements comments",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "survey_complete",
+          "operator": "Equals",
+          "value": "True"
+        },
+        {
+          "questionId": "HasSpecialRequirements",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    }
+  ],
+  "includeHeaderQuestions": false,
+  "includeFooterQuestions": false
+}

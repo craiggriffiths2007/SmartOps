@@ -1,0 +1,662 @@
+{
+  "includeHeaderQuestions": false,
+  "includeFooterQuestions": false,
+  "questions": [
+    {
+      "id": "uspot_fitter",
+      "question": "Fitter Name",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "uspot_trainee",
+      "question": "Trainee Name (enter None if not applicable)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "section_progress_when_reviewed",
+      "question": "Progress when reviewed",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "uspot_repair_arrived",
+      "question": "Arrived",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "uspot_repair_setup",
+      "question": "Set Up",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "uspot_repair_ongoing",
+      "question": "Ongoing",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "uspot_repair_completed",
+      "question": "Completed",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "section_work_items_reviewed",
+      "question": "Work items reviewed",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "uspot_rev_door",
+      "question": "Door",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "uspot_rev_window",
+      "question": "Window",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "uspot_rev_garagedoor",
+      "question": "Garage Door",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "uspot_rev_glass",
+      "question": "Glass",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "uspot_rev_locks",
+      "question": "Locks",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "uspot_rev_other",
+      "question": "Other",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "section_materials",
+      "question": "Materials",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "uspot_revb_upvc",
+      "question": "uPVC",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "uspot_revb_timber",
+      "question": "Timber",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "uspot_revb_ali",
+      "question": "Ali",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "uspot_revb_other",
+      "question": "Other",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "assessment",
+      "question": "Assessment",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "rating_guide_1",
+      "question": "Unacceptable",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "rating_guide_2",
+      "question": "Poor Quality",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "rating_guide_3",
+      "question": "Acceptable",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "rating_guide_4",
+      "question": "High Quality",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "rating_guide_5",
+      "question": "Exceptional",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "uspot_appearence",
+      "question": "Appearance",
+      "type": "Measurement",
+      "required": true,
+      "minimum": 1,
+      "maximum": 5,
+      "wholeNumber": true,
+      "unit": ""
+    },
+    {
+      "id": "uspot_appearence_improvements",
+      "question": "Areas for improvement (including uniforms, ID on show, van tidiness, dust sheets used, PPE used, work area tidiness, etc)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "uspot_qualityofworks",
+      "question": "Quality of works",
+      "type": "Measurement",
+      "required": true,
+      "minimum": 1,
+      "maximum": 5,
+      "wholeNumber": true,
+      "unit": ""
+    },
+    {
+      "id": "uspot_qualityofworks_improvements",
+      "question": "Areas for improvement (for works completed so far)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "uspot_customersatisfaction",
+      "question": "Customer satisfaction",
+      "type": "Measurement",
+      "required": true,
+      "minimum": 1,
+      "maximum": 5,
+      "wholeNumber": true,
+      "unit": ""
+    },
+    {
+      "id": "uspot_customersatisfaction_improvements",
+      "question": "Areas for improvement (including staff attitude, explanation of works, noise, smoking on time, etc.)",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "uspot_otherobservations",
+      "question": "Other observations",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "photos_complete",
+      "question": "Please take 5 photographs",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "PersonCarryingOutSpotCheck",
+      "question": "Person carrying out the spot check",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "signature_complete",
+      "question": "Signature",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "still_on_site",
+      "question": "Are fitters still on site?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "ppe_1",
+      "question": "Fitters P.P.E. Items",
+      "type": "Information",
+      "required": false,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "safety_boots_worn1",
+      "question": "Safety boots worn",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "safety_boots_worn1_s",
+      "question": "Fitter: Safety boots worn - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_boots_worn1",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "safety_gloves_worn1",
+      "question": "Safety gloves worn",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "safety_gloves_worn1_s",
+      "question": "Fitter: Safety gloves worn - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_gloves_worn1",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "safety_googles_worn1",
+      "question": "Safety goggles worn",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "safety_googles_worn1_s",
+      "question": "Fitter: Safety goggles worn - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_googles_worn1",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "safety_helmet_worn1",
+      "question": "Safety helmet worn",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "safety_helmet_worn1_s",
+      "question": "Fitter: Safety helmet worn - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_helmet_worn1",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "wristguards_worn1",
+      "question": "Wristguards worn",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "wristguards_worn1_s",
+      "question": "Fitter: Wristguards worn - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "wristguards_worn1",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "uniform_worn_complete1",
+      "question": "Uniform worn complete",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "uniform_worn_complete1_s",
+      "question": "Fitter: Uniform worn complete - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "uniform_worn_complete1",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "id_card_available1",
+      "question": "ID card available",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "id_card_available1_s",
+      "question": "Fitter: ID card available - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "id_card_available1",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "ppe_2",
+      "question": "Trainee P.P.E. Items",
+      "type": "Information",
+      "required": false,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "safety_boots_worn2",
+      "question": "Safety boots worn",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "safety_boots_worn2_s",
+      "question": "Trainee: Safety boots worn - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_boots_worn2",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "safety_gloves_worn2",
+      "question": "Safety gloves worn",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "safety_gloves_worn2_s",
+      "question": "Trainee: Safety gloves worn - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_gloves_worn2",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "safety_googles_worn2",
+      "question": "Safety goggles worn",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "safety_googles_worn2_s",
+      "question": "Trainee: Safety goggles worn - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_googles_worn2",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "safety_helmet_worn2",
+      "question": "Safety helmet worn",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "safety_helmet_worn2_s",
+      "question": "Trainee: Safety helmet worn - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "safety_helmet_worn2",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "wristguards_worn2",
+      "question": "Wristguards worn",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "wristguards_worn2_s",
+      "question": "Trainee: Wristguards worn - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "wristguards_worn2",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "uniform_worn_complete2",
+      "question": "Uniform worn complete",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "uniform_worn_complete2_s",
+      "question": "Trainee: Uniform worn complete - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "uniform_worn_complete2",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "id_card_available2",
+      "question": "ID card available",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "still_on_site",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "id_card_available2_s",
+      "question": "Trainee: ID card available - reason",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "id_card_available2",
+        "operator": "Equals",
+        "value": "No"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "still_on_site",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    }
+  ]
+}

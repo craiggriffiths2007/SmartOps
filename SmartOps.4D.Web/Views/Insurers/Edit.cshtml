@@ -1,0 +1,45 @@
+
+@model SmartOps.Web.ViewModels.InsurerEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Insurer";
+    ViewData["IsEdit"] = true;
+
+    var insurerViewData = new ViewDataDictionary(ViewData);
+    insurerViewData.TemplateInfo.HtmlFieldPrefix = "Insurer";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Edit Insurer</h4>
+
+    <a asp-action="Details"
+       asp-route-id="@Model.Insurer.Id"
+       class="btn btn-secondary">
+        Close
+    </a>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-action="Edit"
+              asp-route-id="@Model.Insurer.Id"
+              method="post">
+
+            <partial name="_InsurerForm"
+                     model="Model.Insurer"
+                     view-data="insurerViewData" />
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
+}

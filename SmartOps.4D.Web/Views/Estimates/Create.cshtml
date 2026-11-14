@@ -1,0 +1,56 @@
+@model SmartOps.Web.ViewModels.EstimateCreateViewModel
+@{
+    ViewData["Title"] = "Add estimate";
+}
+<link rel="stylesheet" href="~/css/pages/estimates.css" asp-append-version="true" />
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <h4>Add estimate · @Model.ContractCode</h4>
+    <a asp-controller="Contracts" asp-action="Details" asp-route-id="@Model.ContractId" asp-route-tab="estimation" class="btn btn-secondary">Back to contract</a>
+</div>
+<form asp-action="Create" method="post" id="estimate-form">
+    <input asp-for="ContractId" type="hidden" />
+    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+    <div class="row g-3 mb-3">
+        <div class="col-md-8">
+            <label asp-for="ServiceLevel" class="form-label"></label>
+            <input asp-for="ServiceLevel" class="form-control" maxlength="200" required placeholder="e.g. Standard repair or Premium replacement" />
+        </div>
+        <div class="col-md-4">
+            <label asp-for="VatRate" class="form-label"></label>
+            <input asp-for="VatRate" type="number" min="0" max="100" step="0.01" required class="form-control" />
+        </div>
+    </div>
+    <p class="text-muted">Enter each line cost excluding VAT. VAT is calculated on the subtotal.</p>
+    <div class="table-responsive">
+        <table class="table align-middle estimate-lines-table">
+            <thead><tr><th scope="col">Details</th><th scope="col" style="width:12rem">Cost excluding VAT (£)</th><th scope="col" style="width:6rem">Actions</th></tr></thead>
+            <tbody id="estimate-lines">
+                @for (var i = 0; i < Model.Lines.Count; i++)
+                {
+                    <tr>
+                        <td><label asp-for="Lines[i].Details" class="visually-hidden">Line details</label><textarea asp-for="Lines[i].Details" class="form-control" rows="2" maxlength="2000" required></textarea></td>
+                        <td><label asp-for="Lines[i].Cost" class="visually-hidden">Line cost excluding VAT</label><input asp-for="Lines[i].Cost" class="form-control estimate-cost" type="number" min="0" max="999999999.99" step="0.01" required /></td>
+                        <td><button type="button" class="btn btn-outline-danger btn-sm" data-remove-line aria-label="Remove estimate line">Remove</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <button type="button" id="add-estimate-line" class="btn btn-outline-secondary mb-3">Add line</button>
+    <dl class="row text-end" aria-live="polite" aria-atomic="true">
+        <dt class="col-8">Subtotal</dt><dd class="col-4" id="estimate-subtotal">£0.00</dd>
+        <dt class="col-8">VAT <span id="estimate-vat-rate"></span></dt><dd class="col-4" id="estimate-vat">£0.00</dd>
+        <dt class="col-8">Total including VAT</dt><dd class="col-4 fw-bold" id="estimate-total">£0.00</dd>
+    </dl>
+    <button type="submit" class="btn btn-primary">Save estimate</button>
+</form>
+<template id="estimate-line-template">
+    <tr>
+        <td><label class="visually-hidden">Line details</label><textarea class="form-control" rows="2" maxlength="2000" required></textarea></td>
+        <td><label class="visually-hidden">Line cost excluding VAT</label><input class="form-control estimate-cost" type="number" min="0" max="999999999.99" step="0.01" value="0.00" required /></td>
+        <td><button type="button" class="btn btn-outline-danger btn-sm" data-remove-line aria-label="Remove estimate line">Remove</button></td>
+    </tr>
+</template>
+@section Scripts {
+    <script src="~/js/estimates.js" asp-append-version="true"></script>
+}

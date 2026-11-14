@@ -1,0 +1,302 @@
+/* Full-width cards shared by the contracts and customers indexes. */
+.record-cards {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.record-card {
+    position: relative;
+    padding: 12px 16px;
+    border: 1px solid #d6dce4;
+    border-radius: 6px;
+    overflow-wrap: anywhere;
+}
+
+.record-card:hover,
+.record-card:focus-within {
+    border-color: var(--blue);
+    background: #f8f9fa;
+}
+
+.record-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-bottom: 8px;
+}
+
+.record-card-title {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.record-card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.record-card-title span {
+    margin-left: 12px;
+}
+
+.record-card-details {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: 8px 24px;
+}
+
+.record-card p {
+    margin: 0 0 4px;
+}
+
+.record-card-aside {
+    text-align: right;
+}
+
+/* Keep booking and contact links above the card's details link. */
+.record-card-action {
+    position: relative;
+    z-index: 2;
+}
+
+@media (max-width: 767px) {
+    .record-card-details {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .record-card-aside {
+        text-align: left;
+    }
+}
+
+/* Labelled fields for the other record lists. */
+.record-card-fields {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px 24px;
+    margin-top: 8px;
+}
+
+.record-card-field > .record-field-label {
+    display: block;
+    font-size: .85rem;
+    font-weight: 600;
+    color: #6c757d;
+}
+
+.record-card-fields a,
+.record-card-fields button,
+.record-card-fields input,
+.record-card-fields form {
+    position: relative;
+    z-index: 2;
+}
+
+.record-card .message-unread,
+.record-card.message-unread {
+    border-left: 4px solid var(--blue);
+}
+
+@media (max-width: 767px) {
+    .record-card-fields {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.record-card[hidden] {
+    display: none !important;
+}
+
+.record-list-section > .record-cards {
+    padding: 12px;
+}
+
+@media print {
+    .record-cards[data-paginate] > .record-card[hidden] {
+        display: block !important;
+    }
+
+    .record-pagination {
+        display: none;
+    }
+}
+
+@media print {
+    tbody[data-paginate] > tr[hidden] { display: table-row !important; }
+}
+
+/* Vehicle-check summaries flow continuously and wrap without fixed columns. */
+.record-card-fields.vehicle-check-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    margin-top: 6px;
+}
+
+.vehicle-check-summary .record-card-field {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.vehicle-check-summary .record-card-field > .record-field-label {
+    display: inline;
+    white-space: nowrap;
+}
+
+.vehicle-check-summary .record-card-field > span:last-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+/* Week, branch and completed date follow one another on the card's top line. */
+.record-card-header.vehicle-check-card-header {
+    justify-content: flex-start;
+    gap: 6px 18px;
+}
+
+.vehicle-check-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+}
+
+/* Column-based index lists with compact rows and horizontal scrolling on small screens. */
+.record-index-list {
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+.record-index-table {
+    --bs-table-color: var(--text);
+    --bs-table-border-color: var(--border);
+    --bs-table-hover-bg: var(--sky);
+    --bs-table-hover-color: var(--text);
+    font-size: .9rem;
+}
+.record-index-table > :not(caption) > * > * {
+    padding: 9px 12px;
+    white-space: nowrap;
+}
+.record-index-table.customer-index-table > :not(caption) > * > * {
+    padding-inline: clamp(3px, 1vw, 12px);
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+.customer-index-name {
+    width: 22%;
+}
+.customer-index-address {
+    width: 42%;
+}
+.customer-index-address > span {
+    display: block;
+    width: 0;
+    min-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.customer-index-table .badge {
+    white-space: normal;
+}
+.record-index-table thead th {
+    background: var(--surface-soft);
+    color: var(--navy);
+    font-weight: 700;
+}
+.record-index-table tbody th {
+    font-weight: 600;
+}
+.record-index-table tbody tr:last-child > * {
+    border-bottom: 0;
+}
+.record-index-table tbody tr:focus-within > * {
+    --bs-table-bg-state: var(--sky);
+}
+.record-index-table .record-index-text {
+    min-width: 12rem;
+    max-width: 28rem;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+.record-index-table tbody tr:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: -2px;
+}
+.record-index-vehicles,
+.record-index-vehicle-key {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 16px;
+}
+.record-index-vehicles {
+    min-width: 18rem;
+    white-space: normal;
+}
+.record-index-vehicle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+.record-index-vehicle-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    flex: 0 0 auto;
+}
+
+/* Keep all contract columns visible on desktop; long descriptions use the available space. */
+.contract-index-table {
+    width: 100%;
+    min-width: 65rem;
+    table-layout: fixed;
+}
+.contract-index-table > :not(caption) > * > * {
+    padding: 9px 8px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+.contract-index-table .contract-column { width: 9%; }
+.contract-index-table .customer-column { width: 17%; }
+.contract-index-table .damage-column { width: 13%; }
+.contract-index-table .status-column { width: 16%; }
+.contract-index-table .appointment-column { width: 18%; }
+.contract-index-table .insurer-column { width: 13%; }
+.contract-index-table .progress-column { width: 14%; }
+.contract-index-table .text-truncate { max-width: 100%; }
+.contract-index-table .badge {
+    max-width: 100%;
+    white-space: normal;
+    text-align: left;
+}
+.contract-index-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.contract-index-progress .contract-traffic-light {
+    display: inline-block;
+    width: .8em;
+    height: .8em;
+    flex: 0 0 .8em;
+    border-radius: 50%;
+}
+
+.contract-index-progress .diary-received-statuses {
+    flex-wrap: nowrap;
+    gap: 6px;
+    margin-left: 0;
+}
+
+.contract-index-progress .diary-received-status {
+    flex-shrink: 0;
+}

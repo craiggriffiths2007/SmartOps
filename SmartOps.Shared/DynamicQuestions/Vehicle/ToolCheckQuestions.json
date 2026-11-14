@@ -1,0 +1,354 @@
+{
+  "questions": [
+    {
+      "id": "files_a",
+      "question": "Files - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "files_f",
+      "question": "Files - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "pliers_a",
+      "question": "Pliers - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "pliers_f",
+      "question": "Pliers - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "chisels_a",
+      "question": "Chisels - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "chisels_f",
+      "question": "Chisels - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "pincers_a",
+      "question": "Pincers - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "pincers_f",
+      "question": "Pincers - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "scraper_a",
+      "question": "Scraper - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "scraper_f",
+      "question": "Scraper - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "hacksaw_a",
+      "question": "Hacksaw - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "hacksaw_f",
+      "question": "Hacksaw - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "crowbar_a",
+      "question": "Crowbar - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "crowbar_f",
+      "question": "Crowbar - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "handsaw_a",
+      "question": "Handsaw - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "handsaw_f",
+      "question": "Handsaw - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "molegrips_a",
+      "question": "Molegrips - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "molegrips_f",
+      "question": "Molegrips - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "sidecutters_a",
+      "question": "Sidecutters - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "sidecutters_f",
+      "question": "Sidecutters - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "hammer_a",
+      "question": "Hammer - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "hammer_f",
+      "question": "Hammer - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "spiritlevel_a",
+      "question": "Spirit Level - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "spiritlevel_f",
+      "question": "Spirit Level - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "screwdrivers_a",
+      "question": "Screw Drivers - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "screwdrivers_f",
+      "question": "Screw Drivers - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "bolsterchisel_a",
+      "question": "Bolster Chisel - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "bolsterchisel_f",
+      "question": "Bolster Chisel - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "setsquare_a",
+      "question": "Set Square - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "setsquare_f",
+      "question": "Set Square - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "stanleyknife_a",
+      "question": "Stanley Knife - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "stanleyknife_f",
+      "question": "Stanley Knife - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "clubhammer_a",
+      "question": "Club Hammer - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "clubhammer_f",
+      "question": "Club Hammer - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "tapemeasure_a",
+      "question": "Tape Measure - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "tapemeasure_f",
+      "question": "Tape Measure - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "slidingbevel_a",
+      "question": "Sliding Bevel - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "slidingbevel_f",
+      "question": "Sliding Bevel - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "glazingshovel_a",
+      "question": "Glazing Shovel - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "glazingshovel_f",
+      "question": "Glazing Shovel - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "pointingtrowel_a",
+      "question": "Pointing Trowel - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "pointingtrowel_f",
+      "question": "Pointing Trowel - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "setofallenkeys_a",
+      "question": "Set of Allen Keys - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "setofallenkeys_f",
+      "question": "Set of Allen Keys - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "adjustablespanner_a",
+      "question": "Adjustable Spanner - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "adjustablespanner_f",
+      "question": "Adjustable Spanner - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "augerbitsjoin_a",
+      "question": "Auger Bits (Joiner) - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "augerbitsjoin_f",
+      "question": "Auger Bits (Joiner) - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "nailpunchjoin_a",
+      "question": "Nail Punch (Joiner) - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "nailpunchjoin_f",
+      "question": "Nail Punch (Joiner) - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "puttyknifejoin_a",
+      "question": "Putty Knife (Joiner) - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "puttyknifejoin_f",
+      "question": "Putty Knife (Joiner) - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "socketsetjoin_a",
+      "question": "Socket Set (Garage Door) - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "socketsetjoin_f",
+      "question": "Socket Set (Garage Door) - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "copingsawjoin_a",
+      "question": "Coping Saw (Optional) - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "copingsawjoin_f",
+      "question": "Coping Saw (Optional) - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "rivetgunjoin_a",
+      "question": "Rivet Gun (Optional) - Available on request",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "rivetgunjoin_f",
+      "question": "Rivet Gun (Optional) - Fit for purpose",
+      "type": "YesNo",
+      "required": true
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

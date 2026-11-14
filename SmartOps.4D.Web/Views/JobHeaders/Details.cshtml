@@ -1,0 +1,323 @@
+@model SmartOps.Web.ViewModels.JobHeaderItemIndexViewModel
+@using System.ComponentModel
+@using System.Reflection
+@using System.Linq
+@using SmartOps.Shared.Enums
+@{
+    ViewData["Title"] = "Job report";
+    var h = Model.JobHeader;
+    var type = h?.JobType ?? enum_job_type.Survey;
+    var isSurvey = type == enum_job_type.Survey;
+    var isFitting = type == enum_job_type.Fitting;
+    var isRemedial = type == enum_job_type.Remedial;
+    var groups = new Dictionary<string, string[]> {
+      ["Job"] = new[] { "NumberOfItems", "TrafficLight" },
+      ["Property access"] = new[] { "no_of_front_house_photos" },
+      ["Survey completion"] = new[] { "bSurvey", "bRequestRepudiation" },
+      ["Fitting work"] = new[] { "FitTimeArrived", "FitTimeLeft", "bFitterJobComplete" },
+      ["Fitting completion & signatures"] = new[] { "bFitterCompletionFormComplete", "f_sign_date", "directive_complete", "no_of_fitting_photos", "bFitterAdditionalImage", "bFitterMandateSigned", "MandateSentence", "MandateSignedDate", "bFitterSigned", "bFitterStockUsageComplete" },
+      ["Remedial work"] = new[] { "RemedialReport" },
+      ["Remedial completion"] = new[] { "readditimage", "bRemedialCompletionFormComplete", "bRemedialCustomerSigned", "bRemedialAdditionalImage" },
+      ["Payments"] = new[] { "si_mpay", "Excess" }
+    };
+    var excluded = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "Id", "TenantId", "Guid", "ContractId", "CustomerId", "BranchId", "AgentId", "bComplete", "bSent", "JobInstructions", "Report", "FitComments", "JobType", "AgentCode", "DiaryDate", "StartTime", "FinishTime", "TimeArrived", "survey_complete", "DateTimeCompleted", "ContractCode", "CustomerName", "CustomerAddressLine1", "CustomerAddressLine2", "CustomerAddressLine3", "CustomerAddressLine4", "CustomerPostcode", "CustomerPhoneNumber", "CustomerPhoneNumber2", "CustomerPhoneNumber3", "CustomerAddPhoneNumber1", "CustomerAddPhoneNumber2", "PolicyNumber", "InvoiceNumber", "InsuranceCompanyName", "LossAdjusterName", "IncidentDate", "CauseOfDamage", "DamageDescription" };
+    foreach (var field in groups.Values.SelectMany(x => x)) excluded.Add(field);
+    var extraFields = h?.GetType().GetProperties().Where(p => !excluded.Contains(p.Name) && p.GetIndexParameters().Length == 0 && p.GetCustomAttribute<BrowsableAttribute>()?.Browsable != false).ToArray() ?? Array.Empty<PropertyInfo>();
+    string Address() => string.Join(", ", new[] { h?.CustomerAddressLine1, h?.CustomerAddressLine2, h?.CustomerAddressLine3, h?.CustomerAddressLine4, h?.CustomerPostcode }.Where(x => !string.IsNullOrWhiteSpace(x)));
+}
+<link rel="stylesheet" href="~/css/pages/job-header.css" asp-append-version="true" />
+@if(h == null){<div class="alert alert-warning">Job header not found.</div>}
+else {
+<div class="jh-page">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mb-0">@type Report</h4>
+
+        <div class="d-flex gap-2">
+        @if (isSurvey || isFitting)
+        {
+            <a class="btn btn-outline-primary d-print-none" asp-action="Details" asp-route-id="@h.Id" asp-route-print="true" data-print-document>Print</a>
+        }
+        <button type="button"
+                class="btn btn-secondary d-print-none"
+                onclick="history.back();"
+                title="Back">
+            Back
+        </button>
+        </div>
+
+    </div>
+
+ <hr />
+ <div class="jh-customer">
+  <div><strong>Contract Code:</strong> @h.ContractCode</div>
+  <div><strong>Customer:</strong> @h.CustomerName</div>
+  <div class="jh-address"><strong>Address:</strong> @Address()</div>
+  <div class="jh-customer-details">
+   <div><strong>Diary Date:</strong> @h.DiaryDate.ToString("dd/MM/yyyy")</div>
+   <div><strong>Agent:</strong> @h.AgentCode</div>
+   @if(!string.IsNullOrWhiteSpace(h.CustomerPhoneNumber)){<div><strong>Phone:</strong> @h.CustomerPhoneNumber</div>}
+   @if(!string.IsNullOrWhiteSpace(h.PolicyNumber)){<div><strong>Policy Number:</strong> @h.PolicyNumber</div>}
+   @if(!string.IsNullOrWhiteSpace(h.InsuranceCompanyName)){<div><strong>Insurer:</strong> @h.InsuranceCompanyName</div>}
+   @if(!string.IsNullOrWhiteSpace(h.DamageDescription)){<div><strong>Damage:</strong> @h.DamageDescription</div>}
+  </div>
+
+   <div class="jh-customer-details">
+    @foreach(var entry in new[] { ("Other phone",h.CustomerPhoneNumber2), ("Other phone 2",h.CustomerPhoneNumber3), ("Loss adjuster",h.LossAdjusterName), ("Incident date",h.IncidentDate), ("Cause of damage",h.CauseOfDamage), ("Invoice",h.InvoiceNumber) }) {
+     if(!string.IsNullOrWhiteSpace(entry.Item2)){<div><strong>@entry.Item1:</strong> @entry.Item2</div>}
+    }
+   </div>
+
+ </div>
+ <ul class="nav nav-tabs jh-tabs" id="jh-tabs" role="tablist">
+  <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#jh-main" type="button">@(isSurvey ? "Survey" : isFitting ? "Fitting" : "Remedial")</button></li>
+  @if(!isSurvey){<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#jh-survey" type="button">Survey</button></li>}
+  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#jh-media" type="button">Items &amp; media</button></li>
+  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#jh-all" type="button">Other fields</button></li>
+ </ul>
+ <div class="tab-content">
+ <div class="tab-pane show active" id="jh-main"><div class="jh-print-heading d-none">@type</div>
+ @if(isSurvey){
+   @await Html.PartialAsync("_JobHeaderFieldGroups", Tuple.Create((object)h, groups.Where(g => new[] { "Job", "Property access", "Survey completion", "Payments" }.Contains(g.Key)).ToList()))
+ } else if(isFitting){
+   @await Html.PartialAsync("_JobHeaderFieldGroups", Tuple.Create((object)h, groups.Where(g => new[] { "Fitting work", "Fitting completion & signatures", "Payments" }.Contains(g.Key)).ToList()))
+ } else {
+   @await Html.PartialAsync("_JobHeaderFieldGroups", Tuple.Create((object)h, groups.Where(g => new[] { "Remedial work", "Remedial completion", "Payments" }.Contains(g.Key)).ToList()))
+ }
+ @if (isFitting) {
+   @await Html.PartialAsync("_FitterCompletionReport", h)
+   @await Html.PartialAsync("_FitterStockUsageReport", h)
+ }
+ @if (isRemedial) { @await Html.PartialAsync("_RemedialCompletionReport", h) }
+ @if (isSurvey)
+ {
+   @await Html.PartialAsync("_HealthAndSafetyReport", h)
+
+   @await Html.PartialAsync("_JobSummaryReport", h)
+   @if (h.bRequestRepudiation == true || !string.IsNullOrWhiteSpace(h.RepudiationQuestionsSnapshotJson)) { @await Html.PartialAsync("_RepudiationReport", h) }
+   @if (h.garage_door_motor == true || !string.IsNullOrWhiteSpace(h.GarageDoorMotorDeclarationQuestionsSnapshotJson)) { @await Html.PartialAsync("_GarageDoorMotorDeclarationReport", h) }
+   <div class="jh-panel">
+     <h5>Survey report</h5>
+     @if (!string.IsNullOrWhiteSpace(h.Report))
+     {
+       <div class="jh-report jh-readonly-quill" id="jh-report-editor">@Html.Raw(h.Report)</div>
+     }
+     else
+     {
+       <span class="jh-empty">No survey report recorded.</span>
+     }
+   </div>
+ }
+
+ @if (isRemedial)
+ {
+   <div class="jh-panel">
+     <h5>Remedial report</h5>
+     @if (!string.IsNullOrWhiteSpace(h.RemedialReport))
+     {
+       <div class="jh-report jh-readonly-quill" id="jh-report-editor">@Html.Raw(h.RemedialReport)</div>
+     }
+     else
+     {
+       <span class="jh-empty">No remedial report recorded.</span>
+     }
+   </div>
+ }
+
+ @if (isFitting)
+ {
+   <div class="jh-panel">
+     <h5>Fitter comments</h5>
+     @if (!string.IsNullOrWhiteSpace(h.FitComments))
+     {
+       <div class="jh-report jh-readonly-quill" id="jh-fitter-comments-editor">@Html.Raw(h.FitComments)</div>
+     }
+     else
+     {
+       <span class="jh-empty">No fitter comments recorded.</span>
+     }
+   </div>
+ }
+ </div>
+
+ @if (!isSurvey)
+ {
+   <div class="tab-pane" id="jh-survey">
+     <div class="jh-print-heading d-none">Survey information</div>
+
+     @await Html.PartialAsync(
+       "_JobHeaderFieldGroups",
+       Tuple.Create(
+         (object)h,
+         groups.Where(g => new[]
+         {
+           "Job",
+           "Property access",
+           "Equipment & materials",
+           "Site safety",
+           "Survey completion"
+         }.Contains(g.Key)).ToList()
+       )
+     )
+
+     @await Html.PartialAsync("_HealthAndSafetyReport", h)
+
+   @await Html.PartialAsync("_JobSummaryReport", h)
+   @if (h.bRequestRepudiation == true || !string.IsNullOrWhiteSpace(h.RepudiationQuestionsSnapshotJson)) { @await Html.PartialAsync("_RepudiationReport", h) }
+   @if (h.garage_door_motor == true || !string.IsNullOrWhiteSpace(h.GarageDoorMotorDeclarationQuestionsSnapshotJson)) { @await Html.PartialAsync("_GarageDoorMotorDeclarationReport", h) }
+     <div class="jh-panel">
+       <h5>Survey report</h5>
+       @if (!string.IsNullOrWhiteSpace(h.Report))
+       {
+         <div class="jh-report jh-readonly-quill" id="jh-survey-report-editor">@Html.Raw(h.Report)</div>
+       }
+       else
+       {
+         <span class="jh-empty">No survey report recorded.</span>
+       }
+     </div>
+   </div>
+ }
+ <div class="tab-pane" id="jh-media"><div class="jh-print-heading d-none">Items &amp; media</div>
+@if (Model.SurveyItems != null && Model.SurveyItems.Any())
+{
+    <h5>Survey Items</h5>
+    <table class="table squash-table">
+        <thead class="top-listbar">
+            <tr>
+                <th style="width: 1%; white-space: nowrap;">No.</th>
+                <th>Name</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.SurveyItems)
+            {
+                <tr class="clickable-row" data-href="@Url.Action("Details", item.ControllerName, new { id = item.Id })">
+                    <td class="text-center">@item.item_number</td>
+                    <td class="@(item.BaseItemType == enum_item_type.none ? "fw-bold" : "")">
+                        @(item.BaseItemType == enum_item_type.none ? item.ItemTitle : " - " + item.ItemTitle)
+                    </td>
+
+                  
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="text-muted">No survey items found for this job.</p>
+}
+
+
+@if (Model.Images != null && Model.Images.Any())
+{
+    <h5>Images and Videos</h5>
+
+    <div class="row g-3">
+        @foreach (var img in Model.Images)
+        {
+            var ext = System.IO.Path
+                .GetExtension(img.Filename)?
+                .ToLowerInvariant();
+
+            if (ext == ".mp4" ||
+                ext == ".webm" ||
+                ext == ".ogg")
+            {
+                <div class="col-12 mb-3">
+                    <video controls
+                           class="img-fluid responsive-image">
+
+                        <source src="@Url.Content($"/images/{img.Filename}")"
+                                type="video/@(ext.TrimStart('.'))" />
+
+                        Your browser does not support the video tag.
+                    </video>
+
+                    <div class="small text-muted">
+                        @img.Filename (@img.DateTime)
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-6 col-md-3">
+
+                    <a href="/images/@img.Filename"
+                       class="image-lightbox-link">
+
+                        <img src="/images/@img.Filename"
+                             class="img-fluid border record-photo"
+                             alt="@img.Filename" />
+
+                    </a>
+
+                </div>
+            }
+        }
+    </div>
+}
+</div><div class="tab-pane" id="jh-all"><div class="jh-print-heading d-none">Other recorded fields</div><div class="jh-panel"><h5>Additional fields</h5><p class="text-muted small">Fields not assigned to a section above. Useful when checking synchronisation.</p><div class="jh-fields">@foreach(var prop in extraFields){var value=prop.GetValue(h);if(value==null || string.IsNullOrWhiteSpace(value.ToString()))continue;<div class="jh-field"><span class="jh-label">@(prop.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? prop.Name)</span><span class="jh-value">@value</span></div>}</div></div></div></div>
+<div class="d-flex gap-2 flex-wrap mt-2 jh-actions">
+@if(h.garage_door_motor == true){<a class="btn btn-outline-primary" asp-action="GarageMotor" asp-route-id="@h.Id" data-print-document>Garage door motor declaration</a>}
+@if(h.JobType > enum_job_type.Survey){<a class="btn btn-outline-primary" asp-action="SignedMandate" asp-route-id="@h.Id" data-print-document>Signed mandate</a>}
+</div></div>
+}
+<link href="~/lib/quill.snow.css" rel="stylesheet" />
+<script src="~/lib/quill.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        ['jh-report-editor', 'jh-survey-report-editor', 'jh-fitter-comments-editor'].forEach(function (id) {
+            const element = document.getElementById(id);
+            if (element) {
+                new Quill(element, {
+                    theme: 'snow',
+                    readOnly: true,
+                    modules: { toolbar: false }
+                });
+            }
+        });
+    });
+</script>
+<script>
+    function openInstructions(url) {
+        // Opens a styled popup window with specific dimensions
+        window.open(url, 'JobInstructionsPopup', 'width=800,height=600,scrollbars=yes,resizable=yes');
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Restore the selected tab from the URL
+        const hash = window.location.hash;
+
+        if (hash) {
+            const tab = document.querySelector(
+                `[data-bs-toggle="tab"][data-bs-target="${hash}"]`
+            );
+
+            if (tab) {
+                bootstrap.Tab.getOrCreateInstance(tab).show();
+            }
+        }
+
+        // Remember the tab whenever it changes
+        document.querySelectorAll('[data-bs-toggle="tab"]')
+            .forEach(tab => {
+                tab.addEventListener("shown.bs.tab", function (event) {
+                    const target = event.target.getAttribute("data-bs-target");
+
+                    history.replaceState(
+                        null,
+                        "",
+                        window.location.pathname +
+                        window.location.search +
+                        target
+                    );
+                });
+            });
+    });
+</script>

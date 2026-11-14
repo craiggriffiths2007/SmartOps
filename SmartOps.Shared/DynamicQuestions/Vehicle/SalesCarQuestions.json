@@ -1,0 +1,177 @@
+{
+  "questions": [
+    {
+      "id": "interior_clean",
+      "question": "Interior clean and free of loose items",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "interior_clean_s",
+      "question": "Interior clean and free of loose items - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "interior_clean",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "oil_level",
+      "question": "Engine oil level OK",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "oil_level_s",
+      "question": "Engine oil level OK - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "oil_level",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "water_level",
+      "question": "Coolant level OK",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "water_level_s",
+      "question": "Coolant level OK - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "water_level",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "windscreen_wash",
+      "question": "Windscreen washer fluid and washers OK",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "windscreen_wash_s",
+      "question": "Windscreen washer fluid and washers OK - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "windscreen_wash",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "tyre_condition",
+      "question": "All tyres: condition, tread and pressures OK",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "tyre_condition_s",
+      "question": "All tyres: condition, tread and pressures OK - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "tyre_condition",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "spare_wheel",
+      "question": "Spare wheel or puncture repair kit available",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "spare_wheel_s",
+      "question": "Spare wheel or puncture repair kit available - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "spare_wheel",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "jack",
+      "question": "Jack available (if required for spare wheel)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "jack_s",
+      "question": "Jack available (if required for spare wheel) - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "jack",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "wheel_brace",
+      "question": "Wheel brace available (if required for spare wheel)",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "wheel_brace_s",
+      "question": "Wheel brace available (if required for spare wheel) - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "wheel_brace",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "tools",
+      "question": "Vehicle emergency tools available",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "tools_s",
+      "question": "Vehicle emergency tools available - details if No",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "tools",
+        "operator": "Equals",
+        "value": "False"
+      }
+    },
+    {
+      "id": "marks_out_of_10",
+      "question": "Marks out of 10",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+      ]
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}
