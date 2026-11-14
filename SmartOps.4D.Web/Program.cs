@@ -22,9 +22,19 @@ using Yarp.ReverseProxy.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 // Opt-in LAN test. Never expose the web interface by default.
 var surveyProxyEnabled = builder.Configuration.GetValue<bool>("SurveyProxy:Enabled");
-builder.WebHost.UseUrls(surveyProxyEnabled
-    ? new[] { "http://127.0.0.1:5245", "http://0.0.0.0:8085" }
-    : new[] { builder.Configuration["Urls"] ?? "http://127.0.0.1:5245" });
+if (surveyProxyEnabled)
+{
+    // Explicit Kestrel endpoints take precedence over launch-profile URLs.
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenLocalhost(5245);
+        options.ListenAnyIP(8085);
+    });
+}
+else
+{
+    builder.WebHost.UseUrls(builder.Configuration["Urls"] ?? "http://127.0.0.1:5245");
+}
 CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("en-GB");
 CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo("en-GB");
 builder.Services.AddHttpContextAccessor();
@@ -107,7 +117,8 @@ if (surveyProxyEnabled)
     app.Use(async (context, next) =>
     {
         if (context.Connection.LocalPort == 8085 &&
-            !SurveyProxyPaths.IsSurveyPath(context.Request.Path))
+            !SurveyProxyPaths.IsSurveyPath(context.Request.Path) &&
+            !context.Request.Path.Equals("/proxy/status", StringComparison.OrdinalIgnoreCase))
         {
             context.Response.StatusCode = StatusCodes.Status404NotFound;
             return;
@@ -129,6 +140,11 @@ app.Use(async (context, next) => {
 app.UseMiddleware<BridgeMiddleware>();
 if (surveyProxyEnabled)
 {
+    app.MapGet("/proxy/status", (HttpContext context) =>
+    {
+        // No secrets, configuration or host details exposed in this test probe.
+        return Results.Json(new { proxyEnabled = true, listeningPort = context.Connection.LocalPort });
+    }).AllowAnonymous();
     app.MapReverseProxy();
     app.Logger.LogInformation("Survey API proxy enabled on LAN port 8085");
 }
