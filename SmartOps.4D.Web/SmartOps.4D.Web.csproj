@@ -56,6 +56,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.3.1" />
     <PackageReference Include="UAParser" Version="3.1.47" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
+    <PackageReference Include="Yarp.ReverseProxy" Version="2.3.0" />
   </ItemGroup>
   <!-- Visual Studio folder placeholders removed; real files and directories remain unchanged. -->
 
