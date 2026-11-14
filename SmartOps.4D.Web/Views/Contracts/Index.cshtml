@@ -176,12 +176,17 @@ else if (compactList)
                             }
                         </td>
                         <td>
-                            <div>@contract.Insurer?.Name</div>
+                            <div class="text-truncate" title="@contract.Insurer?.Name">@contract.Insurer?.Name</div>
                             <div class="small text-muted">@contract.PolicyNumber</div>
                         </td>
                         <td>
-                            <span role="img" aria-label="Traffic light: @((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.Reason)" title="@((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.Reason)" style="display:inline-block;width:.8em;height:.8em;border-radius:50%;background-color:@((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.DisplayColor ?? "#929292")"></span>
-                            @await Html.PartialAsync("_ContractProgress", item)
+                            <div class="contract-index-progress">
+                                <span class="contract-traffic-light" role="img"
+                                      aria-label="Traffic light: @((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.Reason)"
+                                      title="@((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.Reason)"
+                                      style="background-color:@((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.DisplayColor ?? "#929292")"></span>
+                                @await Html.PartialAsync("_ContractProgress", item)
+                            </div>
                         </td>
                     </tr>
                 }
