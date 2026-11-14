@@ -110,6 +110,8 @@ using SmartOps.Web.Helpers;
             .Take(pageSize)
             .ToListAsync();
 
+        ViewBag.TrafficLightHealth = await SmartOps.Web.Services.ContractAgeingService.CalculateAsync(_context, contracts);
+
         // Get jobs for the contracts on this page
         var contractIds = contracts
             .Select(c => c.Id)
@@ -355,6 +357,9 @@ using SmartOps.Web.Helpers;
         if (contract == null)
             return NotFound();
 
+        ViewBag.TrafficLightHealth = await SmartOps.Web.Services.ContractAgeingService.CalculateAsync(
+            _context, new[] { contract });
+
         var nextJob = await _context.Job
             .Where(j =>
                 j.ContractId == contract.Id &&
@@ -492,30 +497,6 @@ using SmartOps.Web.Helpers;
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> UpdateTrafficLight(
-        int id, SmartOps.Shared.Enums.enum_tlight? trafficLight,
-        string? tab = null, string? returnUrl = null)
-    {
-        if (!ModelState.IsValid || trafficLight == null || !Enum.IsDefined(trafficLight.Value))
-            return BadRequest("Choose Red, Orange or Green.");
-
-        var contract = await _context.Contract.FirstOrDefaultAsync(c => c.Id == id);
-        if (contract == null)
-            return NotFound();
-
-        contract.TrafficLight = trafficLight.Value;
-        await _context.SaveChangesAsync();
-
-        return RedirectToAction(nameof(Details), new
-        {
-            id,
-            tab,
-            returnUrl = Url.IsLocalUrl(returnUrl) ? returnUrl : null
-        });
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> UpdateStatus(
         int id, ContractStatus? status, string? returnUrl = null)
     {
@@ -565,7 +546,7 @@ using SmartOps.Web.Helpers;
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
         string? returnUrl,
-        [Bind("CustomerId,Status,TrafficLight,IncidentDate,DamageDescription,CauseOfDamage,Excess,PolicyNumber,InsurerId")]
+        [Bind("CustomerId,Status,IncidentDate,DamageDescription,CauseOfDamage,Excess,PolicyNumber,InsurerId")]
         Contract contract,
         [Bind(Prefix = "NewCustomer")] InlineContractCustomerViewModel newCustomer,
         bool createNewCustomer = false,
@@ -674,7 +655,7 @@ using SmartOps.Web.Helpers;
     public async Task<IActionResult> Edit(
     int? id,
     string? returnUrl,
-    [Bind("Id,ContractCode,CustomerId,Status,TrafficLight,IncidentDate,DamageDescription,CauseOfDamage,InsurerId,PolicyNumber,Excess")]
+    [Bind("Id,ContractCode,CustomerId,Status,IncidentDate,DamageDescription,CauseOfDamage,InsurerId,PolicyNumber,Excess")]
     Contract contract)
     {
         if (id != contract.Id)
@@ -727,7 +708,6 @@ using SmartOps.Web.Helpers;
                 existingContract.Status =
                     contract.Status;
 
-                existingContract.TrafficLight = contract.TrafficLight;
 
                 if (statusChanged)
                 {
