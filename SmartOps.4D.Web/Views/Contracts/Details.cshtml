@@ -51,35 +51,6 @@
             </div>
         </div>
 
-        <form asp-action="UpdateTrafficLight" method="post" class="mb-3">
-            <input type="hidden" name="id" value="@Model.Contract.Id" />
-            <input type="hidden" name="tab" value="@activeTab" />
-            <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
-            <fieldset>
-                <legend class="col-form-label fw-bold">Traffic Light</legend>
-                <div class="d-flex flex-row align-items-center gap-3">
-                    @foreach (var light in Enum.GetValues<SmartOps.Shared.Enums.enum_tlight>())
-                    {
-                        var colour = light switch
-                        {
-                            SmartOps.Shared.Enums.enum_tlight.Red => "#dc3545",
-                            SmartOps.Shared.Enums.enum_tlight.Orange => "#fd7e14",
-                            _ => "#198754"
-                        };
-                        <div class="form-check">
-                            <input type="radio" name="trafficLight" value="@light" id="TrafficLight_@light"
-                                   class="form-check-input" checked="@(Model.Contract.TrafficLight == light)" onchange="this.form.requestSubmit()" />
-                            <label for="TrafficLight_@light" class="form-check-label">
-                                <span aria-hidden="true" style="display:inline-block;width:.8em;height:.8em;border-radius:50%;background-color:@colour"></span>
-                                
-                            </label>
-                        </div>
-                    }
-                    <noscript><button type="submit" class="btn btn-primary btn-sm">Save traffic light</button></noscript>
-                </div>
-            </fieldset>
-        </form>
-
         <div class="mb-3">
             <div class="fw-bold">
                 @Html.DisplayNameFor(model => model.Contract.IncidentDate)
@@ -160,6 +131,11 @@
                     </form>
                 }
             </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold mb-2">Traffic Light</div>
+            @await Html.PartialAsync("_AutomaticTrafficLight", Model.Contract)
         </div>
 
         <div class="mb-3">

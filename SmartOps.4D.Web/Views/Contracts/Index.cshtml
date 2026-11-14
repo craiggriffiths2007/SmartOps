@@ -180,7 +180,7 @@ else if (compactList)
                             <div class="small text-muted">@contract.PolicyNumber</div>
                         </td>
                         <td>
-                            <span role="img" aria-label="Traffic light: @contract.TrafficLight" title="@contract.TrafficLight" style="display:inline-block;width:.8em;height:.8em;border-radius:50%;background-color:@(contract.TrafficLight switch { SmartOps.Shared.Enums.enum_tlight.Red => "#dc3545", SmartOps.Shared.Enums.enum_tlight.Orange => "#fd7e14", _ => "#198754" })"></span>
+                            <span role="img" aria-label="Traffic light: @((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.Reason)" title="@((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.Reason)" style="display:inline-block;width:.8em;height:.8em;border-radius:50%;background-color:@((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.DisplayColor ?? "#929292")"></span>
                             @await Html.PartialAsync("_ContractProgress", item)
                         </td>
                     </tr>
@@ -226,7 +226,7 @@ else
                         <p class="text-muted"><strong>Incident:</strong> @contract.IncidentDate.ToString("dd/MM/yyyy")</p>
                         <p>
                             
-                            <span aria-hidden="true" style="display:inline-block;width:.8em;height:.8em;border-radius:50%;background-color:@(contract.TrafficLight switch { SmartOps.Shared.Enums.enum_tlight.Red => "#dc3545", SmartOps.Shared.Enums.enum_tlight.Orange => "#fd7e14", _ => "#198754" })"></span>
+                            <span role="img" aria-label="Traffic light: @((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.Reason)" title="@((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.Reason)" style="display:inline-block;width:.8em;height:.8em;border-radius:50%;background-color:@((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.DisplayColor ?? "#929292")"></span>
                             
                         </p>
                     </div>

@@ -1,0 +1,19 @@
+@model SmartOps.Web.Models.Contract
+@{
+    var healthById = ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>;
+    var health = healthById != null && healthById.TryGetValue(Model.Id, out var value) ? value : null;
+    var active = health?.Light?.ToString() ?? "";
+    var reason = health?.Reason ?? "Age unavailable";
+}
+<div class="d-flex align-items-center gap-2" role="img" aria-label="Traffic light: @reason" title="@reason">
+    @foreach (var light in new[] { "Green", "Orange", "Red" })
+    {
+        var colour = active == light ? light switch
+        {
+            "Green" => "#198754",
+            "Orange" => "#fd7e14",
+            _ => "#dc3545"
+        } : "#929292";
+        <span aria-hidden="true" style="display:inline-block;width:1.1rem;height:1.1rem;flex:none;border-radius:50%;background:@colour"></span>
+    }
+</div>
