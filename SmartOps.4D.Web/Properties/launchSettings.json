@@ -2,7 +2,7 @@
   "profiles": {
     "SmartOps.4D.Web": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "Account/Login",
       "applicationUrl": "http://127.0.0.1:5245",
       "environmentVariables": {
