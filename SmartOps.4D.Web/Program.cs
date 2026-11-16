@@ -62,6 +62,9 @@ builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<EmailLoginLinkService>();
 builder.Services.AddTransient<IEmailSender, LocalEmailDisabled>();
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<EmailSender>();
+builder.Services.AddSingleton<SurveyTrackingStore>();
 var app = builder.Build();
 app.UseStaticFiles();
 app.UseRouting();
@@ -124,6 +127,7 @@ app.MapGet("/images/{filename}", async (string filename, HttpContext context, Br
     new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider().TryGetContentType(filename, out var contentType);
     return Results.File(await response.Content.ReadAsByteArrayAsync(), contentType ?? "application/octet-stream", enableRangeProcessing: true);
 });
+app.MapSurveyTracking();
 app.MapControllerRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
