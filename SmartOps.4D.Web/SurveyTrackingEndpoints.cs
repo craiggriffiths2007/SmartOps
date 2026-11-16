@@ -4,7 +4,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Data.Sqlite;
-using Microsoft.Extensions.Options;
 using SmartOps.Web.Services;
 
 namespace SmartOps.Web;
@@ -15,7 +14,7 @@ public sealed class SurveyTrackingStore
 {
     private readonly string connectionString;
 
-    public SurveyTrackingStore(IConfiguration config, IWebHostEnvironment environment)
+    public SurveyTrackingStore(IConfiguration config)
     {
         var file = config["SurveyTracking:DatabasePath"];
         if (string.IsNullOrWhiteSpace(file))
