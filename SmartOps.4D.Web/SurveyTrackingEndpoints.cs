@@ -54,6 +54,36 @@ public sealed class SurveyTrackingStore
 
     public static string Hash(string token) =>
         Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(token)));
+
+    public void CleanupExpired()
+    {
+        using var db = Open();
+        using var clean = db.CreateCommand();
+        clean.CommandText = """
+            UPDATE SurveyJourneys SET Latitude=NULL, Longitude=NULL, UpdatedUtc=NULL
+            WHERE ExpiresUtc<=@now AND (Latitude IS NOT NULL OR Longitude IS NOT NULL);
+            DELETE FROM SurveyJourneys WHERE ExpiresUtc<@purge;
+            """;
+        clean.Parameters.AddWithValue("@now", DateTime.UtcNow.ToString("O"));
+        clean.Parameters.AddWithValue("@purge", DateTime.UtcNow.AddDays(-1).ToString("O"));
+        clean.ExecuteNonQuery();
+    }
+}
+
+public sealed class SurveyTrackingCleanupService(SurveyTrackingStore store, ILogger<SurveyTrackingCleanupService> logger)
+    : BackgroundService
+{
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            try { store.CleanupExpired(); }
+            catch (Exception error) { logger.LogError(error, "Survey location cleanup failed"); }
+
+            try { await Task.Delay(TimeSpan.FromMinutes(15), stoppingToken); }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested) { break; }
+        }
+    }
 }
 
 public static class SurveyTrackingEndpoints
