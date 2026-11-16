@@ -21,7 +21,7 @@ The .NET 4D bridge requires:
 
 - `FourD__BaseUrl`: the reachable base URL of the 4D server (for example, `http://127.0.0.1:8045/`). The web host must be able to call `/SurveyTrackingVerify` on 4D.
 - `SurveyTracking__PublicBaseUrl`: the **public HTTPS** base URL of the bridge, without a trailing slash (for example, `https://tracking.example.org`).
-- `SurveyTracking__DatabasePath`: an optional writable path for the **separate persistent** tracking SQLite database. Default is `App_Data/survey-tracking.db` under the web application's content root. Do **not** point it at the bridge's disposable, in-memory EF/SQLite workspace. Back up/protect this file appropriately.
+- `SurveyTracking__DatabasePath`: an optional writable path for the **separate persistent** tracking SQLite database. Default is `%LOCALAPPDATA%/SmartOps/survey-tracking.db` on Windows (the web host's user profile). Do **not** point it at the bridge's disposable, in-memory EF/SQLite workspace. Back up/protect this file appropriately.
 - `EmailSettings__SmtpServer`, `EmailSettings__SmtpPort`, `EmailSettings__SenderName`, `EmailSettings__SenderEmail`, `EmailSettings__Username`, `EmailSettings__Password`, `EmailSettings__UseSsl`: SMTP sender settings. Keep credentials in environment variables / secrets rather than source control.
 
 The bridge defaults to listening only on `127.0.0.1:5245`. To make the public URL work, **run it behind a properly configured HTTPS reverse proxy** and ensure its hostname is permitted in ASP.NET Core `AllowedHosts`. TLS termination, routing, firewall configuration and externally reachable DNS are deployment responsibilities. Do not publicly expose the 4D database HTTP server.
