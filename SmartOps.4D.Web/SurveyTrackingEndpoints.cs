@@ -19,7 +19,8 @@ public sealed class SurveyTrackingStore
     {
         var file = config["SurveyTracking:DatabasePath"];
         if (string.IsNullOrWhiteSpace(file))
-            file = Path.Combine(environment.ContentRootPath, "App_Data", "survey-tracking.db");
+            file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "SmartOps", "survey-tracking.db");
         file = Path.GetFullPath(file);
         Directory.CreateDirectory(Path.GetDirectoryName(file)!);
         connectionString = new SqliteConnectionStringBuilder
