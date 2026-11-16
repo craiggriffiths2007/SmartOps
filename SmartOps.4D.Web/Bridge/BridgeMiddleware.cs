@@ -8,7 +8,7 @@ public sealed class BridgeMiddleware(RequestDelegate next)
 {
     public async Task Invoke(HttpContext context, AppDBContext db, BridgeSession bridge)
     {
-        if (context.User.Identity?.IsAuthenticated != true || context.Request.Path.StartsWithSegments("/images") || context.Request.Path.StartsWithSegments("/Account") || context.Request.Path.StartsWithSegments("/FourDErrorLog"))
+        if (context.User.Identity?.IsAuthenticated != true || context.Request.Path.StartsWithSegments("/images") || context.Request.Path.StartsWithSegments("/Track") || context.Request.Path.StartsWithSegments("/api/survey-tracking") || context.Request.Path.StartsWithSegments("/Account") || context.Request.Path.StartsWithSegments("/FourDErrorLog"))
         { await next(context); return; }
         var originalBody = context.Response.Body;
         using var buffer = new MemoryStream();
