@@ -302,7 +302,7 @@ body{margin:0;background:#f3f6fb;color:#183351;font:16px system-ui,Arial,sans-se
 header{background:#073d72;color:#fff;padding:20px;text-align:center}h1{margin:0;font-size:22px}
 main{max-width:900px;margin:20px auto;padding:0 16px}.panel{background:white;border-radius:12px;padding:18px}
 #map{height:min(65vh,560px);margin-top:16px;border-radius:9px}
-.vehicle-marker{border:0;background:transparent}.vehicle-marker svg{display:block}
+.vehicle-marker{border:0;background:transparent;filter:drop-shadow(0 2px 3px #193c6550)}
 </style></head><body>
 <header><h1>SmartOps · Surveyor tracking</h1></header>
 <main><div class="panel"><strong id="status">Checking your surveyor's location…</strong>
@@ -316,10 +316,10 @@ const token=location.pathname.split('/').pop();
 const map=L.map('map').setView([54,-2],6);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
 {attribution:'&copy; OpenStreetMap contributors',maxZoom:19}).addTo(map);
-const vehicleIcon=L.divIcon({
- className:'vehicle-marker',
- html:'<svg xmlns="http://www.w3.org/2000/svg" width="32" height="39" viewBox="0 0 48 58"><path d="M24 2C11.8 2 2 11.8 2 24c0 17 22 32 22 32s22-15 22-32C46 11.8 36.2 2 24 2z" fill="#1472c4" stroke="#fff" stroke-width="2.5"/><circle cx="24" cy="23.5" r="17" fill="#fff"/><path d="M13 26v-7.2c0-1.5 1.1-2.8 2.5-3.1l4.1-.9h9l4 1c1.4.3 2.4 1.6 2.4 3.1V26" fill="#1472c4"/><path d="M17 17.4h14l1.5 5.4h-17z" fill="#d9eefb"/><path d="M13 26h22v4H13z" fill="#1472c4"/><circle cx="17.5" cy="26.5" r="2" fill="#fff"/><circle cx="30.5" cy="26.5" r="2" fill="#fff"/></svg>',
- iconSize:[32,39],iconAnchor:[16,38]
+const vehicleIcon=L.icon({
+ iconUrl:'/images/survey-vehicle-pin.png',
+ iconSize:[32,40],iconAnchor:[16,39],
+ className:'vehicle-marker'
 });
 let marker=null,finished=false;
 async function refresh(){
