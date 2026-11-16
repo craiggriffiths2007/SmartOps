@@ -65,6 +65,7 @@ builder.Services.AddTransient<IEmailSender, LocalEmailDisabled>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<EmailSender>();
 builder.Services.AddSingleton<SurveyTrackingStore>();
+builder.Services.AddHostedService<SurveyTrackingCleanupService>();
 var app = builder.Build();
 app.UseStaticFiles();
 app.UseRouting();
