@@ -149,7 +149,6 @@ public static class SurveyTrackingEndpoints
                       (TenantCode, AgentCode, ContractCode, DiaryDate, ViewerTokenHash,
                        UploadTokenHash, StartedUtc, ExpiresUtc)
                     VALUES (@tenant, @agent, @contract, @date, @view, @upload, @start, @expires);
-                    SELECT last_insert_rowid();
                     """;
                 add.Parameters.AddWithValue("@tenant", request.TenantCode);
                 add.Parameters.AddWithValue("@agent", request.AgentCode);
@@ -159,7 +158,11 @@ public static class SurveyTrackingEndpoints
                 add.Parameters.AddWithValue("@upload", SurveyTrackingStore.Hash(uploadToken));
                 add.Parameters.AddWithValue("@start", started.ToString("O"));
                 add.Parameters.AddWithValue("@expires", expiry.ToString("O"));
-                id = Convert.ToInt32(add.ExecuteScalar());
+                add.ExecuteNonQuery();
+                using var lastId = db.CreateCommand();
+                lastId.Transaction = transaction;
+                lastId.CommandText = "SELECT last_insert_rowid()";
+                id = Convert.ToInt32(lastId.ExecuteScalar());
                 transaction.Commit();
             }
 
