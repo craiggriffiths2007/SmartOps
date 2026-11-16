@@ -978,6 +978,23 @@ Function dispatch($request : 4D.IncomingMessage; $body : Object) : 4D.OutgoingMe
 			return This.reply(200; New object("status"; "success"))
 		: ($path="Home/SurveyAppVersion")
 			return This.appVersion($account; $body; $request.getHeader("User-Agent"))
+		: ($path="SurveyTrackingVerify")
+			// Called server-to-server by the optional 4D.Web tracking host.
+			// Never trust the contract, customer email, or agent supplied by the client.
+			var $contract:=This.contract($account; String(This.value($body; "ContractCode")))
+			var $date:=Substring(String(This.value($body; "DiaryDate")); 1; 10)
+			var $visit:=This.accessibleJobs($account).query("ContractId = :1 AND JobType = 0 AND DiaryDate = :2"; $contract.Id; $date).first()
+			If ($visit=Null)
+				throw(404; "Survey not assigned for this date")
+			End if
+			If (Not($visit.EnRouteNotificationSent))
+				throw(409; "En Route must be recorded first")
+			End if
+			var $recipient:=This.service.row("Customer"; $contract.CustomerId; $tenant)
+			If ($recipient=Null)
+				throw(404; "Customer unavailable")
+			End if
+			return This.reply(200; New object("email"; String($recipient.Email); "tenant"; String(This.value($body; "TenantCode")); "agent"; String(This.value($body; "AgentCode")); "contract"; String($contract.ContractNumber); "diaryDate"; $date))
 		: ($path="SurveyEnRoute")
 			var $c:=This.contract($account; String(This.value($body; "ContractCode")))
 			$job:=This.accessibleJobs($account).query("ContractId = :1 AND JobType = 0 AND DiaryDate = :2"; $c.Id; Substring(String(This.value($body; "DiaryDate")); 1; 10)).first()
