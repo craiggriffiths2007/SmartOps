@@ -22,29 +22,17 @@
     definition ??= new DynamicQuestionDefinition();
     var answers = DynamicQuestionSnapshots.GetAnswers(item);
     var context = DynamicQuestionSnapshots.Context(item);
-    var questionRows = new List<(string Label, string Value)>();
-    var diagramRows = new List<(string Caption, string File)>();
-    foreach (var q in definition.Questions)
-    {
-
-        if (q.Type == DynamicQuestionType.Information) continue;
-        if (!DynamicQuestionLogic.IsApplicable(q, answers, context)) continue;
-        if (q.Type == DynamicQuestionType.Image)
-        {
-            // The configuration gallery is a survey selection aid. Reports use
-            // bifold_selected_configuration, resolved from the recorded choice.
-            if (string.Equals(q.Id, "bifold_configuration_diagrams", StringComparison.OrdinalIgnoreCase)) continue;
-            foreach (var image in DynamicQuestionLogic.ResolveImages(q, answers, context))
-                diagramRows.Add((q.Question, image));
-            continue;
-        }
-        var value = answers.FirstOrDefault(a =>
-            string.Equals(a.QuestionId, q.Id, StringComparison.OrdinalIgnoreCase));
-        if (value is null || string.IsNullOrWhiteSpace(value.Value)) continue;
-        var display = DynamicWorkflowQuestions.IsYesNo(q.Type) && DynamicWorkflowQuestions.IsBoolean(value.Value)
-            ? DynamicWorkflowQuestions.IsYes(value.Value) ? "Yes" : "No" : value.Value;
-        questionRows.Add((q.Question, display));
-    }
+    // Shared report rendering applies the same visibility and answer formatting
+    // used by MAUI; this report deliberately omits unanswered fields/units.
+    var reportEntries = new DynamicQuestionSession(definition, answers, context)
+        .ReportEntries(includeMissingRequired: false, includeMeasurementUnits: false);
+    var questionRows = reportEntries
+        .Where(entry => !entry.IsInformation && entry.Image is null)
+        .Select(entry => (Label: entry.Label, Value: entry.Value)).ToList();
+    var diagramRows = reportEntries
+        .Where(entry => entry.Image is not null &&
+            !string.Equals(entry.QuestionId, "bifold_configuration_diagrams", StringComparison.OrdinalIgnoreCase))
+        .Select(entry => (Caption: entry.Label, File: entry.Image!)).ToList();
     var reportRows = questionRows.Select(answer => (answer.Label, Value: (object?)answer.Value)).ToList();
 
     // Restrict output to known, locally-hosted assets. Never interpolate an
