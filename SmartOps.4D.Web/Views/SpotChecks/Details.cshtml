@@ -35,6 +35,10 @@ else
     var answers = SpotCheckQuestions.Answers(Model.SpotCheckAnswersJson);
     var definition = string.IsNullOrWhiteSpace(Model.SpotCheckQuestionsSnapshotJson)
         ? new DynamicQuestionDefinition() : SpotCheckQuestions.Definition(Model.SpotCheckQuestionsSnapshotJson);
+    var displayedAnswers = new DynamicQuestionSession(definition, answers)
+        .ReportEntries()
+        .Where(row => !row.IsInformation && row.Image is null && row.QuestionId is not null)
+        .ToDictionary(row => row.QuestionId!, row => row.Value, StringComparer.OrdinalIgnoreCase);
     var images = ((IEnumerable<PhotoImage>?)ViewBag.Images ?? Enumerable.Empty<PhotoImage>())
         .Where(image => !string.IsNullOrWhiteSpace(image.Filename)).ToList();
     var signatureFilename = $"{Model.ContractCode}_000SCSig.jpg";
@@ -56,7 +60,7 @@ else
             <h3>Spot check questions</h3>
             @foreach (var question in definition.Questions.Where(q => DynamicQuestionLogic.IsApplicable(q, answers)))
             {
-                if (question.Id == "photos_complete")
+                if (DynamicQuestionWidgets.For(question) == DynamicQuestionWidgets.CapturePhotos)
                 {
                     if (photos.Length > 0)
                     {
@@ -64,7 +68,7 @@ else
                         <partial name="_RecordReportMedia" model="photos" />
                     }
                 }
-                else if (question.Id == "signature_complete")
+                else if (DynamicQuestionWidgets.For(question) == DynamicQuestionWidgets.CaptureSignature)
                 {
                     <h3>@question.Question</h3>
                     <p>Signed: @(Model.uspot_signed ? "Yes" : "No") @Model.uspot_signeddate</p>
@@ -75,7 +79,7 @@ else
                 }
                 else if (question.Type == DynamicQuestionType.Information)
                 {
-                    if (question.Id.StartsWith("rating_guide_"))
+                    if (DynamicQuestionWidgets.For(question) == DynamicQuestionWidgets.RatingGuide && question.Id.StartsWith("rating_guide_"))
                     {
                         <p class="go-report-meta">@question.Id[13..] — @question.Question</p>
                     }
@@ -98,8 +102,7 @@ else
                                 }
                                 else
                                 {
-                                    var formatted = string.IsNullOrWhiteSpace(value) ? "Not recorded"
-                                        : question.Type == DynamicQuestionType.YesNo ? (DynamicWorkflowQuestions.IsYes(value) ? "Yes" : "No") : value;
+                                    var formatted = displayedAnswers.GetValueOrDefault(question.Id) ?? "Not recorded";
                                     <span class="go-report-field-value">@formatted</span>
                                 }
                             </dd>
