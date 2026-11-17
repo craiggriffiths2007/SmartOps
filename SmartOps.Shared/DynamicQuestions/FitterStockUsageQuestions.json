@@ -94,6 +94,7 @@
       "id": "bFitterLintelSigned",
       "question": "Lintel signature",
       "type": "Text",
+      "widgetKey": "CaptureSignature",
       "required": true,
       "showWhenAll": [
         {
