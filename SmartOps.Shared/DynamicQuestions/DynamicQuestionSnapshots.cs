@@ -11,22 +11,12 @@ namespace SmartOps.Shared.Models;
 /// </summary>
 public static class DynamicQuestionSnapshots
 {
-    public static DynamicQuestionDefinition? Read(SurveyItemBase item)
-    {
-        if (string.IsNullOrWhiteSpace(item.SurveyQuestionsSnapshotJson)) return null;
-        try
-        {
-            var definition = JsonSerializer.Deserialize<DynamicQuestionDefinition>(
-                item.SurveyQuestionsSnapshotJson, DynamicQuestionLoader.JsonOptions);
-            return definition;
-        }
-        catch (JsonException) { return null; }
-    }
+    public static DynamicQuestionDefinition? Read(SurveyItemBase item) =>
+        DynamicQuestionDocuments.ReadSnapshot(item.SurveyQuestionsSnapshotJson);
 
     public static void Capture(SurveyItemBase item, DynamicQuestionDefinition definition, int version)
     {
-        item.SurveyQuestionsSnapshotJson = JsonSerializer.Serialize(
-            definition, DynamicQuestionLoader.JsonOptions);
+        item.SurveyQuestionsSnapshotJson = DynamicQuestionDocuments.WriteSnapshot(definition);
         item.SurveyQuestionSetVersion = version;
     }
 
