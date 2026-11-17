@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Globalization;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -19,6 +20,13 @@ public sealed class BridgeSession(IHttpClientFactory clients, IHttpContextAccess
     private readonly Dictionary<string, IEntityType> models = new();
     private readonly Dictionary<string, HashSet<string>> fields = new();
     private static readonly JsonSerializerOptions Json = new() { PropertyNameCaseInsensitive = true };
+    private long _workspaceChangesAfterLoad;
+    public long SnapshotFetchMilliseconds { get; private set; }
+    public long WorkspaceLoadMilliseconds { get; private set; }
+    public long ChangeDetectionMilliseconds { get; private set; }
+    public long FourDCommitMilliseconds { get; private set; }
+    public int CommittedRecordCount { get; private set; }
+    public bool SkippedUnchangedWorkspace { get; private set; }
     public HttpClient Client(string? token = null)
     {
         var client = clients.CreateClient("4D");
@@ -36,9 +44,12 @@ public sealed class BridgeSession(IHttpClientFactory clients, IHttpContextAccess
     }
     public async Task Load(AppDBContext db)
     {
+        var loadTimer = Stopwatch.StartNew();
         Importing = true;
         db.BridgeImporting = true;
+        var snapshotTimer = Stopwatch.StartNew();
         Snapshot = await GetSnapshot();
+        SnapshotFetchMilliseconds = snapshotTimer.ElapsedMilliseconds;
         await db.Database.EnsureCreatedAsync();
         await db.Database.ExecuteSqlRawAsync("PRAGMA foreign_keys=OFF;");
         var tables = Snapshot["tables"]!.AsObject();
@@ -51,6 +62,7 @@ public sealed class BridgeSession(IHttpClientFactory clients, IHttpContextAccess
             var source = tables[table]!.AsArray();
             fields[table] = source.Count > 0 ? source[0]!.AsObject().Select(x => x.Key).ToHashSet() :
                 model.GetProperties().Where(p => p.PropertyInfo is not null).Select(p => p.Name).ToHashSet();
+            var importedRows = new List<object>(source.Count);
             foreach (var node in source)
             {
                 var entity = Activator.CreateInstance(model.ClrType)!;
@@ -71,8 +83,11 @@ public sealed class BridgeSession(IHttpClientFactory clients, IHttpContextAccess
                     contract.SelectedEstimateId = null;
                 }
 
-                db.Add(entity);
+                importedRows.Add(entity);
             }
+            // Batch the tracking of each table instead of invoking Add for every record.
+            if (importedRows.Count > 0)
+                db.AddRange(importedRows);
         }
         // Files are retained in 4D's tenant-scoped media folder; the original
         // report templates keep their /images/<filename> URLs via our proxy.
@@ -156,6 +171,17 @@ public sealed class BridgeSession(IHttpClientFactory clients, IHttpContextAccess
         Importing = false;
         db.BridgeImporting = false;
         foreach (var table in models.Keys) initial[table] = ReadRows(db, table);
+        // SQLite's connection-local change counter includes EF and raw SQL updates.
+        // On unchanged GET requests this avoids scanning every table a second time.
+        _workspaceChangesAfterLoad = GetWorkspaceChanges(db);
+        WorkspaceLoadMilliseconds = loadTimer.ElapsedMilliseconds;
+    }
+
+    private static long GetWorkspaceChanges(AppDBContext db)
+    {
+        using var command = db.Database.GetDbConnection().CreateCommand();
+        command.CommandText = "SELECT total_changes()";
+        return Convert.ToInt64(command.ExecuteScalar(), CultureInfo.InvariantCulture);
     }
     private static DateTime ParseDate(string? text) => DateTime.TryParse(text, CultureInfo.GetCultureInfo("en-GB"), DateTimeStyles.RoundtripKind, out var date) ? date : DateTime.MinValue;
     private static object? ConvertValue(JsonNode? node, Type propertyType)
@@ -198,6 +224,14 @@ public sealed class BridgeSession(IHttpClientFactory clients, IHttpContextAccess
     }
     public async Task<JsonObject> Commit(AppDBContext db)
     {
+        var comparisonTimer = Stopwatch.StartNew();
+        if (GetWorkspaceChanges(db) == _workspaceChangesAfterLoad)
+        {
+            SkippedUnchangedWorkspace = true;
+            ChangeDetectionMilliseconds = comparisonTimer.ElapsedMilliseconds;
+            return new JsonObject();
+        }
+
         var changes = new JsonArray();
         foreach (var table in models.Keys.Where(table => table != "AuditLogs"))
         {
@@ -217,10 +251,14 @@ public sealed class BridgeSession(IHttpClientFactory clients, IHttpContextAccess
                 });
             }
         }
+        ChangeDetectionMilliseconds = comparisonTimer.ElapsedMilliseconds;
+        CommittedRecordCount = changes.Count;
         if (changes.Count == 0) return new JsonObject();
+        var commitTimer = Stopwatch.StartNew();
         using var client = Client();
         using var response = await client.PostAsJsonAsync("api/web/commit", new JsonObject { ["changes"] = changes });
         var body = await response.Content.ReadAsStringAsync();
+        FourDCommitMilliseconds = commitTimer.ElapsedMilliseconds;
         if (!response.IsSuccessStatusCode) throw new InvalidOperationException($"4D did not save the changes ({(int)response.StatusCode}): {body}");
         return JsonNode.Parse(body)!["ids"]!.AsObject();
     }
