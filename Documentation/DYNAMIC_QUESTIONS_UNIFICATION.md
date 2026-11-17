@@ -9,7 +9,7 @@ Ported from the GlassOps `dynamic-questions-unification` implementation.
 - Explicit allow-list of widget keys for time pickers, star ratings and named device actions.
 - Question JSON includes optional `widgetKey` metadata; older published questionnaires and snapshots remain supported.
 - Web item details and spot-check reports use shared question report formatting and conditional rules.
-- This repository contains the 4D server, shared question definitions and web integration; the SmartOps Android app source lives in the private MartOps repository under `MartOps.Survey`. The 4D API remains unchanged.
+- This repository contains the 4D server, shared question definitions and web integration. The companion SmartOps Android app is maintained separately and is distributed through Google Play. The 4D API remains unchanged.
 
 ## Verification
 
