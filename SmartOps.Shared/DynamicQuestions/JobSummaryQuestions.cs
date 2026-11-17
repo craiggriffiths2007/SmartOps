@@ -7,27 +7,19 @@ public static class JobSummaryQuestions
     public const string Key = "JobSummary";
     public const string SpecialRequirementsGateId = "HasSpecialRequirements";
 
-    public static DynamicQuestionDefinition? ReadSnapshot(JobHeaderBase header)
-    {
-        if (string.IsNullOrWhiteSpace(header.JobSummaryQuestionsSnapshotJson)) return null;
-        try { return JsonSerializer.Deserialize<DynamicQuestionDefinition>(header.JobSummaryQuestionsSnapshotJson, DynamicQuestionLoader.JsonOptions); }
-        catch (JsonException) { return null; }
-    }
+    public static DynamicQuestionDefinition? ReadSnapshot(JobHeaderBase header) =>
+        DynamicQuestionDocuments.ReadSnapshot(header.JobSummaryQuestionsSnapshotJson);
 
-    public static List<DynamicAnswer> ReadAnswers(JobHeaderBase header)
-    {
-        if (string.IsNullOrWhiteSpace(header.JobSummaryAnswersJson)) return [];
-        try { return JsonSerializer.Deserialize<List<DynamicAnswer>>(header.JobSummaryAnswersJson, DynamicQuestionLoader.JsonOptions) ?? []; }
-        catch (JsonException) { return []; }
-    }
+    public static List<DynamicAnswer> ReadAnswers(JobHeaderBase header) =>
+        DynamicQuestionDocuments.ReadAnswers(header.JobSummaryAnswersJson);
 
     public static void Save(JobHeaderBase header, DynamicQuestionDefinition definition, List<DynamicAnswer> answers)
     {
         ApplyOperationalAnswers(header, definition, answers);
-        header.JobSummaryAnswersJson = JsonSerializer.Serialize(answers, DynamicQuestionLoader.JsonOptions);
+        header.JobSummaryAnswersJson = DynamicQuestionDocuments.WriteAnswers(answers);
         if (ReadSnapshot(header) is null)
         {
-            header.JobSummaryQuestionsSnapshotJson = JsonSerializer.Serialize(definition, DynamicQuestionLoader.JsonOptions);
+            header.JobSummaryQuestionsSnapshotJson = DynamicQuestionDocuments.WriteSnapshot(definition);
             header.JobSummaryQuestionSetVersion = DynamicQuestionLoader.CurrentVersion;
         }
     }

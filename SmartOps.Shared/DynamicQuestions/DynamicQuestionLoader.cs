@@ -238,6 +238,13 @@ public static class DynamicQuestionCatalogue
                     errors.Add($"{key}/{question.Id}: enter question text (up to 500 characters).");
                 if (!Enum.IsDefined(question.Type))
                     errors.Add($"{key}/{question.Id}: unknown question type.");
+                if (!string.IsNullOrWhiteSpace(question.WidgetKey))
+                {
+                    if (!DynamicQuestionWidgets.Allowed.Contains(question.WidgetKey))
+                        errors.Add($"{key}/{question.Id}: unknown widget key.");
+                    else if (!DynamicQuestionWidgets.Supports(question.WidgetKey, question.Type))
+                        errors.Add($"{key}/{question.Id}: widget is incompatible with question type.");
+                }
                 if (question.Options is null || question.Options.Count > 100 ||
                     question.Options.Any(x => string.IsNullOrWhiteSpace(x) || x.Length > 200))
                     errors.Add($"{key}/{question.Id}: invalid options.");

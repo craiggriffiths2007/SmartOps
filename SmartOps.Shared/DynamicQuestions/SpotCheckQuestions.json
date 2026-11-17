@@ -126,36 +126,42 @@
       "id": "rating_guide_1",
       "question": "Unacceptable",
       "type": "Information",
+      "widgetKey": "RatingGuide",
       "required": false
     },
     {
       "id": "rating_guide_2",
       "question": "Poor Quality",
       "type": "Information",
+      "widgetKey": "RatingGuide",
       "required": false
     },
     {
       "id": "rating_guide_3",
       "question": "Acceptable",
       "type": "Information",
+      "widgetKey": "RatingGuide",
       "required": false
     },
     {
       "id": "rating_guide_4",
       "question": "High Quality",
       "type": "Information",
+      "widgetKey": "RatingGuide",
       "required": false
     },
     {
       "id": "rating_guide_5",
       "question": "Exceptional",
       "type": "Information",
+      "widgetKey": "RatingGuide",
       "required": false
     },
     {
       "id": "uspot_appearence",
       "question": "Appearance",
       "type": "Measurement",
+      "widgetKey": "RatingFive",
       "required": true,
       "minimum": 1,
       "maximum": 5,
@@ -172,6 +178,7 @@
       "id": "uspot_qualityofworks",
       "question": "Quality of works",
       "type": "Measurement",
+      "widgetKey": "RatingFive",
       "required": true,
       "minimum": 1,
       "maximum": 5,
@@ -188,6 +195,7 @@
       "id": "uspot_customersatisfaction",
       "question": "Customer satisfaction",
       "type": "Measurement",
+      "widgetKey": "RatingFive",
       "required": true,
       "minimum": 1,
       "maximum": 5,
@@ -210,6 +218,7 @@
       "id": "photos_complete",
       "question": "Please take 5 photographs",
       "type": "Information",
+      "widgetKey": "CapturePhotos",
       "required": false
     },
     {
@@ -222,6 +231,7 @@
       "id": "signature_complete",
       "question": "Signature",
       "type": "Information",
+      "widgetKey": "CaptureSignature",
       "required": false
     },
     {

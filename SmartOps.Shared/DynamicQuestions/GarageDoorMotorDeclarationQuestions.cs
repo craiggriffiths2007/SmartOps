@@ -6,26 +6,18 @@ public static class GarageDoorMotorDeclarationQuestions
 {
     public const string Key = "GarageDoorMotorDeclaration";
 
-    public static DynamicQuestionDefinition? ReadSnapshot(JobHeaderBase header)
-    {
-        if (string.IsNullOrWhiteSpace(header.GarageDoorMotorDeclarationQuestionsSnapshotJson)) return null;
-        try { return JsonSerializer.Deserialize<DynamicQuestionDefinition>(header.GarageDoorMotorDeclarationQuestionsSnapshotJson, DynamicQuestionLoader.JsonOptions); }
-        catch (JsonException) { return null; }
-    }
+    public static DynamicQuestionDefinition? ReadSnapshot(JobHeaderBase header) =>
+        DynamicQuestionDocuments.ReadSnapshot(header.GarageDoorMotorDeclarationQuestionsSnapshotJson);
 
-    public static List<DynamicAnswer> ReadAnswers(JobHeaderBase header)
-    {
-        if (string.IsNullOrWhiteSpace(header.GarageDoorMotorDeclarationAnswersJson)) return [];
-        try { return JsonSerializer.Deserialize<List<DynamicAnswer>>(header.GarageDoorMotorDeclarationAnswersJson, DynamicQuestionLoader.JsonOptions) ?? []; }
-        catch (JsonException) { return []; }
-    }
+    public static List<DynamicAnswer> ReadAnswers(JobHeaderBase header) =>
+        DynamicQuestionDocuments.ReadAnswers(header.GarageDoorMotorDeclarationAnswersJson);
 
     public static void Save(JobHeaderBase header, DynamicQuestionDefinition definition, List<DynamicAnswer> answers)
     {
-        header.GarageDoorMotorDeclarationAnswersJson = JsonSerializer.Serialize(answers, DynamicQuestionLoader.JsonOptions);
+        header.GarageDoorMotorDeclarationAnswersJson = DynamicQuestionDocuments.WriteAnswers(answers);
         if (ReadSnapshot(header) is null)
         {
-            header.GarageDoorMotorDeclarationQuestionsSnapshotJson = JsonSerializer.Serialize(definition, DynamicQuestionLoader.JsonOptions);
+            header.GarageDoorMotorDeclarationQuestionsSnapshotJson = DynamicQuestionDocuments.WriteSnapshot(definition);
             header.GarageDoorMotorDeclarationQuestionSetVersion = DynamicQuestionLoader.CurrentVersion;
         }
     }

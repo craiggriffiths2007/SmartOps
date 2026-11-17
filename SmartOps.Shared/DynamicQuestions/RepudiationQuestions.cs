@@ -6,26 +6,18 @@ public static class RepudiationQuestions
 {
     public const string Key = "Repudiation";
 
-    public static DynamicQuestionDefinition? ReadSnapshot(JobHeaderBase header)
-    {
-        if (string.IsNullOrWhiteSpace(header.RepudiationQuestionsSnapshotJson)) return null;
-        try { return JsonSerializer.Deserialize<DynamicQuestionDefinition>(header.RepudiationQuestionsSnapshotJson, DynamicQuestionLoader.JsonOptions); }
-        catch (JsonException) { return null; }
-    }
+    public static DynamicQuestionDefinition? ReadSnapshot(JobHeaderBase header) =>
+        DynamicQuestionDocuments.ReadSnapshot(header.RepudiationQuestionsSnapshotJson);
 
-    public static List<DynamicAnswer> ReadAnswers(JobHeaderBase header)
-    {
-        if (string.IsNullOrWhiteSpace(header.RepudiationAnswersJson)) return [];
-        try { return JsonSerializer.Deserialize<List<DynamicAnswer>>(header.RepudiationAnswersJson, DynamicQuestionLoader.JsonOptions) ?? []; }
-        catch (JsonException) { return []; }
-    }
+    public static List<DynamicAnswer> ReadAnswers(JobHeaderBase header) =>
+        DynamicQuestionDocuments.ReadAnswers(header.RepudiationAnswersJson);
 
     public static void Save(JobHeaderBase header, DynamicQuestionDefinition definition, List<DynamicAnswer> answers)
     {
-        header.RepudiationAnswersJson = JsonSerializer.Serialize(answers, DynamicQuestionLoader.JsonOptions);
+        header.RepudiationAnswersJson = DynamicQuestionDocuments.WriteAnswers(answers);
         if (ReadSnapshot(header) is null)
         {
-            header.RepudiationQuestionsSnapshotJson = JsonSerializer.Serialize(definition, DynamicQuestionLoader.JsonOptions);
+            header.RepudiationQuestionsSnapshotJson = DynamicQuestionDocuments.WriteSnapshot(definition);
             header.RepudiationQuestionSetVersion = DynamicQuestionLoader.CurrentVersion;
         }
     }

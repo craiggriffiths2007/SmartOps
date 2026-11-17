@@ -790,6 +790,7 @@
       "id": "marks_out_of_10",
       "question": "Marks out of 10",
       "type": "ButtonPicker",
+      "widgetKey": "RatingTen",
       "required": true,
       "options": [
         "1",

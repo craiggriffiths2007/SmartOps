@@ -206,6 +206,7 @@
       "id": "bFitterAdditionalImage",
       "question": "Additional drawing",
       "type": "Text",
+      "widgetKey": "CaptureDrawing",
       "required": false,
       "showWhenAll": [
         {
@@ -268,6 +269,7 @@
       "id": "directive_complete",
       "question": "Garage door motor directive",
       "type": "Text",
+      "widgetKey": "MotorDeclaration",
       "required": false,
       "showWhenAll": [
         {
@@ -335,6 +337,7 @@
       "id": "bFitterSigned",
       "question": "Customer Signature",
       "type": "Text",
+      "widgetKey": "CaptureSignature",
       "required": true,
       "showWhenAll": [
         {

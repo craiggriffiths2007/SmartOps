@@ -225,6 +225,7 @@
       "id": "bRemedialAdditionalImage",
       "question": "Additional drawing",
       "type": "Text",
+      "widgetKey": "CaptureDrawing",
       "required": true,
       "showWhenAll": [
         {
@@ -238,6 +239,7 @@
       "id": "bRemedialCustomerSigned",
       "question": "Customer Signature",
       "type": "Text",
+      "widgetKey": "CaptureSignature",
       "required": true,
       "showWhenAll": [
         {

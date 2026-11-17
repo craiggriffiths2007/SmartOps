@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace SmartOps.Shared.Models
 {
     public class DynamicQuestionDefinition
@@ -14,6 +16,9 @@ namespace SmartOps.Shared.Models
         public bool Required { get; set; }
         // Prevent typing while retaining dropdown selection.
         public bool ReadOnly { get; set; }
+        // Optional allow-listed presentation/action key; existing snapshots remain valid.
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? WidgetKey { get; set; }
         public List<string> Options { get; set; } = [];
 
         // First matching rule replaces Options; conditions within a rule are ANDed.

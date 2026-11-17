@@ -5,8 +5,8 @@ namespace SmartOps.Shared.Models;
 public static class SpotCheckQuestions
 {
     public const string Key = "SpotCheck";
-    public static bool IsRating(DynamicQuestion question) => question.Type == DynamicQuestionType.Measurement
-        && question.Id is "uspot_appearence" or "uspot_qualityofworks" or "uspot_customersatisfaction";
+    public static bool IsRating(DynamicQuestion question) =>
+        DynamicQuestionWidgets.For(question) == DynamicQuestionWidgets.RatingFive;
 
     public static DynamicQuestionDefinition Definition(string snapshot) => string.IsNullOrWhiteSpace(snapshot)
         ? DynamicQuestionLoader.Load(Key)
