@@ -47,6 +47,7 @@
       "id": "TimeArrived",
       "question": "Time arrived",
       "type": "Text",
+      "widgetKey": "TimePicker",
       "required": true
     },
     {
