@@ -1,4 +1,5 @@
 using SmartOps.Web.Data;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
@@ -10,16 +11,25 @@ public sealed class BridgeMiddleware(RequestDelegate next)
     {
         if (context.User.Identity?.IsAuthenticated != true || context.Request.Path.StartsWithSegments("/images") || context.Request.Path.StartsWithSegments("/Account") || context.Request.Path.StartsWithSegments("/FourDErrorLog"))
         { await next(context); return; }
+        var requestTimer = Stopwatch.StartNew();
+        var logger = context.RequestServices.GetRequiredService<ILogger<BridgeMiddleware>>();
         var originalBody = context.Response.Body;
         using var buffer = new MemoryStream();
         context.Response.Body = buffer;
         try
         {
             await bridge.Load(db);
+            var controllerTimer = Stopwatch.StartNew();
             await next(context);
+            controllerTimer.Stop();
             if (context.Response.StatusCode < 400)
             {
                 var ids = await bridge.Commit(db);
+                logger.LogInformation("4D bridge {Method} {Path}: snapshot {SnapshotMs}ms, workspace {WorkspaceMs}ms, controller {ControllerMs}ms, diff {DiffMs}ms, 4D commit {CommitMs}ms, records {RecordCount}, unchanged {Unchanged}, total {TotalMs}ms",
+                    context.Request.Method, context.Request.Path, bridge.SnapshotFetchMilliseconds,
+                    bridge.WorkspaceLoadMilliseconds, controllerTimer.ElapsedMilliseconds,
+                    bridge.ChangeDetectionMilliseconds, bridge.FourDCommitMilliseconds,
+                    bridge.CommittedRecordCount, bridge.SkippedUnchangedWorkspace, requestTimer.ElapsedMilliseconds);
                 // Original controllers redirect using their workspace-generated
                 // key. Substitute the authoritative 4D key for the next request.
                 if (context.Response.Headers.Location.FirstOrDefault() is string location)
