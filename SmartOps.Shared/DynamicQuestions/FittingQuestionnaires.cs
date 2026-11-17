@@ -19,20 +19,11 @@ public static class FittingQuestionnaires
         "RemedialCompletion" => header.RemedialCompletionAnswersJson,
         _ => throw new ArgumentException("Unknown fitting questionnaire.", nameof(key))
     };
-    public static DynamicQuestionDefinition? ReadSnapshot(JobHeaderBase header, string key)
-    {
-        string json = SnapshotJson(header, key);
-        if (string.IsNullOrWhiteSpace(json)) return null;
-        try { return JsonSerializer.Deserialize<DynamicQuestionDefinition>(json, DynamicQuestionLoader.JsonOptions); }
-        catch (JsonException) { return null; }
-    }
-    public static List<DynamicAnswer> ReadAnswers(JobHeaderBase header, string key)
-    {
-        string json = AnswersJson(header, key);
-        if (string.IsNullOrWhiteSpace(json)) return [];
-        try { return JsonSerializer.Deserialize<List<DynamicAnswer>>(json, DynamicQuestionLoader.JsonOptions) ?? []; }
-        catch (JsonException) { return []; }
-    }
+    public static DynamicQuestionDefinition? ReadSnapshot(JobHeaderBase header, string key) =>
+        DynamicQuestionDocuments.ReadSnapshot(SnapshotJson(header, key));
+    public static List<DynamicAnswer> ReadAnswers(JobHeaderBase header, string key) =>
+        DynamicQuestionDocuments.ReadAnswers(AnswersJson(header, key));
+
     // Attendance is stored on the header because the customer signature uses it.
     public static void DefaultAttendanceTimes(JobHeaderBase header)
     {
@@ -75,9 +66,9 @@ public static class FittingQuestionnaires
         RefreshOperationalAnswers(header, key, answers);
         var ids = definition.Questions.Where(q => q.Type is not (DynamicQuestionType.Information or DynamicQuestionType.Image))
             .Select(q => q.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
-        string json = JsonSerializer.Serialize(answers.Where(a => ids.Contains(a.QuestionId)).ToList(), DynamicQuestionLoader.JsonOptions);
+        string json = DynamicQuestionDocuments.WriteAnswers(answers.Where(a => ids.Contains(a.QuestionId)));
         bool capture = ReadSnapshot(header, key) is null;
-        string snapshot = capture ? JsonSerializer.Serialize(definition, DynamicQuestionLoader.JsonOptions) : "";
+        string snapshot = capture ? DynamicQuestionDocuments.WriteSnapshot(definition) : "";
         switch (key) {
             case "FitterCompletion":
                 header.FitterCompletionAnswersJson = json;
