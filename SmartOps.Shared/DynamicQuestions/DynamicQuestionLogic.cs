@@ -48,7 +48,7 @@ public static class DynamicQuestionLogic
     {
         DynamicAnswer? answer =
             answers.FirstOrDefault(x =>
-                x.QuestionId == condition.QuestionId);
+                x.QuestionId.Equals(condition.QuestionId, StringComparison.OrdinalIgnoreCase));
 
         string value = condition.QuestionId.StartsWith('$') && context != null &&
             context.TryGetValue(condition.QuestionId, out var contextual)
