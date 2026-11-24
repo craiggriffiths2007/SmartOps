@@ -4,7 +4,7 @@ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const money=v=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(Number(v)||0);
 const statuses={0:'Reported',10:'Survey booked',20:'Survey completed',40:'Awaiting approval',60:'Authorised',70:'Fitting booked',80:'Fitting completed',90:'Invoiced'};
 const jobTypes=['Survey','Fitting','Remedial','Complaint','Securing'];
-const today=()=>new Date().toLocaleDateString('en-CA');
+const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
 const label=s=>s.replace(/([a-z])([A-Z])/g,'$1 $2').replace(/^Go /,'');
 const state={token:null,role:null,username:null,company:null,schemas:null,offset:0,table:'Customer',date:today(),screen:'contracts'};
 const staff=()=>['Admin','Staff'].includes(state.role);
