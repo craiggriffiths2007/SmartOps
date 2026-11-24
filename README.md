@@ -79,14 +79,4 @@ These are recommended manual checks rather than a claim that all integration tes
 
 ## Screenshots
 
-The screenshots show example field-service workflows.
-
-![SmartOps screenshot 1](Screenshots/screenshot-1.png)
-
-![SmartOps screenshot 2](Screenshots/screenshot-2.png)
-
-![SmartOps screenshot 3](Screenshots/screenshot-3.png)
-
-![SmartOps screenshot 4](Screenshots/screenshot-4.png)
-
-![SmartOps screenshot 5](Screenshots/screenshot-5.png)
+The existing `Screenshots/` files show the optional ASP.NET Core interface. They are retained as examples of that alternative frontend, not presented as screenshots of the native 4D workspace. Native 4D screenshots can be added here once representative captures are available.
