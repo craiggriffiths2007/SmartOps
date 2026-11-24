@@ -3,6 +3,7 @@
 GO_StartLAN
 
 // Open the login screen only when the HTTP web server started successfully.
-If ((WEB Server).isRunning)
+var $server:=WEB Server
+If ($server.isRunning)
     GO_Open
 End if
