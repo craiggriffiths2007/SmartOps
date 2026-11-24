@@ -844,7 +844,18 @@ Function dispatch($r : 4D.IncomingMessage; $b : Object) : 4D.OutgoingMessage
 	End if 
 	If (($path="api/diary") & ($verb="GET"))
 		This.requireRole($a; "Admin,Staff")
-		var $jobs:=ds.Job.query("GoTenantId = :1 AND GoCancelled = false AND DiaryDate = :2"; $t; String($r.urlQuery.date)).orderBy("GoTime, AgentId")
+		// The native Job.DiaryDate field is text. Some imported bookings store
+		// YYYY-MM-DDT00:00:00 whereas newly booked jobs store YYYY-MM-DD.
+		// A half-open ISO range includes both without changing the mobile API.
+		var $day:=String($r.urlQuery.date)
+		If ($day="")
+			$day:=String(Current date; ISO date)
+		End if
+		If (Not(Match regex("^[0-9]{4}-[0-9]{2}-[0-9]{2}$"; $day)))
+			throw(400; "Diary date must be YYYY-MM-DD")
+		End if
+		var $nextDay:=String(Date($day+"T00:00:00")+1; ISO date)
+		var $jobs:=ds.Job.query("GoTenantId = :1 AND GoCancelled = false AND DiaryDate >= :2 AND DiaryDate < :3"; $t; $day; $nextDay).orderBy("GoTime, AgentId")
 		return This.reply(200; This.rows("Job"; $jobs; $offset))
 	End if 
 	If (($path="api/diary/book") & ($verb="POST"))
