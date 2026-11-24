@@ -34,7 +34,7 @@ function navigation(){
  if(staff()||state.role==='Customer')links.push(['support','Support']);
  if(state.role==='Admin')links.push(['accounts','Accounts'],['audit','Audit trail']);
  $('#nav').innerHTML=links.map(([key,title])=>`<a href="#${key}" data-page="${key}">${esc(title)}</a>`).join('')+
-  (state.role==='Admin'?'<a href="/#questions" id="questionsWindowLink">Questions editor ↗</a>':'');
+  (state.role==='Admin'?'<a href="/question-editor.html" target="_blank" rel="noopener" id="questionsWindowLink">Questions editor ↗</a>':'');
  const questionLink=$('#questionsWindowLink');
  if(questionLink)questionLink.onclick=e=>{e.preventDefault();openQuestionsWindow();};
 }
