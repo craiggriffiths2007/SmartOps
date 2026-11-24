@@ -74,7 +74,3 @@ The included seed provides fictional contracts and customers, branches, agents, 
 Start 4D and verify the login, API health endpoint, diary bookings, contract details and edits to a **test** record. In the Questions Editor, test saving and publishing a questionnaire, then download it with SmartOps.Survey. Reopen the project to confirm saved data persists.
 
 These are recommended manual checks rather than a claim that all integration tests are automated.
-
-## Screenshots
-
-The existing `Screenshots/` files show the optional ASP.NET Core interface. They are retained as examples of that alternative frontend, not presented as screenshots of the native 4D workspace. Native 4D screenshots can be added here once representative captures are available.
