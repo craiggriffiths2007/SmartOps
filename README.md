@@ -14,17 +14,21 @@ SmartOps is an **open-source 4D integration and testing platform** for field-ser
 
 **Architecture:** Android survey app → 4D API; optional web frontend → 4D API via a **temporary, per-request SQLite workspace**. SQLite is not a second source of business data.
 
-## New: Question editor hosted directly by 4D
+## Native 4D web workspace and Questions Editor
 
 **The native 4D web server hosts the operational test workspace and the full dynamic Questions Editor — no ASP.NET Core frontend or second login is required.**
 
-1. Start SmartOps.4D using `GO_StartLAN` (HTTP port **8045** for local testing).
-2. Open **[http://localhost:8045/](http://localhost:8045/)** and sign in as an administrator.
-3. Select **Questions editor** in the sidebar. It opens a new browser tab with the original multi-pane editor and reuses the existing signed-in session. The legacy `/questions` address redirects to the dedicated editor.
+1. Open the 4D project. Its startup method runs `GO_StartLAN`, starts HTTP on port **8045**, and opens the browser automatically.
+2. Sign in to the native workspace at **[http://127.0.0.1:8045/](http://127.0.0.1:8045/)**.
+3. Select **Questions editor** in the sidebar. It opens the original multi-pane editor in a new browser tab, using the existing login session. The legacy `/questions` URL redirects to the dedicated editor.
 
+| Field | Value for newly seeded demo data |
+| --- | --- |
 | Username | `admin` |
-
 | Password | `Password1!` |
+| Company code | `SMARTOPS` (automatic; no entry required) |
+
+Existing 4D data files may have different account passwords. Demo credentials are for local testing only.
 
 The native 4D workspace includes test screens for contracts, diary, records, uploads and administration. The separate Questions Editor uses 4D question-set storage with drafts and published versions; published questionnaires are made available to SmartOps.Survey through its existing 4D API. The ASP.NET Core frontend remains an **optional alternative** and may offer different or additional features.
 
@@ -59,7 +63,7 @@ Opening a database that already contains records will **not** reset it. To start
 
 ### 2. Edit dynamic questions directly in 4D (no .NET needed)
 
-With the 4D web server running, visit `http://localhost:8045/` and sign in using `admin` / `Password1!` for a newly seeded demo database. Existing data files may have different account passwords. The company code is set to `SMARTOPS` automatically. Choose **Questions editor** in the sidebar to open a new tab with the original dynamic questionnaire editor, including its live preview and conditional question controls. You can save drafts and publish a new version for the Android survey app to download. The existing web login and API bearer token are reused (allow popups for this local site). This feature runs entirely on 4D; ASP.NET Core is **not** required.
+From the signed-in native workspace, choose **Questions editor** in the sidebar to open the full questionnaire editor in a new tab. It includes live previews and conditional question controls; you can save drafts and publish a new version for the Android survey app to download. The browser reuses the current workspace login (allow the new tab if your browser blocks it). The editor runs entirely on 4D; ASP.NET Core is **not** required.
 
 ### 3. Run the optional web interface
 
@@ -67,11 +71,7 @@ For the packaged version, extract the inner `SmartOps-Web-Windows-x64.zip` into 
 
 For source development, open `SmartOps.4D.Web` in Visual Studio with the appropriate .NET 11 SDK and run it there. The bridge normally discovers the computer's local Ethernet/Wi-Fi IPv4 address; if it chooses the wrong interface, override the connection using `FourD__BaseUrl=http://YOUR-PC-IP:8045/`.
 
-**Local test login:**
-
-| Username | `admin` |
-
-| Password | `Password1!` |
+**Local test login (newly seeded data):** `admin` / `Password1!`.
 
 These are public **testing credentials for newly seeded demo data**. Existing databases may have changed passwords. Never reuse these credentials for a production system.
 
