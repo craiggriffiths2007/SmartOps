@@ -288,7 +288,14 @@ Function headForJob($account : 4D.Entity; $job : 4D.Entity) : Object
 	var $images:=New collection
 	var $media : 4D.Entity
 	For each ($media; ds.GoMediaFile.query("GoTenantId = :1 AND Filename = :2 AND Completed = true"; $account.GoTenantId; $head.contractCode+"_@"))
-		$images.push($media.Filename)
+		// Older demo databases may retain metadata for images that were stored
+		// outside the release ZIP. Do not advertise missing files to the tablet:
+		// GetImage would otherwise return 404 and interrupt job downloading.
+		// Keep metadata untouched so restored files are immediately available.
+		var $imageFile:=This.mediaFile($account.GoTenantId; $media.Filename)
+		If ($imageFile.exists)
+			$images.push($media.Filename)
+		End if
 	End for each 
 	
 	return New object("head"; $head; "customItems"; $items; "images"; $images)
