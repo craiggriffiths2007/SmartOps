@@ -20,7 +20,9 @@ SmartOps is an **open-source 4D integration and testing platform** for field-ser
 
 1. Start SmartOps.4D using `GO_StartLAN` (HTTP port **8045** for local testing).
 2. Open **[http://localhost:8045/questions](http://localhost:8045/questions)** in a browser.
-3. Sign in using your username and password, then edit and publish the questions. The editor automatically uses the `SMARTOPS` company code.
+
+| Username | `admin` |
+| Password | `Password1!` |
 
 The editor uses the existing 4D question-set storage and supports working with drafts and published versions. Published questionnaires are made available to SmartOps.Survey through its existing 4D API. The rest of the ASP.NET Core workspace (including operational features and reports) remains optional and separate; those features have **not** been moved into the 4D editor.
 
@@ -65,9 +67,6 @@ For source development, open `SmartOps.4D.Web` in Visual Studio with the appropr
 
 **Local test login:**
 
-| Field | Value |
-| --- | --- |
-| Company code | `SMARTOPS` (automatically configured) |
 | Username | `admin` |
 | Password | `Password1!` |
 
