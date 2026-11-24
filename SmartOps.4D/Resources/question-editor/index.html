@@ -12,7 +12,6 @@
 <section id="loginPanel" class="card shadow-sm p-4">
 <h1 class="h4 mb-3">Administrator sign in</h1>
 <form id="loginForm">
-<input type="hidden" id="tenantCode" value="SMARTOPS">
 <label class="form-label" for="username">Username</label><input class="form-control mb-3" id="username" autocomplete="username" required>
 <label class="form-label" for="password">Password</label><input class="form-control mb-3" id="password" type="password" autocomplete="current-password" required>
 <button class="btn btn-primary w-100" type="submit">Sign in</button><p id="loginError" role="alert" class="text-danger mt-2"></p>
@@ -45,7 +44,7 @@ function signOut(){clearInterval(sessionTimer);sessionStorage.removeItem(tokenKe
 document.getElementById('signOut').onclick=signOut;
 document.getElementById('loginForm').onsubmit=async e=>{
  e.preventDefault();error.textContent='';
- const body={TenantCode:document.getElementById('tenantCode').value,Username:document.getElementById('username').value,Password:document.getElementById('password').value};
+ const body={TenantCode:'SMARTOPS',Username:document.getElementById('username').value,Password:document.getElementById('password').value};
  try{
   const response=await fetch('/api/auth/login',{method:'POST',credentials:'omit',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
   const result=await response.json();
