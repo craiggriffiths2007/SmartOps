@@ -764,7 +764,8 @@ Function dispatch($r : 4D.IncomingMessage; $b : Object) : 4D.OutgoingMessage
 		If ((Not(Match regex("^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,199}$"; $mediaName))) | (Position(".."; $mediaName)>0))
 			throw(400; "Invalid stored media filename")
 		End if 
-		var $file:=Folder(fk database folder).folder("SmartOpsMedia").folder(String($t)).file($mediaName)
+		var $file:=// External Windows media storage: separate from project source and release ZIP.
+	Folder("C:\\smartops4dmedia"; fk platform path).folder(String($t)).file($mediaName)
 		If (Not($file.exists))
 			throw(404; "File not found in local media folder")
 		End if 
