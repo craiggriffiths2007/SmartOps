@@ -632,7 +632,8 @@ Function validFilename($account : 4D.Entity; $name : Text) : Text
 	
 	
 Function mediaFile($tenant : Integer; $filename : Text) : 4D.File
-	var $base:=Folder(fk database folder).folder("SmartOpsMedia")
+	// External Windows media storage: separate from project source and release ZIP.
+	var $base:=Folder("C:\\smartops4dmedia"; fk platform path)
 	If (Not($base.exists))
 		$base.create()
 	End if 
