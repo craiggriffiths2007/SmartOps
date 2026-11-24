@@ -661,6 +661,10 @@ Function dispatch($r : 4D.IncomingMessage; $b : Object) : 4D.OutgoingMessage
 		var $log:=cs.SmartOpsErrorLog.new()
 		return This.reply(200; $log.read($t))
 	End if
+	If (Position("api/questions/";$path)=1)
+		var $questions:=cs.SmartOpsQuestionEditor.new(This)
+		return $questions.handle($a;$path;$verb;$b)
+	End if
 	This.debugStage:="dispatch tenant read"
 	var $staff:=($a.Role="Admin") | ($a.Role="Staff")
 	This.debugStage:="dispatch role read"
