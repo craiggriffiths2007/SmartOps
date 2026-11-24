@@ -365,6 +365,12 @@ Function applyFields($table : Text; $e : 4D.Entity; $b : Object)
 Function contractDetail($a : 4D.Entity; $id : Integer) : Object
 	var $c:=This.ownedContract($a; $id)
 	var $t:=$a.GoTenantId
+	// Serve the questionnaire editor through the same authenticated 4D API
+	// and bearer token as the rest of the native browser workspace.
+	If (($path="api/questions/editor") | ($path="api/questions/validate") | ($path="api/questions/draft") | ($path="api/questions/publish") | ($path="api/questions/discard") | ($path="api/questions/reset"))
+		var $questionEditor:=cs.SmartOpsQuestionEditor.new(This)
+		return $questionEditor.handle($a; $path; $verb; $b)
+	End if
 	var $updates:=ds.ContractUpdates.query("GoTenantId = :1 AND ContractId = :2"; $t; $id)
 	If ($a.Role="Customer")
 		$updates:=$updates.query("CustomerVisible = true")
