@@ -32,9 +32,8 @@ function navigation(){
  if(staff())links.push(['diary','Diary'],['records','Records'],['surveys','Survey uploads'],['media','Photos & videos']);
  if(staff()||state.role==='Insurer')links.push(['claims','Claims']);
  if(staff()||state.role==='Customer')links.push(['support','Support']);
- if(state.role==='Admin')links.push(['accounts','Accounts'],['audit','Audit trail']);
- $('#nav').innerHTML=links.map(([key,title])=>`<a href="#${key}" data-page="${key}">${esc(title)}</a>`).join('')+
-  (state.role==='Admin'?'<a href="/questions" title="Edit questionnaires directly in 4D">Questions editor ↗</a>':'');
+ if(state.role==='Admin')links.push(['accounts','Accounts'],['audit','Audit trail'],['questions','Questions editor']);
+ $('#nav').innerHTML=links.map(([key,title])=>`<a href="#${key}" data-page="${key}">${esc(title)}</a>`).join('');
 }
 window.addEventListener('hashchange',()=>{state.offset=0;route();});
 async function route(){
@@ -44,7 +43,7 @@ async function route(){
  $('#notice').textContent='';$('#content').innerHTML='<div class="loading">Loading workspace…</div>';$('#tools').innerHTML='';
  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.dataset.page===state.screen));
  try{
-  const screens={contracts:contracts,diary:diary,records:records,surveys:surveys,media:media,claims:claims,support:support,accounts:accounts,audit:audit};
+  const screens={contracts:contracts,diary:diary,records:records,surveys:surveys,media:media,claims:claims,support:support,accounts:accounts,audit:audit,questions:questionsEditor};
   await(screens[state.screen]||contracts)(ver);
  }catch(e){if(ver===renderVersion){$('#content').innerHTML='';$('#notice').textContent=e.message;}}
 }
@@ -225,4 +224,95 @@ async function media(ver){
   setTimeout(()=>URL.revokeObjectURL(url),30000);
  });
  pager(result);
+}
+
+
+// Native questionnaire editor uses the SAME bearer token as the workspace.
+// Existing question properties (including conditional rules and images) are preserved.
+const questionState={package:null,version:1,revision:0,category:'',dirty:false};
+function questionCategoryNames(){
+ return questionState.package?Object.keys(questionState.package.sets||{}):[];
+}
+function questionList(){
+ return questionState.package?.sets?.[questionState.category]?.questions||[];
+}
+function questionMarkDirty(){questionState.dirty=true;$('#questionStatus').textContent='Unsaved changes';}
+async function questionsEditor(){
+ if(state.role!=='Admin')throw Error('Administrator access is required');
+ title('Questions editor','SURVEY APP INTEGRATION');
+ const response=await api('questions/editor');
+ questionState.version=response.version;
+ questionState.revision=response.draftRevision;
+ questionState.package=structuredClone(response.draft||response.published);
+ questionState.category=Object.keys(questionState.package.sets||{})[0]||'';
+ questionState.dirty=false;
+ renderQuestionEditor();
+}
+function renderQuestionEditor(){
+ const categories=questionCategoryNames(),questions=questionList();
+ $('#tools').innerHTML='';
+ tool('Save draft',saveQuestionsDraft);
+ tool('Publish to Survey',publishQuestions);
+ $('#content').innerHTML=
+  '<div class="card"><p class="muted">Edit questionnaires stored directly in 4D. Saving a draft does not change what the Survey app downloads; publishing does.</p>'+
+  '<div class="actions" style="align-items:center"><label style="min-width:220px;margin:0">Question set<select id="questionCategory">'+categories.map(c=>'<option value="'+esc(c)+'"'+(c===questionState.category?' selected':'')+'>'+esc(c)+'</option>').join('')+'</select></label>'+
+  '<button type="button" id="newQuestion">+ Add question</button><button type="button" class="quiet" id="editJson">Advanced JSON editor</button></div>'+
+  '<p id="questionStatus" class="muted" role="status" style="margin-top:15px">'+(questionState.dirty?'Unsaved changes':'Version '+questionState.version+' · '+questions.length+' questions')+'</p></div>'+
+  table([['id','ID'],['question','Question'],['type','Type'],['required','Required',v=>v?'Yes':'No']],questions,(q,i)=>'<button class="small quiet editQuestion" data-index="'+i+'">Edit</button> <button class="small danger removeQuestion" data-index="'+i+'">Remove</button>')+
+  '<p class="muted" style="margin-top:16px">Conditional rules, images and other question settings are retained. Use Advanced JSON to edit properties not covered by the basic form.</p>';
+ const selector=$('#questionCategory');
+ if(selector)selector.onchange=e=>{questionState.category=e.target.value;renderQuestionEditor();};
+ $('#newQuestion').onclick=()=>editQuestion(null);
+ $('#editJson').onclick=editQuestionJson;
+ bind('#content','.editQuestion',questions,q=>editQuestion(q));
+ bind('#content','.removeQuestion',questions,q=>{
+  if(!confirm('Remove question "'+q.question+'"?'))return;
+  questionState.package.sets[questionState.category].questions=questionList().filter(x=>x!==q);
+  questionState.dirty=true;renderQuestionEditor();
+ });
+}
+function editQuestion(existing){
+ const q=existing||{id:'',question:'',type:'Text',required:false,readOnly:false,options:[],optionRules:[],image:'',imageRules:[],showWhen:null,showWhenAll:[],unit:'mm',minimum:null,maximum:null,wholeNumber:false,defaultValue:null};
+ const fields=[field('id',{label:'Question ID',required:true,maxLength:100}),
+  field('question',{label:'Question',required:true,maxLength:1000}),
+  field('type',{label:'Question type',required:true,options:['Text','YesNo','Picker','ButtonPicker','Number','Date','Information','Image','ReplaceGlass','Handles'].concat(q.type&& !['Text','YesNo','Picker','ButtonPicker','Number','Date','Information','Image','ReplaceGlass','Handles'].includes(q.type)?[q.type]:[]).map(v=>({value:v,label:v}))}),
+  field('required',{label:'Required',type:'checkbox'}),field('readOnly',{label:'Read only',type:'checkbox'}),
+  field('optionsText',{label:'Options (one per line)',type:'textarea'})];
+ form(existing?'Edit question':'Add question',fields,{...q,optionsText:(q.options||[]).join('\n')},async values=>{
+  const updated={...q,id:values.id.trim(),question:values.question.trim(),type:values.type,required:values.required,readOnly:values.readOnly,options:values.optionsText.split(/\r?\n/).map(x=>x.trim()).filter(Boolean)};
+  const items=questionList();
+  if(items.some(x=>x!==existing&&x.id===updated.id))throw Error('Question ID already exists in this set');
+  if(!/^[A-Za-z0-9_-]{1,100}$/.test(updated.id))throw Error('Question ID must contain only letters, numbers, - or _');
+  if(existing)Object.assign(existing,updated);else items.push(updated);
+  questionState.dirty=true;renderQuestionEditor();
+ },existing?'Update question':'Add question');
+}
+function editQuestionJson(){
+ const current=JSON.stringify(questionState.package,null,2);
+ showModal('Advanced question JSON','<p class="muted">This edits the entire question package, including conditional rules. Export a backup before making complex changes.</p><form id="jsonForm"><textarea id="questionJson" style="min-height:45vh;font-family:Consolas,monospace">'+esc(current)+'</textarea><p id="jsonError" class="error"></p><div class="dialogActions"><button type="button" class="quiet" id="jsonCancel">Cancel</button><button type="submit">Apply changes</button></div></form>');
+ $('#jsonCancel').onclick=()=>$('#modal').close();
+ $('#jsonForm').onsubmit=async e=>{
+  e.preventDefault();
+  try{
+   const candidate=JSON.parse($('#questionJson').value);
+   if(!candidate||!candidate.sets||typeof candidate.sets!=='object')throw Error('The JSON must contain a sets object');
+   await api('questions/validate','POST',{questionsJson:JSON.stringify(candidate)});
+   questionState.package=candidate;
+   questionState.category=Object.keys(candidate.sets)[0]||'';
+   questionState.dirty=true;$('#modal').close();renderQuestionEditor();
+  }catch(error){$('#jsonError').textContent=error.message;}
+ };
+}
+async function saveQuestionsDraft(){
+ if(!questionState.package) return;
+ const result=await api('questions/draft','POST',{version:questionState.version,draftRevision:questionState.revision,questionsJson:JSON.stringify(questionState.package)});
+ questionState.revision=result.revision;questionState.dirty=false;toast('Draft saved in 4D');renderQuestionEditor();
+}
+async function publishQuestions(){
+ if(!questionState.package) return;
+ if(!confirm('Publish this questionnaire to SmartOps.Survey?'))return;
+ const result=await api('questions/publish','POST',{version:questionState.version,draftRevision:questionState.revision,questionsJson:JSON.stringify(questionState.package)});
+ questionState.version=result.version;questionState.revision++;
+ questionState.package.version=result.version;questionState.dirty=false;
+ toast('Questionnaire published: version '+result.version);renderQuestionEditor();
 }
