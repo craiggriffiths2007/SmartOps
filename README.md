@@ -14,6 +14,18 @@ SmartOps is an **open-source 4D integration and testing platform** for field-ser
 
 **Architecture:** Android survey app → 4D API; optional web frontend → 4D API via a **temporary, per-request SQLite workspace**. SQLite is not a second source of business data.
 
+## New: Question editor hosted directly by 4D
+
+**Dynamic questionnaires can now be edited and published directly from the native 4D web server — no ASP.NET Core web frontend required.** This is particularly useful when integrating the SmartOps Survey app with an existing 4D installation.
+
+1. Start SmartOps.4D using `GO_StartLAN` (HTTP port **8045** for local testing).
+2. Open **[http://localhost:8045/questions](http://localhost:8045/questions)** in a browser.
+3. Sign in using the same company code, username and password as the optional SmartOps web interface, then edit and publish the questions.
+
+The editor uses the existing 4D question-set storage and supports working with drafts and published versions. Published questionnaires are made available to SmartOps.Survey through its existing 4D API. The rest of the ASP.NET Core workspace (including operational features and reports) remains optional and separate; those features have **not** been moved into the 4D editor.
+
+**Security:** The bundled accounts and plain HTTP endpoint are for local evaluation only. Use a secured HTTPS setup and appropriate accounts before deploying outside a trusted development environment.
+
 ## Download the Integration Kit
 
 **[Download SmartOps Integration Kit (Windows x64 ZIP)](https://github.com/craiggriffiths2007/SmartOps/releases/latest/download/SmartOps-Integration-Windows-x64.zip)** · [All releases](https://github.com/craiggriffiths2007/SmartOps/releases)
@@ -41,7 +53,11 @@ The web frontend is packaged as an **inner ZIP** in the main download. A compati
 
 Opening a database that already contains records will **not** reset it. To start over, create a separate empty 4D data file; do not delete records you need.
 
-### 2. Run the optional web interface
+### 2. Edit dynamic questions directly in 4D (no .NET needed)
+
+With the 4D web server running, visit `http://localhost:8045/questions` and sign in with the test account below. Edit questions, save drafts and publish a new version for the Android survey app to download. This feature runs entirely on 4D; the ASP.NET Core web interface is **not** required.
+
+### 3. Run the optional web interface
 
 For the packaged version, extract the inner `SmartOps-Web-Windows-x64.zip` into a folder of its own, then run `SmartOps.Web.exe` while 4D is running. It opens the login page at `http://127.0.0.1:5245/Account/Login` in your default browser. Keep the server console open.
 
@@ -59,7 +75,7 @@ These are public **testing credentials**. Never reuse them for a production syst
 
 The optional web interface is **an authenticated operational workspace**, not a public marketing website. The Home, News and Insurer Portal pages have been removed; visiting the web root redirects to login (or to the diary when already signed in). Insurer company records remain available to contracts and demonstrations, but insurer portal sign-in is not supported.
 
-### 3. Connect the Android survey app (optional)
+### 4. Connect the Android survey app (optional)
 
 Install the [SmartOps Android survey app](https://play.google.com/store/apps/details?id=com.authorityx.smartops). Configure **Server** as `http://YOUR-PC-IP:8045`, company code `SMARTOPS` and an existing agent code such as `ADMIN`.
 
