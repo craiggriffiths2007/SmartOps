@@ -44,7 +44,7 @@ function navigation(){
 let questionWindow=null;
 function openQuestionsWindow(){
  if(state.role!=='Admin'||!state.token)return;
- questionWindow=window.open('/#questions','smartops-questions','width=1250,height=900,resizable=yes,scrollbars=yes');
+ questionWindow=window.open('/question-editor.html','_blank');
  if(!questionWindow)toast('Allow popups for this local SmartOps site to open the Questions Editor.');
  else questionWindow.focus();
 }
