@@ -28,8 +28,10 @@ $('#password').onclick=()=>form('Change password',[
 ],{},async values=>{await api('auth/password','POST',values);signOutLocal();toast('Password changed. Sign in again.');},'Change password');
 $('#closeModal').onclick=()=>$('#modal').close();
 function navigation(){
- const links=[['contracts',state.role==='Customer'?'My repairs':'Contracts']];
- if(staff())links.push(['diary','Diary'],['records','Records'],['surveys','Survey uploads'],['media','Photos & videos']);
+ const links=[];
+ if(staff())links.push(['records','Customers']);
+ links.push(['contracts',state.role==='Customer'?'My repairs':'Contracts']);
+ if(staff())links.push(['diary','Diary'],['surveys','Survey uploads'],['media','Photos & videos']);
  if(staff()||state.role==='Insurer')links.push(['claims','Claims']);
  if(staff()||state.role==='Customer')links.push(['support','Support']);
  if(state.role==='Admin')links.push(['accounts','Accounts'],['audit','Audit trail']);
@@ -186,11 +188,11 @@ async function diary(ver){
  bind('#content','.detail',result.items,j=>contractDetail(j.ContractId));bind('#content','.rebook',result.items,j=>booking({Id:j.ContractId},j));if(result.total>result.items.length)pager(result);
 }
 async function records(ver){
- title('Company records','ADMINISTRATION');
  if(!state.schemas)state.schemas=(await api('schema')).items.sort((a,b)=>a.name.localeCompare(b.name));
  const schema=state.schemas.find(s=>s.name===state.table)||state.schemas[0];state.table=schema.name;
+ title(state.table==='Customer'?'Customers':label(state.table),'ADMINISTRATION');
  const select=document.createElement('select');select.setAttribute('aria-label','Record type');select.innerHTML=state.schemas.map(s=>`<option ${s.name===state.table?'selected':''}>${esc(s.name)}</option>`).join('');select.onchange=()=>{state.table=select.value;state.offset=0;route();};$('#tools').append(select);
- tool('+ New record',()=>editRecord(schema,{}));
+ tool(state.table==='Customer'?'+ New customer':'+ New record',()=>editRecord(schema,{}));
  const result=await api('data/'+state.table+'?offset='+state.offset);if(ver!==renderVersion)return;
  const preferred=['Id','Name','Code','Registration','CustomerId','ContractId','Description','Postcode','Email','Active','IsActive'];let cols=preferred.filter(c=>schema.publicFields.includes(c)).slice(0,7);if(cols.length<3)cols=schema.publicFields.filter(c=>!c.startsWith('Go')&&c!=='TenantId').slice(0,7);
  $('#content').innerHTML=`<p class="muted">${esc(state.table)} · ${schema.editableFields.length} editable fields</p>`+table(cols.map(c=>[c,label(c)]),result.items,(r,i)=>`<button class="small quiet edit" data-index="${i}">Edit</button>`);
