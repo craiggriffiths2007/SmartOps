@@ -29,3 +29,6 @@ SmartOps.4D/Project/Cache/
 *.4DIndx
 *.4DJournal
 *.4DBackup
+
+SmartOps.4D/SmartOpsMedia/
+*.lnk
