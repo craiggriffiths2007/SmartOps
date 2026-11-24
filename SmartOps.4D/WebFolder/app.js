@@ -143,13 +143,26 @@ async function messages(c){
  $('#messages').append(button('Send message',()=>form('Message insurer / repair company',[field('Body',{type:'textarea',required:true,label:'Message'})],{},v=>api('messages','POST',{...v,ContractId:c.Id})),'quiet'));
 }
 async function diary(ver){
+ const selectedDate=new Date(state.date+'T00:00:00Z');
  title('Diary','SCHEDULING');
- const [result,agents]=await Promise.all([api('diary?date='+state.date+'&offset='+state.offset),api('data/Agent')]);if(ver!==renderVersion)return;
+ const selectDay=value=>{state.date=value;state.offset=0;return route();};
+ const moveDay=days=>{
+  const day=new Date(selectedDate);
+  day.setUTCDate(day.getUTCDate()+days);
+  return selectDay(day.toISOString().slice(0,10));
+ };
+ const date=document.createElement('input');date.type='date';date.value=state.date;date.setAttribute('aria-label','Diary date');
+ date.onchange=()=>{if(!date.value){date.value=state.date;return;}selectDay(date.value);};
+ const dayControls=document.createElement('div');dayControls.className='diaryDateControls';
+ dayControls.append(button('← Previous day',()=>moveDay(-1),'quiet'),date,button('Next day →',()=>moveDay(1),'quiet'));
+ const diaryTools=document.createElement('div');diaryTools.className='diaryTools';
+ diaryTools.append(dayControls);$('#tools').append(diaryTools);
+ const query=new URLSearchParams({date:state.date,offset:state.offset});
+ const [result,agents]=await Promise.all([api('diary?'+query),api('data/Agent')]);if(ver!==renderVersion)return;
  const map=Object.fromEntries(agents.items.map(a=>[a.Id,a.Name]));
- const date=document.createElement('input');date.type='date';date.value=state.date;date.setAttribute('aria-label','Diary date');date.onchange=()=>{state.date=date.value;state.offset=0;route();};$('#tools').append(date);
- tool('Book repair',async()=>{const repairs=await api('portal');form('Choose a contract',[field('ContractId',{options:repairs.items.filter(c=>!c.IsCancelled).map(c=>({value:c.Id,label:c.ContractCode+' · '+c.DamageDescription})),numeric:true,required:true})],{},async v=>{const chosen=repairs.items.find(c=>c.Id===v.ContractId);setTimeout(()=>booking(chosen).catch(e=>toast(e.message)),0);},'Continue');});
+ diaryTools.prepend(button('Book repair',async()=>{const repairs=await api('portal');form('Choose a contract',[field('ContractId',{options:repairs.items.filter(c=>!c.IsCancelled).map(c=>({value:c.Id,label:c.ContractCode+' · '+c.DamageDescription})),numeric:true,required:true})],{},async v=>{const chosen=repairs.items.find(c=>c.Id===v.ContractId);setTimeout(()=>booking(chosen).catch(e=>toast(e.message)),0);},'Continue');}));
  $('#content').innerHTML=table([['Time','Start'],['GoEndMinute','Finish',v=>`${String(Math.floor(v/60)).padStart(2,'0')}:${String(v%60).padStart(2,'0')}`],['AgentId','Agent',v=>esc(map[v]||v)],['ContractCode','Contract'],['JobType','Visit',v=>esc(jobTypes[v])],['Instructions','Instructions']],result.items,(j,i)=>`<button class="small quiet detail" data-index="${i}">View repair</button><button class="small quiet rebook" data-index="${i}">Move</button>`);
- bind('#content','.detail',result.items,j=>contractDetail(j.ContractId));bind('#content','.rebook',result.items,j=>booking({Id:j.ContractId},j));pager(result);
+ bind('#content','.detail',result.items,j=>contractDetail(j.ContractId));bind('#content','.rebook',result.items,j=>booking({Id:j.ContractId},j));if(result.total>result.items.length)pager(result);
 }
 async function records(ver){
  title('Company records','ADMINISTRATION');

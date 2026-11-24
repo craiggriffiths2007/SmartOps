@@ -1,10 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?><preferences stamp="3">
+<?xml version="1.0" encoding="UTF-8"?><preferences stamp="4">
 	<com.4d>
 		<general startup_environnement="1"/>
 		<web>
 			<standalone_server>
 				<configuration allow_ssl="true" port_number="8045" publish_at_startup="true"/>
 				<rest launch_at_startup="false"/>
+				<options>
+					<web_passwords kind="0"/>
+				</options>
 			</standalone_server>
 			<server>
 				<rest launch_at_startup="false"/>

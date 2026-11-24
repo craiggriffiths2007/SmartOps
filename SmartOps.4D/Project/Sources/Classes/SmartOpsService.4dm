@@ -135,6 +135,21 @@ Function requireRole($a : 4D.Entity; $roles : Text)
 		throw(403; "This action is not available for your role")
 	End if 
 	
+Function diaryJobs($tenant : Integer; $day : Text) : 4D.EntitySelection
+	var $date:=Current date
+	If ($day="")
+		$day:=Substring(String($date; ISO date); 1; 10)
+	Else
+		$date:=Date($day+"T00:00:00")
+		If (($date=!00-00-00!) | ($day#Substring(String($date; ISO date); 1; 10)))
+			throw(400; "Diary date must be YYYY-MM-DD")
+		End if
+	End if
+	// DiaryDate is text. Use date-only bounds to include this day's imported
+	// timestamps while excluding every representation of the following day.
+	var $nextDay:=Substring(String($date+1; ISO date); 1; 10)
+	return ds.Job.query("GoTenantId = :1 AND GoCancelled = false AND DiaryDate >= :2 AND DiaryDate < :3"; $tenant; $day; $nextDay).orderBy("GoTime, AgentId")
+
 Function requireText($v : Variant; $label : Text; $max : Integer) : Text
 	If (Value type($v)#Is text)
 		throw(400; $label+" must be text")
@@ -834,8 +849,20 @@ Function dispatch($r : 4D.IncomingMessage; $b : Object) : 4D.OutgoingMessage
 	End if 
 	If (($path="api/diary") & ($verb="GET"))
 		This.requireRole($a; "Admin,Staff")
-		var $jobs:=ds.Job.query("GoTenantId = :1 AND GoCancelled = false AND DiaryDate = :2"; $t; String($r.urlQuery.date)).orderBy("GoTime, AgentId")
-		return This.reply(200; This.rows("Job"; $jobs; $offset))
+		var $requestedDay:=$r.urlQuery.date
+		var $day : Text
+		// 4D parses ISO query dates as Date values. Preserve the calendar day
+		// without converting it to the server's regional short-date format.
+		If (Value type($requestedDay)=Is date)
+			If ($requestedDay=!00-00-00!)
+				throw(400; "Diary date must be YYYY-MM-DD")
+			End if
+			$day:=Substring(String($requestedDay; ISO date); 1; 10)
+		Else
+			$day:=String($requestedDay)
+		End if
+		var $jobs:=This.diaryJobs($t; $day)
+		return This.reply(200; This.rows("Job"; $jobs; Int(Num($r.urlQuery.offset))))
 	End if 
 	If (($path="api/diary/book") & ($verb="POST"))
 		return This.reply(201; This.book($a; $b))
