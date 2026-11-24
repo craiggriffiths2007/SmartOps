@@ -33,7 +33,8 @@ function navigation(){
  if(staff()||state.role==='Insurer')links.push(['claims','Claims']);
  if(staff()||state.role==='Customer')links.push(['support','Support']);
  if(state.role==='Admin')links.push(['accounts','Accounts'],['audit','Audit trail']);
- $('#nav').innerHTML=links.map(([key,title])=>`<a href="#${key}" data-page="${key}">${esc(title)}</a>`).join('');
+ $('#nav').innerHTML=links.map(([key,title])=>`<a href="#${key}" data-page="${key}">${esc(title)}</a>`).join('')+
+  (state.role==='Admin'?'<a href="/questions" title="Edit questionnaires directly in 4D">Questions editor ↗</a>':'');
 }
 window.addEventListener('hashchange',()=>{state.offset=0;route();});
 async function route(){
