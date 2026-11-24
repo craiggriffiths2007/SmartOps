@@ -620,12 +620,12 @@ Function validFilename($account : 4D.Entity; $name : Text) : Text
 	
 	return $name
 	
-	// Keep uploaded media outside the 4D database, separated by tenant ID.
+	// Keep uploaded media at C:\\SmartOpsMedia, outside the repository and 4D database folder, separated by tenant ID.
 	// Filenames are checked by validFilename before this function is called.
 	
 	
 Function mediaFile($tenant : Integer; $filename : Text) : 4D.File
-	var $base:=Folder(fk database folder).folder("SmartOpsMedia")
+	var $base:=Folder("C:\\SmartOpsMedia")
 	If (Not($base.exists))
 		$base.create()
 	End if 
