@@ -69,8 +69,3 @@ The included seed provides fictional contracts and customers, branches, agents, 
 - [All releases](https://github.com/craiggriffiths2007/SmartOps/releases) — available integration packages and documentation
 - [GlassOps live demonstration](https://glassops.co.uk/) — example field-service workflows
 
-## Testing
-
-Start 4D and verify the login, API health endpoint, diary bookings, contract details and edits to a **test** record. In the Questions Editor, test saving and publishing a questionnaire, then download it with SmartOps.Survey. Reopen the project to confirm saved data persists.
-
-These are recommended manual checks rather than a claim that all integration tests are automated.
