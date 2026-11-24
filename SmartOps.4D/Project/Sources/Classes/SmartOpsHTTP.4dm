@@ -3,6 +3,9 @@
 shared singleton Class constructor()
 	
 shared Function handle($request : 4D.IncomingMessage) : 4D.OutgoingMessage
+	If ($request.urlPath[0]="questions")
+		return cs.SmartOpsQuestionWeb.new().handle($request)
+	End if
 	var $service:=cs.SmartOpsService.new()
 	var $result : 4D.OutgoingMessage
 	var $body:=New object
