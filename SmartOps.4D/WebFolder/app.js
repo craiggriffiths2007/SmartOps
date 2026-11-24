@@ -19,7 +19,7 @@ function toast(message){$('#toast').textContent=message;$('#toast').style.displa
 function signOutLocal(){state.token=null;state.schemas=null;$('#workspace').hidden=true;$('#login').hidden=false;$('#loginForm').elements.Password.value='';$('#modal').close();}
 $('#loginForm').onsubmit=async e=>{
  e.preventDefault();const button=e.target.querySelector('button');button.disabled=true;$('#loginError').textContent='';
- try{const data=await api('auth/login','POST',Object.fromEntries(new FormData(e.target)));Object.assign(state,data);$('#login').hidden=true;$('#workspace').hidden=false;$('#company').textContent=data.company;$('#identity').textContent=data.username+' · '+data.role;navigation();await route();}
+ try{const data=await api('auth/login','POST',{...Object.fromEntries(new FormData(e.target)),TenantCode:'SMARTOPS'});Object.assign(state,data);$('#login').hidden=true;$('#workspace').hidden=false;$('#company').textContent=data.company;$('#identity').textContent=data.username+' · '+data.role;navigation();await route();}
  catch(error){$('#loginError').textContent=error.message;}finally{button.disabled=false;}
 };
 $('#logout').onclick=async()=>{try{await api('auth/logout','POST',{});signOutLocal();}catch(e){toast(e.message);}};
