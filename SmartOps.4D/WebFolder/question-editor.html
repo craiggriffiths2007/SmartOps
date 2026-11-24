@@ -72,8 +72,9 @@ async function loadEditor(){
  document.querySelector('[name="version"]').value=state.version;
  document.getElementById('draftRevision').value=state.draftRevision;
  document.getElementById('discardDraft').hidden=!state.hasDraft;
- document.getElementById('resetAll').hidden=true;
- document.getElementById('resetGroup').hidden=true;
+ // The standalone 4D version does not render the ASP.NET-only reset buttons.
+ document.getElementById('resetAll')?.setAttribute('hidden','');
+ document.getElementById('resetGroup')?.setAttribute('hidden','');
  if(state.hasDraft)document.getElementById('draftStatus').textContent='Unpublished draft loaded. The survey app still receives the published version.';
  document.getElementById('signOut').hidden=false;
  document.getElementById('accountName').textContent='Signed in';
