@@ -4,7 +4,7 @@ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const money=v=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(Number(v)||0);
 const statuses={0:'Reported',10:'Survey booked',20:'Survey completed',40:'Awaiting approval',60:'Authorised',70:'Fitting booked',80:'Fitting completed',90:'Invoiced'};
 const jobTypes=['Survey','Fitting','Remedial','Complaint','Securing'];
-const today=()=>new Date().toLocaleDateString('en-CA');
+const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
 const label=s=>s.replace(/([a-z])([A-Z])/g,'$1 $2').replace(/^Go /,'');
 const state={token:null,role:null,username:null,company:null,schemas:null,offset:0,table:'Customer',date:today(),screen:'contracts'};
 const staff=()=>['Admin','Staff'].includes(state.role);
@@ -19,7 +19,7 @@ function toast(message){$('#toast').textContent=message;$('#toast').style.displa
 function signOutLocal(){state.token=null;state.schemas=null;$('#workspace').hidden=true;$('#login').hidden=false;$('#loginForm').elements.Password.value='';$('#modal').close();}
 $('#loginForm').onsubmit=async e=>{
  e.preventDefault();const button=e.target.querySelector('button');button.disabled=true;$('#loginError').textContent='';
- try{const data=await api('auth/login','POST',Object.fromEntries(new FormData(e.target)));Object.assign(state,data);$('#login').hidden=true;$('#workspace').hidden=false;$('#company').textContent=data.company;$('#identity').textContent=data.username+' · '+data.role;navigation();await route();}
+ try{const data=await api('auth/login','POST',{...Object.fromEntries(new FormData(e.target)),TenantCode:'SMARTOPS'});Object.assign(state,data);$('#login').hidden=true;$('#workspace').hidden=false;$('#company').textContent=data.company;$('#identity').textContent=data.username+' · '+data.role;navigation();await route();}
  catch(error){$('#loginError').textContent=error.message;}finally{button.disabled=false;}
 };
 $('#logout').onclick=async()=>{try{await api('auth/logout','POST',{});signOutLocal();}catch(e){toast(e.message);}};
@@ -33,8 +33,29 @@ function navigation(){
  if(staff()||state.role==='Insurer')links.push(['claims','Claims']);
  if(staff()||state.role==='Customer')links.push(['support','Support']);
  if(state.role==='Admin')links.push(['accounts','Accounts'],['audit','Audit trail']);
- $('#nav').innerHTML=links.map(([key,title])=>`<a href="#${key}" data-page="${key}">${esc(title)}</a>`).join('');
+ $('#nav').innerHTML=links.map(([key,title])=>`<a href="#${key}" data-page="${key}">${esc(title)}</a>`).join('')+
+  (state.role==='Admin'?'<a href="/question-editor.html" target="_blank" rel="noopener" id="questionsWindowLink">Questions editor ↗</a>':'');
+ const questionLink=$('#questionsWindowLink');
+ if(questionLink)questionLink.onclick=e=>{e.preventDefault();openQuestionsWindow();};
 }
+// Keep the Questions Editor in its own browser window without a second login.
+// A token is only handed to the window opened by an authenticated administrator,
+// after checking the same-origin message source.
+let questionWindow=null;
+function openQuestionsWindow(){
+ if(state.role!=='Admin'||!state.token)return;
+ questionWindow=window.open('/question-editor.html','_blank');
+ if(!questionWindow)toast('Allow popups for this local SmartOps site to open the Questions Editor.');
+ else questionWindow.focus();
+}
+window.addEventListener('message',e=>{
+ if(e.origin!==location.origin)return;
+ if(e.data?.type==='smartops-questions-request'){
+  if(state.role==='Admin'&&state.token&&questionWindow&&!questionWindow.closed&&e.source===questionWindow)
+   questionWindow.postMessage({type:'smartops-questions-session',token:state.token,username:state.username,role:state.role,company:state.company},location.origin);
+  return;
+ }
+});
 window.addEventListener('hashchange',()=>{state.offset=0;route();});
 async function route(){
  if(!state.token)return;

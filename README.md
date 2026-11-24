@@ -16,16 +16,17 @@ SmartOps is an **open-source 4D integration and testing platform** for field-ser
 
 ## New: Question editor hosted directly by 4D
 
-**Dynamic questionnaires can now be edited and published directly from the native 4D web server — no ASP.NET Core web frontend required.** This is particularly useful when integrating the SmartOps Survey app with an existing 4D installation.
+**The native 4D web server hosts the operational test workspace and the full dynamic Questions Editor — no ASP.NET Core frontend or second login is required.**
 
 1. Start SmartOps.4D using `GO_StartLAN` (HTTP port **8045** for local testing).
-2. Open **[http://localhost:8045/questions](http://localhost:8045/questions)** in a browser.
+2. Open **[http://localhost:8045/](http://localhost:8045/)** and sign in as an administrator.
+3. Select **Questions editor** in the sidebar. It opens a new browser tab with the original multi-pane editor and reuses the existing signed-in session. The legacy `/questions` address redirects to the dedicated editor.
 
 | Username | `admin` |
 
 | Password | `Password1!` |
 
-The editor uses the existing 4D question-set storage and supports working with drafts and published versions. Published questionnaires are made available to SmartOps.Survey through its existing 4D API. The rest of the ASP.NET Core workspace (including operational features and reports) remains optional and separate; those features have **not** been moved into the 4D editor.
+The native 4D workspace includes test screens for contracts, diary, records, uploads and administration. The separate Questions Editor uses 4D question-set storage with drafts and published versions; published questionnaires are made available to SmartOps.Survey through its existing 4D API. The ASP.NET Core frontend remains an **optional alternative** and may offer different or additional features.
 
 **Security:** The bundled accounts and plain HTTP endpoint are for local evaluation only. Use a secured HTTPS setup and appropriate accounts before deploying outside a trusted development environment.
 
@@ -51,14 +52,14 @@ The web frontend is packaged as an **inner ZIP** in the main download. A compati
 1. Extract the Integration Kit (or clone the repository).
 2. In 4D, open `SmartOps.4D/Project/smartops4d.4DProject`.
 3. Create a **new empty data file** if prompted.
-4. The 4D `onStartup` method calls `GO_StartLAN`, starts the HTTP API on **port 8045**, and seeds the fictional data **only if the database is completely empty**. `GO_Start` is also available as a manual alias.
+4. The 4D `onStartup` method calls `GO_StartLAN`, starts the HTTP API on **port 8045**, opens the native browser workspace at `http://127.0.0.1:8045/`, and seeds fictional data **only if the database is completely empty**. `GO_Start` remains available as a manual alias.
 5. Test `http://YOUR-PC-IP:8045/api/health` (or localhost if supported by your 4D listener).
 
 Opening a database that already contains records will **not** reset it. To start over, create a separate empty 4D data file; do not delete records you need.
 
 ### 2. Edit dynamic questions directly in 4D (no .NET needed)
 
-With the 4D web server running, visit `http://localhost:8045/questions` and sign in with the test username and password below. The company code is set to `SMARTOPS` automatically. Edit questions, save drafts and publish a new version for the Android survey app to download. This feature runs entirely on 4D; the ASP.NET Core web interface is **not** required.
+With the 4D web server running, visit `http://localhost:8045/` and sign in using `admin` / `Password1!` for a newly seeded demo database. Existing data files may have different account passwords. The company code is set to `SMARTOPS` automatically. Choose **Questions editor** in the sidebar to open a new tab with the original dynamic questionnaire editor, including its live preview and conditional question controls. You can save drafts and publish a new version for the Android survey app to download. The existing web login and API bearer token are reused (allow popups for this local site). This feature runs entirely on 4D; ASP.NET Core is **not** required.
 
 ### 3. Run the optional web interface
 
@@ -72,7 +73,7 @@ For source development, open `SmartOps.4D.Web` in Visual Studio with the appropr
 
 | Password | `Password1!` |
 
-These are public **testing credentials**. Never reuse them for a production system.
+These are public **testing credentials for newly seeded demo data**. Existing databases may have changed passwords. Never reuse these credentials for a production system.
 
 The optional web interface is **an authenticated operational workspace**, not a public marketing website. The Home, News and Insurer Portal pages have been removed; visiting the web root redirects to login (or to the diary when already signed in). Insurer company records remain available to contracts and demonstrations, but insurer portal sign-in is not supported.
 

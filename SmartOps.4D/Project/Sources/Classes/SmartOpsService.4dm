@@ -677,6 +677,16 @@ Function dispatch($r : 4D.IncomingMessage; $b : Object) : 4D.OutgoingMessage
 		return $sessionResponse
 	End if
 	var $t:=$a.GoTenantId
+	// Serve the questionnaire editor through the same authenticated 4D API
+	// and bearer token as the rest of the native browser workspace.
+	If (($path="api/questions/defaults") & ($verb="GET"))
+		This.requireRole($a; "Admin,Staff")
+		return This.reply(200; JSON Parse(File("/RESOURCES/dynamic-questions.json").getText()))
+	End if
+	If (($path="api/questions/editor") | ($path="api/questions/validate") | ($path="api/questions/draft") | ($path="api/questions/publish") | ($path="api/questions/discard") | ($path="api/questions/reset"))
+		var $questionEditor:=cs.SmartOpsQuestionEditor.new(This)
+		return $questionEditor.handle($a; $path; $verb; $b)
+	End if
 	If (($path="api/error-log") & ($verb="GET"))
 		This.requireRole($a; "Admin")
 		var $log:=cs.SmartOpsErrorLog.new()
