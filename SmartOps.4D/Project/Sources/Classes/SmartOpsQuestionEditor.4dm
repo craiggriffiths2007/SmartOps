@@ -38,6 +38,9 @@ Function checkedPackage($body : Object) : Object
 	End if
 	var $key : Text
 	For each ($key; $package.sets)
+		If ((Length($key)=0) | (Length($key)>80) | (Not(Match regex("^[A-Za-z][A-Za-z0-9 _-]*$";$key))) | (New collection("__proto__";"constructor";"prototype").includes(Lowercase($key))))
+			throw(400;"Invalid question category name")
+		End if
 		var $definition:=$package.sets[$key]
 		If (Value type($definition.questions)#Is collection)
 			throw(400;"Missing questions array in "+$key)
@@ -73,7 +76,13 @@ Function handle($account : 4D.Entity; $path : Text; $verb : Text; $body : Object
 		throw(404;"Unknown question editor endpoint")
 	End if
 	var $expected:=Num($body.version)
+	If (($expected<1) | ($expected>=2147483647))
+		throw(400;"Invalid question version")
+	End if
 	var $revision:=Num($body.draftRevision)
+	If (($revision<0) | ($revision>=2147483647))
+		throw(400;"Invalid draft revision")
+	End if
 	If (($expected#$state.version) | ($revision#$state.draftRevision))
 		return This.service.reply(409;New object("error";"Another editor updated these questions. Export your changes and reload."))
 	End if
@@ -113,6 +122,7 @@ Function handle($account : 4D.Entity; $path : Text; $verb : Text; $body : Object
 		return This.service.reply(200;New object("discarded";True))
 	End if
 	If ($path="api/questions/reset")
+		This.service.requireRole($account;"Admin")
 		var $defaults:=JSON Parse(File("/RESOURCES/dynamic-questions.json").getText())
 		$defaults.version:=1
 		If ($row=Null)
