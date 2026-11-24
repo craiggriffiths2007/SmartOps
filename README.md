@@ -2,6 +2,8 @@
 
 SmartOps is an **open-source 4D integration and testing platform** for field-service workflows. It provides a native 4D database, an HTTP/JSON API, and a browser-based workspace for testing jobs, appointments, questionnaires and survey submissions.
 
+An optional **ASP.NET Core web frontend and 4D bridge** are included for developers who want to explore an alternative web integration approach. They are **not required** to run the native 4D workspace, Questions Editor or mobile API.
+
 A companion [SmartOps Android survey app](https://play.google.com/store/apps/details?id=com.authorityx.smartops) is available on Google Play. Its source code is not included in this repository.
 
 > **For local development and evaluation only.** The bundled accounts and records are fictional. The supplied credentials, plain HTTP access and optional serial-number fallback are not secure production defaults.
@@ -37,6 +39,12 @@ From the signed-in workspace, select **Questions editor** in the sidebar. The or
 Use the editor to manage question categories, edit conditional rules, preview questions, import/export question sets, and save drafts. **Publishing** updates the version available to SmartOps.Survey during synchronization; saving a draft alone does not.
 
 The legacy `/questions` URL redirects to the dedicated editor. For the normal single-login workflow, enter through the main workspace first.
+
+## Optional ASP.NET Core web application
+
+The repository also contains `SmartOps.4D.Web` (an ASP.NET Core MVC web interface and 4D bridge) and `SmartOps.Shared` (shared contracts and models). These projects demonstrate another way to integrate with 4D. They are entirely optional: **SmartOps.4D can serve its own browser interface and mobile API without running the .NET application**.
+
+For developers wishing to explore this alternative, see the [web integration guide](SmartOps.4D/Documentation/WEB_API_INTEGRATION.md). The optional frontend normally runs at `http://127.0.0.1:5245/`.
 
 ## Connect SmartOps.Survey
 
