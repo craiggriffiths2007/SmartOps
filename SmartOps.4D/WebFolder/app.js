@@ -32,8 +32,42 @@ function navigation(){
  if(staff())links.push(['diary','Diary'],['records','Records'],['surveys','Survey uploads'],['media','Photos & videos']);
  if(staff()||state.role==='Insurer')links.push(['claims','Claims']);
  if(staff()||state.role==='Customer')links.push(['support','Support']);
- if(state.role==='Admin')links.push(['accounts','Accounts'],['audit','Audit trail'],['questions','Questions editor']);
- $('#nav').innerHTML=links.map(([key,title])=>`<a href="#${key}" data-page="${key}">${esc(title)}</a>`).join('');
+ if(state.role==='Admin')links.push(['accounts','Accounts'],['audit','Audit trail']);
+ $('#nav').innerHTML=links.map(([key,title])=>`<a href="#${key}" data-page="${key}">${esc(title)}</a>`).join('')+
+  (state.role==='Admin'?'<a href="/#questions" id="questionsWindowLink">Questions editor ↗</a>':'');
+ const questionLink=$('#questionsWindowLink');
+ if(questionLink)questionLink.onclick=e=>{e.preventDefault();openQuestionsWindow();};
+}
+// Keep the Questions Editor in its own browser window without a second login.
+// A token is only handed to the window opened by an authenticated administrator,
+// after checking the same-origin message source.
+let questionWindow=null;
+function openQuestionsWindow(){
+ if(state.role!=='Admin'||!state.token)return;
+ questionWindow=window.open('/#questions','smartops-questions','width=1250,height=900,resizable=yes,scrollbars=yes');
+ if(!questionWindow)toast('Allow popups for this local SmartOps site to open the Questions Editor.');
+ else questionWindow.focus();
+}
+window.addEventListener('message',e=>{
+ if(e.origin!==location.origin)return;
+ if(e.data?.type==='smartops-questions-request'){
+  if(state.role==='Admin'&&state.token&&questionWindow&&!questionWindow.closed&&e.source===questionWindow)
+   questionWindow.postMessage({type:'smartops-questions-session',token:state.token,username:state.username,role:state.role,company:state.company},location.origin);
+  return;
+ }
+ if(e.data?.type==='smartops-questions-session'&&window.opener&&e.source===window.opener&&location.hash==='#questions'){
+  if(e.data.role!=='Admin'||typeof e.data.token!=='string')return;
+  Object.assign(state,{token:e.data.token,username:e.data.username,role:e.data.role,company:e.data.company});
+  document.body.classList.add('questionsPopup');
+  $('#login').hidden=true;$('#workspace').hidden=false;
+  $('#company').textContent=state.company||'';
+  $('#identity').textContent=(state.username||'')+' · Admin';
+  navigation();
+  route();
+ }
+});
+if(window.opener&&location.hash==='#questions'){
+ window.opener.postMessage({type:'smartops-questions-request'},location.origin);
 }
 window.addEventListener('hashchange',()=>{state.offset=0;route();});
 async function route(){
