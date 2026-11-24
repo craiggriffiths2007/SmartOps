@@ -9,5 +9,10 @@
     "class": "SmartOpsHTTP",
     "method": "handle",
     "pattern": "api"
+  },
+  {
+    "class": "SmartOpsHTTP",
+    "method": "handle",
+    "pattern": "questions"
   }
 ]

@@ -655,6 +655,12 @@ Function dispatch($r : 4D.IncomingMessage; $b : Object) : 4D.OutgoingMessage
 	This.debugStage:="dispatch authenticating"
 	var $a:=This.authenticate($r)
 	This.debugStage:="dispatch authenticated"
+	If (($path="api/auth/session") & ($verb="GET"))
+		var $sessionResponse:=4D.OutgoingMessage.new()
+		$sessionResponse.setStatus(204)
+		$sessionResponse.setHeader("Cache-Control"; "no-store")
+		return $sessionResponse
+	End if
 	var $t:=$a.GoTenantId
 	If (($path="api/error-log") & ($verb="GET"))
 		This.requireRole($a; "Admin")
