@@ -28,7 +28,6 @@ A companion [SmartOps Android survey app](https://play.google.com/store/apps/det
 | --- | --- |
 | Username | `admin` |
 | Password | `Password1!` |
-| Company code | `SMARTOPS` (supplied automatically) |
 
 An existing 4D data file may have different credentials. Opening a populated database does **not** reset its records. To start over, create a separate empty data file rather than deleting data you need.
 
@@ -48,12 +47,11 @@ For developers wishing to explore this alternative, see the [web integration gui
 
 ## Connect SmartOps.Survey
 
-Install the [SmartOps Android survey app](https://play.google.com/store/apps/details?id=com.authorityx.smartops) and configure:
+Install the [SmartOps Android survey app](https://play.google.com/store/apps/details?id=com.authorityx.smartops) and connect it to your 4D server using the local test settings:
 
 | Setting | Local test value |
 | --- | --- |
 | Server | `http://YOUR-PC-IP:8045` |
-| Company code | `SMARTOPS` |
 | Agent | An existing agent code such as `ADMIN` |
 
 A blank agent Serial Number in 4D permits sign-in without device registration for local integration testing. When a serial number is registered, the device checks apply; privileged agents require their own registered device. This fallback is **not suitable for production authentication**.
@@ -62,7 +60,7 @@ On Windows, allow inbound TCP **8045** only on your trusted **Private** network.
 
 ## Test data
 
-The included seed provides fictional contracts and customers, branches, agents, vehicles, diary bookings, estimates, insurer details and updates for exercising the workflow. It includes a second company to help test data isolation.
+The included seed provides fictional contracts and customers, branches, agents, vehicles, diary bookings, estimates, insurer details and updates for exercising the workflow.
 
 ## Documentation
 
