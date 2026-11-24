@@ -58,6 +58,14 @@ A blank agent Serial Number in 4D permits sign-in without device registration fo
 
 On Windows, allow inbound TCP **8045** only on your trusted **Private** network. Do not expose the demonstration server directly to the public internet.
 
+## Media storage and demo downloads
+
+Job details and image files are stored separately. Uploaded photos are written to a `SmartOpsMedia/<tenant-id>/` directory under the active **4D database folder**, and the `SmartOpsMedia` directory is excluded from Git. Pushing the project source or downloading a release **does not include previously uploaded photos**.
+
+The bundled fresh demo seed includes jobs to test dynamic questionnaires without requiring images. Older or reused 4D data files may contain references to images stored elsewhere. When downloading jobs, SmartOps advertises only media files that exist on disk; missing image metadata is retained so that restoring the files restores access. This does not recreate missing pictures.
+
+To preserve real uploaded media, back up or move the **database and its corresponding media directory together**. Do not move, delete or overwrite the media folder before checking the location used by that data file.
+
 ## Test data
 
 The included seed provides fictional contracts and customers, branches, agents, vehicles, diary bookings, estimates, insurer details and updates for exercising the workflow.
