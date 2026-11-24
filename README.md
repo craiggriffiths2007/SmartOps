@@ -20,7 +20,7 @@ SmartOps is an **open-source 4D integration and testing platform** for field-ser
 
 1. Start SmartOps.4D using `GO_StartLAN` (HTTP port **8045** for local testing).
 2. Open **[http://localhost:8045/](http://localhost:8045/)** and sign in as an administrator.
-3. Select **Questions editor** in the sidebar. It opens a dedicated window and reuses the existing signed-in session. The legacy `/questions` address redirects to the workspace.
+3. Select **Questions editor** in the sidebar. It opens a new browser tab with the original multi-pane editor and reuses the existing signed-in session. The legacy `/questions` address redirects to the dedicated editor.
 
 | Username | `admin` |
 
@@ -59,7 +59,7 @@ Opening a database that already contains records will **not** reset it. To start
 
 ### 2. Edit dynamic questions directly in 4D (no .NET needed)
 
-With the 4D web server running, visit `http://localhost:8045/` and sign in with the test username and password below. The company code is set to `SMARTOPS` automatically. Choose **Questions editor** in the sidebar to open a separate browser window to edit questions, save drafts and publish a new version for the Android survey app to download. The existing web login and API bearer token are reused (allow popups for this local site). This feature runs entirely on 4D; ASP.NET Core is **not** required.
+With the 4D web server running, visit `http://localhost:8045/` and sign in with the test username and password below. The company code is set to `SMARTOPS` automatically. Choose **Questions editor** in the sidebar to open a new tab with the original dynamic questionnaire editor, including its live preview and conditional question controls. You can save drafts and publish a new version for the Android survey app to download. The existing web login and API bearer token are reused (allow popups for this local site). This feature runs entirely on 4D; ASP.NET Core is **not** required.
 
 ### 3. Run the optional web interface
 
