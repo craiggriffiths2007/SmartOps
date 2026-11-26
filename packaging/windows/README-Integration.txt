@@ -1,7 +1,7 @@
 SMARTOPS INTEGRATION - START HERE
 
 This download contains a working 4D integration project, fictional integration
-test data, API documentation, and an OPTIONAL prebuilt Windows web interface.
+test data, API documentation, a signed Android APK, and an OPTIONAL prebuilt\nWindows web interface.
 
 QUICK START - 4D ONLY (Visual Studio is NOT required)
 
@@ -29,12 +29,22 @@ The web ZIP includes the ASP.NET Core runtime. You do not need Visual Studio.
 The 4D database and web interface can run on the same Windows computer.
 For integration over LAN, see README-Windows.txt in the web ZIP.
 
-ANDROID APP
+ANDROID APP (INSTALL WITHOUT GOOGLE PLAY)
 
-SmartOps Survey on Google Play:
+The signed installer is included at AndroidApp/com.smartops.apk.
+1. Transfer the APK to your Android phone or tablet.
+2. Open the APK in Files and permit installation from that source if Android asks.
+3. Install SmartOps Survey, then connect to http://YOUR-PC-IP:8045 on the
+   same trusted local network. Use a configured agent code (such as ADMIN).
+4. For subsequent APK updates, use an installer signed with the same
+   certificate. Android may require a newer application version code.
+
+Alternatively, install SmartOps Survey from Google Play:
 https://play.google.com/store/apps/details?id=com.authorityx.smartops
 
-The Android app talks directly to 4D on port 8045; the web interface is optional.
+The APK filename does not change the Android package ID
+(com.authorityx.smartops). The app talks directly to 4D on port 8045;
+the optional Windows web interface is not required.
 Android application SOURCE CODE IS NOT included in this download.
 
 SECURITY
