@@ -117,6 +117,14 @@ jobs:
           $webZip = Join-Path $stage "SmartOps-Web-Windows-x64.zip"
           Compress-Archive -Path "$env:RUNNER_TEMP/SmartOps-Web/*" -DestinationPath $webZip -Force
           Copy-Item "./packaging/windows/README-Integration.txt" (Join-Path $stage "README-START-HERE.txt")
+          # Bundle the signed SmartOps Android installer for offline installation.
+          $apk = "./AndroidApp/com.smartops.apk"
+          if (!(Test-Path $apk)) { throw "Signed SmartOps APK is missing: $apk" }
+          $apkBytes = (Get-Item $apk).Length
+          if ($apkBytes -lt 1000000) { throw "SmartOps APK appears to be empty or an LFS pointer ($apkBytes bytes)" }
+          $androidDir = Join-Path $stage "AndroidApp"
+          New-Item -ItemType Directory -Path $androidDir -Force | Out-Null
+          Copy-Item $apk (Join-Path $androidDir "com.smartops.apk")
           # Include publication-ready API references in the root of the kit,
           # as well as the original Markdown documentation inside SmartOps.4D.
           Copy-Item "./packaging/generated-api-pdfs/APP_API_INTEGRATION.pdf" (Join-Path $stage "APP_API_INTEGRATION.pdf")
@@ -142,4 +150,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "$env:RELEASE_VERSION" "SmartOps-Integration-Windows-x64.zip" "packaging/generated-api-pdfs/APP_API_INTEGRATION.pdf" "packaging/generated-api-pdfs/WEB_API_INTEGRATION.pdf" --title "SmartOps $env:RELEASE_VERSION" --target "$env:GITHUB_SHA" --generate-notes
+          gh release create "$env:RELEASE_VERSION" "SmartOps-Integration-Windows-x64.zip" "packaging/generated-api-pdfs/APP_API_INTEGRATION.pdf" "packaging/generated-api-pdfs/WEB_API_INTEGRATION.pdf" "AndroidApp/com.smartops.apk" --title "SmartOps $env:RELEASE_VERSION" --target "$env:GITHUB_SHA" --generate-notes
