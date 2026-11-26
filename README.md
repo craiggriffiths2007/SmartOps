@@ -4,7 +4,7 @@ SmartOps is an **open-source 4D integration and testing platform** for field-ser
 
 An optional **ASP.NET Core web frontend and 4D bridge** are included for developers who want to explore an alternative web integration approach. They are **not required** to run the native 4D workspace, Questions Editor or mobile API.
 
-A companion [SmartOps Android survey app](https://play.google.com/store/apps/details?id=com.authorityx.smartops) is available on Google Play. Its source code is not included in this repository.
+A companion SmartOps Android survey app can be [downloaded as a signed APK](AndroidApp/com.smartops.apk) for direct installation, or [installed from Google Play](https://play.google.com/store/apps/details?id=com.authorityx.smartops). The APK is also packaged with new integration-kit releases. The Android app's source code is maintained separately in [SmartOps.Survey](https://github.com/craiggriffiths2007/SmartOps.Survey).
 
 > **For local development and evaluation only.** The bundled accounts and records are fictional. The supplied credentials, plain HTTP access and optional serial-number fallback are not secure production defaults.
 
@@ -12,7 +12,7 @@ A companion [SmartOps Android survey app](https://play.google.com/store/apps/det
 
 - **4D database and API:** Native records, business logic, test-data seeding and HTTP endpoints for survey devices.
 - **Browser workspace:** Contracts, diary, records, uploads, claims and administration served directly by 4D.
-- **Questions Editor:** Full questionnaire editor with live preview, conditional rules, import/export, drafts and publishing. Published questions are downloaded by SmartOps.Survey.
+- **Questions Editor:** Full questionnaire editor with live preview, conditional rules, import/export, drafts and publishing. Published questions are downloaded by SmartOps.Survey.\n- **Android installer:** A signed `AndroidApp/com.smartops.apk` for installing SmartOps Survey without Google Play.
 
 **Architecture:** SmartOps.Survey (Android) → 4D HTTP/JSON API → 4D database. The browser workspace talks to the same 4D API.
 
@@ -47,7 +47,7 @@ For developers wishing to explore this alternative, see the [web integration gui
 
 ## Connect SmartOps.Survey
 
-Install the [SmartOps Android survey app](https://play.google.com/store/apps/details?id=com.authorityx.smartops) and connect it to your 4D server using the local test settings:
+Install SmartOps Survey using the [signed APK](AndroidApp/com.smartops.apk) (also included under `AndroidApp/` in newly generated integration kits), or use [Google Play](https://play.google.com/store/apps/details?id=com.authorityx.smartops). To install the APK manually, copy it to an Android phone or tablet, open it, and allow installation from that source if prompted. The APK filename does not change its Android package identifier, `com.authorityx.smartops`. Connect the installed app to your 4D server using the local test settings:
 
 | Setting | Local test value |
 | --- | --- |
