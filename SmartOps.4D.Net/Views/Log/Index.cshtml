@@ -1,0 +1,80 @@
+@using SmartOps.Web.Helpers
+@model SmartOps.Web.ViewModels.AuditLogIndexViewModel
+@{
+    ViewData["Title"] = "Log";
+    string PageLink(int page) => Url.Action("Index", new {
+        tenantId = Model.Filter.TenantId, actor = Model.Filter.Actor, eventAction = Model.Filter.EventAction,
+        entityType = Model.Filter.EntityType, search = Model.Filter.Search, outcome = Model.Filter.Outcome,
+        databaseUpdatesOnly = Model.Filter.DatabaseUpdatesOnly,
+        from = Model.Filter.From?.ToString("yyyy-MM-dd"), to = Model.Filter.To?.ToString("yyyy-MM-dd"), page
+    })!;
+}
+<div class="container-fluid py-4">
+    <h1>Log</h1>
+    <p class="text-muted">Activity across @(Model.IsSuperAdmin ? "all companies" : "your company"). Times use UK local time (GMT/BST). Original events are retained; admins can edit notes.</p>
+    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+    <form method="get" asp-action="Index" class="card card-body mb-4">
+        <div class="row g-3">
+            @if (Model.IsSuperAdmin)
+            {
+                <div class="col-md-4 col-xl-3"><label for="TenantId" class="form-label">Company</label>
+                    <select id="TenantId" name="TenantId" class="form-select" asp-items="Model.Companies.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(x.Text, x.Value, x.Value == Model.Filter.TenantId?.ToString()))"><option value="">All companies / global events</option></select></div>
+            }
+            <div class="col-md-4 col-xl-3"><label for="Actor" class="form-label">User</label>
+                <select id="Actor" name="Actor" class="form-select" asp-items="Model.Users.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(x.Text, x.Value, x.Value == Model.Filter.Actor))"><option value="">All users</option></select></div>
+            <div class="col-md-4 col-xl-3"><label for="EventAction" class="form-label">Action</label>
+                <select id="EventAction" name="EventAction" class="form-select" asp-items="Model.Actions.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(x.Text, x.Value, x.Value == Model.Filter.EventAction))"><option value="">All actions</option></select></div>
+            <div class="col-md-4 col-xl-3"><label for="EntityType" class="form-label">Record type</label>
+                <select id="EntityType" name="EntityType" class="form-select" asp-items="Model.RecordTypes.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(x.Text, x.Value, x.Value == Model.Filter.EntityType))"><option value="">All record types</option></select></div>
+            <div class="col-md-4 col-xl-3"><label for="From" class="form-label">From (local date)</label><input id="From" name="From" type="date" value="@Model.Filter.From?.ToString("yyyy-MM-dd")" class="form-control" /></div>
+            <div class="col-md-4 col-xl-3"><label for="To" class="form-label">To (local date, inclusive)</label><input id="To" name="To" type="date" value="@Model.Filter.To?.ToString("yyyy-MM-dd")" class="form-control" /></div>
+            <div class="col-md-4 col-xl-3"><label for="Outcome" class="form-label">Request outcome</label>
+                <select id="Outcome" name="Outcome" class="form-select"><option value="">All outcomes</option><option value="success" selected="@(Model.Filter.Outcome == "success")">HTTP 2xx / 3xx</option><option value="failure" selected="@(Model.Filter.Outcome == "failure")">HTTP 4xx / 5xx</option></select></div>
+            <div class="col-md-8 col-xl-6"><label for="Search" class="form-label">Search</label><input id="Search" name="Search" value="@Model.Filter.Search" maxlength="200" class="form-control" placeholder="User, record ID, route, field, notes or request ID" /></div>
+        </div>
+        <div class="form-check mt-3">
+            <input class="form-check-input" type="checkbox" id="DatabaseUpdatesOnly" name="DatabaseUpdatesOnly" value="true" checked="@Model.Filter.DatabaseUpdatesOnly" aria-describedby="database-updates-help" />
+            <input type="hidden" name="DatabaseUpdatesOnly" value="false" />
+            <label class="form-check-label" for="DatabaseUpdatesOnly">Database Updates</label>
+            <div id="database-updates-help" class="form-text">Only show records created, edited or deleted, including bulk changes and log note edits.</div>
+        </div>
+        <div class="mt-3 d-flex gap-2"><button type="submit" class="btn btn-primary">Apply filters</button><a asp-action="Index" class="btn btn-outline-secondary">Clear filters</a></div>
+    </form>
+    <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+        <p class="mb-0">@Model.Total.ToString("N0") entries · Page @Model.Filter.Page of @Model.PageCount</p>
+        <nav aria-label="Log pages" class="d-flex gap-2">
+            @if (Model.Filter.Page > 1)
+            {
+                <a href="@PageLink(Model.Filter.Page - 1)" class="btn btn-sm btn-outline-primary" rel="prev">Back</a>
+            }
+            else
+            {
+                <span class="btn btn-sm btn-outline-secondary disabled" aria-disabled="true">Back</span>
+            }
+            @if (Model.Filter.Page < Model.PageCount)
+            {
+                <a href="@PageLink(Model.Filter.Page + 1)" class="btn btn-sm btn-outline-primary" rel="next">Next</a>
+            }
+            else
+            {
+                <span class="btn btn-sm btn-outline-secondary disabled" aria-disabled="true">Next</span>
+            }
+        </nav>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead><tr><th scope="col">Time (UK local)</th>@if (Model.IsSuperAdmin) { <th scope="col">Company</th> }<th scope="col">User</th><th scope="col">Action</th><th scope="col">Record / activity</th><th scope="col">Notes</th><th scope="col">Details</th></tr></thead>
+            <tbody>
+            @foreach (var entry in Model.Entries)
+            {
+                <tr><td class="text-nowrap">@AuditLogTime.Format(entry.OccurredUtc)</td>
+                    @if (Model.IsSuperAdmin) { <td>@(entry.CompanyName ?? (entry.TenantId.HasValue ? $"Company #{entry.TenantId}" : "Global / unassigned"))</td> }
+                    <td>@entry.UserName</td><td>@entry.Action</td>
+                    <td><strong>@entry.EntityType</strong> @AuditLogDisplay.RecordId(entry.EntityId)<div class="small text-muted">@entry.Method @entry.Route @if (entry.StatusCode.HasValue) { <span>· HTTP @entry.StatusCode</span> }</div><div class="small text-break">@AuditLogDisplay.ChangedFields(entry.ChangedFields)</div></td>
+                    <td class="text-break">@entry.Notes</td><td><a asp-action="Edit" asp-route-id="@entry.Id">View / edit notes</a></td></tr>
+            }
+            @if (Model.Entries.Count == 0) { <tr><td colspan="7" class="text-center py-4">No log entries match these filters.</td></tr> }
+            </tbody>
+        </table>
+    </div>
+</div>

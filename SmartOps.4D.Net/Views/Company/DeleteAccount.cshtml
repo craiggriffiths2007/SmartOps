@@ -1,0 +1,93 @@
+@model SmartOps.Web.Models.Tenant
+
+@{
+    ViewData["Title"] = "Delete Account";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+
+            <h2 class="text-danger mb-3">
+                Delete Account
+            </h2>
+
+            <div class="alert alert-danger">
+                <strong>Warning:</strong>
+                Deleting your company account is permanent.
+                Your company data, customers, contracts,
+                diary bookings and associated records
+                will be deleted.
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+
+                    <h5 class="mb-3">
+                        Are you sure you want to delete
+                        this account?
+                    </h5>
+
+                    <dl class="row">
+                        <dt class="col-sm-4">Company</dt>
+                        <dd class="col-sm-8">@Model.Name</dd>
+
+                        <dt class="col-sm-4">Company Code</dt>
+                        <dd class="col-sm-8">@Model.Code</dd>
+                    </dl>
+
+                    <hr />
+
+                    <form asp-controller="Company"
+                          asp-action="DeleteAccount"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <p>
+                            To confirm, enter your company
+                            code below.
+                        </p>
+
+                        <div class="mb-3">
+                            <label for="confirmationCode"
+                                   class="form-label">
+                                Company Code
+                            </label>
+
+                            <input type="text"
+                                   id="confirmationCode"
+                                   name="confirmationCode"
+                                   class="form-control"
+                                   autocomplete="off"
+                                   required />
+                        </div>
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="d-flex
+                                    justify-content-between
+                                    gap-2">
+
+                            <a asp-action="Edit"
+                               class="btn btn-secondary">
+                                Cancel
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-danger">
+                                Permanently Delete Account
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

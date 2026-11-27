@@ -1,0 +1,26 @@
+@model IEnumerable<SmartOps.Web.Models.JobHeader>
+@{
+    ViewData["Title"] = "Jobs Received";
+}
+<h4 class="mb-3">Jobs Received</h4>
+@if (!Model.Any())
+{
+    <p class="text-muted">No jobs received.</p>
+}
+<div class="record-cards">
+    @foreach (var item in Model)
+    {
+        <article class="record-card">
+            <h5 class="record-card-title">
+                <a asp-action="Details" asp-route-id="@item.Id" class="stretched-link">@item.ContractCode · @item.JobType</a>
+            </h5>
+            <div class="record-card-fields">
+                <div class="record-card-field"><span class="record-field-label">Agent</span>@item.AgentCode</div>
+                <div class="record-card-field"><span class="record-field-label">Diary date</span>@item.DiaryDate.ToString("dd/MM/yyyy")</div>
+                <div class="record-card-field"><span class="record-field-label">Completed</span>@item.DateTimeCompleted.ToString("dd/MM/yyyy HH:mm")</div>
+                <div class="record-card-field"><span class="record-field-label">Damage</span>@item.DamageDescription</div>
+            </div>
+        </article>
+    }
+</div>
+<record-pagination></record-pagination>

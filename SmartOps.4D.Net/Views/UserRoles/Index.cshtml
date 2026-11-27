@@ -1,0 +1,38 @@
+@using SmartOps.Web.Models
+@model List<SmartOps.Web.Models.UserRolesViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>User Roles</h1>
+@if (!Model.Any())
+{
+    <p class="text-muted py-3">No records found.</p>
+}
+<div class="record-cards">
+@foreach (var user in Model)
+        {
+            <article class="record-card">
+    <div class="record-card-title fw-bold"><a href="@Url.Action("Manage", new { userId = user.UserId })" class="stretched-link">@user.FirstName</a></div>
+    <div class="record-card-fields">
+
+                <div class="record-card-field">
+                <span class="record-field-label">Last Name</span>
+                @user.LastName
+            </div>
+                <div class="record-card-field">
+                <span class="record-field-label">Email</span>
+                @user.Email
+            </div>
+                <div class="record-card-field">
+                <span class="record-field-label">Roles</span>
+                @string.Join(" , ", user.Roles.ToList())
+            </div>
+                <div class="record-card-field"><span class="record-field-label">Action</span>
+<a class="btn btn-primary" asp-controller="UserRoles" asp-action="Manage" asp-route-userId="@user.UserId">Manage Roles</a>
+</div>
+
+    </div>
+</article>
+        }
+</div>
+<record-pagination></record-pagination>

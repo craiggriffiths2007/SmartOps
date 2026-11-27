@@ -1,0 +1,93 @@
+@model SmartOps.Web.Models.ToolCheck
+@inject SmartOps.Web.Services.TenantQuestionSetService QuestionSetService
+@using SmartOps.Shared.Models
+@{
+    ViewData["Title"] = "Tool check";
+}
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3 no-print">
+    <h4 class="mb-0">Tool check</h4>
+    <div class="d-flex gap-2">
+        <button type="button" class="btn btn-outline-primary" onclick="window.print()">Print tool check</button>
+        <button type="button" class="btn btn-secondary" onclick="history.back()">Back</button>
+    </div>
+</div>
+@if (Model == null)
+{
+    <p class="text-muted">No data available.</p>
+}
+else
+{
+    var definition = await QuestionSetService.GetDefinitionAsync(Model.TenantId, "ToolCheck");
+    var answerLookup = Model.GetSurveyAnswers().ToDictionary(x => x.QuestionId, StringComparer.OrdinalIgnoreCase);
+    var mediaSections = new[]
+    {
+        (Title: "Signatures", Images: new (string Caption, string? Filename)[]
+        {
+            ($"Auditor signature — {Model.signature_printed}", ViewData["AuditSign"] as string),
+            ($"Fitter signature — {Model.signature_printed2}", ViewData["FitSign"] as string)
+        }),
+        (Title: "Photographs", Images: ((IEnumerable<PhotoImage>?)ViewBag.Images ?? Enumerable.Empty<PhotoImage>())
+            .Where(image => !string.IsNullOrWhiteSpace(image.Filename))
+            .Select((image, index) => (Caption: $"Photograph {index + 1}", Filename: (string?)image.Filename)).ToArray())
+    };
+    <article class="go-item-report">
+        <section class="go-report-section">
+            <h3>Check details</h3>
+            <dl class="go-report-fields">
+                @foreach (var field in new[]
+                {
+                    (Label: "Branch", Value: Model.branch),
+                    (Label: "Vehicle registration", Value: Model.registration),
+                    (Label: "Date completed", Value: Model.date_done),
+                    (Label: "Completed date / time", Value: Model.DateTimeCompleted.ToString())
+                })
+                {
+                    <div class="go-report-field">
+                        <dt>@field.Label</dt>
+                        <dd><span class="go-report-field-value">@(string.IsNullOrWhiteSpace(field.Value) ? "—" : field.Value.Trim())</span></dd>
+                    </div>
+                }
+            </dl>
+        </section>
+        <section class="go-report-section">
+            <h3>Tool checklist</h3>
+            <div class="table-responsive">
+                <table class="table table-sm align-middle go-report-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Tool</th>
+                            <th scope="col">Available on request</th>
+                            <th scope="col">Fit for purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var auditorQuestion in definition.Questions.Where(q => q.Id.EndsWith("_a", StringComparison.OrdinalIgnoreCase)))
+                        {
+                            var fitterId = auditorQuestion.Id[..^2] + "_f";
+                            var fitterQuestion = definition.Questions.FirstOrDefault(q => q.Id.Equals(fitterId, StringComparison.OrdinalIgnoreCase));
+                            if (fitterQuestion == null) continue;
+                            answerLookup.TryGetValue(auditorQuestion.Id, out var auditorAnswer);
+                            answerLookup.TryGetValue(fitterId, out var fitterAnswer);
+                            var toolName = auditorQuestion.Question.Replace(" - Available on request", "", StringComparison.OrdinalIgnoreCase);
+                            bool? available = bool.TryParse(auditorAnswer?.Value, out var av) ? av : null;
+                            bool? fitForPurpose = bool.TryParse(fitterAnswer?.Value, out var fv) ? fv : null;
+                            <tr>
+                                <th scope="row">@toolName</th>
+                                <td><span class="@(available.HasValue ? (available.Value ? "go-report-yes" : "go-report-no") : "text-muted")">@(available.HasValue ? (available.Value ? "Yes" : "No") : "—")</span></td>
+                                <td><span class="@(fitForPurpose.HasValue ? (fitForPurpose.Value ? "go-report-yes" : "go-report-no") : "text-muted")">@(fitForPurpose.HasValue ? (fitForPurpose.Value ? "Yes" : "No") : "—")</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    @foreach (var mediaSection in mediaSections)
+    {
+        if (!mediaSection.Images.Any(image => !string.IsNullOrWhiteSpace(image.Filename))) continue;
+        <section class="go-report-media-section">
+            <h3 class="go-report-media-title">@mediaSection.Title</h3>
+            <partial name="_RecordReportMedia" model="mediaSection.Images" />
+        </section>
+    }
+    </article>
+}

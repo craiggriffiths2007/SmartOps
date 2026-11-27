@@ -1,0 +1,115 @@
+@model SmartOps.Web.Models.Job
+
+@{
+    ViewData["Title"] = "Cancel Booking";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Cancel Booking</h4>
+
+    <a asp-action="Index"
+       class="btn btn-secondary"
+       onclick="history.back(); return false;">
+        Back
+    </a>
+</div>
+
+<hr />
+
+<h5 class="mb-4">
+    Are you sure you want to cancel this booking?
+</h5>
+
+<div class="row">
+
+    <div class="col-md-6">
+
+        <div class="mb-3">
+            <div class="fw-bold">Contract</div>
+            <div>@Model.ContractCode</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Job Type</div>
+            <div>@Model.JobType</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Diary Date</div>
+            <div>@Model.DiaryDate.ToString("dd/MM/yyyy")</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Start Time</div>
+            <div>@Model.Time.ToString("HH:mm")</div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Agent</div>
+
+            @if (Model.Agent != null)
+            {
+                <div>
+                    @Model.Agent.Code - @Model.Agent.Name
+                </div>
+            }
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="mb-3">
+            <div class="fw-bold">Customer</div>
+
+            @if (Model.Customer != null)
+            {
+                <div>@Model.Customer.Name</div>
+            }
+        </div>
+
+        @if (Model.Customer != null)
+        {
+            <div class="mb-3">
+                <div class="fw-bold">Address</div>
+
+                <div>@Model.Customer.Add1</div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.Customer.Add2))
+                {
+                    <div>@Model.Customer.Add2</div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.Customer.Add3))
+                {
+                    <div>@Model.Customer.Add3</div>
+                }
+
+                <div>@Model.Customer.Postcode</div>
+            </div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.DamageDesc))
+        {
+            <div class="mb-3">
+                <div class="fw-bold">Damage</div>
+                <div>@Model.DamageDesc</div>
+            </div>
+        }
+
+    </div>
+
+</div>
+
+<hr />
+
+<form asp-action="Delete"
+      class="d-flex justify-content-between align-items-center">
+
+    <input type="hidden" asp-for="Id" />
+
+    <input type="submit"
+           value="Cancel Booking"
+           class="btn btn-danger" />
+
+</form>

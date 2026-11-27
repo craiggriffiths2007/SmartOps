@@ -1,0 +1,41 @@
+@model IEnumerable<SmartOps.Web.Models.Vehicle>
+@{
+    ViewData["Title"] = "Vehicles";
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Vehicles</h4>
+    <a asp-action="Create" class="btn btn-primary">Add Vehicle</a>
+</div>
+<partial name="_BranchIndexFilter" />
+<div class="table-responsive record-index-list">
+    <table class="table table-sm table-hover align-middle record-index-table mb-0">
+        <caption class="visually-hidden">Vehicles</caption>
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Registration</th>
+                <th scope="col">Description</th>
+                <th scope="col">Type</th>
+                <th scope="col">Branch</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr><td colspan="5" class="text-muted py-3">No records found.</td></tr>
+            }
+            @foreach (var item in Model)
+            {
+                var detailsUrl = Url.Action("Details", new { id = item.Id });
+                <tr class="clickable-row" data-href="@detailsUrl" tabindex="0">
+                    <th scope="row">@(string.IsNullOrWhiteSpace(item.Name) ? (string.IsNullOrWhiteSpace(item.Registration) ? $"Vehicle {item.Id}" : item.Registration) : item.Name)</th>
+                    <td>@item.Registration</td>
+                    <td class="record-index-text">@item.Description</td>
+                    <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                    <td>@(item.Branch?.Name ?? "—")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<record-pagination></record-pagination>

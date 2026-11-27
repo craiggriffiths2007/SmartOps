@@ -1,0 +1,25 @@
+@model SmartOps.Web.Models.enum_vehicle_type
+<svg class="record-index-vehicle-icon" viewBox="0 0 24 24" fill="none"
+     stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+     aria-hidden="true" focusable="false">
+    @switch (Model)
+    {
+        case enum_vehicle_type.delivery_hgv:
+            <path d="M2 4h12v13H2z M14 9h4l4 5v3h-8 M18 9v5h4" />
+            <circle cx="6" cy="18" r="2" />
+            <circle cx="18" cy="18" r="2" />
+            break;
+        case enum_vehicle_type.delivery_van:
+            <path d="M3 7h12l6 5v6h-2 M15 7v6h6 M3 18H2V9a2 2 0 0 1 2-2 M7 18h8 M5 10h7" />
+            <circle cx="5" cy="18" r="2" />
+            <circle cx="17" cy="18" r="2" />
+            break;
+        case enum_vehicle_type.fitter_van:
+            <path d="M14 3a6 6 0 0 0-7 8L2 16a3 3 0 0 0 4 4l5-5a6 6 0 0 0 8-7l-4 4-3-3z" />
+            <circle cx="4.5" cy="17.5" r=".7" />
+            break;
+        case enum_vehicle_type.sales_car:
+            <path d="m5 10 2-5h10l2 5 M3 11l2-1h14l2 1v7H3z M3 18v2h3v-2 M18 18v2h3v-2 M6 14h2 M16 14h2" />
+            break;
+    }
+</svg>

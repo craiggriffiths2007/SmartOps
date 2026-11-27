@@ -1,0 +1,33 @@
+@model object
+@using System.ComponentModel
+@using System.ComponentModel.DataAnnotations
+@using System.Reflection
+@{
+    var fields = Model.GetType().GetProperties()
+        .Where(p => p.GetIndexParameters().Length == 0 && p.GetCustomAttribute<BrowsableAttribute>()?.Browsable != false)
+        .Select(p => new
+        {
+            Label = p.GetCustomAttribute<DisplayAttribute>()?.GetName()
+                ?? p.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? p.Name,
+            Order = p.GetCustomAttribute<DisplayAttribute>()?.GetOrder() ?? int.MaxValue,
+            Value = p.GetValue(Model)
+        })
+        .Where(f => ViewData["HideEmptyReportFields"] is not true
+            || f.Value is not string text || !string.IsNullOrWhiteSpace(text))
+        .OrderBy(f => f.Order).ThenBy(f => f.Label).ToList();
+    var half = (fields.Count + 1) / 2;
+}
+<div class="go-report-answer-columns">
+    @foreach (var column in new[] { fields.Take(half), fields.Skip(half) })
+    {
+        <dl class="go-report-fields">
+            @foreach (var field in column)
+            {
+                <div class="go-report-field">
+                    <dt>@field.Label</dt>
+                    <dd><span class="go-report-field-value @(field.Value is bool yesNo ? (yesNo ? "go-report-yes" : "go-report-no") : "")">@(field.Value is bool boolean ? (boolean ? "Yes" : "No") : string.IsNullOrWhiteSpace(field.Value?.ToString()) ? "—" : field.Value?.ToString()?.Trim())</span></dd>
+                </div>
+            }
+        </dl>
+    }
+</div>

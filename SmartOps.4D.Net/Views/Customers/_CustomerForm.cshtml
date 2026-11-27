@@ -1,0 +1,97 @@
+@model SmartOps.Web.Models.Customer
+
+<div class="row">
+
+    <!-- COLUMN 1 - Customer Details -->
+    <div class="col-md-4">
+
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Add1" class="control-label"></label>
+            <input asp-for="Add1" class="form-control" />
+            <span asp-validation-for="Add1" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Add2" class="control-label"></label>
+            <input asp-for="Add2" class="form-control" />
+            <span asp-validation-for="Add2" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Add3" class="control-label"></label>
+            <input asp-for="Add3" class="form-control" />
+            <span asp-validation-for="Add3" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Postcode" class="control-label"></label>
+            <input asp-for="Postcode" class="form-control" />
+            <span asp-validation-for="Postcode" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Phone1" class="control-label"></label>
+            <input asp-for="Phone1" class="form-control" />
+            <span asp-validation-for="Phone1" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Phone2" class="control-label"></label>
+            <input asp-for="Phone2" class="form-control" />
+            <span asp-validation-for="Phone2" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Phone3" class="control-label"></label>
+            <input asp-for="Phone3" class="form-control" />
+            <span asp-validation-for="Phone3" class="text-danger"></span>
+        </div>
+
+       
+
+    </div>
+
+
+    <!-- COLUMN 2 - Customer App Login -->
+    <div class="col-md-4">
+
+        <h5>Customer App Login</h5>
+        <hr />
+
+        <div class="form-group">
+            <label asp-for="Email"
+                   class="control-label"></label>
+
+            <input asp-for="Email"
+                   class="form-control"
+                   type="email"
+                   autocomplete="email" />
+
+            <span asp-validation-for="Email"
+                  class="text-danger"></span>
+        </div>
+
+         <div class="form-check mt-3 mb-3">
+            <input asp-for="IsActive"
+                   class="form-check-input" />
+
+            <label asp-for="IsActive"
+                   class="form-check-label">
+                Active
+            </label>
+        </div>
+
+    </div>
+
+    <!-- COLUMN 3 intentionally unused -->
+    <div class="col-md-4">
+    </div>
+
+</div>
+

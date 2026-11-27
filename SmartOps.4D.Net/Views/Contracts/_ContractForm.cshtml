@@ -1,0 +1,203 @@
+@model SmartOps.Web.Models.Contract
+@using SmartOps.Web.Helpers
+@inject Microsoft.AspNetCore.Mvc.ModelBinding.IModelMetadataProvider ModelMetadataProvider
+@{
+    bool isEdit = ViewData["IsEdit"] as bool? ?? false;
+    string buttonText = isEdit ? "Save" : "Create";
+    bool createNewCustomer = !isEdit && ViewData["CreateNewCustomer"] is true;
+    var newCustomer = ViewData["NewCustomer"] as SmartOps.Web.ViewModels.InlineContractCustomerViewModel
+        ?? new SmartOps.Web.ViewModels.InlineContractCustomerViewModel();
+    var customerFieldsData = new Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary(ModelMetadataProvider, ViewData.ModelState);
+    customerFieldsData.TemplateInfo.HtmlFieldPrefix = "NewCustomer";
+
+    var customersSelect =
+        ViewBag.Customers as SelectList ??
+        new SelectList(Enumerable.Empty<object>());
+
+    var insurersSelect =
+        ViewBag.Insurers as SelectList ??
+        new SelectList(Enumerable.Empty<object>());
+
+    var causesSelect =
+        ViewBag.CausesOfDamage as SelectList ??
+        new SelectList(Enumerable.Empty<object>());
+
+    var statusItems = Enum.GetValues<ContractStatus>()
+        .Select(status => new SelectListItem
+        {
+            Value = ((int)status).ToString(),
+            Text = ContractStatusHelper.GetTitle(status)
+        })
+        .ToList();
+}
+
+<div class="row">
+
+    <!-- COLUMN 1 -->
+    <div class="col-md-4">
+
+        @if (isEdit)
+        {
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group">
+                <label asp-for="ContractCode" class="control-label">Contract Code</label>
+                <input asp-for="ContractCode"
+                       class="form-control"
+                       readonly />
+            </div>
+        }
+
+        <div class="form-group">
+            <label asp-for="Status" class="control-label">
+                Status
+            </label>
+
+            <select asp-for="Status"
+                    asp-items="statusItems"
+                    class="form-select">
+            </select>
+
+            <span asp-validation-for="Status"
+                  class="text-danger"></span>
+
+        </div>
+
+        <div class="form-group">
+            <label asp-for="IncidentDate"
+                   class="control-label"></label>
+
+            <input asp-for="IncidentDate"
+                   class="form-control" />
+
+            <span asp-validation-for="IncidentDate"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="InsurerId"
+                   class="control-label">
+                Insurance Company
+            </label>
+
+            <select asp-for="InsurerId"
+                    asp-items="insurersSelect"
+                    class="form-select">
+                <option value="">
+                    None (Domestic)
+                </option>
+            </select>
+
+            <span asp-validation-for="InsurerId"
+                  class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <!-- COLUMN 2 -->
+    <div class="col-md-4">
+
+        <fieldset id="InsurancePolicyFields" disabled="@(!Model.InsurerId.HasValue)">
+        <div class="form-group">
+            <label asp-for="PolicyNumber"
+                   class="control-label"></label>
+
+            <input asp-for="PolicyNumber"
+                   class="form-control" />
+
+            <span asp-validation-for="PolicyNumber"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Excess"
+                   class="control-label"></label>
+
+            <input asp-for="Excess"
+                   class="form-control" />
+
+            <span asp-validation-for="Excess"
+                  class="text-danger"></span>
+        </div>
+
+        </fieldset>
+
+        <div class="form-group">
+            <label asp-for="DamageDescription"
+                   class="control-label"></label>
+
+            <input asp-for="DamageDescription"
+                   class="form-control" />
+
+            <span asp-validation-for="DamageDescription"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CauseOfDamage"
+                   class="control-label"></label>
+
+            <select asp-for="CauseOfDamage"
+                    asp-items="causesSelect"
+                    class="form-select">
+
+                <option value="">
+                    -- Select Cause of Damage --
+                </option>
+
+            </select>
+
+            <span asp-validation-for="CauseOfDamage"
+                  class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <!-- All customer choices and details stay together in column 3. -->
+    <div class="col-md-4">
+        @if (!isEdit)
+        {
+            <fieldset class="mb-3">
+                <legend class="h6">Customer</legend>
+                <div class="form-check">
+                    <input type="radio" id="UseExistingCustomer" name="createNewCustomer" value="false"
+                           class="form-check-input" checked="@(!createNewCustomer)" />
+                    <label for="UseExistingCustomer" class="form-check-label">Use existing customer</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" id="AddNewCustomer" name="createNewCustomer" value="true"
+                           class="form-check-input" checked="@createNewCustomer" />
+                    <label for="AddNewCustomer" class="form-check-label">Add new customer</label>
+                </div>
+            </fieldset>
+        }
+        <fieldset id="ExistingCustomerFields" hidden="@createNewCustomer" disabled="@createNewCustomer">
+            @if (!isEdit)
+            {
+                <div class="form-group">
+                    <label for="CustomerFilter" class="control-label">Filter customers</label>
+                    <input type="search" id="CustomerFilter" name="customerFilter" class="form-control"
+                           value="@ViewData["CustomerFilter"]" placeholder="Customer name or postcode"
+                           autocomplete="off" aria-controls="CustomerId" aria-describedby="CustomerFilterSummary" />
+                    <div id="CustomerFilterSummary" class="form-text" role="status" aria-live="polite"></div>
+                </div>
+                <script type="application/json" id="contract-customer-search-data">@Html.Raw(System.Text.Json.JsonSerializer.Serialize((object?)ViewData["CustomerSearchValues"]))</script>
+            }
+            <div class="form-group">
+                <label asp-for="CustomerId" class="control-label">Customer</label>
+                <select asp-for="CustomerId" asp-items="customersSelect" class="form-select">
+                    <option value="">-- Select Customer --</option>
+                </select>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+        </fieldset>
+        @if (!isEdit)
+        {
+            <fieldset id="NewCustomerFields" hidden="@(!createNewCustomer)" disabled="@(!createNewCustomer)">
+                <legend class="h5">New customer details</legend>
+                <partial name="_InlineCustomerForm" model="newCustomer" view-data="customerFieldsData" />
+            </fieldset>
+        }
+    </div>
+
+</div>

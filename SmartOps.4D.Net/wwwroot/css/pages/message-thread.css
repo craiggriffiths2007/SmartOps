@@ -1,0 +1,86 @@
+/* Styles for Views/Messaging/Details.cshtml. */
+.message-header {
+    background-color: color-mix(in srgb, var(--primary-color) 8%, white 92%);
+    border: 1px solid color-mix(in srgb, var(--primary-color) 20%, white 80%);
+    border-radius: 5px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+}
+
+.message-header > div {
+    margin-bottom: 3px;
+}
+
+.message-thread {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.message-row {
+    display: flex;
+    width: 100%;
+}
+
+.customer-message-row {
+    justify-content: flex-start;
+}
+
+.office-message-row {
+    justify-content: flex-end;
+}
+
+.message-bubble {
+    max-width: 70%;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+/* Customer bubble */
+.customer-message {
+    background-color: #f0f0f0;
+    border: 1px solid #e0e0e0;
+}
+
+/* Office bubble */
+.office-message {
+    background-color: color-mix( in srgb, var(--primary-color) 15%, white 85% );
+    border: 1px solid color-mix( in srgb, var(--primary-color) 20%, white 80% );
+}
+
+.message-sender {
+    font-weight: 600;
+    margin: 0 0 1px 0;
+    line-height: 1.2;
+}
+
+.message-text {
+    white-space: pre-wrap;
+    margin: 0;
+    line-height: 1.25;
+}
+
+.message-date {
+    font-size: 0.8rem;
+    opacity: 0.65;
+    margin: 2px 0 0 0;
+    line-height: 1.1;
+    text-align: right;
+}
+
+.message-reply {
+    position: relative;
+    margin-top: 8px;
+}
+
+.message-action-row {
+    margin-top: 8px;
+    text-align: right;
+}
+
+.message-close-form {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin: 0;
+}

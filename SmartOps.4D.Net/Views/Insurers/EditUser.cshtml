@@ -1,0 +1,149 @@
+@model SmartOps.Web.ViewModels.InsurerUserViewModel
+
+@{
+    ViewData["Title"] = "Edit Portal User";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Edit Portal User</h4>
+
+    <a asp-action="Details"
+       asp-route-id="@Model.InsurerId"
+       class="btn btn-secondary">
+        Close
+    </a>
+</div>
+
+<hr />
+
+<div class="row">
+
+    <!-- COLUMN 1 -->
+    <div class="col-md-4">
+
+
+        <form asp-action="EditUser"
+              method="post">
+
+            <input type="hidden"
+                   asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="FirstName">First Name</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-2">
+                <label asp-for="LastName">Last Name</label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-2">
+                <label asp-for="Email">
+                    Login Email
+                </label>
+
+                <input asp-for="Email"
+                       type="email"
+                       class="form-control" />
+
+                <span asp-validation-for="Email"
+                      class="text-danger"></span>
+            </div>
+
+           <div class="form-group mt-2">
+                <label asp-for="NewPassword">
+                    New Password
+                </label>
+
+                <input asp-for="NewPassword"
+                       type="password"
+                       class="form-control"
+                       autocomplete="new-password"
+                       placeholder="Leave blank to keep current password" />
+
+                <span asp-validation-for="NewPassword"
+                      class="text-danger"></span>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary mt-3">
+                Save
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- COLUMN 2 -->
+    <div class="col-md-4">
+        <h5>Account Status</h5>
+
+        @if (Model.IsDisabled)
+        {
+            <p class="text-danger">
+                This portal user is disabled.
+            </p>
+
+            <form asp-action="EnableUser"
+                  method="post">
+
+                <input type="hidden"
+                       name="id"
+                       value="@Model.Id" />
+
+                <button type="submit"
+                        class="btn btn-success">
+                    Enable User
+                </button>
+
+            </form>
+        }
+        else
+        {
+            <p class="text-success">
+                This portal user is active.
+            </p>
+
+            <form asp-action="DisableUser"
+                  method="post">
+
+                <input type="hidden"
+                       name="id"
+                       value="@Model.Id" />
+
+                <button type="submit"
+                        class="btn btn-danger">
+                    Disable User
+                </button>
+
+            </form>
+        }
+
+    </div>
+      
+    </div>
+
+    <!-- COLUMN 3 -->
+    <div class="col-md-4">
+
+        
+
+</div>
+
+<div class="mt-3">
+    <a asp-action="Index">
+        Back to Insurers
+    </a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

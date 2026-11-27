@@ -1,0 +1,533 @@
+{
+  "questions": [
+    {
+      "id": "easy_park",
+      "question": "Easy parking?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "access_rear",
+      "question": "Safe access to the rear or working area?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "obs_wires",
+      "question": "Obstructive or bare electrical wires?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "obs_wires_text",
+      "question": "Electrical wire hazards and precautions",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "obs_wires",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "loose_brick",
+      "question": "Is there loose brickwork?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "loose_brick_text",
+      "question": "Loose brickwork details and precautions",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "loose_brick",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "lintel_present",
+      "question": "Is there a lintel present?",
+      "type": "ButtonPicker",
+      "required": false,
+      "options": [
+        "n/a",
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "id": "lintel_warning",
+      "question": "You must inform the customer immediately that a lintel is required.",
+      "type": "Information",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "lintel_present",
+          "operator": "Equals",
+          "value": "No"
+        }
+      ]
+    },
+    {
+      "id": "lintel_present_text",
+      "question": "Lintel condition or required action",
+      "type": "Text",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "lintel_present",
+          "operator": "In",
+          "value": "Yes|No"
+        }
+      ]
+    },
+    {
+      "id": "work_at_height",
+      "question": "Working at height?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "inst_height",
+      "question": "At what height is the installation taking place?",
+      "type": "Measurement",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "work_at_height",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ],
+      "unit": "m",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "bWorkInside",
+      "question": "Can the work be carried out from inside?",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "work_at_height",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "no_ladders",
+      "question": "Can we remove the need for ladders?",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "work_at_height",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "ground_surface",
+      "question": "Ground surface where work at height is carried out",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Concrete",
+        "Paving flags",
+        "Block paving",
+        "Tarmac",
+        "Timber decking",
+        "Loose gravel",
+        "Soil",
+        "Grass"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "work_at_height",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "type_of_equipment",
+      "question": "Equipment needed to gain height",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Step Ladders",
+        "Two Tier Ladders",
+        "Three Tier Ladders",
+        "Tower Scaffolding",
+        "Tubular Scaffolding",
+        "Conservatory Access Ladders",
+        "Mobile Elevated Work Platform(Cherry Picker)",
+        "Large step ladders and boards"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "work_at_height",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "bRequiresTowerScaffolding",
+      "question": "Pre-constructed scaffolding?",
+      "type": "YesNo",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "work_at_height",
+          "operator": "Equals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "type_of_equipment",
+          "operator": "Equals",
+          "value": "Tower Scaffolding"
+        }
+      ]
+    },
+    {
+      "id": "asbestos_visible",
+      "question": "Is there asbestos visible?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "asvizex",
+      "question": "Visible asbestos details and precautions",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "asbestos_visible",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "items_above_roof",
+      "question": "Are there any items above a roof?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "risks_and_dangers",
+      "question": "Other risks or dangers when carrying out the work",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "shop_front_work",
+      "question": "Commercial property survey?",
+      "type": "YesNo",
+      "required": false
+    },
+    {
+      "id": "barriers_used_message",
+      "question": "Barriers must be used and the working area cordoned off.",
+      "type": "Information",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "shop_front_work",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "parking_at_rear",
+      "question": "Parking at the rear of the property?",
+      "type": "YesNo",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "shop_front_work",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "work_on_public_footpath",
+      "question": "Will fitters need to work on a public footpath?",
+      "type": "YesNo",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "shop_front_work",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "footpath_warning",
+      "question": "Double barriers are needed if pedestrians are made to walk onto the road.",
+      "type": "Information",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "shop_front_work",
+          "operator": "Equals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "work_on_public_footpath",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "size_of_barriers_required",
+      "question": "Working area or barrier size required",
+      "type": "Picker",
+      "required": false,
+      "options": [
+        "1 metre",
+        "2 metres",
+        "3 metres",
+        "4 metres",
+        "5 metres",
+        "6 metres",
+        "7 metres",
+        "8 metres",
+        "9 metres"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "shop_front_work",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "glass_work",
+      "question": "Does this job include glass replacement?",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "survey_jurisdiction",
+      "question": "Country / regulatory jurisdiction",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "England",
+        "Wales",
+        "Scotland",
+        "Northern Ireland",
+        "Other - technical review required"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "glass_work",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "building_use",
+      "question": "Building use",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Dwelling",
+        "Communal residential area",
+        "Commercial / other non-domestic",
+        "Mixed use",
+        "Unknown - technical review required"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "glass_work",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "regulation_basis",
+      "question": "Applicable regulation edition / assessment basis",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "England - 2021 Part L with 2023 amendments / applicable existing standards",
+        "England - 2026 standards (from applicable 2027 commencement / transition)",
+        "Wales - record applicable edition",
+        "Scotland - record applicable handbook edition",
+        "Northern Ireland - record applicable technical booklet",
+        "Other / applicability to be confirmed"
+      ],
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "survey_jurisdiction",
+              "operator": "Equals",
+              "value": "England"
+            }
+          ],
+          "options": [
+            "England - 2021 Part L with 2023 amendments / applicable existing standards",
+            "England - 2026 standards (from applicable 2027 commencement / transition)"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "survey_jurisdiction",
+              "operator": "Equals",
+              "value": "Wales"
+            }
+          ],
+          "options": [
+            "Wales - record applicable edition"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "survey_jurisdiction",
+              "operator": "Equals",
+              "value": "Scotland"
+            }
+          ],
+          "options": [
+            "Scotland - record applicable handbook edition"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "survey_jurisdiction",
+              "operator": "Equals",
+              "value": "Northern Ireland"
+            }
+          ],
+          "options": [
+            "Northern Ireland - record applicable technical booklet"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "survey_jurisdiction",
+              "operator": "Equals",
+              "value": "Other - technical review required"
+            }
+          ],
+          "options": [
+            "Other / applicability to be confirmed"
+          ]
+        }
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "glass_work",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "regulation_evidence",
+      "question": "Regulation edition, project dates and applicability evidence / reviewer",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "glass_work",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "regulation_guidance",
+      "question": "Record the edition applicable to this work and its transitional arrangements. A publication date alone does not establish applicability. Do not apply England rules to other jurisdictions.",
+      "type": "Information",
+      "required": false,
+      "showWhenAll": [
+        {
+          "questionId": "glass_work",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "heritage_status",
+      "question": "Listed building / conservation or appearance restrictions",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "None known",
+        "Listed building",
+        "Conservation area / other appearance restriction",
+        "Unknown - check required"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "glass_work",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "heritage_details",
+      "question": "Consent / appearance restrictions and approval reference",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "glass_work",
+          "operator": "Equals",
+          "value": "Yes"
+        },
+        {
+          "questionId": "heritage_status",
+          "operator": "NotEquals",
+          "value": "None known"
+        },
+        {
+          "questionId": "heritage_status",
+          "operator": "IsNotBlank"
+        }
+      ]
+    },
+    {
+      "id": "glass_install_details",
+      "question": "Glass removal, access / lifting, protection, disposal and making-good plan (record item-specific exceptions)",
+      "type": "Text",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "glass_work",
+          "operator": "Equals",
+          "value": "Yes"
+        }
+      ]
+    }
+  ],
+  "includeHeaderQuestions": false,
+  "includeFooterQuestions": false
+}

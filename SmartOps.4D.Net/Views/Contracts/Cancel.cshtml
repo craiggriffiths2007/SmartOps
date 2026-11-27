@@ -1,0 +1,84 @@
+@model SmartOps.Web.Models.Contract
+
+@{
+    ViewData["Title"] = "Cancel Contract";
+}
+
+<h1>Cancel Contract</h1>
+
+<h3>Are you sure you want to cancel this contract?</h3>
+
+<div>
+
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ContractCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ContractCode)
+        </dd>
+
+        <dt class="col-sm-2">
+            Customer
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Customer.Name)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IncidentDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IncidentDate)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DamageDescription)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DamageDescription)
+        </dd>
+    </dl>
+<div class="alert alert-warning">
+    This contract will be marked as cancelled and inactive.
+    Future diary bookings will be removed.
+    Completed jobs, surveys and history will be retained.
+</div>
+
+<form asp-action="CancelConfirmed" method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group mb-4">
+        <label for="cancellationReason"
+               class="form-label fw-bold">
+            Reason for Cancellation
+        </label>
+
+        <textarea id="cancellationReason"
+                  name="cancellationReason"
+                  class="form-control"
+                  rows="4"
+                  maxlength="2000"
+                  required
+                  placeholder="Enter the reason for cancelling this contract..."></textarea>
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-danger">
+            Cancel Contract
+        </button>
+
+        <a asp-action="Index"
+   class="btn btn-secondary"
+   onclick="history.back(); return false;">
+    Back
+</a>
+    </div>
+
+</form>
+</div>

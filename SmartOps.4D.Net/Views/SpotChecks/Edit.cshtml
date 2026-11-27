@@ -1,0 +1,136 @@
+@model SmartOps.Web.Models.SpotCheck
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>SpotCheck</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Guid" class="control-label"></label>
+                <input asp-for="Guid" class="form-control" />
+                <span asp-validation-for="Guid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="date_done" class="control-label"></label>
+                <input asp-for="date_done" class="form-control" />
+                <span asp-validation-for="date_done" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="bComplete" class="control-label"></label>
+                <input asp-for="bComplete" class="form-check-input" />
+                <span asp-validation-for="bComplete" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="bSent" class="control-label"></label>
+                <input asp-for="bSent" class="form-check-input" />
+                <span asp-validation-for="bSent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="bCorrectContract" class="control-label"></label>
+                <input asp-for="bCorrectContract" class="form-check-input" />
+                <span asp-validation-for="bCorrectContract" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContractCode" class="control-label"></label>
+                <input asp-for="ContractCode" class="form-control" />
+                <span asp-validation-for="ContractCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="branch" class="control-label"></label>
+                <input asp-for="branch" class="form-control" />
+                <span asp-validation-for="branch" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiaryDate" class="control-label"></label>
+                <input asp-for="DiaryDate" class="form-control" />
+                <span asp-validation-for="DiaryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Time" class="control-label"></label>
+                <input asp-for="Time" class="form-control" />
+                <span asp-validation-for="Time" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Add1" class="control-label"></label>
+                <input asp-for="Add1" class="form-control" />
+                <span asp-validation-for="Add1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Add2" class="control-label"></label>
+                <input asp-for="Add2" class="form-control" />
+                <span asp-validation-for="Add2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Add3" class="control-label"></label>
+                <input asp-for="Add3" class="form-control" />
+                <span asp-validation-for="Add3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Postcode" class="control-label"></label>
+                <input asp-for="Postcode" class="form-control" />
+                <span asp-validation-for="Postcode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone1" class="control-label"></label>
+                <input asp-for="Phone1" class="form-control" />
+                <span asp-validation-for="Phone1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone2" class="control-label"></label>
+                <input asp-for="Phone2" class="form-control" />
+                <span asp-validation-for="Phone2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone3" class="control-label"></label>
+                <input asp-for="Phone3" class="form-control" />
+                <span asp-validation-for="Phone3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DamageDesc" class="control-label"></label>
+                <input asp-for="DamageDesc" class="form-control" />
+                <span asp-validation-for="DamageDesc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Instructions" class="control-label"></label>
+                <input asp-for="Instructions" class="form-control" />
+                <span asp-validation-for="Instructions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="uspot_signed" class="control-label"></label>
+                <input asp-for="uspot_signed" class="form-check-input" />
+                <span asp-validation-for="uspot_signed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="uspot_signeddate" class="control-label"></label>
+                <input asp-for="uspot_signeddate" class="form-control" />
+                <span asp-validation-for="uspot_signeddate" class="text-danger"></span>
+            </div>
+            
+
+<div class="form-group d-flex justify-content-end">
+    <input type="submit" value="Save" class="btn btn-primary ms-auto" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

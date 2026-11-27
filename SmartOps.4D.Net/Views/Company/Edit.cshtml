@@ -1,0 +1,402 @@
+@model Tenant
+
+@{
+    ViewData["Title"] = "Settings";
+}
+
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-xl-8">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="mb-1">Settings</h2>
+                    <div class="text-muted">
+                        Manage your company details and branding.
+                    </div>
+                </div>
+            </div>
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show"
+                     role="alert">
+
+                    @TempData["Success"]
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                    </button>
+                </div>
+            }
+
+            <form asp-action="Edit"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+
+                <!-- COMPANY DETAILS -->
+
+                <div class="card shadow-sm mb-4">
+
+                    <div class="card-header bg-light">
+                        <strong>Company Details</strong>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-md-8 mb-3">
+                                <label asp-for="Name"
+                                       class="form-label">
+                                    Company Name
+                                </label>
+
+                                <input asp-for="Name"
+                                       class="form-control"
+                                       readonly />
+
+                                <div class="form-text">
+                                    Please contact support if you need to change the company name.
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Code"
+                                       class="form-label">
+                                    Company Code
+                                </label>
+
+                                <input asp-for="Code"
+                                       class="form-control"
+                                       readonly />
+                            </div>
+
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label asp-for="Address1"
+                                   class="form-label">
+                                Address
+                            </label>
+
+                            <input asp-for="Address1"
+                                   class="form-control" />
+                        </div>
+
+
+                        <div class="mb-3">
+                            <input asp-for="Address2"
+                                   class="form-control"
+                                   placeholder="Address line 2" />
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Town"
+                                       class="form-label">
+                                    Town / City
+                                </label>
+
+                                <input asp-for="Town"
+                                       class="form-control" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="County"
+                                       class="form-label">
+                                    County
+                                </label>
+
+                                <input asp-for="County"
+                                       class="form-control" />
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Postcode"
+                                       class="form-label">
+                                    Postcode
+                                </label>
+
+                                <input asp-for="Postcode"
+                                       class="form-control" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Telephone"
+                                       class="form-label">
+                                    Telephone
+                                </label>
+
+                                <input asp-for="Telephone"
+                                       class="form-control" />
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Email"
+                                       class="form-label">
+                                    Company Email
+                                </label>
+
+                                <input asp-for="Email"
+                                       type="email"
+                                       class="form-control" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Website"
+                                       class="form-label">
+                                    Website
+                                </label>
+
+                                <input asp-for="Website"
+                                       class="form-control"
+                                       placeholder="https://..." />
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- BRANDING -->
+
+                <div class="card shadow-sm mb-4">
+
+                    <div class="card-header bg-light">
+                        <strong>Company Branding</strong>
+                    </div>
+
+                    <div class="card-body">
+
+                        <p class="text-muted">
+                            Your company logo will be used on letters,
+                            reports and other company documents.
+                        </p>
+
+                        @if (Model.Logo != null &&
+                             Model.Logo.Length > 0)
+                        {
+                            <div class="mb-3">
+                                <img src="@Url.Action("Logo", "Company")" class="company-logo-preview"
+                                     alt="Company logo" />
+                            </div>
+                        }
+
+                        <div class="mb-2">
+                            <label class="form-label">
+                                Upload Logo
+                            </label>
+
+                            <input type="file"
+                                   name="LogoFile"
+                                   class="form-control"
+                                   accept="image/png,image/jpeg" />
+                        </div>
+
+                        <small class="text-muted">
+                            PNG or JPEG recommended.
+                        </small>
+
+                        
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Theme</label>
+
+                            <div class="theme-picker">
+                                @foreach (var theme in SiteThemes.All)
+                                {
+                                    <label class="theme-option">
+                                        <input type="radio"
+                                               asp-for="Theme"
+                                               value="@theme.Key"
+                                               data-theme-colour="@theme.Value" />
+
+                                        <span class="theme-swatch"
+                                              style="background-color:@theme.Value">
+                                        </span>
+
+                                        <span>@theme.Key</span>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                @*
+                <!-- SUBSCRIPTION -->
+
+                <div class="card shadow-sm mb-4">
+
+                    <div class="card-header bg-light">
+                        <strong>Subscription</strong>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-md-4 mb-3">
+                                <div class="text-muted small">
+                                    Current Plan
+                                </div>
+
+                                <strong>
+                                    @Model.SubscriptionPlan
+                                </strong>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="text-muted small">
+                                    Status
+                                </div>
+
+                                @if (Model.IsActive)
+                                {
+                                    <span class="badge bg-success">
+                                        Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">
+                                        Inactive
+                                    </span>
+                                }
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="text-muted small">
+                                    Expiry / Renewal
+                                </div>
+
+                                <strong>
+                                    @if (Model.SubscriptionExpires.HasValue)
+                                    {
+                                            @Model.SubscriptionExpires.Value.ToString("dd MMMM yyyy");
+                                    }
+                                    else
+                                    {
+                                        <span>Not set</span>
+                                    }
+                                </strong>
+                            </div>
+
+                        </div>
+
+                        <hr />
+
+                        <div class="d-flex align-items-center
+                            justify-content-between invisible">
+
+                            <span class="text-muted">
+                                Need more users or features?
+                            </span>
+
+                            <a asp-action="Plans"
+                               class="btn btn-outline-primary">
+                                View / Upgrade Plan
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+                *@
+                <p id="companyBackupStatus" class="small mb-3" role="status" aria-live="polite" hidden></p>
+
+                <!-- BUTTONS -->
+
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-5">
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <a asp-controller="Company"
+                           asp-action="DeleteAccount"
+                           class="btn btn-danger">
+                            Delete Account
+                        </a>
+                        <button type="button" id="downloadCompanyData" class="btn btn-outline-primary"
+                                data-manifest-url="@Url.Action("Manifest", "CompanyBackup")">
+                            Download Data
+                        </button>
+                    </div>
+
+                    
+
+<div class="d-flex gap-2">
+                        <a asp-controller="Jobs"
+                           asp-action="Index"
+                           class="btn btn-outline-secondary">
+                            Cancel
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-primary px-4 ms-auto">
+                            Save Changes
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div> <!-- col-lg-9 -->
+    </div> <!-- row -->
+</div> <!-- container -->
+@section Scripts
+{
+    <script src="~/js/company-backup.js" asp-append-version="true"></script>
+        <script>
+        document.querySelectorAll(
+            '.theme-option input[type="radio"]'
+        ).forEach(function (radio) {
+
+            radio.addEventListener('change', function () {
+
+                const colour =
+                    this.dataset.themeColour;
+
+                document.documentElement.style.setProperty(
+                    '--navbar-color',
+                    colour
+                );
+
+                document.documentElement.style.setProperty(
+                    '--primary-color',
+                    colour
+                );
+            });
+
+        });
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

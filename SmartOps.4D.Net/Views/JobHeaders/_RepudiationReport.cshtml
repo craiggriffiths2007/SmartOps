@@ -1,0 +1,36 @@
+@model SmartOps.Shared.Models.JobHeaderBase
+@using SmartOps.Shared.Models
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment WebEnvironment
+@{
+    var entries = RepudiationQuestions.ReportEntries(Model);
+}
+<section class="jh-panel jh-health-safety">
+    <h5>Repudiation</h5>
+    @if (entries.Count == 0)
+    {
+        <p class="jh-empty">No Repudiation questionnaire recorded.</p>
+    }
+    else
+    {
+        <div class="jh-health-safety-list">
+        @foreach (var entry in entries)
+        {
+            if (entry.Image is string image)
+            {
+                if (System.IO.File.Exists(System.IO.Path.Combine(WebEnvironment.WebRootPath, "question-diagrams", image)))
+                {
+                    <div class="jh-health-safety-image"><strong>@entry.Label</strong><img src="@Url.Content("~/question-diagrams/" + image)" alt="@entry.Label" /></div>
+                }
+            }
+            else if (entry.IsInformation)
+            {
+                <p class="jh-health-safety-note">@entry.Label</p>
+            }
+            else
+            {
+                <div class="jh-health-safety-row"><span class="jh-label">@entry.Label</span><span class="jh-value">@entry.Value</span></div>
+            }
+        }
+        </div>
+    }
+</section>

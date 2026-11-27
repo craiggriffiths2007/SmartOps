@@ -1,0 +1,35 @@
+@{
+    ViewBag.Title = "SQL Connection Test";
+}
+
+<div class="jumbotron diagnostics-intro">
+    <h2>SQL Server Connection Test</h2>
+
+    @if (ViewBag.Status == "Success")
+    {
+        <div class="alert alert-success">
+            <strong>✅ Connected!</strong>
+            <p>@ViewBag.Message</p>
+            <p><small>Version: @ViewBag.Version</small></p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            <strong>❌ Connection Failed</strong>
+            <p>@ViewBag.Message</p>
+        </div>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">Troubleshooting Tips:</div>
+            <div class="panel-body">
+                <ul>
+                    <li>Verify the <strong>Connection String</strong> in the Controller.</li>
+                    <li>Ensure <strong>TCP/IP</strong> is enabled in SQL Server Configuration Manager.</li>
+                    <li>Check if <strong>Port 1433</strong> is open on the server firewall.</li>
+                    <li>If using Windows Auth, ensure the IIS App Pool identity has SQL permissions.</li>
+                </ul>
+            </div>
+        </div>
+    }
+</div>

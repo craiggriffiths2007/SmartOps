@@ -1,0 +1,108 @@
+@model IEnumerable<SmartOps.Web.Models.Customer>
+
+@{
+    ViewData["Title"] = "Customers";
+
+    var activeContracts = (IReadOnlyDictionary<int, SmartOps.Web.Models.Contract>)ViewData["ActiveContracts"]!;
+    var search = ViewBag.Search as string;
+    var active = (ViewBag.Active as string) ?? "active";
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Customers</h4>
+
+    <a asp-action="Create"
+       asp-route-returnUrl="@returnUrl"
+       class="btn btn-primary">
+        Add Customer
+    </a>
+</div>
+
+<form asp-action="Index"
+      method="get"
+      class="row g-2 align-items-end mb-3">
+
+    <div class="col-md-5">
+        <label class="form-label">Search</label>
+        <input type="text"
+               name="search"
+               value="@search"
+               class="form-control"
+               placeholder="Name, postcode, email or telephone..." />
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">Customers</label>
+        <select name="active" class="form-select">
+            <option value="active" selected="@(active == "active")">
+                Active
+            </option>
+            <option value="all" selected="@(active == "all")">
+                All
+            </option>
+            <option value="inactive" selected="@(active == "inactive")">
+                Inactive
+            </option>
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <button type="submit" class="btn btn-primary">
+            Search
+        </button>
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Clear
+        </a>
+    </div>
+</form>
+
+<div class="record-index-list">
+    <table class="table table-sm table-hover align-middle record-index-table customer-index-table mb-0">
+        <caption class="visually-hidden">Customers</caption>
+        <thead>
+            <tr>
+                <th scope="col" class="customer-index-name">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Postcode</th>
+                <th scope="col">Contract</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr><td colspan="5" class="text-muted py-3">No customers found.</td></tr>
+            }
+            @foreach (var item in Model)
+            {
+                var address = string.Join(", ", new[] { item.Add1, item.Add2, item.Add3 }.Where(x => !string.IsNullOrWhiteSpace(x)));
+                var detailsUrl = Url.Action("Details", new { id = item.Id, returnUrl });
+                <tr class="clickable-row" data-href="@detailsUrl" tabindex="0">
+                    <th scope="row">@item.Name</th>
+                    <td class="customer-index-address" title="@address">
+                        <span>@address</span>
+                    </td>
+                    <td>@item.Postcode</td>
+                    <td>
+                        @if (activeContracts.TryGetValue(item.Id, out var contract))
+                        {
+                            <a class="text-decoration-none" asp-controller="Contracts" asp-action="Details" asp-route-id="@contract.Id" asp-route-returnUrl="@returnUrl">
+                                @contract.ContractCode
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">None</span>
+                        }
+                    </td>
+                    <td><span class="badge @(item.IsActive ? "bg-success" : "bg-secondary")">@(item.IsActive ? "Active" : "Inactive")</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<record-pagination></record-pagination>

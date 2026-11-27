@@ -1,0 +1,33 @@
+@model SmartOps.Web.ViewModels.VehicleCheckDetailsViewModel
+@{
+    ViewData["Title"] = "Vehicle check";
+}
+<div class="d-flex justify-content-between align-items-center mb-3 no-print">
+    <h4>Vehicle check</h4>
+    <div>
+        <button type="button" class="btn btn-outline-primary" onclick="window.print()">Print vehicle check</button>
+        <button type="button" class="btn btn-secondary" onclick="history.back()">Back</button>
+    </div>
+</div>
+@if (Model.VehicleCheck?.is_complete == false)
+{
+    <article class="go-item-report">
+        <section class="go-report-section">
+            <dl class="go-report-fields">
+                <div class="go-report-field">
+                    <dt>Completed</dt>
+                    <dd><span class="go-report-no">No</span></dd>
+                </div>
+                <div class="go-report-field">
+                    <dt>Reason not completed</dt>
+                    <dd><span class="go-report-field-value">@(string.IsNullOrWhiteSpace(Model.VehicleCheck.ReasonNotCompleted) ? "Not provided" : Model.VehicleCheck.ReasonNotCompleted)</span></dd>
+                </div>
+            </dl>
+        </section>
+    </article>
+}
+else
+{
+    <partial name="_VehicleDetailsPartial" model="Model.VehicleCheck" />
+    <partial name="_VehicleImagesPartial" model="Model" />
+}

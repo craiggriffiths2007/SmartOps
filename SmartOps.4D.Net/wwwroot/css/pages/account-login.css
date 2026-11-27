@@ -1,0 +1,26 @@
+/* Styles for Areas/Identity/Pages/Account/Login.cshtml. */
+.forgot-password {
+    text-align: right;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.forgot-password a {
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+.signup-section {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.signup-text {
+    margin-bottom: 8px;
+    color: #6c757d;
+    font-size: 0.9rem;
+    text-align: right;
+}

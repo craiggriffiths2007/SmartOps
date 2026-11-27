@@ -1,0 +1,740 @@
+/* MART OPS - DIARY / CALENDAR */
+.diary-contract-link {
+    color: inherit;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.diary-contract-link:hover {
+    color: #0d6efd;
+}
+
+.diary-time-toggle {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+}
+
+/* DAY VIEW */
+.day-bookings {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.day-booking-card {
+    border: 1px solid #d9dee3;
+    border-radius: 5px;
+    background: #fff;
+    padding: 8px 12px;
+}
+
+.day-booking-card:hover {
+    background: #fafafa;
+}
+
+.day-booking-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.day-booking-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.day-booking-customer {
+    font-weight: 400;
+}
+
+.day-booking-type-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+/* Keep your existing job colours */
+.day-booking-type-badge.job-type-survey {
+    background: #69c3dc;
+}
+
+.day-booking-type-badge.job-type-fitting {
+    background: #a8d36f;
+}
+
+.day-booking-type-badge.job-type-remedial {
+    background: #e7b36b;
+}
+
+.day-booking-info {
+    display: grid;
+    grid-template-columns: 130px 1fr auto;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 4px;
+}
+
+.day-booking-operative {
+    white-space: nowrap;
+}
+
+.day-booking-allocated {
+    white-space: nowrap;
+}
+
+.day-booking-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.day-booking-damage {
+    color: #5f6973;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.day-booking-details {
+    flex-shrink: 0;
+    color: #6c757d;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.day-booking-details:hover {
+    color: #0d6efd;
+    text-decoration: underline;
+}
+
+/* TOP CONTROLS */
+.top-listbar {
+    color: var(--text);
+    background: color-mix(in srgb, var(--navbar-color) 10%, white 90%);
+    border-bottom: 1px solid color-mix(in srgb, var(--navbar-color) 25%, white 75%);
+}
+
+.diary-top-controls {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+    gap: 15px;
+}
+
+.diary-controls-left {
+    justify-self: start;
+}
+
+.diary-branch-filter {
+    min-width: 100px;
+    max-width: 180px;
+}
+
+.diary-controls-centre {
+    display: flex;
+    justify-self: start;
+    align-items: center;
+}
+
+.diary-controls-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-self: end;
+}
+
+/* DATE NAVIGATION */
+.diary-date-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: calc(14.25rem + 84px);
+    max-width: calc(100vw - 2rem);
+}
+
+.diary-date-arrows {
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 6px;
+}
+
+.diary-date-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: var(--text);
+    border: 1px solid #cbd5df;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 1rem;
+    line-height: 1;
+    transition: background-color .15s, border-color .15s, color .15s;
+}
+
+.diary-date-arrow:hover {
+    color: #fff;
+    border-color: var(--blue);
+    background: var(--blue);
+}
+
+.diary-date-arrow:focus-visible,
+.diary-date-title:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 3px;
+}
+
+.diary-date-title {
+    display: block;
+    flex: 0 0 auto;
+    width: min(14.25rem, calc(100vw - 2rem));
+    margin: 0;
+    padding: 4px 8px;
+    color: inherit;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.diary-date-title:hover {
+    color: inherit;
+    background: #f1f5f9;
+}
+
+@media (max-width: 991.98px) {
+    .diary-top-controls {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .diary-controls-centre {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .diary-controls-right {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .diary-controls-right input {
+        max-width: 100%;
+    }
+}
+
+/* MONTH CALENDAR */
+.calendar-table {
+    table-layout: fixed;
+}
+
+.calendar-cell {
+    position: relative;
+    height: 120px;
+    padding: 4px !important;
+    vertical-align: top;
+    overflow: visible;
+}
+
+.calendar-empty {
+    --bs-table-bg: #f8fafc;
+    background-color: #f8fafc !important;
+}
+
+.calendar-today {
+    --bs-table-bg: color-mix(in srgb, var(--navbar-color) 10%, white 90%);
+    background-color: color-mix(in srgb, var(--navbar-color) 10%, white 90%) !important;
+    border-color: var(--blue) !important;
+}
+
+.calendar-day-number {
+    margin-bottom: 2px;
+    color: #6c757d;
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+/* Today: slightly larger, softer red - same visual treatment as week view. */
+.calendar-day-number.calendar-today-label {
+    font-weight: 600;
+    color: var(--navbar-color);
+}
+
+/* Weekend columns - set Bootstrap's table background variable as well. */
+.calendar-table td.calendar-weekend {
+    --bs-table-bg: color-mix(in srgb, var(--navbar-color) 10%, white 90%);
+    background-color: color-mix(in srgb, var(--navbar-color) 10%, white 90%) !important;
+}
+
+.calendar-table th.calendar-weekend-header {
+    --bs-table-bg: color-mix(in srgb, var(--navbar-color) 15%, white 85%);
+    background-color: color-mix(in srgb, var(--navbar-color) 15%, white 85%) !important;
+}
+
+/* CALENDAR EVENTS */
+.calendar-event {
+    position: relative;
+    margin-bottom: 3px;
+    padding: 2px 5px;
+    color: #243746;
+    background: #f5f5f5;
+    border-radius: 4px;
+    font-size: .75rem;
+    overflow: visible;
+}
+
+.calendar-event.job-type-survey {
+    --diary-header-color: #16333d;
+    --diary-header-background: #7bc8dc;
+}
+
+.calendar-event.job-type-fitting {
+    --diary-header-color: #26350d;
+    --diary-header-background: #b4d67b;
+}
+
+.calendar-event.job-type-remedial {
+    --diary-header-color: #48203a;
+    --diary-header-background: #ef9dd1;
+}
+
+
+.calendar-event-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.job-type-survey .calendar-event-link,
+.job-type-fitting .calendar-event-link {
+    color: inherit;
+}
+
+.calendar-event-link:hover {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.calendar-event-actions {
+    display: inline;
+    margin-left: 4px;
+}
+
+.calendar-event-actions a {
+    margin-left: 2px;
+    font-size: .7rem;
+    text-decoration: none;
+}
+
+/* WEEK VIEW */
+.week-day-heading {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+}
+
+.week-day-number {
+    width: 30px;
+    flex: 0 0 30px;
+}
+
+.week-day-name {
+    min-width: 0;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.week-view-container {
+    overflow-x: auto;
+    overflow-y: visible;
+}
+
+.week-table {
+    min-width: 800px;
+    table-layout: fixed;
+}
+
+.week-time-col {
+    width: 70px;
+    text-align: center;
+}
+
+.week-day-col {
+    text-align: center;
+}
+
+.week-day-heading,
+.calendar-day-heading th {
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.week-date-label {
+    color: #6c757d;
+    font-size: .75rem;
+    font-weight: 400;
+}
+
+.week-time-label {
+    padding-top: 6px !important;
+    color: #6c757d;
+    font-size: .8rem;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: top;
+}
+
+.week-cell {
+    position: relative;
+    padding: 3px !important;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.week-today-header {
+    color: var(--blue);
+    --bs-table-bg: #e8f4fd;
+    background-color: #e8f4fd !important;
+}
+
+.week-today-label {
+    color: var(--navbar-color);
+}
+
+.week-today-cell {
+    --bs-table-bg: color-mix(in srgb, var(--navbar-color) 10%, white 90%);
+    background-color: color-mix(in srgb, var(--navbar-color) 10%, white 90%);
+}
+
+/* Weekend columns - Bootstrap tables use --bs-table-bg, so set both. */
+.week-table td.week-weekend-cell {
+    --bs-table-bg: color-mix(in srgb, var(--navbar-color) 10%, white 90%);
+    background-color: color-mix(in srgb, var(--navbar-color) 10%, white 90%);
+}
+
+.week-table th.week-weekend-header {
+    --bs-table-bg: color-mix(in srgb, var(--navbar-color) 15%, white 15%);
+    background-color: color-mix(in srgb, var(--navbar-color) 15%, white 15%);
+}
+
+/* WEEK VIEW - FIXED ROW HEIGHTS */
+/*
+   07:00, 17:00 and 19:00:
+   enough default space for one booking.
+*/
+.week-row-single .week-cell,
+.week-row-single .week-time-label {
+    height: 82px;
+}
+
+.week-row-single .week-cell-scroll {
+    height: 74px;
+}
+
+/*
+   09:00, 11:00, 13:00 and 15:00:
+   enough default space for roughly two bookings.
+*/
+.week-row-double .week-cell,
+.week-row-double .week-time-label {
+    height: 160px;
+}
+
+.week-row-double .week-cell-scroll {
+    height: 152px;
+}
+
+/* Stronger visual break at 13:00. */
+.week-midday-row > td {
+    border-top: 2px solid rgba(0, 0, 0, .25) !important;
+}
+
+/* WEEK VIEW - HIDDEN SCROLLBARS */
+/*
+   Cells stay fixed-height. Extra bookings can still be
+   scrolled with the mouse wheel, trackpad or touch, but
+   no scrollbar is drawn.
+*/
+.week-cell-scroll {
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.week-cell-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* EXPANDABLE DIARY BOOKINGS */
+.diary-booking {
+    position: relative;
+    min-width: 0;
+    padding: 0;
+    overflow: visible;
+}
+
+.diary-booking.expanded {
+    z-index: 2000;
+}
+
+.diary-booking-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    gap: 4px;
+    padding: 2px 5px;
+    color: var(--diary-header-color, #fff);
+    background: var(--diary-header-background, var(--blue));
+    border-radius: 4px 4px 0 0;
+}
+
+.diary-booking-title,
+.diary-booking-toggle {
+    display: block;
+    flex: 1 1 auto;
+    width: 0;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.diary-booking-title:hover,
+.diary-booking-toggle:hover {
+    text-decoration: underline;
+}
+
+.diary-booking-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.diary-booking-link:hover {
+    color: inherit;
+}
+
+/* FLOATING EXPANDED BOOKING DETAILS */
+/*
+   JavaScript moves this panel temporarily to document.body.
+   That means it is NOT trapped inside .week-cell-scroll and
+   cannot be clipped by the fixed-height diary cell.
+*/
+.diary-name-agent {
+    padding: 2px 5px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 6px;
+}
+
+.diary-customer-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.diary-agent-code {
+    flex-shrink: 0;
+    text-align: right;
+}
+
+.diary-booking-extra {
+    position: fixed;
+    width: min(280px, calc(100vw - 16px));
+    min-width: min(220px, calc(100vw - 16px));
+    max-height: calc(100vh - 16px);
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: normal;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, .25);
+    z-index: 10000;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.diary-booking-extra::-webkit-scrollbar {
+    display: none;
+}
+
+.diary-booking-extra[hidden] {
+    display: none !important;
+}
+
+.diary-booking-divider {
+    border-top: 1px solid rgba(0, 0, 0, .15);
+    margin: 8px 0;
+}
+
+.diary-details-link {
+    display: inline-block;
+    margin-top: 8px;
+    color: #123d68;
+    font-weight: 600;
+}
+
+/* OPTIONAL LEGACY CLASSES */
+.diary-job {
+    position: relative;
+    overflow: visible;
+}
+
+.job-details {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 280px;
+    min-width: 220px;
+    padding: 8px;
+    background: inherit;
+    color: inherit;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, .25);
+    z-index: 1000;
+}
+
+.diary-job.expanded .job-details {
+    display: block;
+}
+
+
+.day-booking-card[data-booking-url] {
+    cursor: pointer;
+}
+
+.day-booking-card[data-booking-url]:focus-visible {
+    outline: 2px solid #0d6efd;
+    outline-offset: 2px;
+}
+
+
+/* Received survey/fitting records for this contract, after the operative name. */
+.diary-received-statuses {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.diary-received-status {
+    display: inline-flex;
+    color: #d3d3d3;
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.diary-received-status.is-received {
+    color: #000;
+}
+.diary-agent-details {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0 4px;
+}
+
+.diary-expanded-agent-code {
+    white-space: nowrap;
+}
+
+.diary-name-agent .diary-received-statuses {
+    flex-shrink: 0;
+    gap: 6px;
+    margin-left: 0;
+}
+
+.diary-name-agent .diary-received-status {
+    font-size: 1em;
+}
+/* Report links keep the same status colour as the non-interactive glyphs. */
+a.diary-received-status.is-received,
+a.diary-received-status.is-received:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+a.diary-received-status:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+.diary-customer-record-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.diary-customer-record-link:hover {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.diary-job-type-link {
+    color: #000;
+    text-decoration: none;
+}
+
+.diary-job-type-link:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+.diary-time-toggle { text-decoration: none; }
+
+.diary-agent-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    padding: 2px 5px;
+}
+
+.diary-agent-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.diary-agent-row .diary-agent-code {
+    white-space: nowrap;
+}

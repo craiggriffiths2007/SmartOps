@@ -1,0 +1,298 @@
+@page
+@model RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+<div class="row justify-content-center">
+    <div class="col-12 register-container">
+
+       <div class="register-heading mb-4">
+    <h2 class="mb-2">Welcome to Mart Ops</h2>
+
+ 
+</div>
+
+        <form id="registerForm"
+              asp-route-returnUrl="@Model.ReturnUrl"
+              method="post"
+              autocomplete="off">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger"
+                 role="alert">
+            </div>
+
+            <!-- Organisation -->
+            <div class="mb-3">
+                <h5 class="mb-1">Company/Organisation</h5>
+
+            
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.TenantName"
+                       class="form-control"
+                       id="companyName"
+                       placeholder="Name" autofocus />
+
+                <label asp-for="Input.TenantName">
+                    Name
+                </label>
+
+                <span asp-validation-for="Input.TenantName"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="form-floating mb-1">
+                <input asp-for="Input.TenantCode"
+                       class="form-control"
+                       id="companyCode"
+                       maxlength="8"
+                       autocomplete="new-password"
+                       placeholder="Code" />
+
+                <label asp-for="Input.TenantCode">
+                    ID
+                </label>
+
+                <span asp-validation-for="Input.TenantCode"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div id="companyCodeMessage"
+     class="small mb-2 ps-2 text-muted registration-feedback">
+     Create a unique ID
+</div>
+
+
+            
+
+
+            <!-- Administrator -->
+            <div class="mb-3">
+                <h5 class="mb-1">Administrator</h5>
+
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.FirstName"
+                       class="form-control"
+                       autocomplete="given-name"
+                       placeholder="First Name" />
+
+                <label asp-for="Input.FirstName">
+                    First Name
+                </label>
+
+                <span asp-validation-for="Input.FirstName"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.LastName"
+                       class="form-control"
+                       autocomplete="family-name"
+                       placeholder="Last Name" />
+
+                <label asp-for="Input.LastName">
+                    Last Name
+                </label>
+
+                <span asp-validation-for="Input.LastName"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email"
+                       class="form-control"
+                       autocomplete="email"
+                       placeholder="name@example.com" />
+
+                <label asp-for="Input.Email">
+                    Email
+                </label>
+
+                <span asp-validation-for="Input.Email"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password"
+                       class="form-control"
+                       autocomplete="new-password"
+                       placeholder="Password" />
+
+                <label asp-for="Input.Password">
+                    Password
+                </label>
+
+                <span asp-validation-for="Input.Password"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input asp-for="Input.ConfirmPassword"
+                       class="form-control"
+                       autocomplete="new-password"
+                       placeholder="Confirm Password" />
+
+                <label asp-for="Input.ConfirmPassword">
+                    Confirm Password
+                </label>
+
+                <span asp-validation-for="Input.ConfirmPassword"
+                      class="text-danger">
+                </span>
+            </div>
+
+            @if(true) // fixed
+                {
+                    <div class="form-check mb-4">
+    <input type="checkbox"
+           class="form-check-input"
+           checked
+           disabled />
+
+    <input type="hidden"
+           name="Input.CreateDemoData"
+           value="true" />
+
+    <label class="form-check-label">
+        Include sample customers, contracts, appointments, agents and messages
+    </label>
+
+    <div class="form-text">
+        So you can explore the system straight away
+    </div>
+</div>
+                }
+                else
+                {
+                            <div class="form-check mb-4">
+                    <input asp-for="Input.CreateDemoData"
+                       class="form-check-input" />
+
+                <label asp-for="Input.CreateDemoData"
+                       class="form-check-label">
+                    Include sample customers, contracts, appointments, agents and messages
+                </label>
+
+                <div class="form-text">
+                    so you can explore the system straight away
+                </div>
+            </div>
+            }
+            <button id="registerSubmit"
+                    type="submit"
+                    class="w-100 btn btn-lg btn-primary">
+                Register
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+
+<script>
+    const companyName =
+        document.getElementById('companyName');
+
+    const companyCode =
+        document.getElementById('companyCode');
+
+    const companyCodeMessage =
+        document.getElementById('companyCodeMessage');
+
+
+    companyName.addEventListener('input', function () {
+
+        const code = this.value
+            .toUpperCase()
+            .replace(/[^A-Z0-9]/g, '')
+            .substring(0, 8);
+
+        companyCode.value = code;
+
+        checkCompanyCode(code);
+    });
+
+
+    companyCode.addEventListener('input', function () {
+
+        this.value = this.value
+            .toUpperCase()
+            .replace(/[^A-Z0-9]/g, '')
+            .substring(0, 8);
+
+        checkCompanyCode(this.value);
+    });
+
+
+    async function checkCompanyCode(code) {
+
+    // Always keep the ID text normal/dark
+    companyCode.classList.remove(
+        'text-success',
+        'text-danger');
+
+    if (code.length < 4) {
+        companyCodeMessage.textContent =
+            'Create a unique ID';
+
+        companyCodeMessage.className =
+            'small mb-2 ps-3 text-muted';
+
+        return;
+    }
+
+    const response = await fetch(
+        `?handler=CheckTenantCode&code=${encodeURIComponent(code)}`
+    );
+
+    const data = await response.json();
+
+    if (data.exists) {
+
+        companyCodeMessage.textContent =
+            'Already in use.';
+
+        companyCodeMessage.className =
+            'small mb-2 ps-3 text-danger';
+
+    } else {
+
+        companyCodeMessage.textContent =
+            'Available.';
+
+        companyCodeMessage.className =
+            'small mb-2 ps-3 text-success';
+    }
+}
+    const registerForm =
+    document.getElementById('registerForm');
+
+const createDemoData =
+    document.getElementById('createDemoData');
+
+const createDemoDataValue =
+    document.getElementById('createDemoDataValue');
+
+createDemoData.addEventListener('change', function () {
+    createDemoDataValue.value = this.checked
+        ? 'true'
+        : 'false';
+});
+</script>
+<link rel="stylesheet" href="~/css/pages/account-register.css" asp-append-version="true" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

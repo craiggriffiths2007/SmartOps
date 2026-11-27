@@ -1,0 +1,474 @@
+@model SmartOps.Web.ViewModels.JobDetailsViewModel
+@{
+    var isAddingBooking = Model.Job == null || Model.Job.Id == 0;
+    var customer = Model.Job?.Customer;
+    var customerAddress = string.Join(", ", new[] { customer?.Add1, customer?.Add2, customer?.Add3, customer?.Postcode }
+        .Where(part => !string.IsNullOrWhiteSpace(part)));
+}
+
+<script type="application/json" id="booking-agent-branches">@Html.Raw(System.Text.Json.JsonSerializer.Serialize((object)ViewBag.BookingAgentBranches))</script>
+
+<div class="row bold-form">
+
+    @* LEFT COLUMN *@
+    <div class="col-md-4">
+
+        @if ((Model.Job == null || Model.Job.Id == 0) && ViewData["FixedContractId"] is not int)
+    {
+        <div class="form-group">
+            <label for="ContractFilter" class="control-label">Filter contracts</label>
+            <input type="search" id="ContractFilter" name="contractFilter" class="form-control"
+                   value="@ViewBag.ContractFilter" placeholder="Contract number or customer name"
+                   autocomplete="off" aria-controls="ContractId" aria-describedby="ContractFilterSummary" />
+            <div id="ContractFilterSummary" class="form-text" role="status" aria-live="polite"></div>
+        </div>
+        <script type="application/json" id="booking-contract-search-data">@Html.Raw(System.Text.Json.JsonSerializer.Serialize((object)ViewBag.ContractFilterValues))</script>
+        <div class="form-group">
+            <label asp-for="Job.ContractId"
+                   class="control-label">
+                Contract
+            </label>
+
+            <select asp-for="Job.ContractId"
+                    class="form-select"
+                    asp-items="ViewBag.ContractId"
+                    id="ContractId">
+
+                <option value="">
+                    -- Select Contract --
+                </option>
+
+            </select>
+
+            <span asp-validation-for="Job.ContractId"
+                  class="text-danger"></span>
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <label class="control-label">
+                Contract
+            </label>
+
+            <input type="hidden"
+                   asp-for="Job.ContractId"
+                   id="ContractId" />
+
+            <input type="text"
+                   class="form-control"
+                   value="@Model.Job.ContractCode - @Model.Job.Customer?.Name"
+                   readonly />
+        </div>
+    }
+
+        <div id="BookingCustomerAddress" class="mt-2 mb-2 fw-normal" hidden="@string.IsNullOrWhiteSpace(customerAddress)" aria-live="polite">@customerAddress</div>
+
+        <input type="hidden" asp-for="Job.Id" />
+
+        <div class="form-group">
+            <label asp-for="Job.InsuranceCompanyName"
+                   class="control-label"></label>
+
+            <input asp-for="Job.InsuranceCompanyName"
+                   class="form-control"
+                   value="@(string.IsNullOrWhiteSpace(Model.Job?.InsuranceCompanyName) && Model.Job?.ContractId > 0 ? "Non - domestic" : Model.Job?.InsuranceCompanyName)"
+                   readonly />
+
+            <span asp-validation-for="Job.InsuranceCompanyName"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Job.DamageDesc"
+                   class="control-label"></label>
+
+            <input asp-for="Job.DamageDesc"
+                   class="form-control"
+                   readonly />
+
+            <span asp-validation-for="Job.DamageDesc"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Job.CauseOfDamage"
+                   class="control-label"></label>
+
+            <input asp-for="Job.CauseOfDamage"
+                   class="form-control"
+                   readonly />
+
+            <span asp-validation-for="Job.CauseOfDamage"
+                  class="text-danger"></span>
+        </div>
+
+       
+
+
+
+        <div class="form-group">
+            <label for="BookingContractStatus" class="control-label">Contract status</label>
+            <input id="BookingContractStatus" type="text" class="form-control"
+                   value="@ViewData["BookingContractStatus"]" readonly />
+        </div>
+
+        <div id="recentSurvey" style="display: none;">
+            <br />
+
+            <div class="text-decoration-underline">
+                Recent Survey
+            </div>
+
+            <dl class="row">
+                <dt class="col-sm-4">Agent</dt>
+                <dd class="col-sm-8"
+                    id="surveyAgentCode"></dd>
+
+                <dt class="col-sm-4">Diary Date</dt>
+                <dd class="col-sm-8"
+                    id="surveyDiaryDate"></dd>
+
+                <dt class="col-sm-4">Completed</dt>
+                <dd class="col-sm-8"
+                    id="surveyCompleted"></dd>
+            </dl>
+
+            <div class="form-group d-flex justify-content-between align-items-center">
+                <label asp-for="Job.bIncludeSurvey"
+                       class="form-check-label mb-0">
+                    Include Recent Survey
+                </label>
+
+                <input asp-for="Job.bIncludeSurvey"
+                       class="form-check-input position-static me-0"
+                       disabled="disabled"
+                       id="includeRecentSurveyCheck" />
+
+                <span asp-validation-for="Job.bIncludeSurvey"
+                      class="text-danger"></span>
+            </div>
+        </div>
+
+    </div>
+
+
+    @* MIDDLE COLUMN - deliberately blank *@
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="Job.JobType"
+                   class="control-label">
+                Job Type
+            </label>
+            <select asp-for="Job.JobType"
+                    class="form-select"
+                    asp-items="@((SelectList)ViewBag.JobTypes)"
+                    id="JobType">
+            </select>
+            <span asp-validation-for="Job.JobType"
+                  class="text-danger"></span>
+        </div>
+
+
+
+        <div class="form-group">
+            <label asp-for="Job.DiaryDate"
+                   class="control-label"></label>
+            <input asp-for="Job.DiaryDate"
+                   class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+            <span asp-validation-for="Job.DiaryDate"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Job.Time"
+                   class="control-label"></label>
+            <input asp-for="Job.Time"
+                   class="form-control" />
+            <span asp-validation-for="Job.Time"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Job.JobTime"
+                   class="control-label"></label>
+            <input asp-for="Job.JobTime"
+                   class="form-control" />
+            <span asp-validation-for="Job.JobTime"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="BookingBranchId" class="control-label">Branch</label>
+            <select lock-branch-value="@Model.Job.BranchId" asp-for="Job.BranchId" id="BookingBranchId" class="form-select"
+                    asp-items="ViewBag.BookingBranches">
+                <option value="">All</option>
+            </select>
+            <span asp-validation-for="Job.BranchId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Job.AgentId"
+                   class="control-label">
+                Agent
+            </label>
+            <select asp-for="Job.AgentId"
+                    class="form-select"
+                    asp-items="ViewBag.AgentId"
+                    id="AgentId" required>
+            </select>
+            <span asp-validation-for="Job.AgentId" class="text-danger"></span>
+        </div>
+
+        <div id="requestRepudiationGroup" class="form-group d-flex justify-content-between align-items-center pt-2 @(isAddingBooking && Model.Job?.JobType != enum_job_type.Survey ? "d-none" : "")">
+            <label asp-for="Job.bRequestRepudiation"
+                   class="form-check-label mb-0">
+                Repudiate if Wnt or Bad Workmanship
+            </label>
+
+            <input asp-for="Job.bRequestRepudiation"
+                   class="form-check-input position-static me-0" />
+
+            <span asp-validation-for="Job.bRequestRepudiation"
+                  class="text-danger"></span>
+        </div>
+    </div>
+
+
+    @* RIGHT COLUMN - Instructions *@
+    <div class="col-md-4">
+
+        <div class="form-group">
+            <label asp-for="Job.Instructions"
+                   class="control-label"></label>
+
+            <div id="toolbar-container">
+                <span class="ql-formats">
+                    <button class="ql-bold"></button>
+                    <button class="ql-italic"></button>
+                    <button class="ql-underline"></button>
+                    <button class="ql-strike"></button>
+                    <select class="ql-color"></select>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-list" value="ordered"></button>
+                    <button class="ql-list" value="bullet"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-clean"></button>
+                </span>
+            </div>
+
+            <input type="hidden"
+                   asp-for="Job.Instructions"
+                   id="instructions-hidden" />
+
+            <div id="instructions-editor">
+                @Html.Raw(Model.Job?.Instructions)
+            </div>
+
+            <span asp-validation-for="Job.Instructions"
+                  class="text-danger"></span>
+        </div>
+
+    </div>
+
+</div>
+
+
+<link href="~/lib/quill.snow.css" rel="stylesheet" />
+<script src="~/lib/quill.js"></script>
+
+<script>
+    // Initialize Quill editor with color pickers
+    const quill = new Quill('#instructions-editor', {
+        theme: 'snow',
+        /*readOnly: true,*/
+        modules: {
+            toolbar: '#toolbar-container'
+        }
+    });
+
+    // Find the closest form containing the editor
+    const form = document.querySelector('#instructions-editor').closest('form');
+    const hiddenInput = document.getElementById('instructions-hidden');
+
+    // Intercept the form submit to pass Quill's HTML into the ASP.NET hidden input
+    form.addEventListener('submit', function() {
+    // Get HTML content from Quill
+    const htmlContent = quill.getSemanticHTML();
+
+    // Put it in the hidden input so ASP.NET can bind it to Job.Instructions
+    hiddenInput.value = htmlContent;
+    });
+</script>
+<script>
+    let recentSurveyAvailable = false;
+    let recentSurveyRequest = 0;
+
+    function LoadContractInformation(preserveBookingDetails = false, applyJobTypeDefault = false, defaultTypeChanged = false) {
+        hideSurvey(preserveBookingDetails);
+        var contractId = document.getElementById('ContractId').value;
+        var requestedJobType = document.getElementById('JobType').value;
+        const address = document.getElementById('BookingCustomerAddress');
+        address.textContent = '';
+        address.hidden = true;
+        if (contractId) {
+            fetch('@Url.Action("GetContractInformation", "Jobs")' + '?id=' + contractId)
+                .then(response => response.json())
+                .then(data => {
+                    if (document.getElementById('ContractId').value !== contractId) return;
+                    address.textContent = data.customerAddress || '';
+                    address.hidden = !address.textContent;
+                    document.getElementById('BookingContractStatus').value = data.contractStatusText || '';
+                    if (!preserveBookingDetails) {
+                        document.getElementById('Job_DamageDesc').value = data.damageDescription || '';
+                        document.getElementById('Job_InsuranceCompanyName').value = data.insuranceCompany || '';
+                        document.getElementById('Job_CauseOfDamage').value = data.causeOfDamage || '';
+                    }
+                    const jobType = document.getElementById('JobType');
+                    if (applyJobTypeDefault && data.contractStatus != null && jobType.value === requestedJobType) {
+                        const defaultType = data.contractStatus === @((int)ContractStatus.Authorised)
+                            ? '@((int)enum_job_type.Fitting)' : (preserveBookingDetails ? jobType.value : '@((int)enum_job_type.Survey)');
+                        defaultTypeChanged = defaultTypeChanged || jobType.value !== defaultType;
+                        jobType.value = defaultType;
+                    }
+                    UpdateRepudiationVisibility();
+                    if (!preserveBookingDetails || defaultTypeChanged) UpdateAgentsList();
+                    GetRecentSurvey(preserveBookingDetails);
+                })
+                .catch(() => {
+                    if (document.getElementById('ContractId').value === contractId) hideSurvey();
+                });
+        } else {
+            document.getElementById('BookingContractStatus').value = '';
+            if (!preserveBookingDetails) {
+                document.getElementById('Job_DamageDesc').value = '';
+                document.getElementById('Job_InsuranceCompanyName').value = '';
+                document.getElementById('Job_CauseOfDamage').value = '';
+                UpdateAgentsList();
+            }
+            hideSurvey();
+        }
+    }
+
+    function GetRecentSurvey(preserveSelection = false) {
+        var contractId = document.getElementById('ContractId').value;
+        const requestId = ++recentSurveyRequest;
+        hideSurvey(preserveSelection);
+        if (contractId) {
+            fetch('@Url.Action("GetRecentSurvey", "Jobs")' + '?id=' + contractId)
+                .then(response => {
+                    if (!response.ok || response.redirected) throw new Error('Survey unavailable');
+                    return response.json();
+                })
+                .then(data => {
+                    if (requestId !== recentSurveyRequest || document.getElementById('ContractId').value !== contractId) return;
+                    if (!data.hasSurvey) {
+                        hideSurvey();
+                    } else {
+                        document.getElementById('surveyAgentCode').textContent = data.agentCode || '';
+                        document.getElementById('surveyDiaryDate').textContent = data.diaryDate;
+                        document.getElementById('surveyCompleted').textContent = data.completed;
+                        showSurvey();
+                        if (!preserveSelection)
+                            document.getElementById('includeRecentSurveyCheck').checked =
+                                document.getElementById('JobType').value === '@((int)enum_job_type.Fitting)';
+                    }
+                })
+                .catch(() => {
+                    if (requestId === recentSurveyRequest && document.getElementById('ContractId').value === contractId) hideSurvey();
+                });
+        } else {
+            hideSurvey();
+        }
+    }
+
+    function hideSurvey(preserveSelection = false) {
+        recentSurveyAvailable = false;
+        document.getElementById('recentSurvey').style.display = 'none';
+        document.getElementById('includeRecentSurveyCheck').disabled = true;
+        if (!preserveSelection)
+            document.getElementById('includeRecentSurveyCheck').checked = false;
+    }
+
+    function showSurvey() {
+        recentSurveyAvailable = true;
+        document.getElementById('recentSurvey').style.display = 'block';
+        document.getElementById('includeRecentSurveyCheck').disabled = false;
+    }
+
+    const bookingAgentBranches = JSON.parse(document.getElementById('booking-agent-branches').textContent);
+    function SelectAgentBranch() {
+        const branchSelect = document.getElementById('BookingBranchId');
+        const agentSelect = document.getElementById('AgentId');
+        if (!branchSelect || branchSelect.disabled || (branchSelect.value && branchSelect.value !== '0')) return;
+        const branchId = bookingAgentBranches[agentSelect.value];
+        if (!branchId || !Array.from(branchSelect.options).some(option => option.value === String(branchId))) return;
+        branchSelect.value = String(branchId);
+        UpdateAgentsList();
+    }
+
+    let agentListRequest = 0;
+    function UpdateAgentsList() {
+        var jobType = document.getElementById('JobType');
+        if (jobType && jobType.value) {
+            const requestedType = jobType.value;
+            const branchSelect = document.getElementById('BookingBranchId');
+            const requestedBranch = branchSelect?.value || '0';
+            const requestId = ++agentListRequest;
+            const agentSelect = document.getElementById('AgentId');
+            const selectedAgent = agentSelect.value;
+            agentSelect.replaceChildren(new Option('Loading agents...', ''));
+            fetch('@Url.Action("GetAgentListForJobType", "Jobs")' + '?jobType=' + requestedType + '&branchId=' + requestedBranch)
+                .then(response => {
+                    if (!response.ok || response.redirected) throw new Error('Agents unavailable');
+                    return response.json();
+                })
+                .then(data => {
+                    if (requestId !== agentListRequest || jobType.value !== requestedType ||
+                        (branchSelect?.value || '0') !== requestedBranch) return;
+                    agentSelect.replaceChildren();
+                    data.forEach(agent => agentSelect.appendChild(new Option(agent.text, agent.value)));
+                    if (data.some(agent => agent.value === selectedAgent)) agentSelect.value = selectedAgent;
+                    if (!data.length) agentSelect.appendChild(new Option('No agents available', ''));
+                })
+                .catch(() => {
+                    if (requestId !== agentListRequest) return;
+                    agentSelect.replaceChildren(new Option('Could not load agents. Select a branch or job type to retry.', ''));
+                });
+
+                if (recentSurveyAvailable && jobType.value === '@((int)enum_job_type.Fitting)')
+                {
+                    document.getElementById('includeRecentSurveyCheck').checked = true;
+                }
+        }
+    }
+
+    function UpdateRepudiationVisibility() {
+        if (!@isAddingBooking.ToString().ToLowerInvariant()) return;
+        const isSurvey = document.getElementById('JobType').value === '@((int)enum_job_type.Survey)';
+        document.getElementById('requestRepudiationGroup').classList.toggle('d-none', !isSurvey);
+    }
+
+    UpdateRepudiationVisibility();
+    document.getElementById('JobType').addEventListener('change', function () {
+        UpdateRepudiationVisibility();
+        UpdateAgentsList();
+    });
+
+    document.getElementById('BookingBranchId')?.addEventListener('change', UpdateAgentsList);
+    document.getElementById('AgentId').addEventListener('change', SelectAgentBranch);
+
+    document.getElementById('ContractId')
+    .addEventListener('change', () => LoadContractInformation(false, true));
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const preserveBookingDetails = @((ViewData["PreserveBookingDetails"] is true || Model.Job?.Id > 0 || !ViewData.ModelState.IsValid).ToString().ToLowerInvariant());
+        const applyJobTypeDefault = @ViewData.ModelState.IsValid.ToString().ToLowerInvariant();
+        const defaultTypeChanged = @((ViewData["DefaultBookingJobTypeChanged"] is true).ToString().ToLowerInvariant());
+        if (preserveBookingDetails) SelectAgentBranch();
+        LoadContractInformation(preserveBookingDetails, applyJobTypeDefault, defaultTypeChanged);
+    });
+
+</script>

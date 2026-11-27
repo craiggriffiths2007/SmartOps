@@ -1,0 +1,76 @@
+@model SmartOps.Web.Models.Contract
+
+<form asp-controller="Contracts" asp-action="UpdateCustomerLogin" method="post">
+
+    @if (ViewData["ReturnToCustomerDetails"] is true)
+    {
+        <input type="hidden" name="returnToCustomerDetails" value="true" />
+        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+    }
+
+    <input type="hidden"
+           name="ContractId"
+           value="@Model.Id" />
+
+    <input type="hidden"
+           name="CustomerId"
+           value="@Model.Customer?.Id" />
+
+    <div class="mb-3">
+        <label class="fw-bold">Reference</label>
+
+        <div>
+            @Model.CustomerReference
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="fw-bold">Email</label>
+
+        <input type="email"
+               name="CustomerEmail"
+               value="@Model.Customer?.Email"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="fw-bold">Password</label>
+
+        <div class="input-group">
+            <input type="text"
+                   name="IssuedPassword"
+                   value="@Model.Customer?.IssuedPassword"
+                   class="form-control" />
+
+            <button type="button"
+                    class="btn btn-outline-secondary"
+                    data-generate-password
+                    data-password-input="IssuedPassword"
+                    data-url="@Url.Action("GeneratePassword", "Contracts")">
+                Generate
+            </button>
+        </div>
+
+        <div class="form-text">
+            The password issued to the customer.
+        </div>
+        <div class="text-danger small mt-1" data-password-status role="status"></div>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+
+        <button type="submit"
+                class="btn btn-primary">
+            Save Login
+        </button>
+
+        <button type="submit"
+                formaction="@Url.Action("EmailCustomerLogin", "Contracts")"
+                class="btn btn-outline-primary">
+            <i class="bi bi-envelope me-1"></i>
+            Email Login Details
+        </button>
+
+    </div>
+
+</form>

@@ -1,0 +1,162 @@
+@model SmartOps.Web.Models.Customer
+
+@{
+    ViewData["Title"] = "Details";
+    var activeContract = ViewData["ActiveContract"] as SmartOps.Web.Models.Contract;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Customer</h4>
+
+    @if (ViewBag.ReturnUrl != null)
+    {
+        <a href="@ViewBag.ReturnUrl" class="btn btn-secondary">Back</a>
+    }
+    else
+    {
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    }
+</div>
+<hr />
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <div class="mb-3">
+            <div class="fw-bold">
+                @Html.DisplayNameFor(model => model.Name)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">Address</div>
+
+            <div>
+                @Html.DisplayFor(model => model.Add1)
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Add2))
+            {
+                <div>@Model.Add2</div>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.Add3))
+            {
+                <div>@Model.Add3</div>
+            }
+
+            <div>
+                @Html.DisplayFor(model => model.Postcode)
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="fw-bold">
+                @Html.DisplayNameFor(model => model.Phone1)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.Phone1)
+            </div>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Phone2))
+        {
+            <div class="mb-3">
+                <div class="fw-bold">
+                    @Html.DisplayNameFor(model => model.Phone2)
+                </div>
+                <div>
+                    @Html.DisplayFor(model => model.Phone2)
+                </div>
+            </div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.Phone3))
+        {
+            <div class="mb-3">
+                <div class="fw-bold">
+                    @Html.DisplayNameFor(model => model.Phone3)
+                </div>
+                <div>
+                    @Html.DisplayFor(model => model.Phone3)
+                </div>
+            </div>
+        }
+
+        <div class="mb-3">
+            <div class="fw-bold">
+                @Html.DisplayNameFor(model => model.Email)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.Email)
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="fw-bold">
+                @Html.DisplayNameFor(model => model.IsActive)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.IsActive)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <h5 class="mb-3">App Login Details</h5>
+
+        <div class="mb-3">
+            <div class="fw-bold">Active Contract</div>
+            @if (activeContract != null)
+            {
+                <a class="text-decoration-none" asp-controller="Contracts" asp-action="Details" asp-route-id="@activeContract.Id">
+                    @activeContract.ContractCode
+                </a>
+            }
+            else
+            {
+                <div>None</div>
+            }
+        </div>
+
+        @if (activeContract != null)
+        {
+            @if (TempData["Success"] is string message)
+            {
+                <div class="alert alert-success" role="status">@message</div>
+            }
+            <partial name="_CustomerAppLogin" model="activeContract" />
+        }
+    </div>
+
+</div>
+
+
+
+
+<div class="mt-4 d-flex justify-content-between align-items-center">
+
+    <a asp-action="Delete"
+       asp-route-id="@Model.Id"
+       class="btn btn-danger">
+        Delete Customer
+    </a>
+
+    <a asp-action="Edit"
+       asp-route-id="@Model.Id"
+       asp-route-returnUrl="@ViewBag.ReturnUrl"
+       class="btn btn-primary ms-auto">
+        Edit
+    </a>
+
+</div>
+
+@section Scripts {
+    @if (activeContract != null)
+    {
+        <script src="~/js/user-login.js" asp-append-version="true"></script>
+    }
+}

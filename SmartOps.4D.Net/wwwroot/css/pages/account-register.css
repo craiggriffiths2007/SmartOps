@@ -1,0 +1,16 @@
+/* Styles for Areas/Identity/Pages/Account/Register.cshtml. */
+.register-heading {
+    width: max-content;
+    max-width: 90vw;
+}
+
+.register-container {
+    max-width: 440px;
+}
+
+@media (max-width: 768px) {
+    .register-heading {
+        width: 100%;
+    }
+
+}

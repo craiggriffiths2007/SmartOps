@@ -1,0 +1,340 @@
+.dq-page {
+    max-width: 1700px;
+}
+
+.dq-layout {
+    display: grid;
+    grid-template-columns: minmax(210px, .85fr) minmax(330px, 1.25fr) minmax(270px, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.dq-pane {
+    min-width: 0;
+}
+
+.dq-list {
+    max-height: 67vh;
+    overflow-y: auto;
+}
+
+.dq-row {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    padding: 6px;
+    border-bottom: 1px solid #eee;
+}
+
+.dq-row.active {
+    background: #eaf3ff;
+    border-radius: 6px;
+}
+
+.dq-row button.dq-select {
+    flex: 1;
+    text-align: left;
+    overflow-wrap: anywhere;
+    border: 0;
+    background: transparent;
+    padding: 4px;
+    color: #123;
+}
+
+.dq-row .dq-action {
+    border: 0;
+    border-radius: 4px;
+    background: #f1f2f4;
+    padding: 1px 7px;
+}
+
+.dq-question {
+    margin: 0 0 17px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+}
+
+.dq-question label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.dq-question .dq-required {
+    color: #b52525;
+}
+
+.dq-question .form-control,
+.dq-question .form-select {
+    max-width: 100%;
+}
+
+.dq-pane textarea {
+    min-height: 74px;
+}
+
+.dq-help {
+    font-size: .82rem;
+    color: #6c757d;
+}
+
+@media(max-width:700px) {
+    .dq-layout {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dq-pane {
+        width: 100%;
+    }
+
+    .dq-list {
+        max-height: 260px;
+    }
+
+}
+
+/* Option rules are kept within the normal question editor instead of raw JSON. */
+.dq-options-wrapper {
+    border-top: 1px solid #e4e8ef;
+    padding-top: 15px;
+    margin: 8px 0 22px;
+}
+
+.dq-rule {
+    border: 1px solid #d6e2ee;
+    border-radius: 9px;
+    padding: 12px;
+    margin-bottom: 12px;
+    background: #f8fafc;
+}
+
+.dq-cond-row {
+    display: grid;
+    grid-template-columns: 1fr .8fr 1fr auto;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.dq-cond-row .form-select,
+.dq-cond-row .form-control {
+    min-width: 0;
+    font-size: .87rem;
+}
+
+@media (max-width: 800px) {
+    .dq-cond-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .dq-cond-row input {
+        grid-column: 1 / 2;
+    }
+
+}
+
+/* App-like interactive live preview */
+.dq-preview-title {
+    display: block;
+    padding: 0;
+    margin: 0 0 8px;
+    border: 0;
+    background: transparent;
+    color: #123;
+    font: inherit;
+    font-weight: 600;
+    text-align: left;
+    cursor: default;
+}
+
+.dq-question.dq-preview-selected {
+    border-color: #86b7fe;
+    background: #f0f6ff;
+}
+
+.dq-preview-yesno {
+    display: flex;
+    gap: 8px;
+}
+
+.dq-choice-button {
+    flex: 1;
+    min-height: 44px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #fff;
+    color: #123;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.dq-choice-button.selected {
+    background: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+}
+
+.dq-button-picker {
+    position: relative;
+}
+
+.dq-preview-picker {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    min-height: 45px;
+    padding: 9px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 7px;
+    background: #fff;
+    color: #123;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dq-preview-picker:hover {
+    border-color: #86b7fe;
+}
+
+.dq-picker-arrow {
+    color: #667085;
+}
+
+.dq-picker-menu {
+    margin-top: 4px;
+    max-height: 240px;
+    overflow-y: auto;
+    border: 1px solid #ced4da;
+    border-radius: 7px;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.dq-picker-menu[hidden] {
+    display: none;
+}
+
+.dq-picker-option {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    border: 0;
+    border-bottom: 1px solid #f1f2f4;
+    background: white;
+    color: #123;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dq-picker-option:hover,
+.dq-picker-option.selected {
+    background: #eaf3ff;
+}
+
+.dq-picker-empty {
+    padding: 10px 12px;
+    color: #6c757d;
+}
+
+/* Question ordering controls in the live preview */
+.dq-preview-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.dq-preview-heading .dq-preview-title {
+    margin-bottom: 0;
+    min-width: 0;
+    text-align: left;
+}
+
+.dq-preview-actions {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 5px;
+}
+
+.dq-preview-move {
+    border: 0;
+    border-radius: 5px;
+    background: #e9ecef;
+    color: #123;
+    padding: 2px 8px;
+    min-width: 29px;
+    min-height: 30px;
+    cursor: pointer;
+}
+
+.dq-preview-move:hover:not(:disabled) {
+    background: #d6e7ff;
+}
+
+.dq-preview-move:disabled {
+    opacity: .35;
+    cursor: default;
+}
+
+/* Faint lavender tint for questions with a ShowWhen condition. */
+.dq-question.dq-conditional {
+    background-color: #f5f1fb;
+    border-color: #e7def4;
+}
+
+/* Selected questions retain a clear selection border and subtle tint. */
+.dq-question.dq-conditional.dq-preview-selected {
+    background-color: #f0eafa;
+    border-color: #86b7fe;
+}
+
+/* Dynamic Questions - equal width columns */
+.dq-page .dq-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 18px;
+    width: 100%;
+}
+
+.dq-page .dq-pane {
+    min-width: 0;
+    width: 100%;
+}
+
+/* Stack panels on smaller screens */
+@media (max-width: 767px) {
+    .dq-page .dq-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+}
+
+/* Conditional questions - more noticeable lavender tint */
+.dq-question.dq-conditional {
+    background-color: #eee7ff;
+    border: 1px solid #c5aff5;
+}
+
+/* Conditional question when selected */
+.dq-question.dq-conditional.dq-preview-selected {
+    background-color: #e4d8ff;
+    border: 2px solid #8b5cf6;
+}
+
+/* Keep Edit Question below the navigation bar */
+@media (min-width: 768px) {
+    .dq-page .dq-layout > .dq-pane:nth-child(2) {
+        position: sticky;
+        top: 85px;
+        align-self: start;
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+    }
+
+}

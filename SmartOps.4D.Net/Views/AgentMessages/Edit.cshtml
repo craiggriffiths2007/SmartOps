@@ -1,0 +1,190 @@
+@model SmartOps.Web.ViewModels.AgentMessageCreateViewModel
+@{
+    ViewData["Title"] = "Edit Mail";
+}
+<link href="~/lib/quill.snow.css" rel="stylesheet" />
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Edit Mail</h2>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</div>
+
+<form asp-action="Edit" method="post" id="messageForm">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+    <div class="mb-3">
+        <label asp-for="Subject" class="form-label fw-bold"></label>
+        <input asp-for="Subject" class="form-control" maxlength="200" />
+        <span asp-validation-for="Subject" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Message</label>
+
+        <div id="editor" class="agent-message-editor"></div>
+
+        <input asp-for="BodyHtml"
+               type="hidden"
+               id="BodyHtml" />
+
+        <span asp-validation-for="BodyHtml"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+    <label class="form-label fw-bold mb-0">
+        Send to selected agents
+    </label>
+
+    <div>
+        <button type="button"
+        class="btn btn-sm btn-secondary"
+        id="selectSatellites">
+            Satellites
+            </button>
+        <button type="button"
+                class="btn btn-sm btn-secondary"
+                id="selectSurveyors">
+            Surveyors
+        </button>
+
+        <button type="button"
+                class="btn btn-sm btn-secondary"
+                id="selectFitters">
+            Fitters
+        </button>
+
+        <button type="button"
+                class="btn btn-sm btn-secondary"
+                id="selectAll">
+            All
+        </button>
+
+        <button type="button"
+                class="btn btn-sm btn-secondary"
+                id="clearAll">
+            Clear
+        </button>
+    </div>
+</div>
+        <span asp-validation-for="SelectedAgentIds" class="text-danger d-block mb-2"></span>
+        <div class="row g-2">
+            @foreach (var agent in Model.Agents)
+            {
+                var selected = Model.SelectedAgentIds.Contains(agent.Id);
+                <div class="col-md-4 col-lg-3">
+                    <label class="border rounded p-2 w-100 h-100 agent-choice">
+                        <input type="checkbox"
+                                name="SelectedAgentIds"
+                                value="@agent.Id"
+                                data-agent-type="@agent.Type"
+                                @(selected ? "checked" : "") />
+                        <strong>@agent.Name</strong><br />
+                        <small class="text-muted">@agent.Code · @agent.Type</small>
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+
+    
+
+<div class="text-end">
+    <button type="submit" class="btn btn-primary ms-auto">
+        Save Changes
+    </button>
+</div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script src="~/lib/quill.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const quill = new Quill('#editor', {
+                theme: 'snow',
+                placeholder: 'Type your message here...',
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline', 'strike', { color: [] }],
+                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                        ['clean']
+                    ]
+                }
+            });
+
+            // Restore message after validation error
+            const bodyHtml =
+                document.getElementById('BodyHtml').value;
+
+            if (bodyHtml) {
+                quill.clipboard.dangerouslyPasteHTML(bodyHtml);
+            }
+
+            document.getElementById('messageForm')
+                .addEventListener('submit', function () {
+
+                    document.getElementById('BodyHtml').value =
+                        quill.root.innerHTML;
+                });
+
+
+            // SELECT ALL
+            document.getElementById('selectAll')
+                .addEventListener('click', function () {
+
+                    document.querySelectorAll(
+                        'input[name="SelectedAgentIds"]'
+                    ).forEach(x => x.checked = true);
+                });
+
+                document.getElementById('selectSatellites')
+    .addEventListener('click', function () {
+
+        document.querySelectorAll(
+            'input[name="SelectedAgentIds"]'
+        ).forEach(x => {
+            if (x.dataset.agentType.toLowerCase() === 'satellite')
+                x.checked = true;
+        });
+    });
+
+                document.getElementById('selectSurveyors')
+            .addEventListener('click', function () {
+
+                document.querySelectorAll(
+                    'input[name="SelectedAgentIds"]'
+                ).forEach(x => {
+                    if (x.dataset.agentType.toLowerCase() === 'surveyor')
+                        x.checked = true;
+                });
+            });
+
+        document.getElementById('selectFitters')
+            .addEventListener('click', function () {
+
+                document.querySelectorAll(
+                    'input[name="SelectedAgentIds"]'
+                ).forEach(x => {
+                    if (x.dataset.agentType.toLowerCase() === 'fitter')
+                        x.checked = true;
+                });
+            });
+
+            // CLEAR ALL
+            document.getElementById('clearAll')
+                .addEventListener('click', function () {
+
+                    document.querySelectorAll(
+                        'input[name="SelectedAgentIds"]'
+                    ).forEach(x => x.checked = false);
+                });
+
+        });
+    </script>
+}

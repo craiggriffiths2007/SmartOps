@@ -1,0 +1,95 @@
+@model SmartOps.Web.Models.VehicleCheckHeader
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>VehicleCheckHeader</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CheckWeekDate" class="control-label"></label>
+                <input asp-for="CheckWeekDate" class="form-control" />
+                <span asp-validation-for="CheckWeekDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BranchCode" class="control-label"></label>
+                <input asp-for="BranchCode" class="form-control" />
+                <span asp-validation-for="BranchCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckID" class="control-label"></label>
+                <input asp-for="CheckID" class="form-control" />
+                <span asp-validation-for="CheckID" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="bComplete" /> @Html.DisplayNameFor(model => model.bComplete)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="bSent" /> @Html.DisplayNameFor(model => model.bSent)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalDeliveryHGVs" class="control-label"></label>
+                <input asp-for="TotalDeliveryHGVs" class="form-control" />
+                <span asp-validation-for="TotalDeliveryHGVs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalDeliveryVans" class="control-label"></label>
+                <input asp-for="TotalDeliveryVans" class="form-control" />
+                <span asp-validation-for="TotalDeliveryVans" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalFitterVans" class="control-label"></label>
+                <input asp-for="TotalFitterVans" class="form-control" />
+                <span asp-validation-for="TotalFitterVans" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalSalesCars" class="control-label"></label>
+                <input asp-for="TotalSalesCars" class="form-control" />
+                <span asp-validation-for="TotalSalesCars" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompleteDeliveryHGVs" class="control-label"></label>
+                <input asp-for="CompleteDeliveryHGVs" class="form-control" />
+                <span asp-validation-for="CompleteDeliveryHGVs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompleteDeliveryVans" class="control-label"></label>
+                <input asp-for="CompleteDeliveryVans" class="form-control" />
+                <span asp-validation-for="CompleteDeliveryVans" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompleteFitterVans" class="control-label"></label>
+                <input asp-for="CompleteFitterVans" class="form-control" />
+                <span asp-validation-for="CompleteFitterVans" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompleteSalesCars" class="control-label"></label>
+                <input asp-for="CompleteSalesCars" class="form-control" />
+                <span asp-validation-for="CompleteSalesCars" class="text-danger"></span>
+            </div>
+            
+
+<div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

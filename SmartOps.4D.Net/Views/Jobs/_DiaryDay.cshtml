@@ -1,0 +1,110 @@
+@model SmartOps.Web.ViewModels.JobIndexViewModel
+@{
+    var listDate = Model.WeekStartDate.Date;
+}
+
+    <!-- DAY VIEW -->
+
+<link rel="stylesheet" href="~/css/pages/diary-day.css" asp-append-version="true" />
+
+    <div class="record-cards day-bookings" data-paginate>
+
+        @if (Model.Jobs != null && Model.Jobs.Any())
+        {
+            @foreach (var job in Model.Jobs
+                    .OrderBy(j => j.Time.TimeOfDay)
+                    .ThenBy(j => j.ContractCode))
+            {
+                var jobClass =
+                    job.JobType == enum_job_type.Survey
+                        ? "job-type-survey"
+                        : job.JobType == enum_job_type.Fitting
+                            ? "job-type-fitting"
+                            : "job-type-remedial";
+
+                var typeLetter =
+                    job.JobType == enum_job_type.Survey
+                        ? "S"
+                        : job.JobType == enum_job_type.Fitting
+                            ? "F"
+                            : "R";
+
+                var endTime = job.Time.Add(job.JobTime);
+
+                <div class="record-card day-booking-card"
+                     role="link"
+                     tabindex="0"
+                     data-booking-url="@Url.Action("Details", "Jobs", new { id = job.Id, returnUrl = Context.Request.Path + Context.Request.QueryString.ToString() })"
+                     aria-label="View booking @job.ContractCode for @job.Customer?.Name">
+
+    <!-- TOP LINE -->
+    <div class="day-booking-header">
+
+        <div class="day-booking-title">
+            <a asp-controller="Contracts"
+           asp-action="Details"
+           asp-route-id="@job.ContractId"
+           asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
+           class="diary-contract-link">
+            <strong>@job.ContractCode</strong>
+        </a>
+
+            <a asp-controller="Customers" asp-action="Details" asp-route-id="@job.CustomerId" asp-route-contractId="@job.ContractId"
+               asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
+               class="day-booking-customer diary-customer-record-link">@job.Customer?.Name</a>
+        </div>
+
+        <div class="day-booking-header-right">
+            <span class="day-booking-time">@job.Time.ToString("HH:mm") - @endTime.ToString("HH:mm")</span>
+            <span class="day-booking-type-badge @jobClass">@job.JobType</span>
+        </div>
+
+    </div>
+
+    <!-- ADDRESS / ALLOCATED -->
+    <div class="day-booking-info day-booking-address-row">
+        <div class="day-booking-address" title="@string.Join(", ", new[] { job.Customer?.Add1, job.Customer?.Add2, job.Customer?.Add3, job.Customer?.Postcode }.Where(x => !string.IsNullOrWhiteSpace(x)))">
+            @string.Join(", ", new[] { job.Customer?.Add1, job.Customer?.Add2, job.Customer?.Add3, job.Customer?.Postcode }.Where(x => !string.IsNullOrWhiteSpace(x)))
+        </div>
+        <div class="day-booking-allocated">
+            <span>Allocated: @job.JobTime.ToString(@"hh\:mm")</span>
+        </div>
+    </div>
+
+    <!-- DAMAGE / OPERATIVE -->
+    <div class="day-booking-bottom day-booking-footer">
+        <div class="day-booking-damage">
+            @if (!string.IsNullOrWhiteSpace(job.DamageDesc))
+            {
+                <span>
+                    <strong>Damage:</strong>
+                    @job.DamageDesc
+                </span>
+            }
+        </div>
+
+        <div class="day-booking-operative day-booking-operative-alignment">
+            <strong>@job.Agent?.Code</strong>
+            @if (!string.IsNullOrWhiteSpace(job.Agent?.Name))
+            {
+                <span> - @job.Agent.Name</span>
+            }
+            @await Html.PartialAsync("_DiaryReceivedStatus", new SmartOps.Web.ViewModels.DiaryReceivedStatusViewModel
+            {
+                Status = job.Contract?.Status,
+                Headers = Model.Headers?.Where(h => !string.IsNullOrEmpty(job.ContractCode) && h.ContractCode == job.ContractCode) ?? Enumerable.Empty<SmartOps.Web.Models.JobHeader>()
+            })
+        </div>
+    </div>
+
+</div>
+            }
+        }
+        else
+        {
+            <div class="day-booking-empty">
+                No bookings for @listDate.ToString("dddd d MMMM yyyy").
+            </div>
+        }
+
+    </div>

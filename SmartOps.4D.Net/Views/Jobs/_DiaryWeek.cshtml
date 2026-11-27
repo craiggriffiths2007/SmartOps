@@ -1,0 +1,235 @@
+@model SmartOps.Web.ViewModels.JobIndexViewModel
+@{
+    var weekStart = Model.WeekStartDate.Date;
+    var weekJobs = new Dictionary<int, Dictionary<int, List<SmartOps.Web.Models.Job>>>();
+    for (int d = 0; d < 7; d++)
+        weekJobs[d] = new Dictionary<int, List<SmartOps.Web.Models.Job>>();
+    if (Model.Jobs != null)
+    {
+        foreach (var job in Model.Jobs)
+        {
+            int dayIdx = (job.DiaryDate.Date - weekStart).Days;
+            if (dayIdx < 0 || dayIdx > 6) continue;
+            int hour = job.Time.Hour;
+            if (!weekJobs[dayIdx].ContainsKey(hour))
+                weekJobs[dayIdx][hour] = new List<SmartOps.Web.Models.Job>();
+            weekJobs[dayIdx][hour].Add(job);
+        }
+    }
+}
+
+    <!-- WEEK VIEW -->
+
+
+    <div class="week-view-container">
+        <table class="table table-bordered week-table">
+            <thead class="table-light">
+                <tr>
+                    <th class="week-time-col"></th>
+                    @for (int d = 0; d < 7; d++)
+{
+    var day = weekStart.AddDays(d);
+
+    bool isToday = day == DateTime.Today;
+
+    bool isWeekend =
+        day.DayOfWeek == DayOfWeek.Saturday ||
+        day.DayOfWeek == DayOfWeek.Sunday;
+
+    <th class="@(isWeekend ? "week-weekend-header" : "")">
+    <div class="week-day-heading">
+
+        <span class="week-day-number @(isToday ? "week-today-label" : "")">
+    @day.ToString("%d")
+</span>
+
+<a asp-action="Index"
+   asp-route-view="list"
+   asp-route-weekStart="@day.ToString("yyyy-MM-dd")"
+   asp-route-branchId="@(Model.BranchId ?? 0)"
+   asp-route-q="@Model.SearchQuery"
+   class="week-day-name diary-heading-link @(isToday ? "week-today-label" : "")"
+   data-full="@day.ToString("dddd")"
+   data-short="@day.ToString("ddd")"
+   title="Show @day.ToString("dddd d MMMM")">
+    @day.ToString("dddd")
+</a>
+
+    </div>
+</th>
+}
+                </tr>
+            </thead>
+            <tbody>
+                @for (int hour = 7; hour <= 19; hour += 2)
+                {
+                    <tr class="
+                        @(hour == 13 ? "week-midday-row " : "")
+                        @(hour == 7 || hour == 17 || hour == 19
+                            ? "week-row-single"
+                            : "week-row-double")">
+
+                        <td class="week-time-label">
+                            @(hour.ToString("00") + ":00")
+                        </td>
+
+                        @for (int d = 0; d < 7; d++)
+                        {
+                            var colDate = weekStart.AddDays(d);
+                            bool isToday = colDate == DateTime.Today;
+                            bool isWeekend =
+                                    colDate.DayOfWeek == DayOfWeek.Saturday ||
+                                    colDate.DayOfWeek == DayOfWeek.Sunday;
+                            // Combine jobs from both hours into this one cell
+                            var jobsForPeriod = new List<SmartOps.Web.Models.Job>();
+
+                            if (weekJobs[d].ContainsKey(hour))
+                            {
+                                jobsForPeriod.AddRange(weekJobs[d][hour]);
+                            }
+
+                            if (weekJobs[d].ContainsKey(hour + 1))
+                            {
+                                jobsForPeriod.AddRange(weekJobs[d][hour + 1]);
+                            }
+
+                            jobsForPeriod = jobsForPeriod
+                                .OrderBy(j => j.Time)
+                                .ToList();
+
+                            <td class="week-cell
+                                       @(isToday ? "week-today-cell" : "")
+                                       @(isWeekend ? "week-weekend-cell" : "")">
+
+                                <div class="week-cell-scroll">
+
+                                    @foreach (var job in jobsForPeriod)
+                                    {
+                                        var jobClass =
+                                            job.JobType == enum_job_type.Survey
+                                                ? "job-type-survey"
+                                                : job.JobType == enum_job_type.Fitting
+                                                    ? "job-type-fitting"
+                                                    : "job-type-remedial";
+
+                                        <div class="calendar-event diary-booking @jobClass">
+
+                                            <div class="diary-booking-header">
+
+    <a asp-controller="Contracts"
+   asp-action="Details"
+   asp-route-id="@job.ContractId"
+   asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
+   class="diary-contract-link">
+    <strong>@job.ContractCode</strong>
+</a>
+
+    <a asp-controller="Jobs" asp-action="Details" asp-route-id="@job.Id" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
+            class="diary-booking-toggle diary-time-toggle"
+            data-diary-target="diary-job-@job.Id"
+            aria-controls="diary-job-@job.Id"
+            aria-expanded="false"
+            title="@job.ContractCode - @job.Customer?.Name">
+
+        <span>
+            @job.Time.ToString("HH:mm") -
+            @job.Time.Add(job.JobTime).ToString("HH:mm")
+        </span>
+
+    </a>
+
+</div>
+
+                                            <div class="diary-name-agent">
+                                                <a asp-controller="Customers" asp-action="Details"
+                                                   asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
+                                               asp-route-id="@job.CustomerId" asp-route-contractId="@job.ContractId"
+                                               class="calendar-event-link diary-booking-link diary-customer-name">@job.Customer?.Name</a>
+                                                @await Html.PartialAsync("_DiaryReceivedStatus", new SmartOps.Web.ViewModels.DiaryReceivedStatusViewModel
+                                                {
+                                                    Status = job.Contract?.Status,
+                                                    Headers = Model.Headers?.Where(h => !string.IsNullOrEmpty(job.ContractCode) && h.ContractCode == job.ContractCode) ?? Enumerable.Empty<SmartOps.Web.Models.JobHeader>()
+                                                })
+                                            </div>
+
+                                            
+
+                                            <div class="diary-agent-row">
+                                                <span class="diary-agent-name" title="@job.Agent?.Name">@job.Agent?.Name</span>
+                                                <span class="diary-agent-code">@job.Agent?.Code</span>
+                                            </div>
+
+                                            <div class="diary-booking-extra"
+                                                 id="diary-job-@job.Id"
+                                                 hidden>
+                                                <div class="diary-booking-divider"></div>
+
+
+                                                <div>
+                                                    <strong>Type:</strong> <a asp-action="Details"
+                                                   asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
+                                                   asp-route-id="@job.Id"
+                                                   class="diary-job-type-link">@job.JobType</a>
+                                                </div>
+
+                                                <div class="diary-agent-details">
+                                                    <strong>Agent:</strong>
+                                                    <span>@job.Agent?.Name</span>
+                                                    @if (!string.IsNullOrWhiteSpace(job.Agent?.Code))
+                                                    {
+                                                        <span class="diary-expanded-agent-code">- @job.Agent.Code</span>
+                                                    }
+                                                </div>
+
+                                                <div>
+                                                    <strong>Duration:</strong>
+                                                    @job.JobTime.ToString(@"hh\:mm")
+                                                </div>
+
+                                                @if (job.Customer != null)
+                                                {
+                                                    <div class="mt-1">
+
+                                                        <strong>Address</strong>
+
+                                                        <div>@job.Customer.Add1</div>
+
+                                                        @if (!string.IsNullOrWhiteSpace(job.Customer.Add2))
+                                                        {
+                                                            <div>@job.Customer.Add2</div>
+                                                        }
+
+                                                        @if (!string.IsNullOrWhiteSpace(job.Customer.Add3))
+                                                        {
+                                                            <div>@job.Customer.Add3</div>
+                                                        }
+
+                                                        <div>@job.Customer.Postcode</div>
+
+                                                    </div>
+                                                }
+
+                                                @if (!string.IsNullOrWhiteSpace(job.DamageDesc))
+                                                {
+                                                    <div class="mt-1">
+                                                        <strong>Damage:</strong>
+                                                        @job.DamageDesc
+                                                    </div>
+                                                }
+
+                                                
+
+                                                
+                                            </div>
+
+                                        </div>
+                                    }
+
+                                </td>
+                            }
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>

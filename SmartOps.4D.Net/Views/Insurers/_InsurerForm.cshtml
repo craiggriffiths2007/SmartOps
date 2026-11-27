@@ -1,0 +1,80 @@
+@model SmartOps.Web.Models.Insurer
+
+@{
+    bool isEdit = ViewData["IsEdit"] as bool? ?? false;
+    string buttonText = isEdit ? "Save" : "Create";
+}
+
+<div asp-validation-summary="ModelOnly"
+     class="text-danger"></div>
+
+@if (isEdit)
+{
+    <input type="hidden" asp-for="Id" />
+}
+
+<div class="form-group">
+    <label asp-for="Name" class="control-label"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="ContactName" class="control-label"></label>
+    <input asp-for="ContactName" class="form-control" />
+    <span asp-validation-for="ContactName" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Email" class="control-label"></label>
+    <input asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Telephone" class="control-label"></label>
+    <input asp-for="Telephone" class="form-control" />
+    <span asp-validation-for="Telephone" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Address1" class="control-label"></label>
+    <input asp-for="Address1" class="form-control" />
+    <span asp-validation-for="Address1" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Address2" class="control-label"></label>
+    <input asp-for="Address2" class="form-control" />
+    <span asp-validation-for="Address2" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Address3" class="control-label"></label>
+    <input asp-for="Address3" class="form-control" />
+    <span asp-validation-for="Address3" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Postcode" class="control-label"></label>
+    <input asp-for="Postcode" class="form-control" />
+    <span asp-validation-for="Postcode" class="text-danger"></span>
+</div>
+
+<div class="form-check mt-3">
+    <input asp-for="IsActive"
+           class="form-check-input" />
+
+    <label asp-for="IsActive"
+           class="form-check-label"></label>
+
+    <span asp-validation-for="IsActive"
+          class="text-danger"></span>
+</div>
+
+<div class="form-group mt-3 d-flex justify-content-end">
+    <input type="submit"
+           value="@buttonText"
+           class="btn btn-primary ms-auto" />
+</div>
+

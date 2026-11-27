@@ -1,0 +1,118 @@
+@page
+@model LoginModel
+
+<div class="login-background">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-4 col-md-offset-2">
+
+            <div class="login-heading">
+                <h3 class="heading-no-margin">Welcome Back</h3>
+            </div>
+
+            <section>
+                <partial name="_StatusMessage" for="StatusMessage" />
+
+                <form id="account" method="post"
+                      data-login-prefill-url="@Url.Page("/Account/Login", "Prefill")"
+                      data-login-token="@Model.LoginToken">
+
+                    <hr />
+
+                    <div class="text-muted mb-3" data-login-prefill-status role="status"></div>
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger"
+                         role="alert"></div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Email"
+                               class="form-control"
+                               autocomplete="username"
+                               aria-required="true"
+                               placeholder="email or username"
+                               autofocus="@(string.IsNullOrWhiteSpace(Model.Input?.Email) ? "autofocus" : null)" />
+
+                        <label asp-for="Input.Email"
+                               class="form-label">
+                            Email or Username
+                        </label>
+
+                        <span asp-validation-for="Input.Email"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <input asp-for="Input.Password"
+                               class="form-control"
+                               autocomplete="current-password"
+                               aria-required="true"
+                               placeholder="password"
+                               autofocus="@(!string.IsNullOrWhiteSpace(Model.Input?.Email) ? "autofocus" : null)" />
+
+                        <label asp-for="Input.Password"
+                               class="form-label">
+                            Password
+                        </label>
+
+                        <span asp-validation-for="Input.Password"
+                              class="text-danger"></span>
+                    </div>
+                    
+                                        <div class="forgot-password">
+                        <a asp-page="./ForgotPassword">
+                            Forgotten your password?
+                        </a>
+                    </div>
+
+
+
+
+                    <div>
+                        <button id="login-submit"
+                                type="submit"
+                                class="w-100 btn btn-lg btn-primary">
+                            Login
+                        </button>
+                    </div>
+                                        <div class="checkbox mb-3">
+                        <label asp-for="Input.RememberMe"
+                               class="form-label">
+
+                            <input class="form-check-input"
+                                   asp-for="Input.RememberMe" />
+                                   Stay signed in
+                           
+                                   
+
+                        </label>
+
+                        
+
+                    </div>
+
+                  
+
+                </form>
+
+                
+            </section>
+            <br/><br/>
+            <a asp-area="Identity"
+                       asp-page="/Account/Register"
+                        class="d-block mt-3">
+                        Register
+                    </a>
+        </div>
+
+    </div>
+    
+
+</div>
+
+<link rel="stylesheet" href="~/css/pages/account-login.css" asp-append-version="true" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/user-login.js" asp-append-version="true"></script>
+}

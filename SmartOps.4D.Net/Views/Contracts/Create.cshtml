@@ -1,0 +1,59 @@
+@model SmartOps.Web.Models.Contract
+
+@{
+    ViewData["Title"] = "Create";
+    ViewData["IsEdit"] = false;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Add Contract</h4>
+
+    @if (ViewBag.ReturnUrl != null)
+    {
+        <a href="@ViewBag.ReturnUrl" class="btn btn-secondary">Cancel</a>
+    }
+    else
+    {
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    }
+</div>
+
+
+
+<hr />
+
+<form asp-action="Create" method="post">
+    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger"></div>
+
+    <div class="row bold-form">
+
+            <partial name="_ContractForm"
+                     model="@Model" />
+
+
+
+    </div>
+
+    
+
+<div class="mt-4 d-flex justify-content-between align-items-center">
+
+      
+        <input type="submit"
+               value="Save"
+               class="btn btn-primary ms-auto" />
+
+    </div>
+
+</form>
+
+@section Scripts {
+    <script src="~/js/contract-insurer.js" asp-append-version="true"></script>
+    <script src="~/js/contract-customer-form.js" asp-append-version="true"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

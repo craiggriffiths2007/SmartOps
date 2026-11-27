@@ -1,0 +1,11 @@
+@using Microsoft.AspNetCore.Mvc.Rendering
+<form asp-action="Index" method="get" class="d-flex flex-wrap gap-3 align-items-end mb-3 no-print">
+    <div>
+        <label for="branchCode" class="visually-hidden">Branch</label>
+        <select lock-branch-value="@((ViewData["BranchOptions"] as IEnumerable<SelectListItem>)?.FirstOrDefault(b => b.Selected)?.Value)" id="branchCode" name="branchCode" asp-items="@(ViewData["BranchOptions"] as IEnumerable<SelectListItem>)"
+                class="form-select" onchange="this.form.submit()">
+            <option value="">All branches</option>
+        </select>
+    </div>
+    <noscript><button type="submit" class="btn btn-primary">Apply filters</button></noscript>
+</form>

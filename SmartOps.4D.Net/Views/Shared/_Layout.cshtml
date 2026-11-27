@@ -1,0 +1,447 @@
+@using Microsoft.AspNetCore.Identity
+@using SmartOps.Web.Data
+
+@using Microsoft.EntityFrameworkCore
+
+@inject AppDBContext DbContext
+
+@inject ITenantContext TenantContext
+
+@{
+    var firstName = User.FindFirst("FirstName")?.Value;
+    var isFourDErrorLog = ViewContext.RouteData.Values["controller"]?.ToString() == "FourDErrorLog";
+    var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+    var pictureVersion = User.FindFirst("ProfilePictureVersion")?.Value;
+
+    var pageTitle = ViewData["Title"]?.ToString() ?? "SmartOps";
+    var isAuthenticated =
+        User.Identity?.IsAuthenticated == true;
+
+    var canDiary = User.IsInRole("Admin") || User.IsInRole("Diary");
+    var canBranch = User.IsInRole("Admin") || User.IsInRole("Branch");
+    var canUsers = User.IsInRole("Admin") || User.IsInRole("Users") || User.IsInRole("SuperAdmin");
+
+    var isInsurer =
+        User.IsInRole("Insurer");
+
+    var siteThemeColour = SiteThemes.All["Midnight"];
+
+    if (isAuthenticated &&
+        !isInsurer &&
+        !User.IsInRole("SuperAdmin") &&
+        TenantContext.TenantId.HasValue && !isFourDErrorLog)
+    {
+        var tenantTheme = await DbContext.Tenant
+            .Where(t => t.Id == TenantContext.TenantId.Value)
+            .Select(t => t.Theme)
+            .FirstOrDefaultAsync();
+
+        siteThemeColour = SiteThemes.GetColour(tenantTheme);
+    }
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@pageTitle | SmartOps</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon"
+          type="image/png"
+          href="~/img/splash.png"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navigation.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/pages/record-cards.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/item-report.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/diary.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/company.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/cookie-consent.css" asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/SmartOps.Web.styles.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/css/view-components.css" asp-append-version="true" />
+    <script>
+        function showProfileFallback() {
+            const image = document.querySelector('.nav-profile-photo');
+            const icon = image?.nextElementSibling;
+            image?.setAttribute('hidden', 'hidden');
+            icon?.setAttribute('style', 'font-size:2.2rem;color:white;display:block;');
+        }
+    </script>
+
+    @if (isAuthenticated && !isInsurer && !User.IsInRole("SuperAdmin"))
+    {
+        <style>
+                :root {
+                    --navbar-color: @siteThemeColour;
+                    --primary-color: @siteThemeColour;
+                }
+        </style>
+    }
+
+</head>
+<body>
+    <div class="top-navbar">
+        <!-- LEFT -->
+        <div class="top-nav-left">
+            <div class="logo">
+
+                <a href="/Jobs">
+                    <img src="~/img/cs.png" width="60" height="60" alt="SmartOps" />
+                </a>
+            </div>
+
+            @if (User.IsInRole("SuperAdmin"))
+            {
+                <a class="top-nav-item nav-icon-spacing"
+                   asp-area=""
+                   asp-controller="Tenants"
+                   asp-action="Index"
+                   title="Manage glazing companies">
+                    <i class="bi bi-buildings"></i>
+                    &nbsp;Companies
+                </a>
+
+                <a class="top-nav-item nav-icon-spacing"
+                   asp-area=""
+                   asp-controller="Insurers"
+                   asp-action="Index"
+                   title="Manage insurance companies">
+                    <i class="bi bi-shield-check"></i>
+                    &nbsp;Insurers
+                </a>
+
+                <a class="top-nav-item nav-icon-spacing" asp-area="" asp-controller="DynamicQuestions"
+                   asp-action="Index" title="Company question sets">
+                    <i class="bi bi-ui-checks-grid"></i>&nbsp;Questions
+                </a>
+
+
+            }
+            else
+            {
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    @if (User.IsInRole("Admin"))
+                    {
+                    <a class="top-nav-item account-company-name"
+                       asp-area=""
+                       asp-controller="Company"
+                       asp-action="Edit"
+                       title="@TenantContext.TenantCode">
+                        SMARTOPS · 4D
+                    </a>
+                    }
+                    else
+                    {
+                        <span class="top-nav-item account-company-name">SMARTOPS · 4D</span>
+                    }
+
+                    var currentController =
+                        ViewContext.RouteData.Values["controller"]?.ToString();
+
+                    @if (canDiary)
+                    {
+                        <!--<a class="top-nav-item nav-company-spacing"
+                            asp-area=""
+                            asp-controller="DynamicQuestions"
+                            asp-action="Index">
+                            <i class="bi bi-ui-checks-grid me-1"></i>
+                            Questions
+                        </a>-->
+                    }
+                }
+                else
+                {
+                    <span></span>
+                }
+            }
+
+            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+            {
+                @if (User.IsInRole("Admin"))
+                {
+
+                    <a class="top-nav-item nav-icon-spacing" asp-area="" asp-controller="FourDErrorLog"
+                       asp-action="Index" title="4D">
+                        <i class="bi bi-exclamation-triangle"></i>&nbsp;
+                    </a>
+                }
+            }
+        </div>
+
+        <!-- RIGHT -->
+        <div class="nav-right nav-edge-spacing">
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                
+                @*<div class="smartops-icons">
+                    <a href="javascript:printMain();"
+                       title="Print this page"
+                       rel="noopener noreferrer"
+                       class="smartops-download">
+                        <i class="bi bi-printer"></i>
+
+                    </a>
+                </div>*@
+
+                @if (!User.IsInRole("SuperAdmin") &&
+                                 !User.IsInRole("Insurer"))
+                {
+                    @*
+                    <div class="smartops-icons">
+                        <a href="https://play.google.com/store/apps/details?id=com.authorityx.glassops2"
+                           target="_blank"
+                           title="Get Android App"
+                           rel="noopener noreferrer"
+                           class="smartops-download">
+                            <i class="bi bi-google-play"></i>
+
+                        </a>
+                    </div>
+                    *@
+                    @if (canDiary)
+                    {
+                    <div class="top-nav-item split-menu">
+                                            <a class="text-white split-menu-link"
+                           asp-area="" asp-controller="Jobs"
+                           asp-action="Index">
+                            Diary
+                        </a>
+                        </div>
+
+                    <div class="top-nav-item split-menu">
+
+                        <a class="text-white split-menu-link"
+                           asp-area="" asp-controller="Contracts"
+                           asp-action="Index">
+                            Contracts
+                        </a>
+
+                        <span class="diary-dropdown-trigger">
+                            ▼
+                            <div class="dropdown">
+
+                                <a asp-area="" asp-controller="JobAgeing"
+                                   asp-action="Index">
+                                    Job Ageing
+                                </a>
+
+                                <a asp-area="" asp-controller="Customers"
+                                   asp-action="Index">
+                                    Customers
+                                </a>
+
+                                <a asp-area="" asp-controller="Invoices" asp-action="Index">Invoices</a>
+
+                                <a asp-area="" asp-controller="Messaging"
+                                   asp-action="Index">
+                                    Messaging
+                                    @if (!isFourDErrorLog)
+                                    {
+                                        @await Component.InvokeAsync("UnreadMessages")
+                                    }
+                                </a>
+
+                            </div>
+                        </span>
+
+                    </div>
+
+                    }
+                    @if (canBranch || canDiary)
+                    {
+                        <div class="top-nav-item split-menu">
+
+                           <a class="text-white split-menu-link"
+                               asp-area="" asp-controller="Agents"
+                               asp-action="Index">
+                                Agents
+                           </a>
+                        
+
+                           <span class="diary-dropdown-trigger">
+                            ▼
+                            <div class="dropdown">
+
+                                
+                                <a asp-area="" asp-controller="AgentMessages" asp-action="Index">Agent Mail</a>
+                                @if (canDiary)
+                                {
+                                    <a asp-area="" asp-controller="DynamicQuestions" asp-action="Index">
+                                        Survey Questions
+                                    </a>
+                                }
+                                    </div>
+                            </span>
+                            </div>
+
+
+                            <div class="top-nav-item split-menu">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a class="text-white split-menu-link"
+                               asp-area="" asp-controller="Branches"
+                               asp-action="Index">
+                                Branch
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="text-white split-menu-link">Branch</span>
+                        }
+
+                        <span class="diary-dropdown-trigger">
+                            ▼
+                            <div class="dropdown">
+
+                                @if (canBranch)
+                                {
+                                <a asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicles</a>
+                                <a asp-area="" asp-controller="VehicleChecks" asp-action="Index">Vehicle Checks</a>
+
+                                <a asp-area="" asp-controller="ToolChecks" asp-action="Index">Tool Checks</a>
+                                <a asp-area="" asp-controller="LadderChecks" asp-action="Index">Ladder Checks</a>
+                                <a asp-area="" asp-controller="SpotChecks" asp-action="Index">Spot Checks</a>
+                                <a asp-area="" asp-controller="MileageSheets" asp-action="Index">Mileage Sheets</a>
+
+                                <a asp-area="" asp-controller="VAccidents" asp-action="Index">Vehicle Accidents</a>
+                                <a asp-area="" asp-controller="FAccidents" asp-action="Index">Work Accidents</a>
+                                }
+                            </div>
+                        </span>
+
+                    </div>
+                    }
+                }
+                @if (canUsers)
+                {
+                    <div class="top-nav-item split-menu">
+
+                        <a class="text-white split-menu-link"
+                           asp-area="" asp-controller="Users"
+                           asp-action="Index">
+                            Users
+                        </a>
+                        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                        {
+                            <span class="diary-dropdown-trigger">
+                                ▼
+                                <div class="dropdown">
+                                    <a asp-area="" asp-controller="Log" asp-action="Index" title="Activity log">Log</a>
+                                    @if (User.IsInRole("SuperAdmin"))
+                                    {
+                                        <a asp-area="" asp-controller="UserRoles" asp-action="Index">User Roles</a>
+                                    }
+                                </div>
+                            </span>
+                        }
+                    </div>
+                }
+                <a asp-area="Identity"
+                   asp-page="/Account/Manage/Index"
+                   title="@firstName" class="nav-profile-link">
+
+                    <img src="@Url.Action("Picture", "Profile", new { area = "", id = userId, v = pictureVersion })"
+                         width="40"
+                         height="40" class="nav-profile-photo"
+                         alt="Profile"
+                         onerror="showProfileFallback()" />
+
+                    <i class="bi bi-person-circle"
+                       style="font-size:2.2rem;
+                    color:white;
+                    display:none;"
+                       title="@firstName"></i>
+                </a>
+                <form class="nav-item"
+                      id="logoutForm"
+                      asp-area="Identity"
+                      asp-page="/Account/Logout"
+                      asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+
+                    <button id="logout"
+                            type="submit"
+                            class="btn btn-link text-white p-0"
+                            title="Logout"
+                            aria-label="Logout">
+                        <i class="bi bi-box-arrow-right smartops-download" ></i>
+                    </button>
+
+                </form>
+            }
+            else
+            {
+                <a class="smartops-download" href="/Account/Login">Login</a>
+            }
+        </div>
+
+    </div>
+
+    <br />
+    <div class="container">
+        <main id="printableArea" role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <div id="imageLightbox"
+         class="image-lightbox">
+
+        <button type="button"
+                class="image-lightbox-close"
+                aria-label="Close">
+            ×
+        </button>
+
+        <button type="button"
+                class="image-lightbox-prev"
+                aria-label="Previous image">
+            ‹
+        </button>
+
+        <img id="imageLightboxImage"
+             src=""
+             alt="" />
+
+        <button type="button"
+                class="image-lightbox-next"
+                aria-label="Next image">
+            ›
+        </button>
+
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+    @if (isAuthenticated)
+    {
+        <partial name="_AccountMobileNavigation" />
+    }
+    
+<partial name="_CookieConsent" />
+<script src="~/js/cookie-consent.js"
+        asp-append-version="true"></script>
+<script src="~/js/record-lists.js" asp-append-version="true"></script>
+</body>
+
+</html>
+
+<link rel="stylesheet" href="~/css/pages/navigation-responsive.css" asp-append-version="true" />

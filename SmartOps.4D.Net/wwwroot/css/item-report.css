@@ -1,0 +1,315 @@
+/* Survey-item details and print layout, deliberately scoped to reports. */
+.go-item-report {
+    color: #183249;
+    font-size: 14px;
+
+}
+
+.go-report-header {
+    border-bottom: 2px solid #184b76;
+    padding: 6px 0 14px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.go-report-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 3px 0 5px;
+}
+
+.go-report-kicker {
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    font-size: .72rem;
+    font-weight: 700;
+    color: #5e7488;
+}
+
+.go-report-meta {
+    color: #5e7488;
+    font-size: .9rem;
+}
+
+.go-report-version {
+    color: #25577f;
+    font-size: .78rem;
+    font-weight: 600;
+    background: #eaf2f9;
+    border: 1px solid #cfdfeb;
+    border-radius: 5px;
+    white-space: nowrap;
+    padding: 5px 10px;
+}
+
+.go-report-section {
+    margin: 0 0 22px;
+}
+
+.go-report-section h3,
+.go-report-media-title {
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: #174d7c;
+    background: #edf4fa;
+    padding: 9px 12px;
+    border-left: 4px solid #2674ac;
+    margin: 0 0 12px;
+}
+
+.go-report-fields {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 0 18px;
+    margin: 0;
+}
+
+.go-report-field {
+    display: grid;
+    grid-template-columns: minmax(110px,42%) minmax(0,1fr);
+    gap: 8px;
+    padding: 8px 5px;
+    border-bottom: 1px solid #e1e9ee;
+    min-width: 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.go-report-field dt {
+    color: #617489;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.go-report-field dd {
+    margin: 0;
+    min-width: 0;
+    font-weight: 600;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* Preserve line breaks in a user's actual value, not Razor indentation. */
+.go-report-field-value {
+    white-space: pre-line;
+}
+
+.go-report-yes {
+    color: #126d4d;
+}
+
+.go-report-no {
+    color: #a03d3d;
+}
+
+.go-report-diagrams {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 14px;
+}
+
+.go-report-diagram {
+    border: 1px solid #dbe6ed;
+    border-radius: 7px;
+    padding: 12px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.go-report-diagram img {
+    width: 100%;
+    height: 220px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.go-report-diagram figcaption {
+    color: #536b7e;
+    font-size: .8rem;
+    text-align: center;
+    padding-top: 8px;
+    font-weight: 600;
+}
+
+/* Existing job media are part of the same printable record. */
+.go-report-media-section {
+    margin: 18px 0;
+}
+
+.go-report-media-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.go-report-media-grid img {
+    object-fit: contain;
+    background: white;
+}
+
+@media (max-width:730px) {
+    .go-report-fields,
+    .go-report-diagrams {
+        grid-template-columns: 1fr;
+    }
+
+    .go-report-field {
+        grid-template-columns: minmax(95px,40%) minmax(0,1fr);
+    }
+
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 13mm 12mm;
+    }
+
+    .go-item-report {
+        color: #171e25 !important;
+        max-width: none;
+        font-size: 9.5pt;
+    }
+
+    .go-report-header {
+        margin-bottom: 12px;
+        padding-bottom: 9px;
+    }
+
+    .go-report-header h2 {
+        font-size: 16pt;
+    }
+
+    .go-report-section {
+        margin-bottom: 14px;
+    }
+
+    .go-report-section h3 {
+        font-size: 11pt;
+        background: #edf4fa !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .go-report-fields {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 0 12px;
+    }
+
+    .go-report-field {
+        padding: 5px 3px;
+    }
+
+    .go-report-diagrams {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+
+    .go-report-diagram img {
+        height: 165px;
+    }
+
+    .go-report-media-title {
+        font-size: 11pt;
+        break-after: avoid;
+        page-break-after: avoid;
+        background: #edf4fa !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .go-report-media-grid .go-report-media-card {
+        width: 33.3333%;
+        flex: 0 0 33.3333%;
+    }
+
+    .go-report-media-grid .media-thumbnail {
+        height: 155px;
+    }
+
+    .go-report-header,
+    .go-report-section h3 {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .go-report-version {
+        background: white;
+    }
+
+}
+
+.go-report-answer-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.go-report-answer-columns .go-report-fields {
+    display: block;
+    margin: 0;
+}
+
+@media screen and (max-width: 650px) {
+    .go-report-answer-columns {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* Question labels */
+.go-report-fields .go-report-field dt {
+    color: #294763;
+    font-weight: 700;
+}
+
+/* Answer values */
+.go-report-fields .go-report-field dd {
+    color: #172b40;
+    font-weight: 400;
+}
+
+/* Preserve Yes/No colours */
+.go-report-fields .go-report-yes {
+    color: #00703c;
+}
+
+.go-report-fields .go-report-no {
+    color: #b42323;
+}
+
+.go-report-header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Tool check tables use the same typography and rules as report fields. */
+.go-report-table {
+    --bs-table-color: #172b40;
+    --bs-table-border-color: #e1e9ee;
+    font-size: inherit;
+}
+.go-report-table th {
+    color: #294763;
+    font-weight: 700;
+}
+.go-report-table th,
+.go-report-table td {
+    padding: 8px 5px;
+}
+@media print {
+    .go-item-report .table-responsive {
+        overflow: visible;
+    }
+    .go-report-table tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}

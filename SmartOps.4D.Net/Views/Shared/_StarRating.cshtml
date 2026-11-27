@@ -1,0 +1,22 @@
+@model Tuple<int, int>
+
+@{
+    int currentValue = Model.Item1;
+    int maxValue = Model.Item2;
+}
+
+@if (currentValue >= 1 && currentValue <= maxValue)
+{
+    @for (int i = 0; i < currentValue; i++)
+    {
+        <img src="~/img/yellow-star.png" alt="Star" class="rating-star" />
+    }
+    @for (int i = 0; i < maxValue - currentValue; i++)
+    {
+        <img src="~/img/yellow-star-empty.png" alt="Star" class="rating-star" />
+    }
+}
+else
+{
+    <span>No rating available</span>
+}

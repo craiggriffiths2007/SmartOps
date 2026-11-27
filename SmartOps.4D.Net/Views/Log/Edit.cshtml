@@ -1,0 +1,27 @@
+@using SmartOps.Web.Helpers
+@model SmartOps.Web.ViewModels.AuditLogEditViewModel
+@{ ViewData["Title"] = "Log details"; var entry = Model.Entry!; }
+<div class="container py-4">
+    <h1>Log entry #@entry.Id</h1>
+    @if (TempData["Success"] is string message) { <div class="alert alert-success" role="status">@message</div> }
+    <dl class="row">
+        <dt class="col-sm-3">Time (UK local)</dt><dd class="col-sm-9">@AuditLogTime.Format(entry.OccurredUtc)</dd>
+        <dt class="col-sm-3">Company</dt><dd class="col-sm-9">@(entry.CompanyName ?? (entry.TenantId.HasValue ? $"Company #{entry.TenantId}" : "Global / unassigned"))</dd>
+        <dt class="col-sm-3">User</dt><dd class="col-sm-9">@entry.UserName (@entry.UserId)</dd>
+        <dt class="col-sm-3">Action</dt><dd class="col-sm-9">@entry.Action</dd>
+        <dt class="col-sm-3">Record</dt><dd class="col-sm-9 text-break">@entry.EntityType @AuditLogDisplay.RecordId(entry.EntityId)</dd>
+        <dt class="col-sm-3">Changed fields</dt><dd class="col-sm-9 text-break">@AuditLogDisplay.ChangedFields(entry.ChangedFields)</dd>
+        <dt class="col-sm-3">Web action</dt><dd class="col-sm-9">@entry.Method @entry.Route</dd>
+        <dt class="col-sm-3">HTTP status</dt><dd class="col-sm-9">@entry.StatusCode</dd>
+        <dt class="col-sm-3">Request ID</dt><dd class="col-sm-9 text-break">@entry.CorrelationId</dd>
+    </dl>
+    <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+        <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+        <input asp-for="Id" type="hidden" /><input asp-for="Revision" type="hidden" />
+        <label asp-for="Notes" class="form-label">Admin notes</label>
+        <textarea asp-for="Notes" class="form-control" rows="5" maxlength="4000"></textarea>
+        <span asp-validation-for="Notes" class="text-danger"></span>
+        <p class="text-muted mt-2">Original event details are retained. Saving notes creates another log entry.</p>
+        <div class="d-flex gap-2"><button type="submit" class="btn btn-primary">Save notes</button><a asp-action="Index" class="btn btn-outline-secondary">Back to log</a></div>
+    </form>
+</div>

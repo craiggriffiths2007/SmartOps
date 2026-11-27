@@ -1,0 +1,39 @@
+@model IEnumerable<SmartOps.Web.Models.MileageSheet>
+@{
+    ViewData["Title"] = "Mileage Sheets";
+}
+<h4 class="mb-3">Mileage Sheets</h4>
+<div class="table-responsive record-index-list">
+    <table class="table table-sm table-hover align-middle record-index-table mb-0">
+        <caption class="visually-hidden">Mileage Sheets</caption>
+        <thead>
+            <tr>
+                <th scope="col">Sheet date</th>
+                <th scope="col">Vehicle registration</th>
+                <th scope="col">Start</th>
+                <th scope="col">End</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr><td colspan="4" class="text-muted py-3">No records found.</td></tr>
+            }
+            @foreach (var item in Model)
+            {
+                var detailsUrl = Url.Action("Details", new { id = item.Id });
+                var start = string.Join(" - ", new[] { item.start_time, item.start_postcode, item.start_mileage }
+                    .Select(value => string.IsNullOrWhiteSpace(value) ? "—" : value.Trim()));
+                var end = string.Join(" - ", new[] { item.end_time, item.finish_postcode, item.end_mileage }
+                    .Select(value => string.IsNullOrWhiteSpace(value) ? "—" : value.Trim()));
+                <tr class="clickable-row" data-href="@detailsUrl" tabindex="0">
+                    <th scope="row">@(string.IsNullOrWhiteSpace(item.sheet_date) ? item.DateTimeCompleted.ToString("dd/MM/yyyy") : item.sheet_date)</th>
+                    <td>@item.registration</td>
+                    <td>@start</td>
+                    <td>@end</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<record-pagination></record-pagination>

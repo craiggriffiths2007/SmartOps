@@ -1,0 +1,110 @@
+/* MART OPS - GLOBAL STYLES */
+:root {
+    --navbar-color: #03386C;
+    --primary-color: #03386C;
+    --navy: #062d4f;
+    --navy-2: #0a436f;
+    --blue: #0d6fb8;
+    --cyan: #32b7f1;
+    --cyan-2: #8edcff;
+    --sky: #edf8fd;
+    --paper: #f7fbfd;
+    --surface: #ffffff;
+    --surface-soft: #f5fafc;
+    --text: #173149;
+    --muted: #61788d;
+    --border: #d8e7f0;
+    --success: #2d9c68;
+    --danger: #c94b55;
+    --warning: #d39a29;
+    --shadow-sm: 0 6px 18px rgba(15,63,99,.08);
+    --shadow: 0 18px 45px rgba(15,63,99,.10);
+    --shadow-lg: 0 28px 80px rgba(2,34,59,.22);
+    --radius-sm: 6px;
+    --radius: 10px;
+    --radius-lg: 18px;
+}
+
+@media print {
+    body * {
+        visibility: hidden !important;
+    }
+
+    #printableArea,
+    #printableArea * {
+        visibility: visible !important;
+    }
+
+    #printableArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    font-size: 14px;
+    scrollbar-gutter: stable;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+
+}
+
+body {
+    margin: 0 0 60px;
+    color: var(--text);
+    font-family: Arial, sans-serif;
+    background: var(--surface);
+}
+
+a {
+    color: var(--blue);
+}
+
+a:hover {
+    color: var(--navy-2);
+}
+
+.bold-form label {
+    font-weight: 700;
+}
+
+.small-gap {
+    height: 16px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: color-mix(in srgb, var(--primary-color) 82%, black 18%);
+    border-color: color-mix(in srgb, var(--primary-color) 82%, black 18%);
+}
+
+.btn-secondary {
+    color: var(--primary-color);
+    background-color: color-mix(in srgb, var(--primary-color) 12%, white 88%);
+    border-color: color-mix(in srgb, var(--primary-color) 20%, white 80%);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+    color: #fff;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}

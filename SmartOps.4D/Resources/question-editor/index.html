@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SmartOps 4D — Question Editor</title>
+<link rel="stylesheet" href="/questions/bootstrap.css">
+<link rel="stylesheet" href="/questions/editor.css">
+<style>body{background:#f4f6f9}#loginPanel{max-width:430px;margin:8vh auto}#editorPanel{display:none}.topbar{background:#202f44;color:white;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}.topbar button{margin-left:14px}</style>
+</head>
+<body>
+<header class="topbar"><strong>SmartOps 4D · Question Editor</strong><div><span id="accountName"></span><button id="signOut" class="btn btn-sm btn-outline-light" hidden>Sign out</button></div></header>
+<section id="loginPanel" class="card shadow-sm p-4">
+<h1 class="h4 mb-3">Administrator sign in</h1>
+<form id="loginForm">
+<label class="form-label" for="username">Username</label><input class="form-control mb-3" id="username" autocomplete="username" required>
+<label class="form-label" for="password">Password</label><input class="form-control mb-3" id="password" type="password" autocomplete="current-password" required>
+<button class="btn btn-primary w-100" type="submit">Sign in</button><p id="loginError" role="alert" class="text-danger mt-2"></p>
+</form></section>
+<main id="editorPanel"></main>
+<script>
+'use strict';
+const tokenKey='smartopsQuestionToken';
+const panel=document.getElementById('editorPanel');
+const login=document.getElementById('loginPanel');
+const error=document.getElementById('loginError');
+const api=async(path,options={})=>{
+ const response=await fetch(path,{...options,headers:{...options.headers,Authorization:'Bearer '+sessionStorage.getItem(tokenKey)}});
+ if(response.status===401){sessionStorage.removeItem(tokenKey);throw Error('Session expired. Sign in again.');}
+ return response;
+};
+let sessionTimer;
+async function keepSessionAlive(){
+ if(!sessionStorage.getItem(tokenKey)){clearInterval(sessionTimer);return;}
+ try{
+  await api('/api/auth/session', {cache:'no-store'});
+ }catch{
+  if(!sessionStorage.getItem(tokenKey)){
+   clearInterval(sessionTimer);
+   document.getElementById('accountName').textContent='Session expired. Export unsaved edits before signing in again.';
+  }
+ }
+}
+function signOut(){clearInterval(sessionTimer);sessionStorage.removeItem(tokenKey);location.reload();}
+document.getElementById('signOut').onclick=signOut;
+document.getElementById('loginForm').onsubmit=async e=>{
+ e.preventDefault();error.textContent='';
+ const body={TenantCode:'SMARTOPS',Username:document.getElementById('username').value,Password:document.getElementById('password').value};
+ try{
+  const response=await fetch('/api/auth/login',{method:'POST',credentials:'omit',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const result=await response.json();
+  if(!response.ok)throw Error(result.error||'Login failed');
+  if(!['Admin','Staff'].includes(result.role))throw Error('An administrator or staff account is required');
+  sessionStorage.setItem(tokenKey,result.token);
+  document.getElementById('password').value='';
+  await loadEditor();
+ }catch(ex){error.textContent=ex.message;}
+};
+async function loadEditor(){
+ const [stateResponse,defaultsResponse,viewResponse]=await Promise.all([
+  api('/api/questions/editor'),
+  fetch('/questions/defaults.json'),
+  fetch('/questions/view.html')
+ ]);
+ if(!stateResponse.ok)throw Error('Unable to load questions: HTTP '+stateResponse.status);
+ if(!defaultsResponse.ok||!viewResponse.ok)throw Error('The question editor resources are missing');
+ const state=await stateResponse.json();
+ const defaults=await defaultsResponse.json();
+ const view=await viewResponse.text();
+ login.hidden=true;login.style.display='none';panel.style.display='block';
+ panel.innerHTML=view;
+ document.getElementById('questionVersionLabel').textContent=state.version;
+ document.querySelector('[name="version"]').value=state.version;
+ document.getElementById('draftRevision').value=state.draftRevision;
+ document.getElementById('discardDraft').hidden=!state.hasDraft;
+ document.getElementById('resetAll').hidden=true;
+ document.getElementById('resetGroup').hidden=true;
+ if(state.hasDraft)document.getElementById('draftStatus').textContent='Unpublished draft loaded. The survey app still receives the published version.';
+ document.getElementById('signOut').hidden=false;
+ document.getElementById('accountName').textContent='Signed in';
+ clearInterval(sessionTimer);
+ sessionTimer=setInterval(keepSessionAlive, 5 * 60 * 1000);
+ const addJSON=(id,value)=>{const element=document.createElement('script');element.type='application/json';element.id=id;element.textContent=JSON.stringify(value);panel.appendChild(element);};
+ addJSON('questionSetData',state.draft||state.published);
+ addJSON('questionDefaults',defaults);
+ window.questionNonItemKeys=['SpotCheck','WorkAccident','NearMiss','VehicleAccident','ToolCheck','SalesCar','FitterVan','DeliveryVan','DeliveryHGV','Header','Footer','HealthAndSafety','JobSummary','Repudiation','GarageDoorMotorDeclaration','FitterCompletion','FitterStockUsage','RemedialCompletion'];
+ window.questionItemLabels={ItemAssembly:'Assembly',Glass:'Glass',Panel:'Panel',Lockmech:'Locking System',Garage:'Garage Door',Bifolding:'Bifolding Door',Composite:'Composite Door',Conservatory:'Conservatory Roof'};
+ window.questionImages=[];
+ window.questionImageBase='/questions/diagrams/';
+ window.questionImportValidateUrl='/api/questions/validate';
+ window.questionDraftSaveUrl='/api/questions/draft';
+ window.questionResetAllUrl='/api/questions/reset';
+ window.questionDraftDiscardUrl='/api/questions/discard';
+ const editorScript=document.createElement('script');editorScript.src='/questions/editor.js';panel.appendChild(editorScript);
+}
+if(sessionStorage.getItem(tokenKey))loadEditor().catch(err=>{sessionStorage.removeItem(tokenKey);error.textContent=err.message;});
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+@model (IEnumerable<SmartOps.Web.Models.PhotoImage> Images, string Kind)
+
+@{
+    var drawings = new (string Code, string Title)[]
+    {
+        ("dDT", "Section"),
+        ("dBT", "Beading"),
+        ("dET", "Sash"),
+        ("dRG", "Roller door opening")
+    };
+
+    var applicable = drawings.Where(d =>
+        Model.Kind == "Timber"
+            ? d.Code != "dRG"
+            : d.Code == "dRG");
+}
+
+<link rel="stylesheet" href="~/css/pages/item-drawings.css" asp-append-version="true" />
+
+<div class="row g-3 my-3">
+    @foreach (var drawing in applicable)
+    {
+        // Format: contract code + '_' + drawing code
+        // + 3-digit item number + '00.jpg'.
+
+        var image = Model.Images.FirstOrDefault(i =>
+            i.Filename != null &&
+            i.Filename.Length >= 20 &&
+            i.Filename.Substring(9, 3).Equals(
+                drawing.Code,
+                StringComparison.OrdinalIgnoreCase) &&
+            i.Filename.EndsWith(
+                "00.jpg",
+                StringComparison.OrdinalIgnoreCase));
+
+        if (image != null)
+        {
+            var imageUrl = Url.Content("~/images/" + image.Filename);
+
+            <div class="col-6 col-md-3 item-drawing">
+                <h5>@drawing.Title</h5>
+
+                <a href="@imageUrl"
+                   class="image-lightbox-link"
+                   title="@drawing.Title">
+                    <img src="@imageUrl"
+                         alt="@drawing.Title"
+                         class="media-thumbnail drawing" />
+                </a>
+            </div>
+        }
+    }
+</div>

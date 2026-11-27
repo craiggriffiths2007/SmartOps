@@ -1,0 +1,3016 @@
+{
+  "demoPassword": "Password1!",
+  "records": [
+    {
+      "table": "Tenant",
+      "ref": "demo",
+      "tenant": "",
+      "values": {
+        "Code": "SMARTOPS",
+        "Name": "SmartOps 4D Integration Test",
+        "IsActive": true,
+        "Email": "office@example.test",
+        "Address1": "1 Demonstration Lane",
+        "Postcode": "CF10 1AA",
+        "Telephone": "029 0000 0000",
+        "Created": "$now",
+        "Theme": "default"
+      }
+    },
+    {
+      "table": "Tenant",
+      "ref": "other",
+      "tenant": "",
+      "values": {
+        "Code": "OTHER",
+        "Name": "Second Company — isolation test",
+        "IsActive": true,
+        "Created": "$now",
+        "Theme": "default"
+      }
+    },
+    {
+      "table": "Branches",
+      "ref": "branch",
+      "tenant": "demo",
+      "values": {
+        "Code": "BOLT",
+        "Name": "Bolton",
+        "Description": "Bolton Branch"
+      }
+    },
+    {
+      "table": "Branches",
+      "ref": "branch2",
+      "tenant": "demo",
+      "values": {
+        "Code": "GLOU",
+        "Name": "Gloucester",
+        "Description": "Gloucester Branch"
+      }
+    },
+    {
+      "table": "Branches",
+      "ref": "branch3",
+      "tenant": "demo",
+      "values": {
+        "Code": "GLAS",
+        "Name": "Glasgow",
+        "Description": "Glasgow Branch"
+      }
+    },
+    {
+      "table": "Agent",
+      "ref": "agent1",
+      "tenant": "demo",
+      "values": {
+        "Name": "ADMIN",
+        "Code": "ADMIN",
+        "Type": 0,
+        "BranchId": {
+          "ref": "branch"
+        },
+        "PrivilegedAccess": true
+      }
+    },
+    {
+      "table": "Agent",
+      "ref": "agent2",
+      "tenant": "demo",
+      "values": {
+        "Name": "Alex Polowski",
+        "Code": "H1",
+        "Type": 0,
+        "BranchId": {
+          "ref": "branch"
+        },
+        "PrivilegedAccess": false
+      }
+    },
+    {
+      "table": "Agent",
+      "ref": "agent3",
+      "tenant": "demo",
+      "values": {
+        "Name": "Samantha Carter",
+        "Code": "H2",
+        "Type": 0,
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "PrivilegedAccess": false
+      }
+    },
+    {
+      "table": "Agent",
+      "ref": "agent4",
+      "tenant": "demo",
+      "values": {
+        "Name": "Rachel Green",
+        "Code": "H3",
+        "Type": 0,
+        "BranchId": {
+          "ref": "branch3"
+        },
+        "PrivilegedAccess": false
+      }
+    },
+    {
+      "table": "Agent",
+      "ref": "agent5",
+      "tenant": "demo",
+      "values": {
+        "Name": "Linda Evans",
+        "Code": "H06",
+        "Type": 1,
+        "BranchId": {
+          "ref": "branch"
+        },
+        "PrivilegedAccess": false
+      }
+    },
+    {
+      "table": "Agent",
+      "ref": "agent6",
+      "tenant": "demo",
+      "values": {
+        "Name": "Chris Johnson",
+        "Code": "HH09",
+        "Type": 1,
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "PrivilegedAccess": false
+      }
+    },
+    {
+      "table": "Agent",
+      "ref": "agent7",
+      "tenant": "demo",
+      "values": {
+        "Name": "Oscar Martinez",
+        "Code": "H09",
+        "Type": 1,
+        "BranchId": {
+          "ref": "branch3"
+        },
+        "PrivilegedAccess": false
+      }
+    },
+    {
+      "table": "Agent",
+      "ref": "agent8",
+      "tenant": "demo",
+      "values": {
+        "Name": "Tommy Lee",
+        "Code": "H05",
+        "Type": 0,
+        "BranchId": {
+          "ref": "branch"
+        },
+        "PrivilegedAccess": false
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer1",
+      "tenant": "demo",
+      "values": {
+        "Name": "Barry McGlassy",
+        "Add1": "42 Shattered Dreams",
+        "Add2": "Crackington",
+        "Add3": "Greater Nonsense",
+        "Postcode": "ZZ1 1AA",
+        "Email": "customer1@smartops.test",
+        "Phone1": "07700900000",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer2",
+      "tenant": "demo",
+      "values": {
+        "Name": "Norman NoWindows",
+        "Add1": "7 Broken Pane Parade",
+        "Add2": "Foggy Bottom",
+        "Add3": "Greater Nonsense",
+        "Postcode": "ZZ1 1AB",
+        "Email": "customer2@smartops.test",
+        "Phone1": "07700900001",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer3",
+      "tenant": "demo",
+      "values": {
+        "Name": "Doris Doubleglaze",
+        "Add1": "99 Condensation Crescent",
+        "Add2": "Misty Meadows",
+        "Add3": "Greater Nonsense",
+        "Postcode": "ZZ1 1AC",
+        "Email": "customer3@smartops.test",
+        "Phone1": "07700900002",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer4",
+      "tenant": "demo",
+      "values": {
+        "Name": "Reginald Wobblebottom",
+        "Add1": "13 Wonky Window Walk",
+        "Add2": "Crackington",
+        "Add3": "Greater Nonsense",
+        "Postcode": "ZZ1 1AD",
+        "Email": "customer4@smartops.test",
+        "Phone1": "07700900003",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer5",
+      "tenant": "demo",
+      "values": {
+        "Name": "Betty Bumpkins",
+        "Add1": "8 Pudding Lane",
+        "Add2": "Upper Wobble",
+        "Add3": "Greater Nonsense",
+        "Postcode": "ZZ1 1AE",
+        "Email": "customer5@smartops.test",
+        "Phone1": "07700900004",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer6",
+      "tenant": "demo",
+      "values": {
+        "Name": "Trevor Trousers",
+        "Add1": "101 Underpants Avenue",
+        "Add2": "Lower Wobble",
+        "Add3": "Greater Nonsense",
+        "Postcode": "ZZ1 1AF",
+        "Email": "customer6@smartops.test",
+        "Phone1": "07700900005",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer7",
+      "tenant": "demo",
+      "values": {
+        "Name": "Mavis McMuffin",
+        "Add1": "3 Custard Close",
+        "Add2": "Puddingthorpe",
+        "Add3": "Greater Nonsense",
+        "Postcode": "ZZ1 1AG",
+        "Email": "customer7@smartops.test",
+        "Phone1": "07700900006",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer8",
+      "tenant": "demo",
+      "values": {
+        "Name": "Nigel Noodle",
+        "Add1": "56 Spaghetti Junction",
+        "Add2": "Pastaville",
+        "Add3": "Greater Nonsense",
+        "Postcode": "ZZ1 1AH",
+        "Email": "customer8@smartops.test",
+        "Phone1": "07700900007",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer9",
+      "tenant": "demo",
+      "values": {
+        "Name": "Gertrude Picklebottom",
+        "Add1": "12 Gherkin Grove",
+        "Add2": "Pickleton",
+        "Add3": "Greater Nonsense",
+        "Postcode": "ZZ1 1AJ",
+        "Email": "customer9@smartops.test",
+        "Phone1": "07700900008",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer10",
+      "tenant": "demo",
+      "values": {
+        "Name": "Clive Clumsypants",
+        "Add1": "88 Accident Avenue",
+        "Add2": "Oopsington",
+        "Add3": "Greater Nonsense",
+        "Postcode": "ZZ1 1AK",
+        "Email": "customer10@smartops.test",
+        "Phone1": "07700900009",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer11",
+      "tenant": "demo",
+      "values": {
+        "Name": "Percy Puddleduck",
+        "Add1": "4 Soggy Sock Street",
+        "Add2": "Dampington",
+        "Add3": "Greater Nonsense",
+        "Postcode": "ZZ2 2AA",
+        "Email": "customer11@smartops.test",
+        "Phone1": "07700900010",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer12",
+      "tenant": "demo",
+      "values": {
+        "Name": "Gladys Gigglesworth",
+        "Add1": "17 Chuckle Crescent",
+        "Add2": "Gigglewick",
+        "Add3": "Greater Nonsense",
+        "Postcode": "ZZ2 2AB",
+        "Email": "customer12@smartops.test",
+        "Phone1": "07700900011",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "customer13",
+      "tenant": "demo",
+      "values": {
+        "Name": "Bertie Biscuit",
+        "Add1": "22 Hobnob Heights",
+        "Add2": "Biscuitbury",
+        "Add3": "Greater Nonsense",
+        "Postcode": "ZZ2 2AC",
+        "Email": "customer13@smartops.test",
+        "Phone1": "07700900012",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Customer",
+      "ref": "otherCustomer",
+      "tenant": "other",
+      "values": {
+        "Name": "Other Company Customer",
+        "Add1": "99 Isolation Road",
+        "Email": "other@example.test",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Insurers",
+      "ref": "insurer1",
+      "tenant": "demo",
+      "values": {
+        "Name": "Example Mutual",
+        "Address1": "1 Sample Square",
+        "Postcode": "CF10 1AA",
+        "Email": "claims1@example.test",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "Insurers",
+      "ref": "insurer2",
+      "tenant": "demo",
+      "values": {
+        "Name": "Demonstration Assurance",
+        "Address1": "2 Sample Square",
+        "Postcode": "CF10 1AA",
+        "Email": "claims2@example.test",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "account_admin",
+      "tenant": "demo",
+      "values": {
+        "Username": "admin",
+        "Role": "Admin",
+        "Active": true
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "account_staff",
+      "tenant": "demo",
+      "values": {
+        "Username": "staff",
+        "Role": "Staff",
+        "Active": true
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "account_customer",
+      "tenant": "demo",
+      "values": {
+        "Username": "customer",
+        "Role": "Customer",
+        "Active": true,
+        "CustomerId": {
+          "ref": "customer1"
+        }
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "account_insurer",
+      "tenant": "demo",
+      "values": {
+        "Username": "insurer",
+        "Role": "Insurer",
+        "Active": true,
+        "InsurerId": {
+          "ref": "insurer1"
+        }
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "account_insurer2",
+      "tenant": "demo",
+      "values": {
+        "Username": "insurer2",
+        "Role": "Insurer",
+        "Active": true,
+        "InsurerId": {
+          "ref": "insurer2"
+        }
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "otherAccount",
+      "tenant": "other",
+      "values": {
+        "Username": "admin",
+        "Role": "Admin",
+        "Active": true
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "otherCustomerAccount",
+      "tenant": "other",
+      "values": {
+        "Username": "customer",
+        "Role": "Customer",
+        "Active": true,
+        "CustomerId": {
+          "ref": "otherCustomer"
+        }
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "mobile_FITTER",
+      "tenant": "demo",
+      "values": {
+        "Username": "agent:fitter",
+        "Role": "Agent",
+        "AgentId": {
+          "ref": "agent3"
+        },
+        "Active": true,
+        "GoAllJobs": false
+      }
+    },
+    {
+      "table": "GoAccount",
+      "ref": "mobile_ADMIN",
+      "tenant": "demo",
+      "values": {
+        "Username": "agent:admin",
+        "Role": "Agent",
+        "AgentId": {
+          "ref": "agent1"
+        },
+        "Active": true,
+        "GoAllJobs": true
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract1",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer1"
+        },
+        "ContractNumber": 10001,
+        "CustomerReference": "TEST-001",
+        "Status": 10,
+        "DamageDescription": "Double-glazed lounge window cracked by a football",
+        "CauseOfDamage": "Accidental Damage",
+        "IncidentDate": "$today-4",
+        "Excess": "50",
+        "PolicyNumber": "TEST-00001",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 0
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract2",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer2"
+        },
+        "InsurerId": {
+          "ref": "insurer2"
+        },
+        "ContractNumber": 10002,
+        "CustomerReference": "TEST-002",
+        "Status": 20,
+        "DamageDescription": "Storm debris shattered the conservatory roof pane",
+        "CauseOfDamage": "Storm Damage",
+        "IncidentDate": "$today-7",
+        "Excess": "100",
+        "PolicyNumber": "TEST-00002",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 1
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract3",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer3"
+        },
+        "InsurerId": {
+          "ref": "insurer1"
+        },
+        "ContractNumber": 10003,
+        "CustomerReference": "TEST-003",
+        "Status": 20,
+        "DamageDescription": "Rear patio door glazing broken during a burglary",
+        "CauseOfDamage": "Theft",
+        "IncidentDate": "$today-5",
+        "Excess": "150",
+        "PolicyNumber": "TEST-00003",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 2
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract4",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer4"
+        },
+        "InsurerId": {
+          "ref": "insurer2"
+        },
+        "ContractNumber": 10004,
+        "CustomerReference": "TEST-004",
+        "Status": 30,
+        "DamageDescription": "Delivery trolley damaged the shopfront glass",
+        "CauseOfDamage": "Impact",
+        "IncidentDate": "$today-25",
+        "Excess": "200",
+        "PolicyNumber": "TEST-00004",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 0
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract5",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer5"
+        },
+        "InsurerId": {
+          "ref": "insurer1"
+        },
+        "ContractNumber": 10005,
+        "CustomerReference": "TEST-005",
+        "Status": 40,
+        "DamageDescription": "Misted double-glazed bedroom unit with failed seals",
+        "CauseOfDamage": "Wear + Tear",
+        "IncidentDate": "$today-29",
+        "Excess": "250",
+        "PolicyNumber": "TEST-00005",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 1
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract6",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer6"
+        },
+        "ContractNumber": 10006,
+        "CustomerReference": "TEST-006",
+        "Status": 60,
+        "DamageDescription": "Incorrectly fitted kitchen glazing causing draughts",
+        "CauseOfDamage": "Bad Workmanship",
+        "IncidentDate": "$today-31",
+        "Excess": "50",
+        "PolicyNumber": "TEST-00006",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 2
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract7",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer7"
+        },
+        "InsurerId": {
+          "ref": "insurer1"
+        },
+        "ContractNumber": 10007,
+        "CustomerReference": "TEST-007",
+        "Status": 70,
+        "DamageDescription": "Ground-floor window deliberately smashed",
+        "CauseOfDamage": "Malicious",
+        "IncidentDate": "$today-34",
+        "Excess": "100",
+        "PolicyNumber": "TEST-00007",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 0
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract8",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer8"
+        },
+        "InsurerId": {
+          "ref": "insurer2"
+        },
+        "ContractNumber": 10008,
+        "CustomerReference": "TEST-008",
+        "Status": 70,
+        "DamageDescription": "Patio door lock requires replacement after keys were lost",
+        "CauseOfDamage": "Loss of keys",
+        "IncidentDate": "$today-35",
+        "Excess": "150",
+        "PolicyNumber": "TEST-00008",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 1
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract9",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer9"
+        },
+        "InsurerId": {
+          "ref": "insurer1"
+        },
+        "ContractNumber": 10009,
+        "CustomerReference": "TEST-009",
+        "Status": 80,
+        "DamageDescription": "Double-glazed lounge window cracked by a football",
+        "CauseOfDamage": "Accidental Damage",
+        "IncidentDate": "$today-38",
+        "Excess": "200",
+        "PolicyNumber": "TEST-00009",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 2
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract10",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer10"
+        },
+        "InsurerId": {
+          "ref": "insurer2"
+        },
+        "ContractNumber": 10010,
+        "CustomerReference": "TEST-010",
+        "Status": 90,
+        "DamageDescription": "Storm debris shattered the conservatory roof pane",
+        "CauseOfDamage": "Storm Damage",
+        "IncidentDate": "$today-42",
+        "Excess": "250",
+        "PolicyNumber": "TEST-00010",
+        "IsActive": false,
+        "IsCancelled": false,
+        "TrafficLight": 0
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract11",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer11"
+        },
+        "ContractNumber": 10011,
+        "CustomerReference": "TEST-011",
+        "Status": 80,
+        "DamageDescription": "Rear patio door glazing broken during a burglary",
+        "CauseOfDamage": "Theft",
+        "IncidentDate": "$today-45",
+        "Excess": "50",
+        "PolicyNumber": "TEST-00011",
+        "IsActive": true,
+        "IsCancelled": false,
+        "TrafficLight": 1
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract12",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer12"
+        },
+        "InsurerId": {
+          "ref": "insurer2"
+        },
+        "ContractNumber": 10012,
+        "CustomerReference": "TEST-012",
+        "Status": 10,
+        "DamageDescription": "Delivery trolley damaged the shopfront glass",
+        "CauseOfDamage": "Impact",
+        "IncidentDate": "$today-12",
+        "Excess": "100",
+        "PolicyNumber": "TEST-00012",
+        "IsActive": false,
+        "IsCancelled": true,
+        "TrafficLight": 2
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "contract13",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer13"
+        },
+        "ContractNumber": 10013,
+        "CustomerReference": "TEST-013",
+        "Status": 90,
+        "DamageDescription": "Misted double-glazed bedroom unit with failed seals",
+        "CauseOfDamage": "Wear + Tear",
+        "IncidentDate": "$today-49",
+        "Excess": "150",
+        "PolicyNumber": "TEST-00013",
+        "IsActive": false,
+        "IsCancelled": false,
+        "TrafficLight": 0
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_1_0",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract1"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Reported",
+        "Description": "Customer reported glazing damage.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_2_0",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract2"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Reported",
+        "Description": "Customer reported glazing damage.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_2_1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract2"
+        },
+        "DateTime": "$now",
+        "Status": 20,
+        "Title": "Survey booked",
+        "Description": "Survey appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_3_0",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract3"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Reported",
+        "Description": "Customer reported glazing damage.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_3_1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract3"
+        },
+        "DateTime": "$now",
+        "Status": 20,
+        "Title": "Survey booked",
+        "Description": "Survey appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_4_0",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract4"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Reported",
+        "Description": "Customer reported glazing damage.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_4_1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract4"
+        },
+        "DateTime": "$now",
+        "Status": 20,
+        "Title": "Survey booked",
+        "Description": "Survey appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_4_2",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract4"
+        },
+        "DateTime": "$now",
+        "Status": 30,
+        "Title": "Survey completed",
+        "Description": "Measurements and specification recorded.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_5_0",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract5"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Reported",
+        "Description": "Customer reported glazing damage.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_5_1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract5"
+        },
+        "DateTime": "$now",
+        "Status": 20,
+        "Title": "Survey booked",
+        "Description": "Survey appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_5_2",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract5"
+        },
+        "DateTime": "$now",
+        "Status": 30,
+        "Title": "Survey completed",
+        "Description": "Measurements and specification recorded.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_5_3",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract5"
+        },
+        "DateTime": "$now",
+        "Status": 40,
+        "Title": "Estimate completed",
+        "Description": "Estimate prepared for authorisation.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_6_0",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract6"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Reported",
+        "Description": "Customer reported glazing damage.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_6_1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract6"
+        },
+        "DateTime": "$now",
+        "Status": 20,
+        "Title": "Survey booked",
+        "Description": "Survey appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_6_2",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract6"
+        },
+        "DateTime": "$now",
+        "Status": 30,
+        "Title": "Survey completed",
+        "Description": "Measurements and specification recorded.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_6_3",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract6"
+        },
+        "DateTime": "$now",
+        "Status": 40,
+        "Title": "Estimate completed",
+        "Description": "Estimate prepared for authorisation.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_6_4",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract6"
+        },
+        "DateTime": "$now",
+        "Status": 60,
+        "Title": "Authorised",
+        "Description": "Estimate authorised.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_7_0",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract7"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Reported",
+        "Description": "Customer reported glazing damage.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_7_1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract7"
+        },
+        "DateTime": "$now",
+        "Status": 20,
+        "Title": "Survey booked",
+        "Description": "Survey appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_7_2",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract7"
+        },
+        "DateTime": "$now",
+        "Status": 30,
+        "Title": "Survey completed",
+        "Description": "Measurements and specification recorded.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_7_3",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract7"
+        },
+        "DateTime": "$now",
+        "Status": 40,
+        "Title": "Estimate completed",
+        "Description": "Estimate prepared for authorisation.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_7_4",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract7"
+        },
+        "DateTime": "$now",
+        "Status": 60,
+        "Title": "Authorised",
+        "Description": "Estimate authorised.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_7_5",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract7"
+        },
+        "DateTime": "$now",
+        "Status": 70,
+        "Title": "Fitting booked",
+        "Description": "Fitting appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_8_0",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract8"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Reported",
+        "Description": "Customer reported glazing damage.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_8_1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract8"
+        },
+        "DateTime": "$now",
+        "Status": 20,
+        "Title": "Survey booked",
+        "Description": "Survey appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_8_2",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract8"
+        },
+        "DateTime": "$now",
+        "Status": 30,
+        "Title": "Survey completed",
+        "Description": "Measurements and specification recorded.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_8_3",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract8"
+        },
+        "DateTime": "$now",
+        "Status": 40,
+        "Title": "Estimate completed",
+        "Description": "Estimate prepared for authorisation.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_8_4",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract8"
+        },
+        "DateTime": "$now",
+        "Status": 60,
+        "Title": "Authorised",
+        "Description": "Estimate authorised.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_8_5",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract8"
+        },
+        "DateTime": "$now",
+        "Status": 70,
+        "Title": "Fitting booked",
+        "Description": "Fitting appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_9_0",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract9"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Reported",
+        "Description": "Customer reported glazing damage.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_9_1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract9"
+        },
+        "DateTime": "$now",
+        "Status": 20,
+        "Title": "Survey booked",
+        "Description": "Survey appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_9_2",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract9"
+        },
+        "DateTime": "$now",
+        "Status": 30,
+        "Title": "Survey completed",
+        "Description": "Measurements and specification recorded.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_9_3",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract9"
+        },
+        "DateTime": "$now",
+        "Status": 40,
+        "Title": "Estimate completed",
+        "Description": "Estimate prepared for authorisation.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_9_4",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract9"
+        },
+        "DateTime": "$now",
+        "Status": 60,
+        "Title": "Authorised",
+        "Description": "Estimate authorised.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_9_5",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract9"
+        },
+        "DateTime": "$now",
+        "Status": 70,
+        "Title": "Fitting booked",
+        "Description": "Fitting appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_9_6",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract9"
+        },
+        "DateTime": "$now",
+        "Status": 80,
+        "Title": "Fitting completed",
+        "Description": "Fitting visit completed.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_10_0",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract10"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Reported",
+        "Description": "Customer reported glazing damage.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_10_1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract10"
+        },
+        "DateTime": "$now",
+        "Status": 20,
+        "Title": "Survey booked",
+        "Description": "Survey appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_10_2",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract10"
+        },
+        "DateTime": "$now",
+        "Status": 30,
+        "Title": "Survey completed",
+        "Description": "Measurements and specification recorded.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_10_3",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract10"
+        },
+        "DateTime": "$now",
+        "Status": 40,
+        "Title": "Estimate completed",
+        "Description": "Estimate prepared for authorisation.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_10_4",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract10"
+        },
+        "DateTime": "$now",
+        "Status": 60,
+        "Title": "Authorised",
+        "Description": "Estimate authorised.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_10_5",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract10"
+        },
+        "DateTime": "$now",
+        "Status": 70,
+        "Title": "Fitting booked",
+        "Description": "Fitting appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_10_6",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract10"
+        },
+        "DateTime": "$now",
+        "Status": 80,
+        "Title": "Fitting completed",
+        "Description": "Fitting visit completed.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_10_7",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract10"
+        },
+        "DateTime": "$now",
+        "Status": 90,
+        "Title": "Invoiced",
+        "Description": "Invoice issued.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_11_0",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract11"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Reported",
+        "Description": "Customer reported glazing damage.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_11_1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract11"
+        },
+        "DateTime": "$now",
+        "Status": 20,
+        "Title": "Survey booked",
+        "Description": "Survey appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_11_2",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract11"
+        },
+        "DateTime": "$now",
+        "Status": 30,
+        "Title": "Survey completed",
+        "Description": "Measurements and specification recorded.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_11_3",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract11"
+        },
+        "DateTime": "$now",
+        "Status": 40,
+        "Title": "Estimate completed",
+        "Description": "Estimate prepared for authorisation.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_11_4",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract11"
+        },
+        "DateTime": "$now",
+        "Status": 60,
+        "Title": "Authorised",
+        "Description": "Estimate authorised.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_11_5",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract11"
+        },
+        "DateTime": "$now",
+        "Status": 70,
+        "Title": "Fitting booked",
+        "Description": "Fitting appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_11_6",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract11"
+        },
+        "DateTime": "$now",
+        "Status": 80,
+        "Title": "Fitting completed",
+        "Description": "Fitting visit completed.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_12_0",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract12"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Reported",
+        "Description": "Customer reported glazing damage.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_12_1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract12"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Cancelled",
+        "Description": "Customer cancelled the repair.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_13_0",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract13"
+        },
+        "DateTime": "$now",
+        "Status": 10,
+        "Title": "Reported",
+        "Description": "Customer reported glazing damage.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_13_1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract13"
+        },
+        "DateTime": "$now",
+        "Status": 20,
+        "Title": "Survey booked",
+        "Description": "Survey appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_13_2",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract13"
+        },
+        "DateTime": "$now",
+        "Status": 30,
+        "Title": "Survey completed",
+        "Description": "Measurements and specification recorded.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_13_3",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract13"
+        },
+        "DateTime": "$now",
+        "Status": 40,
+        "Title": "Estimate completed",
+        "Description": "Estimate prepared for authorisation.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_13_4",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract13"
+        },
+        "DateTime": "$now",
+        "Status": 60,
+        "Title": "Authorised",
+        "Description": "Estimate authorised.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_13_5",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract13"
+        },
+        "DateTime": "$now",
+        "Status": 70,
+        "Title": "Fitting booked",
+        "Description": "Fitting appointment arranged.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_13_6",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract13"
+        },
+        "DateTime": "$now",
+        "Status": 80,
+        "Title": "Fitting completed",
+        "Description": "Fitting visit completed.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "ContractUpdates",
+      "ref": "update_13_7",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract13"
+        },
+        "DateTime": "$now",
+        "Status": 90,
+        "Title": "Invoiced",
+        "Description": "Invoice issued.",
+        "CustomerVisible": true
+      }
+    },
+    {
+      "table": "Estimates",
+      "ref": "estimate5",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract5"
+        },
+        "ServiceLevel": "Standard glazing repair",
+        "CreatedUtc": "$now",
+        "CreatedBy": "admin",
+        "VatRate": 20,
+        "Subtotal": 275,
+        "VatAmount": 55,
+        "Total": 330
+      }
+    },
+    {
+      "table": "Estimates",
+      "ref": "estimate6",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract6"
+        },
+        "ServiceLevel": "Standard glazing repair",
+        "CreatedUtc": "$now",
+        "CreatedBy": "admin",
+        "VatRate": 20,
+        "Subtotal": 300,
+        "VatAmount": 60,
+        "Total": 360,
+        "AuthorizedUtc": "$now",
+        "AuthorizedBy": "admin"
+      }
+    },
+    {
+      "table": "Estimates",
+      "ref": "estimate7",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract7"
+        },
+        "ServiceLevel": "Standard glazing repair",
+        "CreatedUtc": "$now",
+        "CreatedBy": "admin",
+        "VatRate": 20,
+        "Subtotal": 325,
+        "VatAmount": 65,
+        "Total": 390,
+        "AuthorizedUtc": "$now",
+        "AuthorizedBy": "admin"
+      }
+    },
+    {
+      "table": "Estimates",
+      "ref": "estimate8",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract8"
+        },
+        "ServiceLevel": "Standard glazing repair",
+        "CreatedUtc": "$now",
+        "CreatedBy": "admin",
+        "VatRate": 20,
+        "Subtotal": 350,
+        "VatAmount": 70,
+        "Total": 420,
+        "AuthorizedUtc": "$now",
+        "AuthorizedBy": "admin"
+      }
+    },
+    {
+      "table": "Estimates",
+      "ref": "estimate9",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract9"
+        },
+        "ServiceLevel": "Standard glazing repair",
+        "CreatedUtc": "$now",
+        "CreatedBy": "admin",
+        "VatRate": 20,
+        "Subtotal": 375,
+        "VatAmount": 75,
+        "Total": 450,
+        "AuthorizedUtc": "$now",
+        "AuthorizedBy": "admin"
+      }
+    },
+    {
+      "table": "Estimates",
+      "ref": "estimate10",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract10"
+        },
+        "ServiceLevel": "Standard glazing repair",
+        "CreatedUtc": "$now",
+        "CreatedBy": "admin",
+        "VatRate": 20,
+        "Subtotal": 400,
+        "VatAmount": 80,
+        "Total": 480,
+        "AuthorizedUtc": "$now",
+        "AuthorizedBy": "admin"
+      }
+    },
+    {
+      "table": "Estimates",
+      "ref": "estimate11",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract11"
+        },
+        "ServiceLevel": "Standard glazing repair",
+        "CreatedUtc": "$now",
+        "CreatedBy": "admin",
+        "VatRate": 20,
+        "Subtotal": 425,
+        "VatAmount": 85,
+        "Total": 510,
+        "AuthorizedUtc": "$now",
+        "AuthorizedBy": "admin"
+      }
+    },
+    {
+      "table": "Estimates",
+      "ref": "estimate13",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract13"
+        },
+        "ServiceLevel": "Standard glazing repair",
+        "CreatedUtc": "$now",
+        "CreatedBy": "admin",
+        "VatRate": 20,
+        "Subtotal": 475,
+        "VatAmount": 95,
+        "Total": 570,
+        "AuthorizedUtc": "$now",
+        "AuthorizedBy": "admin"
+      }
+    },
+    {
+      "table": "EstimateLines",
+      "ref": "line5",
+      "tenant": "demo",
+      "values": {
+        "EstimateId": {
+          "ref": "estimate5"
+        },
+        "SortOrder": 1,
+        "Details": "Misted double-glazed bedroom unit with failed seals",
+        "Cost": 275
+      }
+    },
+    {
+      "table": "EstimateLines",
+      "ref": "line6",
+      "tenant": "demo",
+      "values": {
+        "EstimateId": {
+          "ref": "estimate6"
+        },
+        "SortOrder": 1,
+        "Details": "Incorrectly fitted kitchen glazing causing draughts",
+        "Cost": 300
+      }
+    },
+    {
+      "table": "EstimateLines",
+      "ref": "line7",
+      "tenant": "demo",
+      "values": {
+        "EstimateId": {
+          "ref": "estimate7"
+        },
+        "SortOrder": 1,
+        "Details": "Ground-floor window deliberately smashed",
+        "Cost": 325
+      }
+    },
+    {
+      "table": "EstimateLines",
+      "ref": "line8",
+      "tenant": "demo",
+      "values": {
+        "EstimateId": {
+          "ref": "estimate8"
+        },
+        "SortOrder": 1,
+        "Details": "Patio door lock requires replacement after keys were lost",
+        "Cost": 350
+      }
+    },
+    {
+      "table": "EstimateLines",
+      "ref": "line9",
+      "tenant": "demo",
+      "values": {
+        "EstimateId": {
+          "ref": "estimate9"
+        },
+        "SortOrder": 1,
+        "Details": "Double-glazed lounge window cracked by a football",
+        "Cost": 375
+      }
+    },
+    {
+      "table": "EstimateLines",
+      "ref": "line10",
+      "tenant": "demo",
+      "values": {
+        "EstimateId": {
+          "ref": "estimate10"
+        },
+        "SortOrder": 1,
+        "Details": "Storm debris shattered the conservatory roof pane",
+        "Cost": 400
+      }
+    },
+    {
+      "table": "EstimateLines",
+      "ref": "line11",
+      "tenant": "demo",
+      "values": {
+        "EstimateId": {
+          "ref": "estimate11"
+        },
+        "SortOrder": 1,
+        "Details": "Rear patio door glazing broken during a burglary",
+        "Cost": 425
+      }
+    },
+    {
+      "table": "EstimateLines",
+      "ref": "line13",
+      "tenant": "demo",
+      "values": {
+        "EstimateId": {
+          "ref": "estimate13"
+        },
+        "SortOrder": 1,
+        "Details": "Misted double-glazed bedroom unit with failed seals",
+        "Cost": 475
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "selection5",
+      "tenant": "demo",
+      "values": {
+        "SelectedEstimateId": {
+          "ref": "estimate5"
+        }
+      },
+      "updateRef": "contract5"
+    },
+    {
+      "table": "Contract",
+      "ref": "selection6",
+      "tenant": "demo",
+      "values": {
+        "SelectedEstimateId": {
+          "ref": "estimate6"
+        }
+      },
+      "updateRef": "contract6"
+    },
+    {
+      "table": "Contract",
+      "ref": "selection7",
+      "tenant": "demo",
+      "values": {
+        "SelectedEstimateId": {
+          "ref": "estimate7"
+        }
+      },
+      "updateRef": "contract7"
+    },
+    {
+      "table": "Contract",
+      "ref": "selection8",
+      "tenant": "demo",
+      "values": {
+        "SelectedEstimateId": {
+          "ref": "estimate8"
+        }
+      },
+      "updateRef": "contract8"
+    },
+    {
+      "table": "Contract",
+      "ref": "selection9",
+      "tenant": "demo",
+      "values": {
+        "SelectedEstimateId": {
+          "ref": "estimate9"
+        }
+      },
+      "updateRef": "contract9"
+    },
+    {
+      "table": "Contract",
+      "ref": "selection10",
+      "tenant": "demo",
+      "values": {
+        "SelectedEstimateId": {
+          "ref": "estimate10"
+        }
+      },
+      "updateRef": "contract10"
+    },
+    {
+      "table": "Contract",
+      "ref": "selection11",
+      "tenant": "demo",
+      "values": {
+        "SelectedEstimateId": {
+          "ref": "estimate11"
+        }
+      },
+      "updateRef": "contract11"
+    },
+    {
+      "table": "Contract",
+      "ref": "selection13",
+      "tenant": "demo",
+      "values": {
+        "SelectedEstimateId": {
+          "ref": "estimate13"
+        }
+      },
+      "updateRef": "contract13"
+    },
+    {
+      "table": "Job",
+      "ref": "job1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract2"
+        },
+        "CustomerId": {
+          "ref": "customer2"
+        },
+        "AgentId": {
+          "ref": "agent2"
+        },
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "ContractCode": "00010002",
+        "DiaryDate": "$today",
+        "Time": "11:00",
+        "JobTime": "01:00:00",
+        "JobType": 0,
+        "GoStartMinute": 660,
+        "GoEndMinute": 720,
+        "GoCancelled": false,
+        "Instructions": "Inspect, measure and record glazing damage.",
+        "DamageDesc": "Storm debris shattered the conservatory roof pane",
+        "CauseOfDamage": "Storm Damage",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job2",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract3"
+        },
+        "CustomerId": {
+          "ref": "customer3"
+        },
+        "AgentId": {
+          "ref": "agent3"
+        },
+        "BranchId": {
+          "ref": "branch3"
+        },
+        "ContractCode": "00010003",
+        "DiaryDate": "$today+1",
+        "Time": "13:00",
+        "JobTime": "01:00:00",
+        "JobType": 0,
+        "GoStartMinute": 780,
+        "GoEndMinute": 840,
+        "GoCancelled": false,
+        "Instructions": "Inspect, measure and record glazing damage.",
+        "DamageDesc": "Rear patio door glazing broken during a burglary",
+        "CauseOfDamage": "Theft",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job3",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract4"
+        },
+        "CustomerId": {
+          "ref": "customer4"
+        },
+        "AgentId": {
+          "ref": "agent4"
+        },
+        "BranchId": {
+          "ref": "branch"
+        },
+        "ContractCode": "00010004",
+        "DiaryDate": "$today-18",
+        "Time": "15:00",
+        "JobTime": "01:00:00",
+        "JobType": 0,
+        "GoStartMinute": 900,
+        "GoEndMinute": 960,
+        "GoCancelled": false,
+        "Instructions": "Inspect, measure and record glazing damage.",
+        "DamageDesc": "Delivery trolley damaged the shopfront glass",
+        "CauseOfDamage": "Impact",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job4",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract5"
+        },
+        "CustomerId": {
+          "ref": "customer5"
+        },
+        "AgentId": {
+          "ref": "agent1"
+        },
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "ContractCode": "00010005",
+        "DiaryDate": "$today-22",
+        "Time": "09:00",
+        "JobTime": "01:00:00",
+        "JobType": 0,
+        "GoStartMinute": 540,
+        "GoEndMinute": 600,
+        "GoCancelled": false,
+        "Instructions": "Inspect, measure and record glazing damage.",
+        "DamageDesc": "Misted double-glazed bedroom unit with failed seals",
+        "CauseOfDamage": "Wear + Tear",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job5",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract6"
+        },
+        "CustomerId": {
+          "ref": "customer6"
+        },
+        "AgentId": {
+          "ref": "agent2"
+        },
+        "BranchId": {
+          "ref": "branch3"
+        },
+        "ContractCode": "00010006",
+        "DiaryDate": "$today-25",
+        "Time": "11:00",
+        "JobTime": "01:00:00",
+        "JobType": 0,
+        "GoStartMinute": 660,
+        "GoEndMinute": 720,
+        "GoCancelled": false,
+        "Instructions": "Inspect, measure and record glazing damage.",
+        "DamageDesc": "Incorrectly fitted kitchen glazing causing draughts",
+        "CauseOfDamage": "Bad Workmanship",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job6",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract7"
+        },
+        "CustomerId": {
+          "ref": "customer7"
+        },
+        "AgentId": {
+          "ref": "agent3"
+        },
+        "BranchId": {
+          "ref": "branch"
+        },
+        "ContractCode": "00010007",
+        "DiaryDate": "$today-28",
+        "Time": "13:00",
+        "JobTime": "01:00:00",
+        "JobType": 0,
+        "GoStartMinute": 780,
+        "GoEndMinute": 840,
+        "GoCancelled": false,
+        "Instructions": "Inspect, measure and record glazing damage.",
+        "DamageDesc": "Ground-floor window deliberately smashed",
+        "CauseOfDamage": "Malicious",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job7",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract7"
+        },
+        "CustomerId": {
+          "ref": "customer7"
+        },
+        "AgentId": {
+          "ref": "agent5"
+        },
+        "BranchId": {
+          "ref": "branch"
+        },
+        "ContractCode": "00010007",
+        "DiaryDate": "$today",
+        "Time": "12:00",
+        "JobTime": "02:00:00",
+        "JobType": 1,
+        "GoStartMinute": 720,
+        "GoEndMinute": 840,
+        "GoCancelled": false,
+        "Instructions": "Complete fitting and leave site safe.",
+        "DamageDesc": "Ground-floor window deliberately smashed",
+        "CauseOfDamage": "Malicious",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job8",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract8"
+        },
+        "CustomerId": {
+          "ref": "customer8"
+        },
+        "AgentId": {
+          "ref": "agent4"
+        },
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "ContractCode": "00010008",
+        "DiaryDate": "$today-29",
+        "Time": "15:00",
+        "JobTime": "01:00:00",
+        "JobType": 0,
+        "GoStartMinute": 900,
+        "GoEndMinute": 960,
+        "GoCancelled": false,
+        "Instructions": "Inspect, measure and record glazing damage.",
+        "DamageDesc": "Patio door lock requires replacement after keys were lost",
+        "CauseOfDamage": "Loss of keys",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job9",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract8"
+        },
+        "CustomerId": {
+          "ref": "customer8"
+        },
+        "AgentId": {
+          "ref": "agent6"
+        },
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "ContractCode": "00010008",
+        "DiaryDate": "$today+2",
+        "Time": "14:00",
+        "JobTime": "02:00:00",
+        "JobType": 1,
+        "GoStartMinute": 840,
+        "GoEndMinute": 960,
+        "GoCancelled": false,
+        "Instructions": "Complete fitting and leave site safe.",
+        "DamageDesc": "Patio door lock requires replacement after keys were lost",
+        "CauseOfDamage": "Loss of keys",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job10",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract9"
+        },
+        "CustomerId": {
+          "ref": "customer9"
+        },
+        "AgentId": {
+          "ref": "agent1"
+        },
+        "BranchId": {
+          "ref": "branch3"
+        },
+        "ContractCode": "00010009",
+        "DiaryDate": "$today-32",
+        "Time": "09:00",
+        "JobTime": "01:00:00",
+        "JobType": 0,
+        "GoStartMinute": 540,
+        "GoEndMinute": 600,
+        "GoCancelled": false,
+        "Instructions": "Inspect, measure and record glazing damage.",
+        "DamageDesc": "Double-glazed lounge window cracked by a football",
+        "CauseOfDamage": "Accidental Damage",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job11",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract9"
+        },
+        "CustomerId": {
+          "ref": "customer9"
+        },
+        "AgentId": {
+          "ref": "agent7"
+        },
+        "BranchId": {
+          "ref": "branch3"
+        },
+        "ContractCode": "00010009",
+        "DiaryDate": "$today-10",
+        "Time": "08:00",
+        "JobTime": "02:00:00",
+        "JobType": 1,
+        "GoStartMinute": 480,
+        "GoEndMinute": 600,
+        "GoCancelled": false,
+        "Instructions": "Complete fitting and leave site safe.",
+        "DamageDesc": "Double-glazed lounge window cracked by a football",
+        "CauseOfDamage": "Accidental Damage",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job12",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract10"
+        },
+        "CustomerId": {
+          "ref": "customer10"
+        },
+        "AgentId": {
+          "ref": "agent2"
+        },
+        "BranchId": {
+          "ref": "branch"
+        },
+        "ContractCode": "00010010",
+        "DiaryDate": "$today-36",
+        "Time": "11:00",
+        "JobTime": "01:00:00",
+        "JobType": 0,
+        "GoStartMinute": 660,
+        "GoEndMinute": 720,
+        "GoCancelled": false,
+        "Instructions": "Inspect, measure and record glazing damage.",
+        "DamageDesc": "Storm debris shattered the conservatory roof pane",
+        "CauseOfDamage": "Storm Damage",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job13",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract10"
+        },
+        "CustomerId": {
+          "ref": "customer10"
+        },
+        "AgentId": {
+          "ref": "agent5"
+        },
+        "BranchId": {
+          "ref": "branch"
+        },
+        "ContractCode": "00010010",
+        "DiaryDate": "$today-5",
+        "Time": "10:00",
+        "JobTime": "02:00:00",
+        "JobType": 1,
+        "GoStartMinute": 600,
+        "GoEndMinute": 720,
+        "GoCancelled": false,
+        "Instructions": "Complete fitting and leave site safe.",
+        "DamageDesc": "Storm debris shattered the conservatory roof pane",
+        "CauseOfDamage": "Storm Damage",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job14",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract11"
+        },
+        "CustomerId": {
+          "ref": "customer11"
+        },
+        "AgentId": {
+          "ref": "agent3"
+        },
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "ContractCode": "00010011",
+        "DiaryDate": "$today-39",
+        "Time": "13:00",
+        "JobTime": "01:00:00",
+        "JobType": 0,
+        "GoStartMinute": 780,
+        "GoEndMinute": 840,
+        "GoCancelled": false,
+        "Instructions": "Inspect, measure and record glazing damage.",
+        "DamageDesc": "Rear patio door glazing broken during a burglary",
+        "CauseOfDamage": "Theft",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job15",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract11"
+        },
+        "CustomerId": {
+          "ref": "customer11"
+        },
+        "AgentId": {
+          "ref": "agent6"
+        },
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "ContractCode": "00010011",
+        "DiaryDate": "$today-6",
+        "Time": "12:00",
+        "JobTime": "02:00:00",
+        "JobType": 1,
+        "GoStartMinute": 720,
+        "GoEndMinute": 840,
+        "GoCancelled": false,
+        "Instructions": "Complete fitting and leave site safe.",
+        "DamageDesc": "Rear patio door glazing broken during a burglary",
+        "CauseOfDamage": "Theft",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job16",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract11"
+        },
+        "CustomerId": {
+          "ref": "customer11"
+        },
+        "AgentId": {
+          "ref": "agent6"
+        },
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "ContractCode": "00010011",
+        "DiaryDate": "$today-1",
+        "Time": "14:00",
+        "JobTime": "02:00:00",
+        "JobType": 2,
+        "GoStartMinute": 840,
+        "GoEndMinute": 960,
+        "GoCancelled": false,
+        "Instructions": "Return visit to adjust glazing.",
+        "DamageDesc": "Rear patio door glazing broken during a burglary",
+        "CauseOfDamage": "Theft",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job17",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract13"
+        },
+        "CustomerId": {
+          "ref": "customer13"
+        },
+        "AgentId": {
+          "ref": "agent1"
+        },
+        "BranchId": {
+          "ref": "branch"
+        },
+        "ContractCode": "00010013",
+        "DiaryDate": "$today-43",
+        "Time": "09:00",
+        "JobTime": "01:00:00",
+        "JobType": 0,
+        "GoStartMinute": 540,
+        "GoEndMinute": 600,
+        "GoCancelled": false,
+        "Instructions": "Inspect, measure and record glazing damage.",
+        "DamageDesc": "Misted double-glazed bedroom unit with failed seals",
+        "CauseOfDamage": "Wear + Tear",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "Job",
+      "ref": "job18",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract13"
+        },
+        "CustomerId": {
+          "ref": "customer13"
+        },
+        "AgentId": {
+          "ref": "agent5"
+        },
+        "BranchId": {
+          "ref": "branch"
+        },
+        "ContractCode": "00010013",
+        "DiaryDate": "$today-3",
+        "Time": "08:00",
+        "JobTime": "02:00:00",
+        "JobType": 1,
+        "GoStartMinute": 480,
+        "GoEndMinute": 600,
+        "GoCancelled": false,
+        "Instructions": "Complete fitting and leave site safe.",
+        "DamageDesc": "Misted double-glazed bedroom unit with failed seals",
+        "CauseOfDamage": "Wear + Tear",
+        "bIncludeSurvey": true
+      }
+    },
+    {
+      "table": "GoSequence",
+      "ref": "sequence",
+      "tenant": "",
+      "values": {
+        "Name": "ContractNumber",
+        "Value": 20001
+      }
+    },
+    {
+      "table": "InsuranceClaims",
+      "ref": "claim1",
+      "tenant": "demo",
+      "values": {
+        "InsurerId": {
+          "ref": "insurer1"
+        },
+        "ClaimReference": "CLAIM-DEMO-001",
+        "CustomerName": "Chris Example",
+        "Address1": "25 Sample Avenue",
+        "Postcode": "CF10 1AA",
+        "Email": "chris@example.test",
+        "IncidentDate": "$today",
+        "CauseOfDamage": "Storm",
+        "DamageDescription": "Broken side window",
+        "PolicyNumber": "POL-EXAMPLE",
+        "Excess": 100,
+        "Status": 0,
+        "Created": "$now"
+      }
+    },
+    {
+      "table": "InsuranceClaims",
+      "ref": "claim2",
+      "tenant": "demo",
+      "values": {
+        "InsurerId": {
+          "ref": "insurer2"
+        },
+        "ClaimReference": "CLAIM-SECOND-002",
+        "CustomerName": "Second insurer example",
+        "IncidentDate": "$today",
+        "CauseOfDamage": "Impact",
+        "DamageDescription": "Cracked glass",
+        "Status": 0,
+        "Created": "$now"
+      }
+    },
+    {
+      "table": "Contract",
+      "ref": "otherContract",
+      "tenant": "other",
+      "values": {
+        "CustomerId": {
+          "ref": "otherCustomer"
+        },
+        "ContractNumber": 20001,
+        "CustomerReference": "OTHER-PRIVATE",
+        "Status": 0,
+        "DamageDescription": "Must never appear in DEMO",
+        "CauseOfDamage": "Isolation test",
+        "IsActive": true
+      }
+    },
+    {
+      "table": "GoTicket",
+      "ref": "ticket1",
+      "tenant": "demo",
+      "values": {
+        "CustomerId": {
+          "ref": "customer1"
+        },
+        "Subject": "Confirm my survey time",
+        "Status": "Open",
+        "CreatedAt": "$now"
+      }
+    },
+    {
+      "table": "GoTicketMessage",
+      "ref": "ticketMessage",
+      "tenant": "demo",
+      "values": {
+        "TicketId": {
+          "ref": "ticket1"
+        },
+        "Body": "Could you confirm my appointment?",
+        "SenderRole": "Customer",
+        "CreatedAt": "$now"
+      }
+    },
+    {
+      "table": "GoMessage",
+      "ref": "message1",
+      "tenant": "demo",
+      "values": {
+        "ContractId": {
+          "ref": "contract2"
+        },
+        "InsurerId": {
+          "ref": "insurer1"
+        },
+        "Body": "Estimate ready for review.",
+        "SenderRole": "Staff",
+        "CreatedAt": "$now"
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle1",
+      "tenant": "demo",
+      "values": {
+        "Registration": "DAV 1D",
+        "Name": "Scotland",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch"
+        },
+        "Type": 0
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle2",
+      "tenant": "demo",
+      "values": {
+        "Registration": "BUT 70N",
+        "Name": "Eastern",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "Type": 0
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle3",
+      "tenant": "demo",
+      "values": {
+        "Registration": "PAM 314S",
+        "Name": "North Western",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch"
+        },
+        "Type": 1
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle4",
+      "tenant": "demo",
+      "values": {
+        "Registration": "EFD 678",
+        "Name": "Wales",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "Type": 1
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle5",
+      "tenant": "demo",
+      "values": {
+        "Registration": "R2 YAN",
+        "Name": "Fit1",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch"
+        },
+        "Type": 2
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle6",
+      "tenant": "demo",
+      "values": {
+        "Registration": "K4 MES",
+        "Name": "Fit2",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch"
+        },
+        "Type": 2
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle7",
+      "tenant": "demo",
+      "values": {
+        "Registration": "B26 OMB",
+        "Name": "Fit3",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "Type": 2
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle8",
+      "tenant": "demo",
+      "values": {
+        "Registration": "P902 HLM",
+        "Name": "Fit4",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "Type": 2
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle9",
+      "tenant": "demo",
+      "values": {
+        "Registration": "F412 TSW",
+        "Name": "Racer",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch"
+        },
+        "Type": 3
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle10",
+      "tenant": "demo",
+      "values": {
+        "Registration": "1 CDW",
+        "Name": "Double Glazing",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "Type": 3
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle11",
+      "tenant": "demo",
+      "values": {
+        "Registration": "GLA 123",
+        "Name": "City Runner",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch3"
+        },
+        "Type": 3
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle12",
+      "tenant": "demo",
+      "values": {
+        "Registration": "LIV 456",
+        "Name": "Mersey Cruiser",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch"
+        },
+        "Type": 3
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle13",
+      "tenant": "demo",
+      "values": {
+        "Registration": "LEE 789",
+        "Name": "Yorkshire Hauler",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "Type": 0
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle14",
+      "tenant": "demo",
+      "values": {
+        "Registration": "MAN 321",
+        "Name": "Northern Express",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch3"
+        },
+        "Type": 1
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle15",
+      "tenant": "demo",
+      "values": {
+        "Registration": "LON 654",
+        "Name": "London Fitter",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch"
+        },
+        "Type": 2
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle16",
+      "tenant": "demo",
+      "values": {
+        "Registration": "BIR 987",
+        "Name": "Brum Fitter",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch2"
+        },
+        "Type": 2
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle17",
+      "tenant": "demo",
+      "values": {
+        "Registration": "CAR 246",
+        "Name": "Welsh Dragon",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch3"
+        },
+        "Type": 0
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle18",
+      "tenant": "demo",
+      "values": {
+        "Registration": "EDI 135",
+        "Name": "Edinburgh Flyer",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch"
+        },
+        "Type": 3
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle19",
+      "tenant": "demo",
+      "values": {
+        "Registration": "GLA 246",
+        "Name": "Glasgow Van",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch3"
+        },
+        "Type": 1
+      }
+    },
+    {
+      "table": "Vehicles",
+      "ref": "vehicle20",
+      "tenant": "demo",
+      "values": {
+        "Registration": "LIV 357",
+        "Name": "Liverpool Fitter",
+        "Description": "Fictional integration test vehicle",
+        "BranchId": {
+          "ref": "branch"
+        },
+        "Type": 2
+      }
+    }
+  ]
+}

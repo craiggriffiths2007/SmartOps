@@ -1,0 +1,90 @@
+@model SmartOps.Web.ViewModels.VehicleCheckHeaderIndexViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <div class="details-titlebar">
+        <h4>Vehicle Check</h4>
+
+        <button type="button"
+                class="btn btn-secondary details-close"
+                onclick="history.back();"
+                title="Close">
+            Close
+        </button>
+
+    </div>
+
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.VehicleCheckHeader.CheckWeekDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VehicleCheckHeader.CheckWeekDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.VehicleCheckHeader.BranchCode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VehicleCheckHeader.BranchCode)
+        </dd>
+
+    </dl>
+</div>
+
+    <h4>Vehicles</h4>
+    @if (Model.VehicleCheckVehicles != null && Model.VehicleCheckVehicles.Any())
+    {
+    <div class="record-cards" data-paginate>
+@foreach (var item in Model.VehicleCheckVehicles)
+                {
+                    <article class="record-card">
+    <div class="record-card-title fw-bold"><a href="@Url.Action("VehicleDetails", "VehicleChecks", new { id = item.Id })" class="stretched-link @(item.IsComplete == false ? "text-danger" : "")">@item.Registration</a></div>
+    <div class="record-card-fields">
+        @if (item.IsComplete == false)
+        {
+            <div class="record-card-field">
+                <span class="record-field-label">Completed</span>
+                <span class="text-danger fw-semibold">No</span>
+            </div>
+            <div class="record-card-field">
+                <span class="record-field-label">Reason not completed</span>
+                @(string.IsNullOrWhiteSpace(item.ReasonNotCompleted) ? "Not provided" : item.ReasonNotCompleted)
+            </div>
+        }
+                        <div class="record-card-field">
+                <span class="record-field-label">Type</span>
+                @item.VehicleName
+            </div>
+            @if (item.IsComplete != false)
+            {
+            <div class="record-card-field">
+                <span class="record-field-label">Destination</span>
+                @(string.IsNullOrWhiteSpace(item.Destination) ? "—" : item.Destination)
+            </div>
+            <div class="record-card-field">
+                <span class="record-field-label">Mileage</span>
+                @(string.IsNullOrWhiteSpace(item.Mileage) ? "—" : item.Mileage)
+            </div>
+            <div class="record-card-field">
+                <span class="record-field-label">Driver name</span>
+                @(string.IsNullOrWhiteSpace(item.DriverName) ? "—" : item.DriverName)
+            </div>
+            <div class="record-card-field">
+                <span class="record-field-label">Checker name</span>
+                @(string.IsNullOrWhiteSpace(item.CheckerName) ? "—" : item.CheckerName)
+            </div>
+            }
+
+    </div>
+</article>
+                }
+</div>
+    }
+    else
+    {
+        <p class="text-muted">No vehicles found for this vehicle check.</p>
+    }

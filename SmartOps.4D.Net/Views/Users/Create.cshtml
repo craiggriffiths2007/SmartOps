@@ -1,0 +1,77 @@
+@model SmartOps.Web.Models.CreateUserViewModel
+
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Add User</h4>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Cancel
+    </a>
+</div>
+<hr />
+
+<form asp-action="Create"
+      method="post">
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger"></div>
+
+    <div class="row bold-form">
+
+        @* LEFT COLUMN *@
+        <div class="col-md-4">
+
+            <partial name="_UserForm"
+                     model="@Model" />
+
+
+        </div>
+
+
+        @* RIGHT COLUMN *@
+        <div class="col-md-4">
+
+            
+            <div class="form-group mb-3">
+                <label asp-for="Password" class="control-label"></label>
+                <div class="input-group">
+                    <input asp-for="Password" class="form-control" type="text" autocomplete="new-password" />
+                    <button type="button" class="btn btn-outline-secondary" data-generate-password
+                            data-password-input="Password" data-url="@Url.Action("GeneratePassword")">Generate</button>
+                </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+                <div class="form-text">The password issued to this user. Email Login Details creates the user and emails these details.</div>
+                <div class="form-text text-danger" data-password-status role="status"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    
+
+<div class="mt-4 d-flex justify-content-between align-items-center">
+
+
+        <div class="d-flex gap-2 flex-wrap ms-auto">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" name="emailLogin" value="true" class="btn btn-outline-primary">
+                <i class="bi bi-envelope me-1"></i>Email Login Details
+            </button>
+        </div>
+
+    </div>
+
+</form>
+
+@section Scripts {
+    <script src="~/js/user-login.js" asp-append-version="true"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

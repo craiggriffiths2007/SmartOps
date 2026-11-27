@@ -1,0 +1,206 @@
+
+@model SmartOps.Web.ViewModels.InsurerEditViewModel
+
+@{
+    ViewData["Title"] = "Insurer Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Insurer Details</h4>
+
+    
+
+<div class="d-flex gap-2 align-items-center">
+        <a asp-action="Index" class="btn btn-secondary">Close</a>
+        <a asp-action="Delete" asp-route-id="@Model.Insurer.Id" class="btn btn-danger">Delete</a>
+        <a asp-action="Edit" asp-route-id="@Model.Insurer.Id" class="btn btn-primary">Edit</a>
+    </div>
+</div>
+
+<hr />
+
+<div class="row g-4">
+
+    <!-- COLUMN 1: Insurer details -->
+    <div class="col-md-4">
+
+        <h5>Insurer</h5>
+
+        <dl>
+            <dt>Name</dt>
+            <dd>@Model.Insurer.Name</dd>
+
+            <dt>Contact Name</dt>
+            <dd>@Model.Insurer.ContactName</dd>
+
+            <dt>Email</dt>
+            <dd>@Model.Insurer.Email</dd>
+
+            <dt>Telephone</dt>
+            <dd>@Model.Insurer.Telephone</dd>
+
+            <dt>Address</dt>
+            <dd>
+                @Model.Insurer.Address1<br />
+
+                @if (!string.IsNullOrWhiteSpace(Model.Insurer.Address2))
+                {
+                    @Model.Insurer.Address2<br />
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.Insurer.Address3))
+                {
+                    @Model.Insurer.Address3<br />
+                }
+
+                @Model.Insurer.Postcode
+            </dd>
+
+            <dt>Active</dt>
+            <dd>@(Model.Insurer.IsActive ? "Yes" : "No")</dd>
+        </dl>
+
+    </div>
+
+    <!-- COLUMNS 2 AND 3: Portal users and Add Portal User -->
+    <div class="col-md-8">
+
+        <h5>Portal Users</h5>
+
+        @if (Model.Users == null || Model.Users.Count == 0)
+        {
+            <p class="text-muted">
+                No portal users have been created yet.
+            </p>
+        }
+        else
+        {
+            <div class="record-cards" data-paginate>
+@foreach (var user in Model.Users)
+                    {
+                        <article class="record-card">
+    <div class="record-card-title fw-bold">@(string.IsNullOrWhiteSpace(user.FullName)
+                                    ? "—"
+                                    : user.FullName)</div>
+    <div class="record-card-fields">
+
+                            <div class="record-card-field">
+                <span class="record-field-label">Login Email</span>
+                @user.Email
+            </div>
+                            <div class="record-card-field">
+                <span class="record-field-label">Status</span>
+@if (user.IsDisabled)
+    {
+        <span class="badge bg-danger">Disabled</span>
+    }
+    else
+    {
+        <span class="badge bg-success">Active</span>
+                }
+            </div>
+
+                            <div class="record-card-field"><span class="record-field-label">Actions</span>
+<a asp-action="EditUser"
+                                   asp-route-id="@user.Id"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Edit
+                                </a>
+</div>
+
+    </div>
+</article>
+                    }
+</div>
+        }
+
+        <!-- Add Portal User underneath the users table -->
+        <div class="mt-4">
+
+            <h5>Add Portal User</h5>
+
+            <form asp-action="CreateLogin" method="post">
+
+                <input type="hidden"
+                       name="insurerId"
+                       value="@Model.Insurer.Id" />
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label asp-for="NewFirstName">
+                            First Name
+                        </label>
+
+                        <input asp-for="NewFirstName"
+                               class="form-control" />
+
+                        <span asp-validation-for="NewFirstName"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="NewLastName">
+                            Last Name
+                        </label>
+
+                        <input asp-for="NewLastName"
+                               class="form-control" />
+
+                        <span asp-validation-for="NewLastName"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="NewEmail">
+                            Login Email
+                        </label>
+
+                        <input asp-for="NewEmail"
+                               type="email"
+                               class="form-control" />
+
+                        <span asp-validation-for="NewEmail"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="NewPassword">
+                            Temporary Password
+                        </label>
+
+                        <input asp-for="NewPassword"
+                               type="password"
+                               class="form-control"
+                               autocomplete="new-password" />
+
+                        <span asp-validation-for="NewPassword"
+                              class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary mt-3">
+                    Add Portal User
+                </button>
+
+            </form>
+
+            @if (TempData["CreateUserError"] is string error)
+{
+    <div class="alert alert-danger mt-3 preserve-line-breaks">@error</div>
+}
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
+}

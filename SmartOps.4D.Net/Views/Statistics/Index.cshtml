@@ -1,0 +1,409 @@
+@model SmartOps.Web.ViewModels.StatisticsViewModel
+
+@{
+    ViewData["Title"] = "Statistics";
+    var appTab = Context.Request.Query["tab"] == "app";
+
+    var ukTimeZone =
+        TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");
+}
+
+<div class="details-titlebar">
+    <h4>Statistics</h4>
+</div>
+
+<div class="small-gap"></div>
+@if (TempData["StatisticsSuccess"] is string success)
+{
+    <div class="alert alert-success" role="status">@success</div>
+}
+@if (TempData["StatisticsError"] is string error)
+{
+    <div class="alert alert-danger" role="alert">@error</div>
+}
+
+<ul class="nav nav-tabs mb-4" id="statisticsTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link @(appTab ? "" : "active")"
+                id="web-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#web"
+                type="button"
+                role="tab"
+                aria-controls="web"
+                aria-selected="@(!appTab ? "true" : "false")">
+            <i class="bi bi-globe"></i>&nbsp;Web
+        </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <button class="nav-link @(appTab ? "active" : "")"
+                id="app-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#app"
+                type="button"
+                role="tab"
+                aria-controls="app"
+                aria-selected="@(appTab ? "true" : "false")">
+            <i class="bi bi-phone"></i>&nbsp;App
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="statisticsTabsContent">
+
+    <!-- =========================================================
+         WEB
+         ========================================================= -->
+    <div class="tab-pane fade @(appTab ? "" : "show active")"
+         id="web"
+         role="tabpanel"
+         aria-labelledby="web-tab">
+
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-4 col-xl">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="text-muted small">Today</div>
+                        <div class="fs-3 fw-bold">@Model.TodayHits</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-xl">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="text-muted small">Last 7 days</div>
+                        <div class="fs-3 fw-bold">@Model.Last7DaysHits</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-xl">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="text-muted small">Last 30 days</div>
+                        <div class="fs-3 fw-bold">@Model.Last30DaysHits</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-xl">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="text-muted small">Total requests</div>
+                        <div class="fs-3 fw-bold">@Model.TotalHits</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-xl">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="text-muted small">Unique IPs</div>
+                        <div class="fs-3 fw-bold">@Model.UniqueIpAddresses</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-2">
+            <div class="col-6 col-md-4 col-xl">
+                <div class="card h-100 shadow-sm"><div class="card-body">
+                    <div class="text-muted small">Likely human requests</div>
+                    <div class="fs-3 fw-bold">@Model.VisitorHits</div>
+                </div></div>
+            </div>
+            <div class="col-6 col-md-4 col-xl">
+                <div class="card h-100 shadow-sm"><div class="card-body">
+                    <div class="text-muted small">Bot requests (unverified)</div>
+                    <div class="fs-3 fw-bold">@Model.BotHits</div>
+                </div></div>
+            </div>
+            <div class="col-6 col-md-4 col-xl">
+                <div class="card h-100 shadow-sm"><div class="card-body">
+                    <div class="text-muted small">Possible automation</div>
+                    <div class="fs-3 fw-bold">@Model.PossibleBotHits</div>
+                </div></div>
+            </div>
+            <div class="col-6 col-md-4 col-xl">
+                <div class="card h-100 shadow-sm"><div class="card-body">
+                    <div class="text-muted small">Unknown agents</div>
+                    <div class="fs-3 fw-bold">@Model.UnknownAgentHits</div>
+                </div></div>
+            </div>
+        </div>
+        <p class="small text-muted mb-4">All-time request counts, not unique people. User agents can be spoofed; crawler identities are unverified. Hover over visitor details to see the original user agent.</p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.CurrentIpAddress))
+        {
+            <div class="alert alert-light border py-2 mb-4">
+                <strong>Your current IP:</strong> @Model.CurrentIpAddress
+                <span class="text-muted ms-2">
+                    Recent hits from this IP are marked as You.
+                </span>
+            </div>
+        }
+
+        <div class="row g-4">
+            <div class="col-12 col-xl-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header fw-bold">Hits by page</div>
+                    <div class="record-list-section">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Page</th>
+                                        <th scope="col" class="text-end">Today</th>
+                                        <th scope="col" class="text-end">7 days</th>
+                                        <th scope="col" class="text-end">30 days</th>
+                                        <th scope="col" class="text-end">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-paginate data-page-label="Page hit statistics pages">
+                                    @if (Model.Pages.Count == 0)
+                                    {
+                                        <tr><td colspan="8" class="text-muted">No page hits recorded yet.</td></tr>
+                                    }
+                                    @foreach (var pageStat in Model.Pages)
+                                    {
+                                        <tr data-record-row>
+                                            <td>@pageStat.Page</td>
+                                            <td class="text-end">@pageStat.Today</td>
+                                            <td class="text-end">@pageStat.Last7Days</td>
+                                            <td class="text-end">@pageStat.Last30Days</td>
+                                            <td class="text-end">@pageStat.Total</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-xl-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header fw-bold">Last 30 days</div>
+                    <div class="record-list-section">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Date</th>
+                                        <th scope="col" class="text-end">Hits</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-paginate data-page-label="Daily hit statistics pages">
+                                    @foreach (var day in Model.DailyHits.OrderByDescending(x => x.Date))
+                                    {
+                                        <tr data-record-row>
+                                            <td>@day.Date.ToString("ddd d MMM yyyy")</td>
+                                            <td class="text-end">@day.Hits</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mt-4 mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="fw-bold">Recent page hits</span>
+                <span class="text-muted small">Latest 100</span>
+            </div>
+
+            <div class="record-list-section">
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date / time</th>
+                                <th scope="col">Page</th>
+                                <th scope="col">IP address</th>
+                                <th scope="col">Referrer</th>
+                                <th scope="col">Device</th>
+                                <th scope="col">Browser</th>
+                                <th scope="col">OS</th>
+                                <th scope="col">Visitor type</th>
+                            </tr>
+                        </thead>
+                        <tbody data-paginate data-page-size="50" data-page-label="Recent page hit pages">
+                            @if (Model.RecentHits.Count == 0)
+                            {
+                                <tr><td colspan="8" class="text-muted">No page hits recorded yet.</td></tr>
+                            }
+                            @foreach (var hit in Model.RecentHits)
+                            {
+                                var userAgent = hit.UserAgent ?? "";
+                                <tr data-record-row class="@(hit.IsCurrentIp ? "table-warning" : "")">
+                                    <td class="text-nowrap">@TimeZoneInfo.ConvertTimeFromUtc(hit.HitDate, ukTimeZone).ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                    <td>@hit.Page</td>
+                                    <td class="text-nowrap">
+                                        @hit.IpAddress
+                                        @if (hit.IsCurrentIp)
+                                        {
+                                            <span class="badge bg-warning text-dark ms-1">You</span>
+                                        }
+                                    </td>
+                                    <td class="small">
+                                        @if (string.IsNullOrWhiteSpace(hit.Referrer))
+                                        {
+                                            <span class="text-muted">Direct / unknown</span>
+                                        }
+                                        else
+                                        {
+                                            @hit.Referrer
+                                        }
+                                    </td>
+                                    <td class="small" title="@userAgent">@hit.Visitor.Device</td>
+                                    <td class="small" title="@userAgent">@hit.Visitor.Browser</td>
+                                    <td class="small" title="@userAgent">@hit.Visitor.OperatingSystem</td>
+                                    <td class="small" title="@userAgent">@hit.Visitor.VisitorType</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- =========================================================
+         APP
+         ========================================================= -->
+
+    <div class="tab-pane fade @(appTab ? "show active" : "")"
+         id="app"
+         role="tabpanel"
+         aria-labelledby="app-tab">
+
+         <div class="card shadow-sm mb-4">
+        <div class="card-header fw-bold">
+            Survey App Release
+        </div>
+
+        <div class="card-body">
+            <form asp-action="UpdateSurveyAppBuild"
+                  method="post"
+                  class="d-flex align-items-end gap-2">
+
+                @Html.AntiForgeryToken()
+
+                <div>
+                    <label class="form-label">
+                        Current release build
+                    </label>
+
+                    <input type="number"
+                           name="build"
+                           min="0" max="2147483647" step="1" required
+                           value="@Model.SurveyAppLatestBuild"
+                           class="form-control statistics-number-input" />
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Update
+                </button>
+            </form>
+            <p class="text-muted small mt-2 mb-0">Enter the Android build number (versionCode / ApplicationVersion), not the display version such as 1.0. Tablets with an older build will be offered an update. Set 0 to disable update prompts. This setting applies to your company.</p>
+        </div>
+    </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="text-muted small">
+                            Survey app checks today
+                        </div>
+
+                        <div class="fs-3 fw-bold">
+                            @Model.SurveyAppChecksToday
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="text-muted small">
+                            Survey app checks - 30 days
+                        </div>
+
+                        <div class="fs-3 fw-bold">
+                            @Model.SurveyAppChecksLast30Days
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="fw-bold">
+                    Recent survey app version checks
+                </span>
+
+                <span class="text-muted small">
+                    Latest 100
+                </span>
+            </div>
+
+            <div class="record-list-section">
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date / time</th>
+                                <th scope="col">Company</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Installed</th>
+                                <th scope="col">Latest build</th>
+                                <th scope="col">Device</th>
+                                <th scope="col">IP address</th>
+                            </tr>
+                        </thead>
+                        <tbody data-paginate data-page-size="50" data-page-label="Survey app version check pages">
+                            @if (Model.RecentSurveyAppRequests.Count == 0)
+                            {
+                                <tr><td colspan="7" class="text-muted">No survey app checks recorded yet.</td></tr>
+                            }
+                            @foreach (var appRequest in Model.RecentSurveyAppRequests)
+                            {
+                                var deviceDetails = string.Join(" Ã‚Â· ", new[] {
+                                    string.Join(" ", new[] { appRequest.DeviceManufacturer, appRequest.DeviceModel }.Where(x => !string.IsNullOrWhiteSpace(x))),
+                                    appRequest.DeviceName,
+                                    string.Join(" ", new[] { appRequest.Platform, appRequest.OsVersion }.Where(x => !string.IsNullOrWhiteSpace(x)))
+                                }.Where(x => !string.IsNullOrWhiteSpace(x)));
+                                <tr data-record-row class="@(appRequest.UpdateAvailable ? "table-warning" : "")">
+                                    <td class="text-nowrap">@appRequest.RequestDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                    <td>@appRequest.TenantCode</td>
+                                    <td>@appRequest.AgentCode</td>
+                                    <td class="text-nowrap">
+                                        @appRequest.CurrentVersion (@appRequest.CurrentBuild)
+                                        @if (appRequest.UpdateAvailable)
+                                        {
+                                            <span class="badge bg-warning text-dark ms-1">Update available</span>
+                                        }
+                                    </td>
+                                    <td>@appRequest.LatestBuild</td>
+                                    <td>@deviceDetails</td>
+                                    <td class="text-nowrap">@appRequest.IpAddress</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

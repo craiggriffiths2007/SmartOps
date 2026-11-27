@@ -1,0 +1,13 @@
+@model SmartOps.Web.ViewModels.JobIndexViewModel
+@{ ViewData["Title"] = "Diary"; }
+
+<div class="details-titlebar">
+    <h4>Diary</h4>
+    <a asp-action="Create" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)" class="btn btn-primary details-close">Add Booking</a>
+</div>
+
+<partial name="_DiaryCalendar" model="Model" />
+
+@section Scripts {
+    <script src="~/js/diary-calendar.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,26 @@
+@model List<Microsoft.AspNetCore.Identity.IdentityRole>
+@{
+    ViewData["Title"] = "Role Manager";
+}
+<h1>Role Manager</h1>
+<p class="text-muted">Company users have four fixed roles: Admin, Users, Diary and Branch.</p>
+@if (!Model.Any())
+{
+    <p class="text-muted py-3">No records found.</p>
+}
+<div class="record-cards">
+@foreach (var role in Model)
+        {
+            <article class="record-card">
+    <div class="record-card-title fw-bold">@role.Name</div>
+    <div class="record-card-fields">
+                <div class="record-card-field">
+                <span class="record-field-label">Id</span>
+                @role.Id
+            </div>
+
+    </div>
+</article>
+        }
+</div>
+<record-pagination></record-pagination>

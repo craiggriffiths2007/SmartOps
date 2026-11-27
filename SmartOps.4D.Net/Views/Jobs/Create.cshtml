@@ -1,0 +1,30 @@
+@model SmartOps.Web.ViewModels.JobDetailsViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Add Booking</h4>
+
+        @if (ViewBag.ReturnUrl != null)
+        {
+            <a href="@ViewBag.ReturnUrl" class="btn btn-secondary" data-release-booking>Cancel</a>
+        }
+        else
+        {
+            <a asp-action="Index" class="btn btn-secondary" data-release-booking>Cancel</a>
+        }
+</div>
+<hr />
+<partial name="_BookingForm" model="Model" />
+
+<partial name="_BookingAvailability" model="Model" />
+
+@section Scripts {
+    <script src="~/js/booking-availability.js" asp-append-version="true"></script>
+    <script src="~/js/booking-contract-filter.js" asp-append-version="true"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,274 @@
+@model IEnumerable<SmartOps.Web.ViewModels.ContractIndexViewModel>
+
+@{
+    ViewData["Title"] = "Contracts";
+    var compactList = ViewBag.CompactList is true;
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+    var awaitingStatuses = new Dictionary<ContractStatus, string>
+    {
+        [ContractStatus.Reported] = "Awaiting Survey Booking",
+        [ContractStatus.SurveyCompleted] = "Awaiting Estimation",
+        [ContractStatus.EstimateCompleted] = "Awaiting Authorization",
+        [ContractStatus.Authorised] = "Awaiting Fitting Booking",
+        [ContractStatus.FittingCompleted] = "Awaiting Invoice"
+    };
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Contracts</h4>
+
+    <a asp-action="Create" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)" class="btn btn-primary">
+        Add Contract
+    </a>
+</div>
+
+<form asp-action="Index"
+      method="get"
+      class="row g-2 align-items-end mb-3">
+
+    <div class="col-md-4">
+        <label class="form-label">Search</label>
+        <input type="text"
+               name="search"
+               value="@ViewBag.Search"
+               class="form-control"
+               placeholder="Contract, customer, postcode, policy..." />
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">Status</label>
+        <select name="status"
+                class="form-select">
+
+            <option value="">All</option>
+
+            @foreach (var status in awaitingStatuses)
+            {
+                <option value="@status.Key"
+                        selected="@(ViewBag.Status == status.Key.ToString())">
+                    @status.Value
+                </option>
+            }
+
+        </select>
+    </div>
+
+    <div class="col-md-2">
+    <label class="form-label">Contracts</label>
+
+    <select name="active"
+            class="form-select">
+
+        <option value="active"
+                selected="@(ViewBag.Active == "active")">
+            Active
+        </option>
+
+        <option value="all"
+                selected="@(ViewBag.Active == "all")">
+            All
+        </option>
+
+        <option value="inactive"
+                selected="@(ViewBag.Active == "inactive")">
+            Cancelled / Completed
+        </option>
+
+    </select>
+</div>
+
+    <div class="col-md-3 d-flex align-items-center gap-1">
+        <button type="submit"
+                class="btn btn-primary">
+            Search
+        </button>
+
+        <a asp-action="Index"
+           class="btn btn-outline-secondary">
+            Clear
+        </a>
+        <div class="form-check ms-auto mb-0" title="Switch between compact list and cards">
+            <input type="checkbox" id="compactContracts" name="compactList" value="true"
+                   class="form-check-input" checked="@compactList" form="contract-layout-form"
+                   aria-label="Compact list view"
+                   onchange="this.form.requestSubmit()" />
+            <label for="compactContracts" class="form-check-label">List</label>
+        </div>
+    </div>
+
+</form>
+
+<form id="contract-layout-form" asp-action="SaveLayout" method="post">
+    <input type="hidden" name="compactList" value="false" />
+    <input type="hidden" name="search" value="@ViewBag.Search" />
+    <input type="hidden" name="status" value="@ViewBag.Status" />
+    <input type="hidden" name="active" value="@ViewBag.Active" />
+    <input type="hidden" name="page" value="@ViewBag.PageNumber" />
+</form>
+
+@if (!Model.Any())
+{
+    <p class="text-muted py-3">No contracts found.</p>
+}
+else if (compactList)
+{
+    <div class="table-responsive record-index-list">
+        <table class="table table-sm table-hover align-middle record-index-table contract-index-table mb-0">
+            <caption class="visually-hidden">Contracts</caption>
+            <colgroup>
+                <col class="contract-column" />
+                <col class="customer-column" />
+                <col class="damage-column" />
+                <col class="status-column" />
+                <col class="appointment-column" />
+                <col class="insurer-column" />
+                <col class="progress-column" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th scope="col">Contract</th>
+                    <th scope="col">Customer / Address</th>
+                    <th scope="col">Damage</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Next appointment</th>
+                    <th scope="col">Insurer / Policy</th>
+                    <th scope="col">Progress</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var contract = item.Contract;
+                    var customer = contract.Customer;
+                    var address = string.Join(", ", new[] { customer?.Add1, customer?.Add2, customer?.Add3, customer?.Postcode }.Where(x => !string.IsNullOrWhiteSpace(x)));
+                    var detailsUrl = Url.Action("Details", new { id = contract.Id, returnUrl });
+                    <tr class="clickable-row" data-href="@detailsUrl" tabindex="0">
+                        <th scope="row">
+                            @contract.ContractCode
+                            <div class="small text-muted fw-normal">@contract.IncidentDate.ToString("dd/MM/yyyy")</div>
+                        </th>
+                        <td>
+                            <div class="text-truncate" title="@(customer?.Name ?? "Customer unavailable")">@(customer?.Name ?? "Customer unavailable")</div>
+                            <div class="small text-muted text-truncate" title="@address">@address</div>
+                        </td>
+                        <td>
+                            <div class="text-truncate" title="@contract.DamageDescription">@contract.DamageDescription</div>
+                            <div class="small text-muted text-truncate" title="@contract.CauseOfDamage">@contract.CauseOfDamage</div>
+                        </td>
+                        <td>
+                            <span class="badge @(contract.IsCancelled ? "bg-danger" : "bg-primary")">@(contract.IsCancelled ? "Cancelled" : awaitingStatuses.GetValueOrDefault(contract.Status, SmartOps.Web.Helpers.ItemDisplayNameHelper.GetDisplayName(contract.Status.ToString())))</span>
+                            @if (!contract.IsActive && !contract.IsCancelled)
+                            {
+                                <span class="badge bg-secondary">Inactive</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.NextJob is { } job)
+                            {
+                                <a asp-controller="Jobs" asp-action="Details" asp-route-id="@job.Id" asp-route-returnUrl="@returnUrl">
+                                    @job.DiaryDate.ToString("dd/MM/yyyy") @job.Time.ToString("HH:mm")–@job.Time.Add(job.JobTime).ToString("HH:mm")
+                                </a>
+                                <div class="small">@job.JobType @job.Agent?.Code @job.Agent?.Name</div>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No appointment</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="text-truncate" title="@contract.Insurer?.Name">@contract.Insurer?.Name</div>
+                            <div class="small text-muted">@contract.PolicyNumber</div>
+                        </td>
+                        <td>
+                            <div class="contract-index-progress">
+                                <span class="contract-traffic-light" role="img"
+                                      aria-label="Traffic light: @((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.Reason)"
+                                      title="@((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.Reason)"
+                                      style="background-color:@((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.DisplayColor ?? "#929292")"></span>
+                                @await Html.PartialAsync("_ContractProgress", item)
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="record-cards">
+        @foreach (var item in Model)
+        {
+            var contract = item.Contract;
+            var customer = contract.Customer;
+            var address = string.Join(", ", new[] { customer?.Add1, customer?.Add2, customer?.Add3, customer?.Postcode }.Where(x => !string.IsNullOrWhiteSpace(x)));
+            <article class="record-card">
+                <div class="record-card-header">
+                    <h5 class="record-card-title">
+                        <a asp-action="Details" asp-route-id="@contract.Id" asp-route-returnUrl="@returnUrl" class="stretched-link">
+                            <strong>@contract.ContractCode</strong> <span>@(customer?.Name ?? "Customer unavailable")</span>
+                        </a>
+                    </h5>
+                    <div class="d-flex gap-2 align-items-center">
+                        <span class="badge @(contract.IsCancelled ? "bg-danger" : "bg-primary")">@(contract.IsCancelled ? "Cancelled" : awaitingStatuses.GetValueOrDefault(contract.Status, SmartOps.Web.Helpers.ItemDisplayNameHelper.GetDisplayName(contract.Status.ToString())))</span>
+                        @if (!contract.IsActive && !contract.IsCancelled)
+                        {
+                            <span class="badge bg-secondary">Inactive</span>
+                        }
+                    </div>
+                </div>
+                <div class="record-card-details">
+                    <div>
+                        @if (!string.IsNullOrWhiteSpace(address))
+                        {
+                            <p>@address</p>
+                        }
+                        <p><strong>Damage:</strong> @contract.DamageDescription</p>
+                        @if (!string.IsNullOrWhiteSpace(contract.CauseOfDamage))
+                        {
+                            <p><strong>Cause:</strong> @contract.CauseOfDamage</p>
+                        }
+                        <p class="text-muted"><strong>Incident:</strong> @contract.IncidentDate.ToString("dd/MM/yyyy")</p>
+                        <p>
+                            
+                            <span role="img" aria-label="Traffic light: @((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.Reason)" title="@((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.Reason)" style="display:inline-block;width:.8em;height:.8em;border-radius:50%;background-color:@((ViewBag.TrafficLightHealth as Dictionary<int, SmartOps.Web.Services.ContractAgeingService.Health>)?.GetValueOrDefault(contract.Id)?.DisplayColor ?? "#929292")"></span>
+                            
+                        </p>
+                    </div>
+                    <div class="record-card-aside">
+                        @if (item.NextJob != null)
+                        {
+                            var job = item.NextJob;
+                            <p><strong>Next appointment:</strong>
+                                <a asp-controller="Jobs" asp-action="Details" asp-route-id="@job.Id" asp-route-returnUrl="@returnUrl" class="record-card-action">
+                                    @job.DiaryDate.ToString("dd/MM/yyyy") @job.Time.ToString("HH:mm") – @job.Time.Add(job.JobTime).ToString("HH:mm") · @job.JobType
+                                </a>
+                            </p>
+                            @if (job.Agent != null)
+                            {
+                                <p><strong>@job.Agent.Code</strong> – @job.Agent.Name</p>
+                            }
+                        }
+                        else
+                        {
+                            <p class="text-muted">No appointment</p>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(contract.Insurer?.Name))
+                        {
+                            <p><strong>Insurer:</strong> @contract.Insurer.Name</p>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(contract.PolicyNumber))
+                        {
+                            <p><strong>Policy:</strong> @contract.PolicyNumber</p>
+                        }
+                        <div class="record-card-action d-inline-block">
+                            @await Html.PartialAsync("_ContractProgress", item)
+                        </div>
+                    </div>
+                </div>
+            </article>
+        }
+    </div>
+}
+
+<record-pagination></record-pagination>

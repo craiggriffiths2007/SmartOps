@@ -1,0 +1,2597 @@
+{
+  "questions": [
+    {
+      "id": "flex_repair",
+      "question": "Repair item",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "flex_reason_not_repaired",
+      "question": "Reason item cannot be repaired",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "flex_repair",
+        "operator": "Equals",
+        "value": "No"
+      }
+    },
+    {
+      "id": "flex_replace_glass",
+      "question": "Include glass",
+      "type": "ReplaceGlass",
+      "required": true
+    },
+    {
+      "id": "flex_handles_required",
+      "question": "Handles required",
+      "type": "Handles",
+      "required": true,
+      "showWhen": {
+        "questionId": "flex_repair",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "flex_handles_text",
+      "question": "Handle details",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "flex_handles_required",
+        "operator": "Equals",
+        "value": "Yes"
+      }
+    },
+    {
+      "id": "bifold_aperture_reference",
+      "question": "Aperture reference",
+      "type": "Image",
+      "required": false,
+      "image": "aperture.png"
+    },
+    {
+      "id": "bifold_aperture_check",
+      "question": "Record cross-corner dimensions, finished threshold levels and the clear opening on the configuration drawing.",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "gaskets",
+      "question": "Gaskets",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "None",
+        "Renew",
+        "Refit"
+      ]
+    },
+    {
+      "id": "gaskets_text",
+      "question": "Gasket code, condition and compatible replacement / refitting details",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "gaskets",
+        "operator": "NotBlankOrNone",
+        "value": ""
+      }
+    },
+    {
+      "id": "door_type",
+      "question": "Door type",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Warmcore",
+        "Schuco",
+        "Smarts",
+        "KAT PVCu Bifold Doors"
+      ]
+    },
+    {
+      "id": "number_of_doors",
+      "question": "Number of doors",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            }
+          ],
+          "options": [
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bifold_configuration_diagrams",
+      "question": "Available door configurations (reference)",
+      "type": "Image",
+      "required": false,
+      "imageRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "2"
+            }
+          ],
+          "images": [
+            "kat_202.png",
+            "kat_202b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "3"
+            }
+          ],
+          "images": [
+            "kat_321.png",
+            "kat_321b.png",
+            "kat_330.png",
+            "kat_330b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            }
+          ],
+          "images": [
+            "kat_413.png",
+            "kat_413b.png",
+            "kat_422.png",
+            "kat_422b.png",
+            "kat_440.png",
+            "kat_440b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            }
+          ],
+          "images": [
+            "kat_532.png",
+            "kat_532b.png",
+            "kat_541.png",
+            "kat_541b.png",
+            "kat_550.png",
+            "kat_550b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            }
+          ],
+          "images": [
+            "kat_615.png",
+            "kat_615b.png",
+            "kat_624.png",
+            "kat_624b.png",
+            "kat_633.png",
+            "kat_633b.png",
+            "kat_660.png",
+            "kat_660b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            }
+          ],
+          "images": [
+            "kat_770.png",
+            "kat_770b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "1"
+            }
+          ],
+          "images": [
+            "bf1a.png",
+            "bf1b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "2"
+            }
+          ],
+          "images": [
+            "bf2a.png",
+            "bf2b.png",
+            "bf2c.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "3"
+            }
+          ],
+          "images": [
+            "bf3a.png",
+            "bf3a2.png",
+            "bf3b.png",
+            "bf3b2.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            }
+          ],
+          "images": [
+            "bf4a.png",
+            "bf4b.png",
+            "bf4c.png",
+            "bf4d.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            }
+          ],
+          "images": [
+            "bf5a.png",
+            "bf5a2.png",
+            "bf5b.png",
+            "bf5b2.png",
+            "bf5c.png",
+            "bf5d.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            }
+          ],
+          "images": [
+            "bf6a.png",
+            "bf6b.png",
+            "bf6c.png",
+            "bf6d.png",
+            "bf6e.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            }
+          ],
+          "images": [
+            "bf7a.png",
+            "bf7a2.png",
+            "bf7b.png",
+            "bf7b2.png",
+            "bf7c.png",
+            "bf7d.png",
+            "bf7e.png",
+            "bf7f.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "number_of_doors_text",
+      "question": "Door configuration",
+      "type": "Picker",
+      "required": true,
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "2"
+            }
+          ],
+          "options": [
+            "202",
+            "202b"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "3"
+            }
+          ],
+          "options": [
+            "321",
+            "321b",
+            "330",
+            "330b"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            }
+          ],
+          "options": [
+            "413",
+            "413b",
+            "422",
+            "422b",
+            "440",
+            "440b"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            }
+          ],
+          "options": [
+            "532",
+            "532b",
+            "541",
+            "541b",
+            "550",
+            "550b"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            }
+          ],
+          "options": [
+            "615",
+            "615b",
+            "624",
+            "624b",
+            "633",
+            "633b",
+            "660",
+            "660b"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            }
+          ],
+          "options": [
+            "770",
+            "770b"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "1"
+            }
+          ],
+          "options": [
+            "1a",
+            "1b"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "2"
+            }
+          ],
+          "options": [
+            "2a",
+            "2b",
+            "2c"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "3"
+            }
+          ],
+          "options": [
+            "3a",
+            "3a2",
+            "3b",
+            "3b2"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            }
+          ],
+          "options": [
+            "4a",
+            "4b",
+            "4c",
+            "4d"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            }
+          ],
+          "options": [
+            "5a",
+            "5a2",
+            "5b",
+            "5b2",
+            "5c",
+            "5d"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            }
+          ],
+          "options": [
+            "6a",
+            "6b",
+            "6c",
+            "6d",
+            "6e"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            }
+          ],
+          "options": [
+            "7a",
+            "7a2",
+            "7b",
+            "7b2",
+            "7c",
+            "7d",
+            "7e",
+            "7f"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bifold_selected_configuration",
+      "question": "Selected door configuration",
+      "type": "Image",
+      "required": false,
+      "imageRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "2"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "202"
+            }
+          ],
+          "images": [
+            "kat_202.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "2"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "202b"
+            }
+          ],
+          "images": [
+            "kat_202b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "3"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "321"
+            }
+          ],
+          "images": [
+            "kat_321.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "3"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "321b"
+            }
+          ],
+          "images": [
+            "kat_321b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "3"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "330"
+            }
+          ],
+          "images": [
+            "kat_330.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "3"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "330b"
+            }
+          ],
+          "images": [
+            "kat_330b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "413"
+            }
+          ],
+          "images": [
+            "kat_413.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "413b"
+            }
+          ],
+          "images": [
+            "kat_413b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "422"
+            }
+          ],
+          "images": [
+            "kat_422.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "422b"
+            }
+          ],
+          "images": [
+            "kat_422b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "440"
+            }
+          ],
+          "images": [
+            "kat_440.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "440b"
+            }
+          ],
+          "images": [
+            "kat_440b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "532"
+            }
+          ],
+          "images": [
+            "kat_532.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "532b"
+            }
+          ],
+          "images": [
+            "kat_532b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "541"
+            }
+          ],
+          "images": [
+            "kat_541.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "541b"
+            }
+          ],
+          "images": [
+            "kat_541b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "550"
+            }
+          ],
+          "images": [
+            "kat_550.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "550b"
+            }
+          ],
+          "images": [
+            "kat_550b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "615"
+            }
+          ],
+          "images": [
+            "kat_615.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "615b"
+            }
+          ],
+          "images": [
+            "kat_615b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "624"
+            }
+          ],
+          "images": [
+            "kat_624.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "624b"
+            }
+          ],
+          "images": [
+            "kat_624b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "633"
+            }
+          ],
+          "images": [
+            "kat_633.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "633b"
+            }
+          ],
+          "images": [
+            "kat_633b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "660"
+            }
+          ],
+          "images": [
+            "kat_660.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "660b"
+            }
+          ],
+          "images": [
+            "kat_660b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "770"
+            }
+          ],
+          "images": [
+            "kat_770.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "770b"
+            }
+          ],
+          "images": [
+            "kat_770b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "1"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "1a"
+            }
+          ],
+          "images": [
+            "bf1a.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "1"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "1b"
+            }
+          ],
+          "images": [
+            "bf1b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "2"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "2a"
+            }
+          ],
+          "images": [
+            "bf2a.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "2"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "2b"
+            }
+          ],
+          "images": [
+            "bf2b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "2"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "2c"
+            }
+          ],
+          "images": [
+            "bf2c.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "3"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "3a"
+            }
+          ],
+          "images": [
+            "bf3a.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "3"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "3a2"
+            }
+          ],
+          "images": [
+            "bf3a2.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "3"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "3b"
+            }
+          ],
+          "images": [
+            "bf3b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "3"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "3b2"
+            }
+          ],
+          "images": [
+            "bf3b2.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "4a"
+            }
+          ],
+          "images": [
+            "bf4a.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "4b"
+            }
+          ],
+          "images": [
+            "bf4b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "4c"
+            }
+          ],
+          "images": [
+            "bf4c.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "4"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "4d"
+            }
+          ],
+          "images": [
+            "bf4d.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "5a"
+            }
+          ],
+          "images": [
+            "bf5a.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "5a2"
+            }
+          ],
+          "images": [
+            "bf5a2.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "5b"
+            }
+          ],
+          "images": [
+            "bf5b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "5b2"
+            }
+          ],
+          "images": [
+            "bf5b2.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "5c"
+            }
+          ],
+          "images": [
+            "bf5c.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "5"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "5d"
+            }
+          ],
+          "images": [
+            "bf5d.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "6a"
+            }
+          ],
+          "images": [
+            "bf6a.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "6b"
+            }
+          ],
+          "images": [
+            "bf6b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "6c"
+            }
+          ],
+          "images": [
+            "bf6c.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "6d"
+            }
+          ],
+          "images": [
+            "bf6d.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "6"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "6e"
+            }
+          ],
+          "images": [
+            "bf6e.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "7a"
+            }
+          ],
+          "images": [
+            "bf7a.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "7a2"
+            }
+          ],
+          "images": [
+            "bf7a2.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "7b"
+            }
+          ],
+          "images": [
+            "bf7b.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "7b2"
+            }
+          ],
+          "images": [
+            "bf7b2.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "7c"
+            }
+          ],
+          "images": [
+            "bf7c.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "7d"
+            }
+          ],
+          "images": [
+            "bf7d.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "7e"
+            }
+          ],
+          "images": [
+            "bf7e.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "NotEquals",
+              "value": "KAT PVCu Bifold Doors"
+            },
+            {
+              "questionId": "number_of_doors",
+              "operator": "Equals",
+              "value": "7"
+            },
+            {
+              "questionId": "number_of_doors_text",
+              "operator": "Equals",
+              "value": "7f"
+            }
+          ],
+          "images": [
+            "bf7f.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "overall_width",
+      "question": "Measured overall width (confirm manufacturer limits)",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "overall_height",
+      "question": "Measured overall height (confirm manufacturer limits)",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0.1,
+      "wholeNumber": false
+    },
+    {
+      "id": "internal_width",
+      "question": "Internal width",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "internal_height",
+      "question": "Internal height",
+      "type": "Measurement",
+      "required": true,
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "addons",
+      "question": "Addons",
+      "type": "YesNo",
+      "required": true
+    },
+    {
+      "id": "addon_width",
+      "question": "Addon width",
+      "type": "Measurement",
+      "required": true,
+      "showWhen": {
+        "questionId": "addons",
+        "operator": "Equals",
+        "value": "Yes"
+      },
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "addon_height",
+      "question": "Addon height",
+      "type": "Measurement",
+      "required": true,
+      "showWhen": {
+        "questionId": "addons",
+        "operator": "Equals",
+        "value": "Yes"
+      },
+      "unit": "mm",
+      "minimum": 0,
+      "wholeNumber": false
+    },
+    {
+      "id": "opens",
+      "question": "Opens",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "In",
+        "Out"
+      ]
+    },
+    {
+      "id": "ventilation_assessment",
+      "question": "Existing / proposed ventilation, ventilator sizes and product reference",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "hardware",
+      "question": "Hardware",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Anodised Silver (matt fin)",
+        "Anodised Black (matt fin)",
+        "Brushed Graphite"
+      ],
+      "showWhen": {
+        "questionId": "door_type",
+        "operator": "Equals",
+        "value": "Warmcore"
+      }
+    },
+    {
+      "id": "knock_on",
+      "question": "Knock on",
+      "type": "Picker",
+      "required": true,
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            }
+          ],
+          "options": [
+            "15mm",
+            "25mm",
+            "50mm"
+          ]
+        }
+      ],
+      "showWhen": {
+        "questionId": "door_type",
+        "operator": "Equals",
+        "value": "KAT PVCu Bifold Doors"
+      }
+    },
+    {
+      "id": "handle_colour",
+      "question": "Handle colour",
+      "type": "Picker",
+      "required": true,
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "Schuco"
+            }
+          ],
+          "options": [
+            "White",
+            "Black",
+            "Brush Chrome"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "Smarts"
+            }
+          ],
+          "options": [
+            "White",
+            "Black",
+            "Brush Chrome"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            }
+          ],
+          "options": [
+            "White",
+            "Black",
+            "Satin",
+            "Champagne"
+          ]
+        }
+      ],
+      "showWhen": {
+        "questionId": "door_type",
+        "operator": "In",
+        "value": "Schuco|Smarts|KAT PVCu Bifold Doors"
+      }
+    },
+    {
+      "id": "color_external",
+      "question": "External frame colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "White",
+        "Cream",
+        "Grey",
+        "Black"
+      ],
+      "showWhen": {
+        "questionId": "door_type",
+        "operator": "Equals",
+        "value": "Warmcore"
+      }
+    },
+    {
+      "id": "color_internal",
+      "question": "Internal frame colour",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "White",
+        "Cream",
+        "Grey",
+        "Black"
+      ],
+      "showWhen": {
+        "questionId": "door_type",
+        "operator": "Equals",
+        "value": "Warmcore"
+      }
+    },
+    {
+      "id": "threshold_type",
+      "question": "Threshold system",
+      "type": "Picker",
+      "required": true,
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "Warmcore"
+            }
+          ],
+          "options": [
+            "Part M low threshold",
+            "Frame - no cill",
+            "Frame - 150mm cill"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "Schuco"
+            }
+          ],
+          "options": [
+            "XP View Rebate",
+            "XP View Rebate and Cill"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "Smarts"
+            }
+          ],
+          "options": [
+            "Rebated on a cill",
+            "Rebated (Standard)",
+            "Low threshold (Internal)"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            }
+          ],
+          "options": [
+            "PVC threshold",
+            "Aluminium low 30mm",
+            "Doc. M comp. ramp Internal",
+            "Doc. M comp. ramp External"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bifold_threshold_diagram",
+      "question": "Threshold diagram",
+      "type": "Image",
+      "required": false,
+      "imageRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "threshold_type",
+              "operator": "Equals",
+              "value": "Part M low threshold"
+            }
+          ],
+          "images": [
+            "partm.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "threshold_type",
+              "operator": "Equals",
+              "value": "Frame - no cill"
+            }
+          ],
+          "images": [
+            "nocill.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "threshold_type",
+              "operator": "Equals",
+              "value": "Frame - 150mm cill"
+            }
+          ],
+          "images": [
+            "cill.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "threshold_type",
+              "operator": "Equals",
+              "value": "XP View Rebate"
+            }
+          ],
+          "images": [
+            "xpviewrebated.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "threshold_type",
+              "operator": "Equals",
+              "value": "XP View Rebate and Cill"
+            }
+          ],
+          "images": [
+            "xpviewrebateandcill.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "threshold_type",
+              "operator": "Equals",
+              "value": "PVC threshold"
+            }
+          ],
+          "images": [
+            "kat_cill_standard.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "threshold_type",
+              "operator": "Equals",
+              "value": "Aluminium low 30mm"
+            }
+          ],
+          "images": [
+            "kat_cill_room.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "threshold_type",
+              "operator": "Equals",
+              "value": "Doc. M comp. ramp Internal"
+            }
+          ],
+          "images": [
+            "kat_cill_low.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "threshold_type",
+              "operator": "Equals",
+              "value": "Doc. M comp. ramp External"
+            }
+          ],
+          "images": [
+            "kat_cill_low.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "threshold_type",
+              "operator": "Equals",
+              "value": "Rebated on a cill"
+            }
+          ],
+          "images": [
+            "rebate_on_sill.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "threshold_type",
+              "operator": "Equals",
+              "value": "Rebated (Standard)"
+            }
+          ],
+          "images": [
+            "rebated_standard.png"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "threshold_type",
+              "operator": "Equals",
+              "value": "Low threshold (Internal)"
+            }
+          ],
+          "images": [
+            "low_threshold.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cill_type",
+      "question": "Cill",
+      "type": "Picker",
+      "required": true,
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "Warmcore"
+            }
+          ],
+          "options": [
+            "150 x 25mm",
+            "190 x 25mm",
+            "225 x 25mm",
+            "No cill required"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "Schuco"
+            }
+          ],
+          "options": [
+            "150 x 25mm",
+            "190 x 25mm",
+            "225 x 25mm",
+            "No cill required"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "Smarts"
+            }
+          ],
+          "options": [
+            "150 x 25mm",
+            "190 x 25mm",
+            "225 x 25mm",
+            "No cill required"
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            }
+          ],
+          "options": [
+            "85mm",
+            "150mm",
+            "180mm",
+            "No cill required"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "colour_of_doors",
+      "question": "Colour of doors",
+      "type": "Picker",
+      "required": true,
+      "optionRules": [
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "Schuco"
+            }
+          ],
+          "options": [
+            "Standard white 9016 Gloss",
+            "Standard Grey 7016 Matt",
+            "Standard Black 9005 Matt",
+            "Other RAL(specify)..",
+            "Dual RAL(specify).."
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "Smarts"
+            }
+          ],
+          "options": [
+            "Standard white 9016 Gloss",
+            "Standard Grey 7016 Matt",
+            "Standard Black 9005 Matt",
+            "Other RAL(specify)..",
+            "Dual RAL(specify).."
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "questionId": "door_type",
+              "operator": "Equals",
+              "value": "KAT PVCu Bifold Doors"
+            }
+          ],
+          "options": [
+            "White",
+            "Cream",
+            "Golden oak",
+            "Rosewood",
+            "Irish oak",
+            "White ash",
+            "Golden oak on white",
+            "Rosewood on white",
+            "Irish oak on white",
+            "Black ash on white",
+            "Grey ash on white"
+          ]
+        }
+      ],
+      "showWhen": {
+        "questionId": "door_type",
+        "operator": "In",
+        "value": "Schuco|Smarts|KAT PVCu Bifold Doors"
+      }
+    },
+    {
+      "id": "internal_door_colour",
+      "question": "Internal colour of doors",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Same as above",
+        "White"
+      ],
+      "showWhen": {
+        "questionId": "door_type",
+        "operator": "In",
+        "value": "Schuco|Smarts|KAT PVCu Bifold Doors"
+      }
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

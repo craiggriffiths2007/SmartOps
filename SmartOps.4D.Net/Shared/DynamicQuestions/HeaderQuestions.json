@@ -1,0 +1,219 @@
+{
+  "questions": [
+    {
+      "id": "cause_of_damage",
+      "question": "Cause of damage",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Accidental Damage",
+        "Bad Workmanship",
+        "Claim inconsistency",
+        "Domestic",
+        "Fire",
+        "Flood",
+        "Ground Movement",
+        "Impact",
+        "Loss of keys",
+        "Malicious",
+        "Storm Damage",
+        "Theft",
+        "Wear + Tear"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "cause_of_damage_reason_different",
+      "question": "Why is the cause different from the contract?",
+      "type": "Text",
+      "required": true,
+      "showWhen": {
+        "questionId": "$damage_different",
+        "operator": "Equals",
+        "value": "True"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "damage_photo_warning",
+      "question": "At least 10 photographs are required.",
+      "type": "Information",
+      "required": false,
+      "showWhen": {
+        "questionId": "cause_of_damage",
+        "operator": "In",
+        "value": "Wear + Tear|Bad Workmanship"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "point_of_entry",
+      "question": "Entry gained through this item",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "cause_of_damage",
+        "operator": "Equals",
+        "value": "Theft"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "was_it_locked",
+      "question": "Was it locked",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "cause_of_damage",
+        "operator": "Equals",
+        "value": "Theft"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "type_of_lockng_system_required",
+      "question": "What locks were on this item?",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Multipoint locking system",
+        "Sash/Deadlock",
+        "Espag locking System",
+        "Cockspur Handles",
+        "Smashed Glass for Entry",
+        "Casement Stays",
+        "Smashed Glass Then.. Opened With Key"
+      ],
+      "showWhen": {
+        "questionId": "cause_of_damage",
+        "operator": "Equals",
+        "value": "Theft"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "security_survey",
+      "question": "Does the customer require a security survey?",
+      "type": "YesNo",
+      "required": true,
+      "showWhen": {
+        "questionId": "$security_required",
+        "operator": "Equals",
+        "value": "True"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "room_location",
+      "question": "Room location",
+      "type": "Picker",
+      "required": true,
+      "options": [
+        "Bathroom",
+        "Bedroom",
+        "Conservatory",
+        "Dining room",
+        "En-suite",
+        "Garage",
+        "Greenhouse",
+        "Hallway",
+        "Kitchen",
+        "Landing",
+        "Living room",
+        "Office",
+        "Outside",
+        "Porch",
+        "Shed",
+        "Utility"
+      ],
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "collect_and_copy",
+      "question": "Collect and copy",
+      "type": "YesNo",
+      "required": true,
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "id": "temporary",
+      "question": "Temporary",
+      "type": "ButtonPicker",
+      "required": true,
+      "options": [
+        "Glass",
+        "Door",
+        "Board",
+        "None"
+      ],
+      "showWhen": {
+        "questionId": "collect_and_copy",
+        "operator": "Equals",
+        "value": "Yes"
+      },
+      "showWhenAll": [
+        {
+          "questionId": "$closing_questions",
+          "operator": "Equals",
+          "value": "True"
+        }
+      ]
+    }
+  ],
+  "includeHeaderQuestions": true,
+  "includeFooterQuestions": true
+}

@@ -1,0 +1,34 @@
+@model IEnumerable<SmartOps.Web.Models.PhotoImage>
+
+@if (Model.Any())
+{
+<section class="go-report-media-section">
+    <h3 class="go-report-media-title">Photographs and drawings</h3>
+    <div class="container-fluid px-0">
+        <div class="row g-3 go-report-media-grid">
+
+        @foreach (var image in Model)
+        {
+            bool isDrawing =
+                !string.IsNullOrEmpty(image.Filename) &&
+                image.Filename.Length > 9 &&
+                char.ToLowerInvariant(image.Filename[9]) == 'd';
+
+            <div class="col-6 col-md-3 go-report-media-card">
+
+                <a href="/images/@image.Filename"
+                   class="image-lightbox-link">
+
+                    <img src="/images/@image.Filename"
+                         class="media-thumbnail @(isDrawing ? "drawing" : "photo")"
+                         alt="@image.Filename" />
+
+                </a>
+
+            </div>
+        }
+
+        </div>
+    </div>
+</section>
+}

@@ -1,0 +1,267 @@
+/* Reusable presentation classes for views and partials. */
+
+/* Navigation and profile photos */
+
+.nav-company-spacing {
+    margin-left: 10px;
+}
+
+.nav-edge-spacing {
+    padding-right: 10px;
+}
+
+.nav-icon-spacing {
+    margin-right: 10px;
+}
+
+.nav-logout-icon {
+    font-size: 1.3rem;
+}
+
+.nav-profile-icon {
+    font-size: 2.2rem;
+    color: white;
+}
+
+.nav-profile-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+}
+
+.nav-profile-photo {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-photo-link {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.user-list-photo {
+    max-width: 40px;
+    max-height: 40px;
+}
+
+.user-photo-preview {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Table columns and form controls */
+
+.role-checkbox {
+    width: auto;
+}
+
+.table-column-compact {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.table-column-date {
+    width: 180px;
+}
+
+.table-column-event {
+    width: 200px;
+}
+
+.table-column-extra-wide {
+    min-width: 200px;
+}
+
+.table-column-medium {
+    min-width: 150px;
+}
+
+.table-column-status {
+    width: 140px;
+}
+
+.table-column-wide {
+    min-width: 180px;
+}
+
+/* Diary presentation */
+
+.day-booking-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.day-booking-operative-alignment {
+    margin-left: auto;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.diary-date-input {
+    width: 55px;
+}
+
+.diary-heading-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.diary-search-input {
+    width: 220px;
+}
+
+/* Statistics filters */
+
+.statistics-filter {
+    min-width: 180px;
+    max-width: 360px;
+}
+
+.statistics-filter-wide {
+    min-width: 220px;
+    max-width: 420px;
+}
+
+.statistics-number-input {
+    width: 120px;
+}
+
+.statistics-scroll {
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+/* Page content and editors */
+
+.about-intro {
+    max-width: 900px;
+}
+
+.agent-message-editor {
+    height: 260px;
+}
+
+.company-logo-preview {
+    max-width: 250px;
+    max-height: 100px;
+    object-fit: contain;
+}
+
+.diagnostics-intro {
+    margin-top: 20px;
+}
+
+.heading-no-margin {
+    margin: 0;
+}
+
+.login-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.news-editor {
+    height: 420px;
+}
+
+.privacy-content {
+    max-width: 960px;
+}
+
+.question-tenant-select {
+    max-width: 360px;
+}
+
+.registration-feedback {
+    min-height: 1.35rem;
+}
+
+.store-badge {
+    width: 140px;
+    height: auto;
+}
+
+/* Images and text */
+
+.inline-form {
+    display: inline-block;
+}
+
+.preserve-line-breaks {
+    white-space: pre-line;
+}
+
+.rating-star {
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+}
+
+.record-photo {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.responsive-image {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Check results and key */
+
+.bool-icon-no {
+    color: red;
+}
+
+.boolean-no {
+    color: red;
+    font-weight: bold;
+}
+
+.boolean-yes {
+    color: green;
+    font-weight: bold;
+}
+
+.tool-available-label {
+    color: darkblue;
+}
+
+.tool-check-key {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.tool-fit-label {
+    color: darkgreen;
+}

@@ -1,0 +1,91 @@
+@model SmartOps.Web.Models.Tenant
+@{ ViewData["Title"] = "Company Details"; }
+
+
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Company Details</h4>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</div>
+
+
+
+@if (TempData["Success"] is string success)
+{
+    <div class="alert alert-success" role="status">@success</div>
+}
+@if (TempData["Error"] is string error)
+{
+    <div class="alert alert-danger" role="alert">@error</div>
+}
+
+<hr />
+<div class="row g-4">
+<section class="col-lg-6"><h5 class="mb-3">Company</h5>
+<div class="mb-3"><div class="fw-bold">Name</div><div>@Html.DisplayFor(m => m.Name)</div></div>
+<div class="mb-3"><div class="fw-bold">Code</div><div>@Html.DisplayFor(m => m.Code)</div></div>
+<div class="mb-3"><div class="fw-bold">Active</div><div>@(Model.IsActive ? "Yes" : "No")</div></div>
+<div class="mb-3"><div class="fw-bold">Created</div><div>@Html.DisplayFor(m => m.Created)</div></div>
+</section>
+<section class="col-lg-6"><h5 class="mb-3">Address</h5>
+<div class="mb-3"><div class="fw-bold">Address line 1</div><div>@Html.DisplayFor(m => m.Address1)</div></div>
+<div class="mb-3"><div class="fw-bold">Address line 2</div><div>@Html.DisplayFor(m => m.Address2)</div></div>
+<div class="mb-3"><div class="fw-bold">Town</div><div>@Html.DisplayFor(m => m.Town)</div></div>
+<div class="mb-3"><div class="fw-bold">County</div><div>@Html.DisplayFor(m => m.County)</div></div>
+<div class="mb-3"><div class="fw-bold">Postcode</div><div>@Html.DisplayFor(m => m.Postcode)</div></div>
+</section>
+<section class="col-lg-6"><h5 class="mb-3">Contact</h5>
+<div class="mb-3"><div class="fw-bold">Telephone</div><div>@Html.DisplayFor(m => m.Telephone)</div></div>
+<div class="mb-3"><div class="fw-bold">Email</div><div>@Html.DisplayFor(m => m.Email)</div></div>
+<div class="mb-3"><div class="fw-bold">Website</div><div>@Html.DisplayFor(m => m.Website)</div></div>
+</section>
+<section class="col-lg-6"><h5 class="mb-3">Branding</h5>
+<div class="mb-3"><div class="fw-bold">Logo</div><div>@Html.DisplayFor(m => m.Logo)</div></div>
+<div class="mb-3"><div class="fw-bold">Logo updated</div><div>@Html.DisplayFor(m => m.LogoUpdated)</div></div>
+</section>
+<section class="col-lg-6"><h5 class="mb-3">Subscription</h5>
+<div class="mb-3"><div class="fw-bold">SubscriptionPlan</div><div>@Html.DisplayFor(m => m.SubscriptionPlan)</div></div>
+<div class="mb-3"><div class="fw-bold">Subscription started</div><div>@Html.DisplayFor(m => m.SubscriptionStarted)</div></div>
+<div class="mb-3"><div class="fw-bold">Subscription expires</div><div>@Html.DisplayFor(m => m.SubscriptionExpires)</div></div>
+<div class="mb-3"><div class="fw-bold">Auto renew</div><div>@(Model.AutoRenew ? "Yes" : "No")</div></div>
+</section>
+</div>
+
+
+<div class="mt-4 d-flex justify-content-between align-items-center">
+
+    <div class="d-flex gap-2">
+        @if (Model.IsActive)
+        {
+            <form asp-action="Deactivate" asp-route-id="@Model.Id" method="post">
+                <button type="submit" class="btn btn-outline-danger">
+                    Deactivate account
+                </button>
+            </form>
+        }
+        else
+        {
+            <form asp-action="Reactivate" asp-route-id="@Model.Id" method="post">
+                <button type="submit" class="btn btn-success">
+                    Reactivate account
+                </button>
+            </form>
+        }
+
+        <form asp-action="EmailAccountNotification" asp-route-id="@Model.Id" method="post">
+            <button type="submit" class="btn btn-outline-primary">
+                Email account notification
+            </button>
+        </form>
+    </div>
+
+    <a asp-action="Edit"
+       asp-route-id="@Model.Id"
+       class="btn btn-primary">
+        Edit
+    </a>
+
+</div>
+    <p class="small text-muted">Notification recipient: @(string.IsNullOrWhiteSpace(Model.Email) ? "No company email recorded" : Model.Email). Data must be requested by email.</p>
+
+<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Delete Company</a>

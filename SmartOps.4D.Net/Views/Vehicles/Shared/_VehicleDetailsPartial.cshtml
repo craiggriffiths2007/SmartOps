@@ -1,0 +1,115 @@
+@inject SmartOps.Web.Services.TenantQuestionSetService QuestionSetService
+@using System.ComponentModel
+@using System.ComponentModel.DataAnnotations
+@using System.Reflection
+@using System.Text.Json
+@using SmartOps.Shared.Models
+@model object
+
+@if (Model == null)
+{
+    <p class="text-muted">No vehicle check data available.</p>
+}
+else
+{
+    var reportRows = new List<(string Label, object? Value)>();
+    var properties = Model.GetType().GetProperties()
+        .Where(p => !string.Equals(p.Name, "SurveyAnswersJson", StringComparison.OrdinalIgnoreCase)
+            && p.GetCustomAttribute<BrowsableAttribute>()?.Browsable != false
+            && !string.IsNullOrWhiteSpace(p.GetValue(Model)?.ToString()))
+        .Select(p =>
+        {
+            var display = p.GetCustomAttribute<DisplayAttribute>();
+            return new
+            {
+                Property = p,
+                Label = display?.GetName()
+                    ?? p.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName
+                    ?? p.Name.Replace("_", " "),
+                Order = display?.GetOrder() ?? int.MaxValue
+            };
+        })
+        .OrderBy(x => x.Order).ThenBy(x => x.Label).ToList();
+    foreach (var property in properties)
+        reportRows.Add((property.Label, property.Property.GetValue(Model)));
+
+    var surveyJson = Model.GetType().GetProperty("SurveyAnswersJson")?.GetValue(Model)?.ToString();
+    List<DynamicAnswer> answers = [];
+    if (!string.IsNullOrWhiteSpace(surveyJson))
+    {
+        try { answers = JsonSerializer.Deserialize<List<DynamicAnswer>>(surveyJson) ?? []; }
+        catch { answers = []; }
+    }
+
+    int vehicleType = Convert.ToInt32(Model.GetType().GetProperty("VehicleType")?.GetValue(Model) ?? -1);
+    string? questionSet = vehicleType switch
+    {
+        0 => "DeliveryHGV", 1 => "DeliveryVan", 2 => "FitterVan", 3 => "SalesCar", _ => null
+    };
+    string vehicleName = vehicleType switch
+    {
+        0 => "Delivery HGV", 1 => "Delivery Van", 2 => "Fitter Van", 3 => "Sales Car", _ => "Vehicle"
+    };
+    DynamicQuestionDefinition definition = new();
+    if (answers.Count > 0 && questionSet is not null)
+    {
+        try
+        {
+            definition = await QuestionSetService.GetDefinitionAsync(
+                (int?)Model.GetType().GetProperty("TenantId")?.GetValue(Model), questionSet);
+        }
+        catch { definition = new DynamicQuestionDefinition(); }
+    }
+
+    object DisplayAnswer(string value) => value.Trim().ToLowerInvariant() switch
+    {
+        "yes" or "true" => true,
+        "no" or "false" => false,
+        _ => value
+    };
+    var renderedQuestionIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+    foreach (var question in definition.Questions)
+    {
+        var answer = answers.FirstOrDefault(a =>
+            string.Equals(a.QuestionId, question.Id, StringComparison.OrdinalIgnoreCase));
+        if (answer == null || string.IsNullOrWhiteSpace(answer.Value)) continue;
+        renderedQuestionIds.Add(answer.QuestionId);
+        reportRows.Add((question.Question, DisplayAnswer(answer.Value)));
+    }
+    // Keep recorded answers visible if their definitions are unavailable or have changed.
+    foreach (var answer in answers.Where(a => !string.IsNullOrWhiteSpace(a.Value)
+        && !renderedQuestionIds.Contains(a.QuestionId)))
+    {
+        var label = answer.QuestionId.Replace("_", " ");
+        if (!string.IsNullOrEmpty(label)) label = char.ToUpperInvariant(label[0]) + label[1..];
+        reportRows.Add((label, DisplayAnswer(answer.Value)));
+    }
+    var registration = Model.GetType().GetProperty("Registration")?.GetValue(Model);
+    var itemNumber = Model.GetType().GetProperty("item_number")?.GetValue(Model);
+    var half = (reportRows.Count + 1) / 2;
+
+    <article class="go-item-report">
+        <header class="go-report-header">
+            <div>
+                <h2>@vehicleName check — @registration</h2>
+                <span class="go-report-meta">Vehicle No. @itemNumber</span>
+            </div>
+        </header>
+        <section class="go-report-section">
+            <div class="go-report-answer-columns">
+                @foreach (var column in new[] { reportRows.Take(half), reportRows.Skip(half) })
+                {
+                    <dl class="go-report-fields">
+                        @foreach (var field in column)
+                        {
+                            <div class="go-report-field">
+                                <dt>@field.Label</dt>
+                                <dd><span class="go-report-field-value @(field.Value is bool yesNo ? (yesNo ? "go-report-yes" : "go-report-no") : "")">@(field.Value is bool boolValue ? (boolValue ? "Yes" : "No") : field.Value?.ToString()?.Trim())</span></dd>
+                            </div>
+                        }
+                    </dl>
+                }
+            </div>
+        </section>
+    </article>
+}

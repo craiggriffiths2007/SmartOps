@@ -1,0 +1,51 @@
+@model SmartOps.Web.Models.Contract
+
+@{
+    ViewData["Title"] = "Edit";
+    ViewData["IsEdit"] = true;
+}
+
+<h4>Edit Contract</h4>
+<hr />
+
+<form asp-action="Edit">
+    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger"></div>
+
+    <div class="row bold-form">
+
+            <partial name="_ContractForm"
+                     model="@Model" />
+
+
+    </div>
+
+
+    @* FULL WIDTH BUTTON ROW *@
+    
+
+<div class="mt-4 d-flex justify-content-between align-items-center">
+
+        <a asp-action="Details"
+           asp-route-id="@Model.Id"
+           asp-route-returnUrl="@ViewBag.ReturnUrl"
+           class="btn btn-secondary">
+            Cancel
+        </a>
+
+        <input type="submit"
+               value="Save"
+               class="btn btn-primary ms-auto" />
+
+    </div>
+
+</form>
+
+@section Scripts {
+    <script src="~/js/contract-insurer.js" asp-append-version="true"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

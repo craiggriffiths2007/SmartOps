@@ -1,0 +1,41 @@
+@model IEnumerable<SmartOps.Web.Models.FAccident>
+@using SmartOps.Shared.Models
+@{
+    ViewData["Title"] = "Work Accidents";
+}
+<h4 class="mb-3">Work Accidents</h4>
+<div class="table-responsive record-index-list">
+    <table class="table table-sm table-hover align-middle record-index-table mb-0">
+        <caption class="visually-hidden">Work Accidents</caption>
+        <thead>
+            <tr>
+                <th scope="col">Completed</th>
+                <th scope="col">Recorded</th>
+                <th scope="col">Injured person</th>
+                <th scope="col">Occupation</th>
+                <th scope="col">Reporter</th>
+                <th scope="col">Reporter occupation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr><td colspan="6" class="text-muted py-3">No records found.</td></tr>
+            }
+            @foreach (var item in Model)
+            {
+                var answers = WorkAccidentQuestions.Answers(item.AccidentAnswersJson);
+                var detailsUrl = Url.Action("Details", new { id = item.Id });
+                <tr class="clickable-row" data-href="@detailsUrl" tabindex="0">
+                    <th scope="row">@item.DateTimeCompleted.ToString("dd/MM/yyyy HH:mm")</th>
+                    <td>@Html.DisplayFor(modelItem => item.date_time)</td>
+                    <td>@WorkAccidentQuestions.Value(answers, "full_name")</td>
+                    <td>@WorkAccidentQuestions.Value(answers, "occupation")</td>
+                    <td>@WorkAccidentQuestions.Value(answers, "filer_full_name")</td>
+                    <td>@WorkAccidentQuestions.Value(answers, "filer_occupation")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<record-pagination></record-pagination>

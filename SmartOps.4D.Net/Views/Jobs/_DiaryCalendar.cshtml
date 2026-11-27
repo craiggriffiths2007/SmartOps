@@ -1,0 +1,271 @@
+@model SmartOps.Web.ViewModels.JobIndexViewModel;
+
+@{
+    ViewData["Title"] = "Diary";
+
+    var currentDate = new DateTime(Model.Year, Model.Month, 1);
+    var prevMonth = currentDate.AddMonths(-1);
+    var nextMonth = currentDate.AddMonths(1);
+    // Week view helpers
+    var weekStart = Model.WeekStartDate.Date;
+    var weekEnd = weekStart.AddDays(6);
+
+    // Move the 7-day window one DAY at a time
+    var prevWeek = weekStart.AddDays(-1);
+    var nextWeek = weekStart.AddDays(1);
+
+    // Today - used when clicking the date heading
+    var thisWeekStart = DateTime.Today;
+
+    // Day/List view helpers
+    var listDate = Model.WeekStartDate.Date;
+    var prevListDate = listDate.AddDays(-1);
+    var nextListDate = listDate.AddDays(1);
+
+
+}
+
+
+
+<div class="small-gap"></div>
+<div class="diary-top-controls mb-3">
+
+    <!-- LEFT: Month / Week / List -->
+    <div class="diary-controls-left">
+        <div class="btn-group" role="group">
+
+                        <a asp-action="Index"
+               asp-route-view="list"
+               asp-route-weekStart="@DateTime.Today.ToString("yyyy-MM-dd")"
+               asp-route-branchId="@(Model.BranchId ?? 0)"
+               asp-route-q="@Model.SearchQuery"
+               class="btn btn-sm diary-date-input @(Model.ViewMode == "list" ? "btn-primary" : "btn-outline-primary")">
+                Day
+            </a>
+
+
+            <a asp-action="Index"
+               asp-route-view="week"
+               asp-route-weekStart="@DateTime.Today.ToString("yyyy-MM-dd")"
+               asp-route-branchId="@(Model.BranchId ?? 0)"
+               asp-route-q="@Model.SearchQuery"
+               class="btn btn-sm diary-date-input @(Model.ViewMode == "week" ? "btn-primary" : "btn-outline-primary")">
+                Week
+            </a>
+
+
+            <a asp-action="Index"
+               asp-route-view="month"
+               asp-route-month="@Model.Month"
+               asp-route-year="@Model.Year"
+               asp-route-branchId="@(Model.BranchId ?? 0)"
+               asp-route-q="@Model.SearchQuery"
+               class="btn btn-sm diary-date-input @(Model.ViewMode == "month" ? "btn-primary" : "btn-outline-primary")">
+                Month
+            </a>
+
+
+        </div>
+    </div>
+
+
+    <!-- CENTRE: Date / Date Range -->
+    <div class="diary-controls-centre">
+
+        @if (Model.ViewMode == "month")
+        {
+            <div class="diary-date-navigation" role="group" aria-label="Diary date navigation">
+
+                <!-- DATE -->
+                <a asp-action="Index"
+                   asp-route-view="month"
+                   asp-route-month="@DateTime.Today.Month"
+                   asp-route-year="@DateTime.Today.Year"
+                   asp-route-branchId="@(Model.BranchId ?? 0)"
+                   asp-route-q="@Model.SearchQuery"
+                   class="diary-date-title">
+                    @currentDate.ToString("MMMM yyyy")
+                </a>
+
+                <span class="diary-date-arrows">
+                    <!-- PREVIOUS -->
+                    <a asp-action="Index"
+                       asp-route-month="@prevMonth.Month"
+                       asp-route-year="@prevMonth.Year"
+                       asp-route-view="month"
+                       asp-route-branchId="@(Model.BranchId ?? 0)"
+                       asp-route-q="@Model.SearchQuery"
+                       class="btn diary-date-arrow" aria-label="Previous period" title="Previous">
+                        <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                    </a>
+
+                    <!-- NEXT -->
+                    <a asp-action="Index"
+                       asp-route-month="@nextMonth.Month"
+                       asp-route-year="@nextMonth.Year"
+                       asp-route-view="month"
+                       asp-route-branchId="@(Model.BranchId ?? 0)"
+                       asp-route-q="@Model.SearchQuery"
+                       class="btn diary-date-arrow" aria-label="Next period" title="Next">
+                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                    </a>
+                </span>
+
+            </div>
+        }
+        else if (Model.ViewMode == "week")
+        {
+            <div class="diary-date-navigation" role="group" aria-label="Diary date navigation">
+
+                <!-- DATE -->
+                <a asp-action="Index"
+                   asp-route-view="week"
+                   asp-route-weekStart="@thisWeekStart.ToString("yyyy-MM-dd")"
+                   asp-route-branchId="@(Model.BranchId ?? 0)"
+                   asp-route-q="@Model.SearchQuery"
+                   class="diary-date-title">
+                    @weekStart.ToString("%d")&ndash;@weekEnd.ToString("d MMMM")
+                </a>
+
+                <span class="diary-date-arrows">
+                    <!-- PREVIOUS -->
+                    <a asp-action="Index"
+                       asp-route-view="week"
+                       asp-route-weekStart="@prevWeek.ToString("yyyy-MM-dd")"
+                       asp-route-branchId="@(Model.BranchId ?? 0)"
+                       asp-route-q="@Model.SearchQuery"
+                       class="btn diary-date-arrow" aria-label="Previous period" title="Previous">
+                        <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                    </a>
+
+                    <!-- NEXT -->
+                    <a asp-action="Index"
+                       asp-route-view="week"
+                       asp-route-weekStart="@nextWeek.ToString("yyyy-MM-dd")"
+                       asp-route-branchId="@(Model.BranchId ?? 0)"
+                       asp-route-q="@Model.SearchQuery"
+                       class="btn diary-date-arrow" aria-label="Next period" title="Next">
+                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                    </a>
+                </span>
+
+            </div>
+        }
+        else
+        {
+            <div class="diary-date-navigation" role="group" aria-label="Diary date navigation">
+
+                <!-- DAY - click to return to today -->
+                <a asp-action="Index"
+                   asp-route-view="list"
+                   asp-route-weekStart="@DateTime.Today.ToString("yyyy-MM-dd")"
+                   asp-route-branchId="@(Model.BranchId ?? 0)"
+                   asp-route-q="@Model.SearchQuery"
+                   class="diary-date-title">
+                    @listDate.ToString("dddd d MMMM")
+                </a>
+
+                <span class="diary-date-arrows">
+                    <!-- PREVIOUS DAY -->
+                    <a asp-action="Index"
+                       asp-route-view="list"
+                       asp-route-weekStart="@prevListDate.ToString("yyyy-MM-dd")"
+                       asp-route-branchId="@(Model.BranchId ?? 0)"
+                       asp-route-q="@Model.SearchQuery"
+                       class="btn diary-date-arrow" aria-label="Previous period" title="Previous">
+                        <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                    </a>
+
+                    <!-- NEXT DAY -->
+                    <a asp-action="Index"
+                       asp-route-view="list"
+                       asp-route-weekStart="@nextListDate.ToString("yyyy-MM-dd")"
+                       asp-route-branchId="@(Model.BranchId ?? 0)"
+                       asp-route-q="@Model.SearchQuery"
+                       class="btn diary-date-arrow" aria-label="Next period" title="Next">
+                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                    </a>
+                </span>
+
+            </div>
+        }
+
+    </div>
+
+
+    <!-- RIGHT: Branch / Filter -->
+    <div class="diary-controls-right">
+        <form method="get" asp-action="Index" class="diary-branch-filter">
+            <label for="diaryBranch" class="visually-hidden">Branch</label>
+            <select lock-branch-value="@(Model.BranchId ?? 0)" id="diaryBranch" name="branchId" class="form-select form-select-sm"
+                    aria-label="Branch" title="Filter by booking branch">
+                <option value="0">All</option>
+                @foreach (var branch in Model.Branches)
+                {
+                    <option value="@branch.Id" selected="@(Model.BranchId == branch.Id)">@branch.Name</option>
+                }
+            </select>
+            <input type="hidden" name="view" value="@Model.ViewMode" />
+            <input type="hidden" name="month" value="@Model.Month" />
+            <input type="hidden" name="year" value="@Model.Year" />
+            <input type="hidden" name="weekStart" value="@Model.WeekStartDate.ToString("yyyy-MM-dd")" />
+            <input type="hidden" name="q" value="@Model.SearchQuery" />
+        </form>
+
+        <form method="get"
+              asp-action="Index"
+              class="d-flex align-items-center">
+
+            <div class="position-relative">
+                <input type="text"
+                       id="diarySearch"
+                       name="q"
+                       value="@Model.SearchQuery"
+                       class="form-control form-control-sm pe-4 diary-search-input"
+                       placeholder="Filter..." />
+
+                @if (!string.IsNullOrWhiteSpace(Model.SearchQuery))
+                {
+                    <a href="@Url.Action("Index", new
+                       {
+                           branchId = Model.BranchId ?? 0,
+                           view = Model.ViewMode,
+                           month = Model.Month,
+                           year = Model.Year,
+                           weekStart = Model.WeekStartDate.ToString("yyyy-MM-dd")
+                       })"
+                       class="search-clear"
+                       title="Clear filter">
+                        ×
+                    </a>
+                }
+            </div>
+
+            <input type="hidden" name="branchId" value="@(Model.BranchId ?? 0)" />
+            <input type="hidden" name="view" value="@Model.ViewMode" />
+            <input type="hidden" name="month" value="@Model.Month" />
+            <input type="hidden" name="year" value="@Model.Year" />
+            <input type="hidden"
+                   name="weekStart"
+                   value="@Model.WeekStartDate.ToString("yyyy-MM-dd")" />
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+@if (Model.ViewMode == "month")
+{
+    <partial name="_DiaryMonth" model="Model" />
+}
+else if (Model.ViewMode == "week")
+{
+    <partial name="_DiaryWeek" model="Model" />
+}
+else if (Model.ViewMode == "list")
+{
+    <partial name="_DiaryDay" model="Model" />
+}

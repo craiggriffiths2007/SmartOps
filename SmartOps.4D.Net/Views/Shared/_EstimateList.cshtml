@@ -1,0 +1,71 @@
+@model SmartOps.Web.ViewModels.EstimateListViewModel
+@{
+    var currency = System.Globalization.CultureInfo.GetCultureInfo("en-GB");
+}
+@if (!Model.Estimates.Any())
+{
+    <div class="alert alert-light border">There are no estimates for this contract.</div>
+}
+else
+{
+    <div class="record-cards">
+        @foreach (var estimate in Model.Estimates)
+        {
+            var selected = Model.SelectedEstimateId == estimate.Id;
+            <article class="record-card">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                    <h5 class="mb-0">@estimate.ServiceLevel <small class="text-muted">#@estimate.Id</small></h5>
+                    <div>
+                        @if (selected) { <span class="badge bg-primary">Chosen for contract</span> }
+                        @if (estimate.IsAuthorized) { <span class="badge bg-success">Authorized</span> }
+                        else { <span class="badge bg-secondary">Awaiting authorization</span> }
+                    </div>
+                </div>
+                <p class="small text-muted">Saved @estimate.CreatedUtc.ToLocalTime().ToString("dd/MM/yyyy HH:mm") by @estimate.CreatedBy</p>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead><tr><th scope="col">Details</th><th scope="col" class="text-end">Cost excluding VAT</th></tr></thead>
+                        <tbody>
+                            @foreach (var line in estimate.Lines.OrderBy(l => l.SortOrder))
+                            {
+                                <tr><td style="white-space:pre-wrap">@line.Details</td><td class="text-end text-nowrap">@line.Cost.ToString("C2", currency)</td></tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr><th scope="row">Subtotal</th><td class="text-end">@estimate.Subtotal.ToString("C2", currency)</td></tr>
+                            <tr><th scope="row">VAT (@estimate.VatRate.ToString("0.##")%)</th><td class="text-end">@estimate.VatAmount.ToString("C2", currency)</td></tr>
+                            <tr><th scope="row">Total including VAT</th><td class="text-end fw-bold">@estimate.Total.ToString("C2", currency)</td></tr>
+                        </tfoot>
+                    </table>
+                </div>
+                @if (estimate.IsAuthorized)
+                {
+                    <p class="small">Authorized @estimate.AuthorizedUtc!.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm") by @estimate.AuthorizedBy</p>
+                }
+                @if (!Model.IsCancelled)
+                {
+                    <div class="d-flex flex-wrap gap-2">
+                        @if (!selected && !Model.IsInsurer)
+                        {
+                            <form asp-area="" asp-controller="Estimates" asp-action="Choose" method="post"
+                                  onsubmit="return confirm('Choose this estimate for the contract? A different option may need authorization.');">
+                                <input type="hidden" name="contractId" value="@Model.ContractId" />
+                                <input type="hidden" name="estimateId" value="@estimate.Id" />
+                                <button type="submit" class="btn btn-outline-primary btn-sm">Choose estimate</button>
+                            </form>
+                        }
+                        @if (!estimate.IsAuthorized || (!selected && Model.IsInsurer))
+                        {
+                            <form asp-area="@(Model.IsInsurer ? "Insurer" : "")" asp-controller="@(Model.IsInsurer ? "Contracts" : "Estimates")" asp-action="@(Model.IsInsurer ? "AuthorizeEstimate" : "Authorize")" method="post"
+                                  onsubmit="return confirm('Choose and authorize this estimate for the contract?');">
+                                <input type="hidden" name="contractId" value="@Model.ContractId" />
+                                <input type="hidden" name="estimateId" value="@estimate.Id" />
+                                <button type="submit" class="btn btn-success btn-sm">@(selected ? "Authorize estimate" : "Choose and authorize")</button>
+                            </form>
+                        }
+                    </div>
+                }
+            </article>
+        }
+    </div>
+}

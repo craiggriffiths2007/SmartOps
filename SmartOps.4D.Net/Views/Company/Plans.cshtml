@@ -1,0 +1,194 @@
+@model Tenant
+
+@{
+    ViewData["Title"] = "Subscription Plans";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h2 class="mb-1">Subscription Plans</h2>
+
+        <div class="text-muted">
+            Choose the plan that best suits your company.
+        </div>
+    </div>
+
+
+    <div class="row g-4">
+
+        <!-- STARTER -->
+
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm">
+
+                <div class="card-body">
+
+                    <h4>Starter</h4>
+
+                    <h2 class="mt-3">
+                        £29
+                        <small class="fs-6 text-muted">
+                            / month
+                        </small>
+                    </h2>
+
+                    <hr />
+
+                    <ul class="list-unstyled">
+                        <li class="mb-2">✓ Up to 5 users</li>
+                        <li class="mb-2">✓ Diary management</li>
+                        <li class="mb-2">✓ Jobs and customers</li>
+                        <li class="mb-2">✓ Mobile app access</li>
+                    </ul>
+
+                </div>
+
+                <div class="card-footer bg-white border-0">
+
+                    @if (Model.SubscriptionPlan ==
+                         SubscriptionPlan.Starter)
+                    {
+                        <button class="btn btn-secondary w-100"
+                                disabled>
+                            Current Plan
+                        </button>
+                    }
+                    else
+                    {
+                        <a asp-action="Upgrade"
+                           asp-route-plan="Starter"
+                           class="btn btn-outline-primary w-100">
+                            Choose Starter
+                        </a>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- PROFESSIONAL -->
+
+        <div class="col-lg-4">
+
+            <div class="card h-100 shadow border-primary">
+
+                <div class="card-header bg-primary text-white text-center">
+                    Most Popular
+                </div>
+
+                <div class="card-body">
+
+                    <h4>Professional</h4>
+
+                    <h2 class="mt-3">
+                        £59
+                        <small class="fs-6 text-muted">
+                            / month
+                        </small>
+                    </h2>
+
+                    <hr />
+
+                    <ul class="list-unstyled">
+                        <li class="mb-2">✓ Up to 20 users</li>
+                        <li class="mb-2">✓ Everything in Starter</li>
+                        <li class="mb-2">✓ Reports and letters</li>
+                        <li class="mb-2">✓ Vehicle management</li>
+                        <li class="mb-2">✓ Multiple branches</li>
+                    </ul>
+
+                </div>
+
+                <div class="card-footer bg-white border-0">
+
+                    @if (Model.SubscriptionPlan ==
+                         SubscriptionPlan.Professional)
+                    {
+                        <button class="btn btn-secondary w-100"
+                                disabled>
+                            Current Plan
+                        </button>
+                    }
+                    else
+                    {
+                        <a asp-action="Upgrade"
+                           asp-route-plan="Professional"
+                           class="btn btn-primary w-100">
+                            Upgrade
+                        </a>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- BUSINESS -->
+
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm">
+
+                <div class="card-body">
+
+                    <h4>Business</h4>
+
+                    <h2 class="mt-3">
+                        £99
+                        <small class="fs-6 text-muted">
+                            / month
+                        </small>
+                    </h2>
+
+                    <hr />
+
+                    <ul class="list-unstyled">
+                        <li class="mb-2">✓ Unlimited users</li>
+                        <li class="mb-2">✓ Everything in Professional</li>
+                        <li class="mb-2">✓ Advanced reporting</li>
+                        <li class="mb-2">✓ Priority support</li>
+                        <li class="mb-2">✓ Additional storage</li>
+                    </ul>
+
+                </div>
+
+                <div class="card-footer bg-white border-0">
+
+                    @if (Model.SubscriptionPlan ==
+                         SubscriptionPlan.Business)
+                    {
+                        <button class="btn btn-secondary w-100"
+                                disabled>
+                            Current Plan
+                        </button>
+                    }
+                    else
+                    {
+                        <a asp-action="Upgrade"
+                           asp-route-plan="Business"
+                           class="btn btn-outline-primary w-100">
+                            Upgrade
+                        </a>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="mt-4">
+
+        <a asp-action="Edit"
+           class="btn btn-outline-secondary">
+            Back to Company Settings
+        </a>
+
+    </div>
+
+</div>

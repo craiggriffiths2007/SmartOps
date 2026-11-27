@@ -1,0 +1,44 @@
+@model IEnumerable<SmartOps.Web.Models.SupportTicket>
+@{
+    ViewData["Title"] = "Closed Messages";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Closed Messages</h3>
+    <a asp-action="Index" class="btn btn-secondary">Back to Messaging</a>
+</div>
+
+<div class="table-responsive record-index-list">
+    <table class="table table-sm table-hover align-middle record-index-table message-index-table mb-0">
+        <caption class="visually-hidden">Closed messages</caption>
+        <thead>
+            <tr>
+                <th scope="col">Contract</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Status</th>
+                <th scope="col">Closed</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr><td colspan="5" class="text-muted py-3">No closed messages found.</td></tr>
+            }
+            @foreach (var item in Model)
+            {
+                var detailsUrl = Url.Action("Details", new { id = item.Id });
+                <tr class="clickable-row" data-href="@detailsUrl" tabindex="0">
+                    <th scope="row"><a href="@detailsUrl">@item.Contract?.ContractCode</a></th>
+                    <td><span class="message-list-name" title="@item.Customer?.Name">@item.Customer?.Name</span></td>
+                    <td><span class="message-list-preview" title="@item.Subject">@item.Subject</span></td>
+                    <td>@item.Status</td>
+                    <td>@(item.Closed?.ToString("dd/MM/yy HH:mm") ?? "")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<record-pagination fragment="customer-messages"></record-pagination>
+
+<link rel="stylesheet" href="~/css/pages/message-list.css" asp-append-version="true" />

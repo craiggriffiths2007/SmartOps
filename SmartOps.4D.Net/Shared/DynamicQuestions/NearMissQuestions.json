@@ -1,0 +1,36 @@
+{
+  "includeHeaderQuestions": false,
+  "includeFooterQuestions": false,
+  "questions": [
+    {
+      "id": "near_miss_guidance",
+      "question": "A near miss is a potential hazard or incident that has not resulted in a personal injury. Report what happened so it can be investigated and future accidents prevented.",
+      "type": "Information",
+      "required": false
+    },
+    {
+      "id": "what_happened",
+      "question": "What happened?",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "where_it_happened",
+      "question": "Where did it happen?",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "id": "date_happened",
+      "question": "Date happened",
+      "type": "Date",
+      "required": true
+    },
+    {
+      "id": "anon_or_name",
+      "question": "Your name, or enter Anonymous",
+      "type": "Text",
+      "required": true
+    }
+  ]
+}

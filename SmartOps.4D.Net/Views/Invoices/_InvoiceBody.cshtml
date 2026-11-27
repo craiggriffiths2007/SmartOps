@@ -1,0 +1,41 @@
+@model SmartOps.Web.Models.Invoice
+@{ var currency = System.Globalization.CultureInfo.GetCultureInfo("en-GB"); }
+<article class="invoice-sheet" aria-label="Invoice @Model.InvoiceNumber">
+    <header class="invoice-heading">
+        <div>
+            <h1 class="invoice-seller">@Model.SellerName</h1>
+            <div class="invoice-address">@Model.SellerAddress</div>
+            @if (!string.IsNullOrWhiteSpace(Model.SellerTelephone)) { <div>@Model.SellerTelephone</div> }
+            @if (!string.IsNullOrWhiteSpace(Model.SellerEmail)) { <div>@Model.SellerEmail</div> }
+            @if (!string.IsNullOrWhiteSpace(Model.VatRegistrationNumber)) { <div>VAT registration: @Model.VatRegistrationNumber</div> }
+        </div>
+        <div class="invoice-reference">
+            <h2>INVOICE</h2>
+            <strong>@Model.InvoiceNumber</strong>
+            <div>Date: @Model.InvoiceDate.ToString("dd/MM/yyyy")</div>
+            <div>Contract: @Model.ContractCode</div>
+            @if (Model.BillingParty == InvoiceBillingParty.Insurer && !string.IsNullOrWhiteSpace(Model.PolicyNumber)) { <div>Policy: @Model.PolicyNumber</div> }
+        </div>
+    </header>
+    <div class="invoice-addresses">
+        <section><h3>Bill to</h3><strong>@Model.BillToName</strong><div class="invoice-address">@Model.BillToAddress</div></section>
+        <section><h3>Work carried out for</h3><strong>@Model.CustomerName</strong><div class="invoice-address">@Model.ServiceAddress</div></section>
+    </div>
+    <h3 class="invoice-description">@Model.Description</h3>
+    <table class="invoice-table">
+        <thead><tr><th scope="col">Details</th><th scope="col" class="invoice-money">Cost excluding VAT</th></tr></thead>
+        <tbody>
+        @foreach (var line in Model.Lines.OrderBy(l => l.SortOrder))
+        {
+            <tr><td class="invoice-line-details">@line.Details</td><td class="invoice-money">@line.Cost.ToString("C2", currency)</td></tr>
+        }
+        </tbody>
+    </table>
+    <div class="invoice-totals">
+        <dl>
+            <dt>Subtotal</dt><dd>@Model.Subtotal.ToString("C2", currency)</dd>
+            <dt>VAT (@Model.VatRate.ToString("0.##")%)</dt><dd>@Model.VatAmount.ToString("C2", currency)</dd>
+            <dt class="invoice-total">Total including VAT</dt><dd class="invoice-total">@Model.Total.ToString("C2", currency)</dd>
+        </dl>
+    </div>
+</article>

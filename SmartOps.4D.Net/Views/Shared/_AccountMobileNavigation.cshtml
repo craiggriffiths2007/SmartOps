@@ -1,0 +1,74 @@
+<script>
+    (() => {
+        const navbar = document.querySelector('.top-navbar');
+        const right = navbar?.querySelector('.nav-right');
+        if (!right || navbar.querySelector('.account-nav-toggle')) return;
+
+        const menu = document.createElement('nav');
+        menu.id = 'account-mobile-menu';
+        menu.className = 'account-mobile-menu';
+        menu.setAttribute('aria-label', 'Main navigation');
+        menu.hidden = true;
+
+        const addLink = (source, nested = false) => {
+            const link = source.cloneNode(true);
+            link.removeAttribute('id');
+            link.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
+            link.className = nested ? 'account-mobile-link account-mobile-sublink' : 'account-mobile-link';
+            link.removeAttribute('style');
+            if (!link.textContent.trim()) link.append(document.createTextNode(source.title || 'Print this page'));
+            menu.append(link);
+        };
+        navbar.querySelectorAll('.top-nav-left > .top-nav-item').forEach(link => addLink(link));
+        Array.from(right.children).forEach(item => {
+            if (item.matches('a.top-nav-item')) addLink(item);
+            else if (item.matches('.split-menu')) {
+                const primary = item.querySelector('.split-menu-link');
+                if (primary) addLink(primary);
+                item.querySelectorAll('.dropdown a').forEach(link => addLink(link, true));
+            } else if (item.matches('.smartops-icons')) {
+                item.querySelectorAll('a').forEach(link => addLink(link));
+            }
+        });
+        const toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'account-nav-toggle';
+        toggle.setAttribute('aria-controls', menu.id);
+        toggle.innerHTML = '<span aria-hidden="true" class="account-nav-icon">☰</span><span>Menu</span>';
+        right.prepend(toggle);
+        navbar.append(menu);
+        navbar.classList.add('account-navbar');
+        const mobile = window.matchMedia('(max-width: 760px)');
+        const setOpen = (open) => {
+            menu.hidden = !open;
+            toggle.setAttribute('aria-expanded', String(open));
+            toggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+            toggle.querySelector('.account-nav-icon').textContent = open ? '×' : '☰';
+        };
+        toggle.addEventListener('click', () => setOpen(menu.hidden));
+        document.addEventListener('click', event => {
+            if (!navbar.contains(event.target)) setOpen(false);
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && !menu.hidden) {
+                setOpen(false);
+                toggle.focus();
+            }
+        });
+        navbar.addEventListener('focusout', event => {
+            if (!navbar.contains(event.relatedTarget)) setOpen(false);
+        });
+        menu.addEventListener('click', event => {
+            if (event.target.closest('a')) setOpen(false);
+        });
+        mobile.addEventListener('change', () => {
+            const focusWasInMenu = menu.contains(document.activeElement);
+            setOpen(false);
+            if (focusWasInMenu) {
+                if (mobile.matches) toggle.focus();
+                else right.querySelector('a')?.focus();
+            }
+        });
+        setOpen(false);
+    })();
+</script>

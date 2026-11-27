@@ -1,0 +1,46 @@
+@model SmartOps.Web.ViewModels.InlineContractCustomerViewModel
+<div class="form-group">
+    <label asp-for="Name" class="control-label"></label>
+    <input asp-for="Name" class="form-control" type="text" autocomplete="name" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Add1" class="control-label"></label>
+    <input asp-for="Add1" class="form-control" type="text" autocomplete="address-line1" />
+    <span asp-validation-for="Add1" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Add2" class="control-label"></label>
+    <input asp-for="Add2" class="form-control" type="text" autocomplete="address-line2" />
+    <span asp-validation-for="Add2" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Add3" class="control-label"></label>
+    <input asp-for="Add3" class="form-control" type="text" autocomplete="address-line3" />
+    <span asp-validation-for="Add3" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Postcode" class="control-label"></label>
+    <input asp-for="Postcode" class="form-control" type="text" autocomplete="postal-code" />
+    <span asp-validation-for="Postcode" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Phone1" class="control-label"></label>
+    <input asp-for="Phone1" class="form-control" type="tel" autocomplete="tel" />
+    <span asp-validation-for="Phone1" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Phone2" class="control-label"></label>
+    <input asp-for="Phone2" class="form-control" type="tel" />
+    <span asp-validation-for="Phone2" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Phone3" class="control-label"></label>
+    <input asp-for="Phone3" class="form-control" type="tel" />
+    <span asp-validation-for="Phone3" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Email" class="control-label"></label>
+    <input asp-for="Email" class="form-control" type="email" autocomplete="email" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+</div>
